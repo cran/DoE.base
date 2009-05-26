@@ -8,8 +8,9 @@
   Function for exporting a design object
 }
 \usage{
-export.design(design, response.names="y", 
-       path=".", legend=NULL, type="html", OutDec=options("OutDec")$OutDec, ...)
+export.design(design, response.names = "y", 
+       path = ".", filename = NULL, legend = NULL, type = "html", 
+       OutDec = options("OutDec")$OutDec, replace = FALSE, ...)
 html(object, ...)
 \method{html}{data.frame}(object, file = paste(first.word(deparse(substitute(object))),
     "html", sep = "."), append = FALSE, link = NULL, linkCol = 1, bgs.col = NULL,
@@ -25,6 +26,8 @@ html(object, ...)
   \item{path}{ the path to the directory where the export files are to be stored;
         the default corresponds to the R working directory that can (on some systems) 
         be looked at using \code{getwd()}}
+  \item{filename}{ character string that gives the file name (without extension) 
+        for the files to be exported; if NULL, it is the name of the design object }
   \item{legend}{ data frame containing legend information; if NULL, 
         the legend is automatically generated from the 
         \code{factor.names} element of \code{design.info(design)}}
@@ -33,6 +36,11 @@ html(object, ...)
         the default is the option setting in the R options; this option also directs  
         whether \code{write.csv} or \code{write.csv2} is used and is very important for 
         usability of the exported files e.g. with Excel}
+  \item{replace}{ logical indicating whether an existing file should be replaced; 
+        if FALSE (default), the routine aborts without any action if one of the 
+        files to be created exists; checking is not case-sensitive in order to protect 
+        users on case-insensitive platforms from inadvertent replacing of files (i.e. 
+        you cannot have TEST.html and test.html, even if it were allowed on your platform) }
   \item{object}{ object to be exported to html }
   \item{file}{ file to export the object to }
   \item{append}{ append data frame to existing file ? }

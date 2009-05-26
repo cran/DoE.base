@@ -1,0 +1,12 @@
+This package is under development, and many parts are still considered experimental.
+
+26/05/2009   Version 0.2
+- modified internal function html.data.frame, 
+  so that top row of html file created by export.design 
+  is only one row when file is opened in Excel 
+  (changed top row formatting from <h3> to <b>)
+- added options filename and replace to function export, 
+  in order to protect users from inadvertent replacement of existing 
+  files and to allow filenames different from design names
+- moved documentation of constant Letters from oa.design.Rd 
+  to Utilities.Rd
