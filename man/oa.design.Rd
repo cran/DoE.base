@@ -4,7 +4,6 @@
 \alias{comment}
 \alias{oacat}
 \alias{oa}
-\alias{Letters}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Function for accessing orthogonal arrays }
 \description{
@@ -22,7 +21,6 @@ origin(ID)
 comment(ID)
 oacat
 oa
-Letters
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -92,7 +90,7 @@ Letters
    Note that replications specified with option \code{replications} are not counted in determining 
    residual degrees of freedom for \code{min.resid.df}. 
    
-   Default factor names are the first elements of the character vector \code{Letters} (capital and small letters except for I and i), 
+   Default factor names are the first elements of the character vector \code{\link{Letters}}, 
    or the factors position numbers preceded by capital F in case of more than 50 factors.
 }
 \value{\code{oa.design} returns a data frame of S3 class \code{\link{design}} 

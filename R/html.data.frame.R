@@ -35,8 +35,9 @@ html.data.frame <- function (object, file = paste(first.word(deparse(substitute(
             x[, i], "</div>", sep = "")
     if (length(r <- dimnames(x)[[1]]))
         x <- cbind(Name = r, x)
+    ##cat("<TABLE BORDER>\n", file = file, append = append)
     cat("<TABLE BORDER>\n", file = file, append = append)
-    cat("<tr>", paste("<td><h3>", dimnames(x)[[2]], "</h3></td>",
+    cat("<tr>", paste("<td><b>", dimnames(x)[[2]], "</b></td>",
         sep = ""), "</tr>\n", sep = "", file = file, append = file !=
         "")
     if (length(link)) {

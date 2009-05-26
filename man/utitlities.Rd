@@ -2,6 +2,7 @@
 \alias{make.formulas}
 \alias{make.generators}
 \alias{des.recode}
+\alias{Letters}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Utility functions for DoE packages, not intended for direct use }
 \description{
@@ -11,6 +12,7 @@
 make.generators(name, liste)
 make.formulas(orignames, factor.names)
 des.recode(var, recodes, as.factor.result, char) 
+Letters
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,6 +27,13 @@ des.recode(var, recodes, as.factor.result, char)
 }
 \details{
    The functions are not intended for direct use. 
+   
+   The constant \code{Letters} is the vector of all capital and lower case 
+   letters of the Roman alphabet except \code{I} and \code{i}. 
+   It is used for default factor names and has been obtained as \cr
+       \code{Letters <- c(LETTERS[-9],letters[-9])}.
+   
+
 }
 \value{The functions are not intended for direct use.
 }
