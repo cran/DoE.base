@@ -1,5 +1,6 @@
 \name{DoE.base-package}
 \alias{DoE.base-package}
+\alias{DoE.base}
 \docType{package}
 \title{
 Full factorials, orthogonal arrays and base utilities for DoE packages

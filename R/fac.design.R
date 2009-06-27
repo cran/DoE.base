@@ -17,6 +17,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
         ## factor levels are 1:entry of nlevels, except for 2-level factors only, where they become -1 and 1
 
       ### check integer numbers
+      creator <- sys.call()
       if (!is.null(nlevels)) if (!all(floor(nlevels)==nlevels)) 
            stop("nlevels must be an integer number or a vector of integer numbers.")
       if (!is.null(nfactors)) if (!floor(nfactors)==nfactors) 
@@ -87,7 +88,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       attr(aus,"design.info") <- list(type="full factorial", 
           nruns=nruns, nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
           replications=replications, repeat.only=repeat.only, 
-          randomized=randomize, seed=seed)
+          randomized=randomize, seed=seed, creator=creator)
       class(aus) <- c("design","data.frame")
       aus
 }

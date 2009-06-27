@@ -52,26 +52,23 @@ html(object, ...)
        usable e.g. for modifying row coloring }
 }
 \details{
-   Function \code{export} uses functions \code{write.csv}, \code{write.csv2} or \code{html} 
+   Function \code{export.design} uses functions \code{write.csv}, \code{write.csv2} or \code{html} 
    for creating an exported version of the design that is usable outside of R. 
    If \code{type="csv"}, the design is exported as a csv-file, otherwise as an html-file. 
    The csv-file contains the data frame itself only, the html file contains the data frame 
    followed by the legend to the right of the data frame. The html file uses row coloring in 
    order to prevent mistakes by mixing up rows. If the OutDec option is correct for the 
-   current computer, the html file can be opened in Excel. 
+   current computer, the html file can be opened in Excel, and decimal numbers are correctly interpreted. 
    
    In addition to the html- or csv file, an R workspace containing just the design object 
-   is also output under the same name, with ending rda; if called from the R commander plugin, 
-   this workspace additionally contains the menu settings of the design generating menu. 
-   
-
+   is also output under the same name, with ending rda. 
 }
 \value{The functions are used for their side effects and do not generate a result.
 }
 \references{ 
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
 }
-\author{ Ulrike Groemping }
+\author{ Ulrike Groemping; the html functions have been adapted from package Hmisc }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
 \seealso{ ~~See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
 \examples{
