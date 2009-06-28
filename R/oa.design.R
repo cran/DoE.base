@@ -28,6 +28,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
 
         ## if more than one of the entries are given:
         ## compatibility checks necessary
+      creator <- sys.call()
       if (!is.null(ID)) generating.oa <- deparse(substitute(ID))  ## document selected OA
 
       if (is.null(ID) & is.null(factor.names) & is.null(nlevels)) 
@@ -273,7 +274,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
               replications=replications, 
               repeat.only=repeat.only, 
               randomized=randomize, 
-              seed=seed)
+              seed=seed, creator=creator)
       class(aus) <- c("design","data.frame")
       aus
 }

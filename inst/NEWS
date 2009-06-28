@@ -1,5 +1,12 @@
 This package is under development, and many parts are still considered experimental.
 
+27/06/2009   Version 0.3
+- added list element creator to design.info attributes of created designs
+  and improved documentation of class design and its accessors
+- bug fix in documentation to export.design and several other small changes 
+  in documentation and package description
+- substantially improved and extended documentation to function oa.design
+
 26/05/2009   Version 0.2
 - modified internal function html.data.frame, 
   so that top row of html file created by export.design 
