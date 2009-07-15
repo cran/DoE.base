@@ -4,6 +4,8 @@
 \alias{desnum}
 \alias{run.order}
 \alias{design.info}
+\alias{factor.names}
+\alias{response.names}
 \alias{ord}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -16,6 +18,8 @@
 desnum(design)
 run.order(design)
 design.info(design)
+factor.names(design)
+response.names(design)
 design
 \method{[}{design}(x, i, j, drop.attr = TRUE, drop = FALSE)
 ord(matrix, decreasing=FALSE)
@@ -38,30 +42,51 @@ ord(matrix, decreasing=FALSE)
 \details{
     Items of class \code{design} are data frames with attributes. They are generated 
     by various functions that create experimental designs, currently by 
-    \code{FrF2}, \code{pb}, \code{\link{oa.design}} \code{\link{fac.design}}, or 
-    or by the above extractor function for class \code{design}.
+    \code{FrF2}, \code{pb}, \code{\link{oa.design}} \code{\link{fac.design}}, 
+    by the above extractor function for class \code{design}, and by \code{\link{fix.design}}.
     
-    The data frame itself always contains the design in uncoded form (factors or 
-    original numerical values). Generally, its attributes are \code{desnum}, 
+    The data frame itself always contains the design in uncoded form (for all currently 
+    implemented design generation functions, these are factors; for future functions for 
+    quantitative factors, this may be different). 
+    Generally, its attributes are \code{desnum}, 
     \code{run.order}, and \code{design.info}. Attribute \code{desnum} contains 
     a numeric coded version of the design, attribute \code{run.order} a data frame 
     with run order information (standard order, randomized order, order with replication info), 
-    and the details of \code{design.info} depend on the type of design. Generally, 
-    it is a list with first element \code{type}, further info on the design, 
-    and some options of the design call regarding randomization and replication; 
-    furthermore, the list element \code{creator} contains the call or 
-    (in the future) the menu settings within the currently developed 
-    package \pkg{RcmdrPlugin.DoE} that led to creation of the design.
-    Detailed information on the structure of \code{design.info} 
+    and the details of \code{design.info} partly depend on the type of design. 
+    
+    \code{design.info} generally is a list with first element \code{type}, 
+    further info on the design, 
+    and some options of the design call regarding randomization and replication. 
+    For all design types, elements include 
+    \describe{
+    \item{nruns}{number of runs (not adjusted for replications)}
+    \item{nfactors}{number of factors}
+    \item{factor.names}{named list, as can be handed to function \code{\link{oa.design}}}
+    \item{replications}{the integer number of replications (1=unreplicated)} 
+    \item{repeat.only}{logical indicating whether replications are only repeat runs but not 
+         truly replicated}
+    \item{randomized}{logical indicating whether the experiment was randomized} 
+    \item{seed}{the integer seed handed to the function call by the user}
+    \item{response.names}{in the presence of response data only; 
+        the character vector identifying response columns in the data frame} 
+    \item{creator}{contains the call or 
+    (in the future) the list of menu settings within the currently developed 
+    package \pkg{RcmdrPlugin.DoE} that led to creation of the design.}
+    }
+    
+    For some design types, notably designs of types starting with \dQuote{FrF2}, 
+    there can be substantial additional information available from the \code{design.info} 
+    attribute in specialized situations. Detailed information on the structure of \code{design.info} 
     can be found in the value sections of the respective functions.
+    
     
     The functions \code{desnum}, \code{run.order} and \code{design.info} extract 
     the respective attribute, i.e. e.g. function design.info 
-    extracts the design information for the design. 
-    The extractor method subsets the design, taking care of the attributes accordingly.
+    extracts the design information for the design. The functions \code{factor.names} 
+    and \code{response.names} extract the respective elements of the \code{design.info} 
+    attribute.
     
-    Note that the information attached to objects of class \code{design} is currently only 
-    available for usage by the user, but is not (yet) used by any analysis facilities.
+    The extractor method subsets the design, taking care of the attributes accordingly.
 }
 \value{
     \item{desnum}{returns a numeric matrix,}

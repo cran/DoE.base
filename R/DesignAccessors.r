@@ -54,3 +54,12 @@ design.info <- function(design){
      if (!"design" %in% class(design)) stop("design.info is applicable for class design only.")
      else attr(design,"design.info")
  }
+factor.names <- function(design){
+     if (!"design" %in% class(design)) stop("design.info is applicable for class design only.")
+     else attr(design,"design.info")$factor.names
+ }
+response.names <- function(design){
+     if (!"design" %in% class(design)) stop("design.info is applicable for class design only.")
+     else attr(design,"design.info")$response.names
+ }
+

@@ -1,5 +1,25 @@
 This package is under development, and many parts are still considered experimental.
 
+15/07/2009   Version 0.4-1
+- bug fix in function fix.design: error checking for changed factors 
+  had a bug and stopped perfectly legal edits from being stored.
+
+
+13/07/2009   Version 0.4
+- all experimental factors are now R-factors, even if they are numeric
+- export.design can now also export the R workspace only, without csv or html
+- bugfix: export.design did not correctly check replacing of files in case of 
+  capital letters in file names
+- modified export.design to handle factor labels with blanks from (future) GUI 
+  package RcmdrPlugin.DoE
+- added S3 generic for fix with default and design method
+- extended design.info for output objects from function oa.design to include nruns, 
+  nfactors and nlevels
+- improved documentation of class design and the respective parts of the value 
+  sections of functions oa.design and fac.design
+- included function contr.FrF2 and constant Yates from package FrF2 
+  (not exported; also remain in package FrF2)
+
 27/06/2009   Version 0.3
 - added list element creator to design.info attributes of created designs
   and improved documentation of class design and its accessors

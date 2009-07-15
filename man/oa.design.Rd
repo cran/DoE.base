@@ -99,14 +99,19 @@ oa
    Currently, package \pkg{DoE.base} contains the orthogonal arrays from Warren Kuhfelds 
    collection of \dQuote{parent} arrays only, plus very few additional designs. 
    It is possible to combine these with each other, or 
-   with Plackett-Burman, full or fractional factorial designs by nesting, as described 
-   by Warren Kuhfeld. This is not currently implemented and will not be implemented very soon, 
-   as it appears to be quite an intricate task. Consider the last example for combining 
-   designs manually.
+   with Plackett-Burman, full or fractional factorial designs by expansive replacement, as described 
+   by Warren Kuhfeld. The thus-obtainable child arrays have so far not been implemented; 
+   as long as these are not available, function \code{oa.design} will 
+   often suggest larger designs than necessary. The child arrays with up to 143 runs 
+   listed in Warren Kuhfelds technical report will be implemented relatively soon. \cr
+   For the interim, consider the last example for combining 
+   designs manually. (A lot more than just the child arrays could be obtained from these arrays 
+   by implementing a functionality similar to the market research macros available in SAS; presumably, 
+   this topic will not be addressed soon, as it will involve a substantial amount of work.)
    
    If no specific orthogonal array is specified and function \code{oa.design} does not 
    find an orthogonal array that meets the specified requirements, 
-   \code{oa.design} returns a full factorial, replicated for enough degrees of freedom, if necessary. 
+   \code{oa.design} returns a full factorial, replicated for enough residual degrees of freedom, if necessary. 
    If \code{oa.design} has not found an array smaller than the full factorial, it is 
    absolutely possibly that a smaller array does exist nevertheless. It may be worth 
    while checking with oacat whether an appropriate smaller array can be found by 
@@ -117,11 +122,28 @@ oa
 
 }
 \value{\code{oa.design} returns a data frame of S3 class \code{\link{design}} 
-    with attributes attached. Factors with numerical levels are numeric, factors with 
-    character levels are factors. The content of the attributes in class \code{design} depends 
-    on the specific type of design used.
+    with attributes attached. 
     
-    \code{origin} and \code{comment} return the respective attribute of the orthogonal array.
+   In the data frame itself, the experimental factors are all stored as R factors. \cr
+   For factors with 2 levels, \code{\link{contr.FrF2}} contrasts (-1 / +1) are used. \cr
+   For factors with more than 2 numerical levels, polynomial contrasts are used 
+   (i.e. analyses will per default use orthogonal polynomials). \cr
+   For factors with more than 2 categorical levels, the default contrasts are used.\cr
+   Future versions will most likely allow more user control about the type of 
+   contrasts to be used.
+
+   The \code{desnum} and \code{run.order} attributes of class \code{\link{design}} are 
+   as usual. In the \code{design.info} attribute, the following elements are specific for 
+   this type of designs:
+   \item{type}{is \code{oa} (unless no special orthogonal array is found, in which case 
+      a full factorial is created instead, cf. \code{\link{fac.design}} for its \code{design.info} attribute),} 
+   \item{nlevels}{vector containing the number of levels for each factor}
+   \item{generating.oa}{contains information on the generating orthogonal array,}
+   \item{selected.columns}{contains information, which column of the orthogonal array underlies which factor,}
+   \item{origin}{returns the respective attribute of the orthogonal array,} 
+   \item{comment}{returns the respective attribute of the orthogonal array,} 
+   \item{residual.df}{returns the requested residual degrees of freedom for a main effects model.} 
+   Other information is generic, like documented for class \code{\link{design}}. 
 }
 \references{ 
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
