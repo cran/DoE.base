@@ -62,30 +62,32 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           hilf <- table(nlevels)
             names(hilf) <- paste("n",names(hilf),sep="")
           minnrun <- sum(nlevels) - nfactors + 1 + min.residual.df
+          ffnrun <- prod(nlevels)
           if (!is.null(nruns)) {
                   if (nruns < minnrun) stop("Your request requires at least ", minnrun, ">", nruns, " runs.")
-                  if (nruns > prod(nlevels)) warning("You are requesting more runs than needed for a full factorial!")
+                  if (nruns > ffnrun) warning("You are requesting more runs than needed for a full factorial!")
                   ## full factorial, if this number of runs is requested
-                  if (nruns==prod(nlevels)) return(fac.design(nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
+                  if (nruns==ffnrun) return(fac.design(nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
                          replications=replications, repeat.only=repeat.only, randomize=randomize, seed=seed))
                   cand <- oacat[oacat$nruns == nruns,]
                }
           else cand <- oacat[oacat$nruns >= minnrun,]
           if (nrow(cand)==0) 
-              stop("Currently, DoE.Wrapper only contains orthogonal arrays with up to 144 runs. Your request requires at least ", minnrun, " runs.")
+              stop("Currently, DoE.base only contains orthogonal arrays with up to 144 runs. Your request requires at least ", minnrun, " runs.")
           else {
              for (i in 1:length(hilf))
                 cand <- eval(parse(text=paste("cand[cand$",names(hilf)[i],">=",hilf[i],",]",sep="")))
+             cand <- cand[cand$nruns<=ffnrun,]
              if (nrow(cand)==0){ 
                   if ((replications>1 & repeat.only)){
-                  if (minnrun <= prod(nlevels))
+                  if (minnrun <= ffnrun)
                       return(fac.design(nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
                          replications=replications, repeat.only=repeat.only, randomize=randomize, seed=seed))
                       else {warning("A full factorial without real replications does not fulfill your request for degrees of freedom. repeat.only has been set to FALSE.")
                            repeat.only <- FALSE}
                        }
                   return(fac.design(nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
-                      replications=ceiling(minnrun/prod(nlevels)), randomize=randomize, seed=seed))
+                      replications=ceiling(minnrun/ffnrun), randomize=randomize, seed=seed))
                   }
              else {
                  ID <- get(as.character(cand[1,1]))
@@ -224,6 +226,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
       }
       design <- as.data.frame(desorigcode)
       colnames(design) <- names(factor.names)
+      quant <- sapply(factor.names, "is.numeric")
       for (i in 1:ncol(design)){
               ## recode 
               ## could later make (here and elsewhere)
@@ -231,6 +234,14 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
               ## all non-factors if FALSE
               ## character factors and numeric not if NULL
               ## in that case, quantitative factors as numeric contrasts
+              #if (!is.numeric(factor.names[[i]])) 
+              #    design[,i] <- des.recode(desorigcode[,i], paste(1:nlevels[i],"=",
+              #       factor.names[[i]],sep="",collapse=";"),
+              #       TRUE,TRUE)
+              #else design[,i] <- des.recode(desorigcode[,i], paste(1:nlevels[i],"=",
+              #       factor.names[[i]],sep="",collapse=";"),
+              #       TRUE,FALSE)
+              #    
               if (!is.numeric(factor.names[[i]])) 
                   design[,i] <- des.recode(desorigcode[,i], paste(1:nlevels[i],"=",
                      factor.names[[i]],sep="",collapse=";"),
@@ -238,7 +249,10 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
               else design[,i] <- des.recode(desorigcode[,i], paste(1:nlevels[i],"=",
                      factor.names[[i]],sep="",collapse=";"),
                      FALSE,FALSE)
-                  
+              if (!is.factor(design[,i]))
+                 design[,i] <- factor(design[,i],levels=factor.names[[i]]) 
+              if (nlevels[i]==2) contrasts(design[,i]) <- contr.FrF2(2)
+                    else if (quant[i]) contrasts(design[,i]) <- contr.poly(nlevels[i],scores=factor.names[[i]])
               ##  if (as.factor.result & factor.types[i]=="quant") 
               ##    if (!factor.names[i]=="") if (is.numeric(factor.names[i])) 
               ##            contrasts(design[,i]) <- contr.poly(nlevels[i], scores=factor.names[i])
@@ -265,6 +279,9 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
       attr(aus,"desnum") <- desmat
       attr(aus,"run.order") <- data.frame("run.no.in.std.order"=orig.no,"run.no"=1:nrow(aus),"run.no.std.rp"=orig.no.rp)
       attr(aus,"design.info") <- list(type="oa",
+              nruns=nruns,
+              nfactors=nfactors,
+              nlevels=nlevels,
               generating.oa=generating.oa,
               selected.columns=columns,
               origin=attr(ID,"origin"),

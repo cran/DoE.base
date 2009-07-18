@@ -44,10 +44,23 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
 \details{
    \code{fac.design} creates full factorial designs, i.e. the number of runs is the 
    product of all numbers of levels.
+   
 }
 \value{
     \code{fac.design} returns a data frame of S3 class \code{\link{design}} 
     with attributes attached. 
+
+   The experimental factors are all stored as R factors. \cr
+   For factors with 2 levels, \code{\link{contr.FrF2}} contrasts (-1 / +1) are used. \cr
+   For factors with more than 2 numerical levels, polynomial contrasts are used 
+   (i.e. analyses will per default use orthogonal polynomials). \cr
+   For factors with more than 2 categorical levels, the default contrasts are used.
+   
+   Future versions will most likely allow more user control about the type of 
+   contrasts to be used.
+   
+   The \code{design.info} attribute of the data frame has the element 
+   \code{nlevels} in addition to the standard elements documented for class \code{\link{design}}.
 }
 \references{ 
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 

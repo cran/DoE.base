@@ -64,7 +64,16 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       if (all(nlevels==2)) {factor.names[1:nfactors] <- rep(list(c(-1,1)),nfactors)
                  desnum <- as.matrix(expand.grid(factor.names))
                  row.names(desnum) <- 1:nrow(design) 
-             } else desnum <- NULL
+             } else{ 
+                desnum <- NULL
+                quant <- sapply(factor.names, "is.numeric")
+                for (i in 1:nfactors){
+                    if (!is.factor(design[,i]))
+                       design[,i] <- factor(design[,i],levels=factor.names[[i]]) 
+                    if (nlevels[i]==2) contrasts(design[,i]) <- contr.FrF2(2)
+                    else if (quant[i]) contrasts(design[,i]) <- contr.poly(nlevels[i],scores=factor.names[[i]])
+                }
+             }
 
       rand.ord <- rep(1:nrow(design),replications)
       if (replications > 1 & repeat.only) rand.ord <- rep(1:nrow(design),each=replications)

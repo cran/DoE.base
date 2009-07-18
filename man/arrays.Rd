@@ -699,8 +699,10 @@ L144.4.36.36.1
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ ~~See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
+% keyword internal is supposed to hide this help file from the index but does not. Why???
 \keyword{ array }
-\keyword{ design }% __ONLY ONE__ keyword per line
+\keyword{ design }
+\keyword{ internal }

@@ -49,3 +49,4 @@ Letters
 % R documentation directory.
 \keyword{ array }
 \keyword{ design }% __ONLY ONE__ keyword per line
+\keyword{internal}

@@ -8,7 +8,7 @@
   Function for exporting a design object
 }
 \usage{
-export.design(design, response.names = "y", 
+export.design(design, response.names = NULL, 
        path = ".", filename = NULL, legend = NULL, type = "html", 
        OutDec = options("OutDec")$OutDec, replace = FALSE, ...)
 html(object, ...)
@@ -21,8 +21,11 @@ html(object, ...)
   \item{design}{ A data frame of class design; 
         it must be stored in the global environment and referred to by its name, i.e. 
         it cannot be created \dQuote{on the fly}.  }
-  \item{response.names}{ a character vector of response names; the exported file contains a column for 
-        each response; default: one response named \code{y}}
+  \item{response.names}{ if not NULL (default), 
+        this must be a character vector of response names; 
+        the exported file contains a column for each entry;
+        it is NOT necessary to include responses that are already present in 
+        the design object!}
   \item{path}{ the path to the directory where the export files are to be stored;
         the default corresponds to the R working directory that can (on some systems) 
         be looked at using \code{getwd()}}
@@ -31,7 +34,10 @@ html(object, ...)
   \item{legend}{ data frame containing legend information; if NULL, 
         the legend is automatically generated from the 
         \code{factor.names} element of \code{design.info(design)}}
-  \item{type}{ one of \code{"html"} or \code{"csv"} }
+  \item{type}{ one of \code{"rda"}, \code{"html"} or \code{"csv"}. 
+        An R workspace with just the design object is always stored as an \code{"rda"} object. 
+        If one of the other two types is specified, the design is additionally exported to \code{"html"} 
+        or \code{"csv"}.}
   \item{OutDec}{ decimal separator for the output file; one of \code{"."} or \code{","}; 
         the default is the option setting in the R options; this option also directs  
         whether \code{write.csv} or \code{write.csv2} is used and is very important for 
@@ -52,16 +58,18 @@ html(object, ...)
        usable e.g. for modifying row coloring }
 }
 \details{
-   Function \code{export.design} uses functions \code{write.csv}, \code{write.csv2} or \code{html} 
-   for creating an exported version of the design that is usable outside of R. 
-   If \code{type="csv"}, the design is exported as a csv-file, otherwise as an html-file. 
+   Function \code{export.design} always stores an R workspace that contains just 
+   the design (with attached attributes, cf. class \code{\link{design}}). This file is stored 
+   with ending \code{rda}.\cr 
+   If requested by options \code{type="csv"} or \code{type="html"}, 
+   \code{export.design} additionally creates an exported version of 
+   the design that is usable outside of R. This is achieved via functions 
+   \code{write.csv}, \code{write.csv2} or \code{html}. 
    The csv-file contains the data frame itself only, the html file contains the data frame 
    followed by the legend to the right of the data frame. The html file uses row coloring in 
-   order to prevent mistakes by mixing up rows. If the OutDec option is correct for the 
-   current computer, the html file can be opened in Excel, and decimal numbers are correctly interpreted. 
-   
-   In addition to the html- or csv file, an R workspace containing just the design object 
-   is also output under the same name, with ending rda. 
+   order to prevent mistakes in recording of experimental results by mix-ups of rows. 
+   If the OutDec option is correct for the current computer, the html file can 
+   be opened in Excel, and decimal numbers are correctly interpreted. 
 }
 \value{The functions are used for their side effects and do not generate a result.
 }
@@ -75,6 +83,8 @@ html(object, ...)
   ## six 2-level factors
   test <- oa.design(nlevels=c(2,3,3,3))
   ## export an html file with legend and two responses
+  ## files test.rda and test.html will be written to the current working directory, 
+  ##     if they do not exist yet
   export.design(test, response.names=c("pressure", "temperature"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
