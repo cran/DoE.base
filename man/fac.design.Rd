@@ -67,7 +67,15 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ ~~See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\examples{
+  ## only specify level combination 
+  fac.design(nlevels=c(4,3,3,2))
+  ## design requested via factor.names
+  fac.design(factor.names=list(one=c("a","b","c"), two=c(125,275), three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
+  ## design requested via character factor.names and nlevels (with a little German lesson for one two three)
+  fac.design(factor.names=c("eins","zwei","drei"),nlevels=c(2,3,2))
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ array }

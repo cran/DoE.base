@@ -34,10 +34,12 @@ html(object, ...)
   \item{legend}{ data frame containing legend information; if NULL, 
         the legend is automatically generated from the 
         \code{factor.names} element of \code{design.info(design)}}
-  \item{type}{ one of \code{"rda"}, \code{"html"} or \code{"csv"}. 
+  \item{type}{ one of \code{"rda"}, \code{"html"}, \code{"csv"}, or \code{"all"}. 
         An R workspace with just the design object is always stored as an \code{"rda"} object. 
-        If one of the other two types is specified, the design is additionally exported to \code{"html"} 
-        or \code{"csv"}.}
+        If one of the other types is specified, the design is additionally exported to \code{"html"} 
+        or \code{"csv"} or both. The \code{"csv"} file contains the design itself only, 
+        with formatting depending on the \code{OutDec} option. The \code{"html"} file contains 
+        some additional legend information and row color formatting.}
   \item{OutDec}{ decimal separator for the output file; one of \code{"."} or \code{","}; 
         the default is the option setting in the R options; this option also directs  
         whether \code{write.csv} or \code{write.csv2} is used and is very important for 
@@ -61,15 +63,19 @@ html(object, ...)
    Function \code{export.design} always stores an R workspace that contains just 
    the design (with attached attributes, cf. class \code{\link{design}}). This file is stored 
    with ending \code{rda}.\cr 
-   If requested by options \code{type="csv"} or \code{type="html"}, 
+   If requested by options \code{type="csv"}, \code{type="html"}, or \code{type="all"}, 
    \code{export.design} additionally creates an exported version of 
    the design that is usable outside of R. This is achieved via functions 
    \code{write.csv}, \code{write.csv2} or \code{html}. 
    The csv-file contains the data frame itself only, the html file contains the data frame 
    followed by the legend to the right of the data frame. The html file uses row coloring in 
    order to prevent mistakes in recording of experimental results by mix-ups of rows. 
-   If the OutDec option is correct for the current computer, the html file can 
+   If the OutDec option is correct for the current computer, the csv and html files can 
    be opened in Excel, and decimal numbers are correctly interpreted. 
+   
+   Generation of the html-file is particularly important for Taguchi inner/outer array designs 
+   in wide format, because it provides the legend to the suffix numbers of response columns in terms of 
+   outer array experimental setups!
 }
 \value{The functions are used for their side effects and do not generate a result.
 }

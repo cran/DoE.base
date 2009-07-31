@@ -24,7 +24,8 @@ oa
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{ID}{ name of the orthogonal array design to be used; 
+  \item{ID}{ orthogonal array to be used; must be given as the name without quotes 
+        (e.g. \code{L12.2.2.6.1}); 
         available names can be looked at via \code{oacat$name};
         users can also specify names of their own designs here (cf. details). 
         \code{ID} must be of class \code{oa}.
@@ -152,7 +153,7 @@ oa
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ ~~See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See Also \code{FrF2}, \code{\link{fac.design}}, \code{pb} }
 \examples{
   ## smallest available array for 6 factors with 3 levels each
   oa.design(nfactors=6,nlevels=3)
