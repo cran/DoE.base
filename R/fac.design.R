@@ -82,13 +82,15 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                   rand.ord[((i-1)*nrow(design)+1):(i*nrow(design))] <- sample(nrow(design))
       if (randomize & repeat.only) rand.ord <- rep(sample(1:nrow(design)), each=replications)
       aus <- design[rand.ord,]
-      orig.no <- orig.no.rp <- rownames(aus)
+      ## extract run number in standard order
+      ## remove uniqueness appendix
+      orig.no <- orig.no.rp <- sapply(strsplit(rownames(aus),".",fixed=TRUE),function(obj) obj[1])
       if (replications>1) {
            if (repeat.only) orig.no.rp <- paste(orig.no.rp,rep(1:replications,nruns),sep=".")
            else orig.no.rp <- paste(orig.no.rp,rep(1:replications,each=nruns),sep=".")
         }
 
-      if (is.null(desnum)) desnum <- model.matrix(lm(1:nrow(aus)~.,data=aus)) else
+      if (is.null(desnum)) desnum <- model.matrix(1:nrow(aus)~.,data=aus)[,-1,drop=FALSE] else
            desnum <- desnum[rand.ord,]
       rownames(aus) <- rownames(desnum) <- 1:nrow(aus)
 
@@ -97,7 +99,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       attr(aus,"design.info") <- list(type="full factorial", 
           nruns=nruns, nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
           replications=replications, repeat.only=repeat.only, 
-          randomized=randomize, seed=seed, creator=creator)
+          randomize=randomize, seed=seed, creator=creator)
       class(aus) <- c("design","data.frame")
       aus
 }

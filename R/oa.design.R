@@ -207,8 +207,11 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
       
       ### arrange columns of oa in order needed for design
       if (!is.null(columns)) {
-         des<-des[,columns]
-         desorigcode <- des}
+         des <- des[,columns]
+         desorigcode <- des
+         origorder <- 1:nfactors
+         names(nlevels) <- NULL
+         names(columns) <- NULL}
       else{
           origorder <- (1:nfactors)[order(nlevels)]
           factor.names <- factor.names[order(nlevels)]
@@ -217,7 +220,9 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           hilf <- table(nlevels)
           for (i in as.numeric(names(hilf)))
               columns <- c(columns,which(apply(des,2,max)==i)[1:hilf[paste(i)]])
-          des<-des[,columns]
+          des <- des[,columns]
+          names(columns) <- NULL
+          names(nlevels) <- NULL
       desorigcode <- des[,order(origorder)]
       nlevels <- nlevels[order(origorder)]
       factor.names <- factor.names[order(origorder)]
@@ -268,12 +273,14 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
       if (randomize & repeat.only) rand.ord <- rep(sample(1:nrow(design)), each=replications)
 
       aus <- design[rand.ord,]
-      orig.no <- orig.no.rp <- rownames(aus)
+      ## extract run number in standard order
+      ## remove uniqueness appendix
+      orig.no <- orig.no.rp <- sapply(strsplit(rownames(aus),".",fixed=TRUE),function(obj) obj[1])
       if (replications>1) {
            if (repeat.only) orig.no.rp <- paste(orig.no.rp,rep(1:replications,nruns),sep=".")
            else orig.no.rp <- paste(orig.no.rp,rep(1:replications,each=nruns),sep=".")
        }
-      desmat <- model.matrix(lm(1:nrow(aus)~.,data=aus))
+      desmat <- model.matrix(1:nrow(aus)~.,data=aus)[,-1,drop=FALSE]
       rownames(aus) <- rownames(desmat) <- 1:nrow(aus)
 
       attr(aus,"desnum") <- desmat
@@ -290,7 +297,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
               factor.names = factor.names, 
               replications=replications, 
               repeat.only=repeat.only, 
-              randomized=randomize, 
+              randomize=randomize, 
               seed=seed, creator=creator)
       class(aus) <- c("design","data.frame")
       aus

@@ -1,4 +1,45 @@
-This package is under development, and many parts are still considered experimental.
+Changes to package DoE.base
+
+This package is under development. Although substantial progress has been made, 
+many parts are still considered experimental. Suggestions and bug reports are very welcome. 
+
+Most important next steps include 
+- extension of available orthogonal arrays for function oa.design
+- data aggregation functions for designs with repeat.only replications and for 
+  parameter designs (=innner/outer array designs)
+- automatic creation of formulae for default analyses (will presumably take longest)
+
+31/07/2009 Version 0.5
+- changed R version to R-2.8.0 or newer (extractor for class design does not work 
+  with earlier versions)
+- added function print.design for printing useful information along with the design
+- added function summary.design for providing key information from design.info in 
+  convenient format
+  (will be developed further and may still change)
+- added functions reptowide and reptolong to reshape the experiment for 
+  repeated measurements (repeat.only=TRUE) between wide and long shape;
+  still experimental when applied to non-standard designs
+- added function cross.design for crossing designs, 
+  algorithm modified from function direct.sum from package conf.design
+- added function param.design for creating Taguchi style inner/outer array designs, 
+  and function paramtowide for setting these to wide format
+- added type all to export.design so that both csv and html can be output at the same time; 
+  meant for non-Excel users who want to work with csv file but nevertheless need the legend from 
+  html file
+- new function add.response to combine exported design with externally input response data;
+  this is still somewhat experimental
+- extended extractor method for designs to allow limited replication possibilities
+- added modification step to creator attribute of designs modified by extraction
+- removed intercept column from desnum attribute for designs created with 
+  fac.design or oa.design or modified with factor.names
+- bug fix: there were unintended names attached to the selected.columns element in design.info;
+  these were not always correct and have now been removed
+- bug fix: [.design did not always work correctly if j was not specified
+- bug fix: run.no.in.std.order for run.order attribute of functions fac.design 
+  and oa.design was previously made unique (by uniqueness of row.names for data frames); 
+  corrected to yield the run numbers only
+- bug fix: renamed randomized to randomize in functions oa.design and fac.design, 
+  in line with package FrF2, and adjusted documentation accordingly
 
 15/07/2009   Version 0.4-1
 - bug fix in function fix.design: error checking for changed factors 

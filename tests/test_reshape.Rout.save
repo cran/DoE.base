@@ -1,0 +1,222 @@
+
+R version 2.9.1 Patched (2009-07-22 r48993)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## test reshape functions in DoE.base
+> require(DoE.base)
+Loading required package: DoE.base
+Loading required package: tcltk
+Loading Tcl/Tk interface ... done
+
+Attaching package: 'DoE.base'
+
+
+	The following object(s) are masked from package:utils :
+
+	 fix 
+
+> 
+> a <- fac.design(nlevels=c(2,4,3),repl=2,repeat.only=TRUE,randomize=FALSE)
+> b <- oa.design(nlevels=c(2,6,2),repl=3,repeat.only=TRUE,randomize=FALSE)
+> c <- a
+> response.names(c) <- c("Y1", "Y2")
+> d <- b
+> d$Y <- rexp(12)
+> d$Z <- runif(12)
+> response.names(d) <- c("Y","Z")
+> 
+> aw <- reptowide(a)
+> bw <- reptowide(b)
+> cw <- reptowide(c)
+> dw <- reptowide(d)
+> 
+> al <- reptolong(aw)
+> bl <- reptolong(bw)
+> cl <- reptolong(cw)
+> dl <- reptolong(dw)
+> 
+> aw
+   A B C y.1 y.2
+1  1 1 1  NA  NA
+2  2 1 1  NA  NA
+3  1 2 1  NA  NA
+4  2 2 1  NA  NA
+5  1 3 1  NA  NA
+6  2 3 1  NA  NA
+7  1 4 1  NA  NA
+8  2 4 1  NA  NA
+9  1 1 2  NA  NA
+10 2 1 2  NA  NA
+11 1 2 2  NA  NA
+12 2 2 2  NA  NA
+13 1 3 2  NA  NA
+14 2 3 2  NA  NA
+15 1 4 2  NA  NA
+16 2 4 2  NA  NA
+17 1 1 3  NA  NA
+18 2 1 3  NA  NA
+19 1 2 3  NA  NA
+20 2 2 3  NA  NA
+21 1 3 3  NA  NA
+22 2 3 3  NA  NA
+23 1 4 3  NA  NA
+24 2 4 3  NA  NA
+class=design, type=full factorial
+> al
+   run.no run.no.std.rp A B C  y
+1       1           1.1 1 1 1 NA
+2       2           1.2 1 1 1 NA
+3       3           2.1 2 1 1 NA
+4       4           2.2 2 1 1 NA
+5       5           3.1 1 2 1 NA
+6       6           3.2 1 2 1 NA
+7       7           4.1 2 2 1 NA
+8       8           4.2 2 2 1 NA
+9       9           5.1 1 3 1 NA
+10     10           5.2 1 3 1 NA
+11     11           6.1 2 3 1 NA
+12     12           6.2 2 3 1 NA
+13     13           7.1 1 4 1 NA
+14     14           7.2 1 4 1 NA
+15     15           8.1 2 4 1 NA
+16     16           8.2 2 4 1 NA
+17     17           9.1 1 1 2 NA
+18     18           9.2 1 1 2 NA
+19     19          10.1 2 1 2 NA
+20     20          10.2 2 1 2 NA
+21     21          11.1 1 2 2 NA
+22     22          11.2 1 2 2 NA
+23     23          12.1 2 2 2 NA
+24     24          12.2 2 2 2 NA
+25     25          13.1 1 3 2 NA
+26     26          13.2 1 3 2 NA
+27     27          14.1 2 3 2 NA
+28     28          14.2 2 3 2 NA
+29     29          15.1 1 4 2 NA
+30     30          15.2 1 4 2 NA
+31     31          16.1 2 4 2 NA
+32     32          16.2 2 4 2 NA
+33     33          17.1 1 1 3 NA
+34     34          17.2 1 1 3 NA
+35     35          18.1 2 1 3 NA
+36     36          18.2 2 1 3 NA
+37     37          19.1 1 2 3 NA
+38     38          19.2 1 2 3 NA
+39     39          20.1 2 2 3 NA
+40     40          20.2 2 2 3 NA
+41     41          21.1 1 3 3 NA
+42     42          21.2 1 3 3 NA
+43     43          22.1 2 3 3 NA
+44     44          22.2 2 3 3 NA
+45     45          23.1 1 4 3 NA
+46     46          23.2 1 4 3 NA
+47     47          24.1 2 4 3 NA
+48     48          24.2 2 4 3 NA
+class=design, type=full factorial
+NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+> bw
+   A B C y.1 y.2 y.3
+1  1 1 1  NA  NA  NA
+2  1 3 1  NA  NA  NA
+3  1 5 1  NA  NA  NA
+4  1 2 2  NA  NA  NA
+5  1 4 2  NA  NA  NA
+6  1 6 2  NA  NA  NA
+7  2 2 1  NA  NA  NA
+8  2 4 1  NA  NA  NA
+9  2 6 1  NA  NA  NA
+10 2 1 2  NA  NA  NA
+11 2 3 2  NA  NA  NA
+12 2 5 2  NA  NA  NA
+class=design, type=oa
+> bl
+   run.no run.no.std.rp A B C  y
+1       1           1.1 1 1 1 NA
+2       2           1.2 1 1 1 NA
+3       3           1.3 1 1 1 NA
+4       4           2.1 1 3 1 NA
+5       5           2.2 1 3 1 NA
+6       6           2.3 1 3 1 NA
+7       7           3.1 1 5 1 NA
+8       8           3.2 1 5 1 NA
+9       9           3.3 1 5 1 NA
+10     10           4.1 1 2 2 NA
+11     11           4.2 1 2 2 NA
+12     12           4.3 1 2 2 NA
+13     13           5.1 1 4 2 NA
+14     14           5.2 1 4 2 NA
+15     15           5.3 1 4 2 NA
+16     16           6.1 1 6 2 NA
+17     17           6.2 1 6 2 NA
+18     18           6.3 1 6 2 NA
+19     19           7.1 2 2 1 NA
+20     20           7.2 2 2 1 NA
+21     21           7.3 2 2 1 NA
+22     22           8.1 2 4 1 NA
+23     23           8.2 2 4 1 NA
+24     24           8.3 2 4 1 NA
+25     25           9.1 2 6 1 NA
+26     26           9.2 2 6 1 NA
+27     27           9.3 2 6 1 NA
+28     28          10.1 2 1 2 NA
+29     29          10.2 2 1 2 NA
+30     30          10.3 2 1 2 NA
+31     31          11.1 2 3 2 NA
+32     32          11.2 2 3 2 NA
+33     33          11.3 2 3 2 NA
+34     34          12.1 2 5 2 NA
+35     35          12.2 2 5 2 NA
+36     36          12.3 2 5 2 NA
+class=design, type=oa
+NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+> 
+> design.info(aw)$responselist
+    y
+1 y.1
+2 y.2
+> design.info(bw)$responselist
+    y
+1 y.1
+2 y.2
+3 y.3
+> design.info(cw)$responselist
+    Y1   Y2
+1 Y1.1 Y2.1
+2 Y1.2 Y2.2
+> design.info(dw)$responselist
+    Y   Z
+1 Y.1 Z.1
+2 Y.2 Z.2
+3 Y.3 Z.3
+> 
+> design.info(aw)$response.names
+[1] "y.1" "y.2"
+> design.info(bw)$response.names
+[1] "y.1" "y.2" "y.3"
+> design.info(cw)$response.names
+[1] "Y1.1" "Y1.2" "Y2.1" "Y2.2"
+> design.info(dw)$response.names
+[1] "Y.1" "Y.2" "Y.3" "Z.1" "Z.2" "Z.3"
+> 
+> design.info(al)$response.names
+[1] "y"
+> design.info(bl)$response.names
+[1] "y"
+> design.info(cl)$response.names
+[1] "Y1" "Y2"
+> design.info(dl)$response.names
+[1] "Y" "Z"
+> 

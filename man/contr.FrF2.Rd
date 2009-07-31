@@ -5,7 +5,7 @@
   Contrasts for orthogonal Fractional Factorial 2-level designs 
 }
 \usage{
-contr.FrF2(n)
+   contr.FrF2(n)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -14,9 +14,10 @@ contr.FrF2(n)
 }
 \details{
   This is an internal function that supports \code{-1/+1} contrasts for 2-level factors.
-  NOTE: The function also works for more than two levels. 
+  NOTE: The function also works if the number of levels is a power of 2. 
   For more than four levels, the levels of the factor must be in an appropriate order 
-  in order for an FrF2-derived structure to be guaranteed to be orthogonal.
+  in order to guarantee that the columns of the model matrix for an FrF2-derived structure 
+  are orthogonal.
   }
 \value{The function returns orthogonal contrasts for factors with number of levels a power of 2. 
 All contrast columns consist of \code{-1} and \code{+1} entries (half of each). 
@@ -26,7 +27,13 @@ for the main effects model are orthogonal to each other and to the column for th
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ ~~See Also \code{FrF2}, \code{\link{fac.design}}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See Also \code{\link[stats]{contrasts}}, \code{FrF2}, \code{\link{fac.design}}, \code{\link{oa.design}}, \code{pb} }
+\examples{
+## assign contr.FrF2 contrasts to a factor
+status <- as.factor(rep(c("current","new"),4))
+contrasts(status) <- DoE.base:::contr.FrF2(2)
+contrasts(status)
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ array }
