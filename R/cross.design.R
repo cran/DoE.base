@@ -56,14 +56,20 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
         }
     else{
         di1 <- design.info(design1)
-        if (di1$type=="FrF2.blocked") stop("crossing blocked designs is not supported")
+        if (di1$type %in% c("FrF2.blocked", "FrF2.splitplot", "crossed", "FrF2.param", "param") | length(grep("folded",di1$type))>0) 
+              stop("crossing blocked designs, splitplot designs, folded designs, crossed designs or parameter designs is not supported")
+        if (!is.null(di1$format)) stop("crossing wide format designs is not supported")
+        if (!is.null(di1$response.names)) stop("crossing designs with responses is not supported")
         ro1 <- run.order(design1)
         if (di1$repeat.only) stop("only last design can have repeat.only replications")
         des1 <- undesign(design1)
         desn1 <- desnum(design1)
     if ("design" %in% class(design2)){
         di2 <- design.info(design2)
-        if (any(di2$type=="FrF2.blocked")) stop("crossing blocked designs is not supported")
+        if (any(di2$type %in% c("FrF2.blocked", "FrF2.splitplot", "crossed", "FrF2.param", "param")) | length(grep("folded",di2$type))>0) 
+              stop("crossing blocked designs, splitplot designs, folded designs, crossed designs or parameter designs is not supported")
+        if (!is.null(di2$format)) stop("crossing wide format designs is not supported")
+        if (!is.null(di2$response.names)) stop("crossing designs with responses is not supported")
         ro2 <- run.order(design2)
         des2 <- undesign(design2)
         desn2 <- desnum(design2)
@@ -118,17 +124,8 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
     
     ## create reasonable content for design.info
     ## accomodate randomize and replications
-    
     ## function for combining design info from two designs
     cc <- function(d1,d2){
-         if (is.list(d1) & is.list(d2)) return(list(d1,d2))
-         if (is.list(d1) & !is.list(d2)) return(c(d1,list(d2)))
-         if (is.list(d2) & !is.list(d1)) return(c(list(d1),d2))
-         if (!(is.list(d1) | is.list(d2))) return(c(d1,d2))
-         }
-    ## different for seed because seed can be NULL in some or all designs, 
-    ## and c does not leave a position for NULL
-    cc.seed <- function(d1,d2){
          if (is.list(d1) & is.list(d2)) return(list(d1,d2))
          if (is.list(d1) & !is.list(d2)) return(c(d1,list(d2)))
          if (is.list(d2) & !is.list(d1)) return(c(list(d1),d2))
@@ -140,28 +137,34 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
          if (is.list(d2) & !is.list(d1)) return(list(list(d1),d2))
          if (!(is.list(d1) | is.list(d2))) return(list(list(d1),list(d2)))
          }
+    cc.quan <- function(d1,d2){
+         if (is.null(d1)) d1 <- rep(NA, di1$nfactors)
+         if (is.null(d2)) d2 <- rep(NA, di2$nfactors)
+         return(c(d1, d2))
+         }
     di <- vector("list") ## empty list
     
     for (nn in union(names(di1), names(di2))){
-         if (nn=="seed") di[[nn]] <- cc.seed(di1[[nn]],di2[[nn]])
+         if (nn=="quantitative") di[[nn]] <- cc.quan(di1[[nn]],di2[[nn]])
          if (nn=="aliased") di[[nn]] <- cc.alias(di1[[nn]],di2[[nn]])
-         if (!nn %in% c("seed","aliased"))
+         if (!nn %in% c("quantitative","aliased"))
             di[[nn]] <- cc(di1[[nn]],di2[[nn]])
       }
     
-    ## manually combine infos that otherwise do not work properly both interim and finally
+    ## manually combine infos that is requested to be correct for interim 
+    ## processing of recursive procedure (otherwise assignment of design.info throws error)
     di$factor.names <- c(factor.names(design1),factor.names(design2))
     if (!is.list(di$selected.columns)) 
         di$selected.columns <- list(di1$selected.columns ,di2$selected.columns )
-    if (is.null(di$cross.nruns)) di$cross.nruns <- di$nruns
+    if (is.null(di$cross.nruns)) di$cross.nruns <- unlist(di$nruns)
        else di$cross.nruns <- c(di1$nruns, di$cross.nruns)
-    di$nruns <- prod(di$nruns)
-    if (is.null(di$cross.replications)) di$cross.replications <- di$replications
+    di$nruns <- prod(unlist(di$nruns))
+    if (is.null(di$cross.replications)) di$cross.replications <- unlist(di$replications)
        else di$cross.replications <- c(di1$replications, di$cross.replications)
-    di$replications <- prod(di$replications)
+    di$replications <- prod(unlist(di$replications))
 
     design.info(D) <- di
-    if (any(di$repeat.only) & di$replications>di2$replications) 
+    if (any(unlist(di$repeat.only)) & di$replications>di2$replications) 
         warning("repeat.only replications and proper replications mixed in one crossed design, this does not work with any post-processing!")
        }
     D
@@ -173,28 +176,76 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
     
     ## postprocessing for designs
     di <- design.info(D)
+       ## has valid lists for many entries
+       ## has list with always only 2 elements for nruns and replications
     
     ## modify design info
     
-    ## still missing: adaptation of things like alias information!
-    di$cross.nfactors <- di$nfactors
-    di$nfactors <- sum(di$nfactors)
-    di$cross.types <- di$type
+    ## mandatory entries
+        ## nruns and replications treated inside the workhorse function already
+    di$cross.nruns <- unlist(di$cross.nruns)
+    di$cross.replications <- unlist(di$cross.replications)
+    di$cross.nfactors <- unlist(di$nfactors)
+    di$nfactors <- sum(di$cross.nfactors)
+    di$cross.types <- unlist(di$type)
     di$type <- "crossed"
-    di$cross.randomize <- di$randomize
+    di$cross.randomize <- unlist(di$randomize)
     di$cross.seed <- di$seed
     di$randomize <- randomize
     di$seed <- seed
-    if (all(sapply(di$selected.columns, "is.null"))) di$selected.columns <- NULL
-    di$cross.selected.columns <- di$selected.columns
-    di$selected.columns <- NULL
     if (is.null(di$seed)) di["seed"] <- list(NULL)
     di$creator <- list(original=di$creator, modify=creator)
-    di$cross.repeat.only <- di$repeat.only
+    di$cross.repeat.only <- unlist(di$repeat.only)
     di$repeat.only <- any(di$cross.repeat.only)
+
+    ## character string entries that may or may not be filled
+    unliststr <- function(obj) if (is.null(obj)) "" else obj
+    di$origin <- sapply(di$origin, "unliststr")
+    if (all(di$origin=="")) di$origin <- NULL
+    di$comment <- sapply(di$comment, "unliststr")
+    if (all(di$comment=="")) di$comment <- NULL
+    di$generating.oa <- sapply(di$generating.oa, "unliststr")
+    if (all(di$generating.oa=="")) di$generating.oa <- NULL
+    di$format <- sapply(di$format, "unliststr")
+    if (all(di$format=="")) di$format <- NULL
+    
+    ## integer or logical entries that may or may not be filled
+    unlistnumlog <- function(obj, replace=NA) if (is.null(obj)) replace else obj
+    if (is.null(unlist(di$clear))) di$clear <- NULL else 
+          di$clear <- sapply(di$clear, "unlistnumlog")
+    if (is.null(unlist(di$res3))) di$res3 <- NULL else 
+          di$res3 <- sapply(di$res3, "unlistnumlog")
+    if (is.null(unlist(di$ncube))) di$ncube <- NULL else 
+          di$ncube <- sapply(di$ncube, "unlistnumlog")
+    if (is.null(unlist(di$ncenter))) di$ncenter <- NULL else 
+          di$ncenter <- sapply(di$ncenter, "unlistnumlog")
+    if (is.null(unlist(di$residual.df))) di$residual.df <- NULL else 
+          di$residual.df <- sapply(di$residual.df, "unlistnumlog")
+       
+
+    ## vector or list entries that may or may not be filled
+        ## selected.columns treated inside function already    
+    if (is.null(unlist(di$selected.columns))) di$selected.columns <- NULL
+        di$cross.selected.columns <- di$selected.columns
+        di$selected.columns <- NULL
+    if (is.null(unlist(di$map))) di$map <- NULL
+        di$cross.map <- di$map
+        di$map <- NULL
+    if (is.null(unlist(di$nlevels))) di$nlevels <- NULL 
+       di$cross.nlevels <- di$nlevels
+       if (!any(sapply(di$nlevels,"is.null"))) di$nlevels <- unlist(di$nlevels)
+          else di$nlevels <- NULL
+    
+    if (is.null(unlist(di$aliased))) di$aliased <- NULL
+    if (is.null(unlist(di$generators))) di$generators <- NULL
+    if (is.null(unlist(di$catlg.entry))) di$catlg.entry <- NULL
+
+    
     ## postprocess alias list, if exists
     if (!is.null(di$aliased)){
           dia <- di$aliased
+          ## postprocess generators, if exist
+              dig <- di$generators   ## may be NULL
           if (di$nfactors<=50){ 
                     nam <- Letters[1:di$nfactors]
                     sepchar <- ""
@@ -213,12 +264,12 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
                     namalt <- paste("F",1:di$cross.nfactors[i],sep="")
                     sepcharalt <- ":"
                     }
-             ## replace backward so that overlap between namalt and nam 
-             ## is not problematic (namalt>=nam)
              if (i>1)
              nami <- nam[(1:di$cross.nfactors[i])+sum(di$cross.nfactors[1:(i-1)])]
              else nami <- nam[1:di$cross.nfactors[1]]
              if (!all(namalt==nami)){
+             ## replace backward so that overlap between namalt and nam 
+             ## is not problematic (namalt>=nam)
              for (j in length(namalt):1){ 
                  ## identical sepchar
                  if (sepcharalt==":" | sepchar==""){
@@ -244,6 +295,14 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
                             paste(nami[j],"\\1",sep=""),dia[[i]][["fi3"]])
                         dia[[i]][["fi3"]] <- gsub(paste(namalt[j],"$",sep=""), nami[j],dia[[i]][["fi3"]])
                         }
+                    ## dig, if not null
+                    if (!is.null(dig[[i]])){
+                      ## factor before equal or next factor
+                      dig[[i]] <- gsub(paste(namalt[j],"([=",sepcharalt,"[:alpha:]]{1})",sep=""),
+                              paste(nami[j],"\\1",sep=""),dig[[i]])
+                      ## last factor
+                      dig[[i]] <- sub(paste(namalt[j],"$",sep=""), nami[j], dig[[i]])
+                    }
                     }
                  else{
                     ## sepcharalt "" and sepchar ":"
@@ -267,12 +326,24 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
                     dia[[i]][["fi3"]] <- gsub(paste(namalt[j],"([[:alpha:]{1}])",sep=""),paste(nami[j],sepchar,"\\1",sep=""),dia[[i]][["fi3"]])
                     dia[[i]][["fi3"]] <- sub(paste(namalt[j],"$",sep=""),nami[j],dia[[i]][["fi3"]])
                     }
+                    if (!is.null(dig[[i]])){
+                      ## factor before equal or next factor
+                      dig[[i]] <- sub(paste("^",namalt[j],sep=""),paste(nami[j],sep=""),dig[[i]])
+                      ## last factor
+                      dig[[i]] <- gsub(paste("=",namalt[j],sep=""),paste("=",nami[j],sepchar,sep=""),dig[[i]])
+                      dig[[i]] <- gsub(paste(namalt[j],"=",sep=""),paste(nami[j],"=",sep=""),dig[[i]])
+                      dig[[i]] <- gsub(paste(namalt[j],"([[:alpha:]{1}])",sep=""),paste(nami[j],sepchar,"\\1",sep=""),dig[[i]])
+                      dig[[i]] <- gsub(paste(namalt[j],"$",sep=""),nami[j],dig[[i]])
+                    }
                     }
                     
          }
         }}}
          di$aliased <- dia 
+         di$generators <- dig
         }
+    
+    
     design.info(D) <- di
     ## now randomize if requested
     if (randomize){ 

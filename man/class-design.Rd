@@ -38,10 +38,7 @@ factor.names(design)
 response.names(design)
 `response.names<-`(design, value)
 \method{[}{design}(x, i, j, drop.attr = TRUE, drop = FALSE)
-\method{print}{design}(x, show.order=design.info(x)$type \%in\% 
-       c("FrF2.blocked", "FrF2.splitplot", "crossed", 
-         "paramwide", "FrF2.paramwide", "param", "FrF2.param")  | 
-       design.info(x)$replications>1, ...)
+\method{print}{design}(x, show.order=NULL, ...)
 \method{summary}{design}(object, ...)
 ord(matrix, decreasing=FALSE)
 }
@@ -68,8 +65,8 @@ ord(matrix, decreasing=FALSE)
        otherwise, the design attributes are adjusted to reflect the subsetting result}
   \item{drop}{ logical that controls dropping of dimensions in the Extract function for 
        data.frame objects, which is called by the method for class design}
-  \item{show.order}{ logical; if TRUE, the design is printed with run order information; 
-        default is TRUE for design types for which this information is helpful, FALSE otherwise }
+  \item{show.order}{ NULL or logical; if TRUE, the design is printed with run order information; 
+        default is TRUE for design types for which this information is helpful (see code for detail), FALSE otherwise }
   \item{\dots}{ further arguments to functions \code{print} or \code{summary}  }
   \item{object}{ data frame of S3 class \code{design}, like argument \code{design} }
   \item{matrix}{matrix, data frame or also object of class design that is to be ordered column by column}
@@ -111,7 +108,8 @@ ord(matrix, decreasing=FALSE)
     package \pkg{RcmdrPlugin.DoE} that led to creation of the design.}
     }
     
-    For some design types, notably designs of types starting with \dQuote{FrF2}, 
+    For some design types, notably designs of types starting with \dQuote{FrF2} and 
+    designs that have been created by combining other designs, 
     there can be substantial additional information available from the \code{design.info} 
     attribute in specialized situations. Detailed information on the structure of \code{design.info} 
     can be found in the value sections of the respective functions.

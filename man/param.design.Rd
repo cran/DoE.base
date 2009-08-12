@@ -35,8 +35,8 @@ paramtowide(design, constant=NULL, ...)
                 for each specified name is generated 
                 }
   \item{design}{ parameter design in long format (created by function \code{param.design}) }
-  \item{constant}{ character vector giving names of variables in addition to 
-                experimental factors of inner array that are constant over 
+  \item{constant}{ character vector giving names of variables in addition to the 
+                experimental factors of the inner array that are constant over 
                 outer array runs for each inner array run}
   \item{\dots}{ currently not used }
 }
@@ -61,30 +61,31 @@ paramtowide(design, constant=NULL, ...)
   done using function \code{\link{cross.design}} directly (cf. example there). 
 }
 \value{
-  A data frame of class \code{\link{design}} with type \dQuote{param},
-  \dQuote{paramwide}, \dQuote{FrF2.param} or \dQuote{FrF2.paramwide} and 
+  A data frame of class \code{\link{design}} with type \dQuote{param} or 
+  \dQuote{FrF2.param} for long version inner/outer array designs, and 
+  type of the inner array suffixed with \dQuote{.paramwide} for wide version 
+  inner/outer array designs. The \code{design.info} attribute of such designs has 
   the following extraordinary elements:\cr
-  In long format, there are the same elements as for type \code{crossed} from 
-  function \code{\link{cross.design}}.: 
-  \item{cross.nruns}{vector of run numbers of individual designs}
-  \item{cross.nfactors}{vector of numbers of factors of individual designs}
-  \item{cross.types}{vector of types of individual designs}
-  \item{cross.randomize}{vector of logicals (randomized or not) of individual desigs}
-  \item{cross.seed}{vector of seeds of individual designs}
-  \item{cross.replications}{vector of numbers of replications of individual designs}
-  \item{cross.repeat.only}{vector of logicals (repeat.only or not) of individual designs}
-  \item{cross.selected.columns}{NULL (if no oa type design) or list of column vectors for each design}
-  \item{cross.creator}{list of creator components for each design}
-
-  Some of the standard elements are 2-element lists or vectors (e.g. \code{creator}).
   
-  In wide format, the elements \code{cross.nruns} and \code{cross.nfactors} are unavailable. 
-  instead, there are the additional elements \code{format} with value \dQuote{innerouterWide}, 
-    \code{responselist} and, if there are variables that are neither experimental 
-    factors nor responses, \code{restlist} for those of these that do change 
-    with repeated measurements. 
+  In long format, there are the same elements as for type \code{crossed} from 
+  function \code{\link{cross.design}}, and the additional elements 
+  \code{inner} and \code{outer} that give the names of the inner and outer array 
+  variables. 
+  
+  In wide format, the \code{design.info} information refers to the inner array, 
+  the elements \code{cross... something} are no longer available (except for \code{cross.types}), 
+  and the element \code{outer} contains the outer array design the rows of which 
+  correspond to the response columns. The additional element \code{format} with value 
+  \dQuote{innerouterWide} indicates the wide format (introduced for analogy to wide 
+  repeated measures designs), and \code{responselist} shows the responses and their 
+  respective columns in support of subsequent aggregation. Finally, 
+  if there are variables that are neither experimental factors nor responses and 
+  change within one run of the inner array, these are listed in \code{restlist}. 
 }
-\references{ ~put references to the literature/web site here ~ }
+\references{
+NIST/SEMATECH e-Handbook of Statistical Methods, Section 5.5.6 (What are Taguchi Designs?), 
+accessed August 11, 2009. \url{http://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm}
+}
 \author{ Ulrike Groemping }
 \note{ This function is still experimental.
 }

@@ -1,13 +1,18 @@
-print.design <- function(x,show.order=design.info(x)$type %in% c("FrF2.blocked", "FrF2.splitplot", "crossed", "paramwide","FrF2.paramwide","param","FrF2.param") | design.info(x)$replications>1, ...){
+print.design <- function(x,show.order=NULL, ...){
+   if (!"design" %in% class(x)) stop("this function works for class design objects only")
+   di <- design.info(x)
+   if (is.null(show.order)) 
+       show.order <- di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "FrF2.splitplot", "FrF2.splitplot.folded", "crossed") | 
+           length(grep("param",di$type))>0 | di$replications>1
    if (show.order)
    print(cbind(run.order(x)[,2:3],x), ...)
    else 
    print(cbind(x), ...)
-   message("class=design, type=", design.info(x)$type)
+   message("class=design, type=", di$type)
    if (show.order) message("NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame")
-   if (length(grep("param",design.info(x)$type))>0 & length(grep("wide",design.info(x)$type))>0 ){
+   if (length(grep("param",di$type))>0 & length(grep("wide",di$type))>0 ){
       message("Outer array:")
-      print(design.info(x)$outer, ...)
+      print(di$outer, ...)
       }
 }
 
@@ -58,7 +63,8 @@ summary.design <- function(object,...){
    print(pfn,...)
    if (!is.null(response.names(object))){
        message("\nResponses:")
-       print(response.names(object),...)
+       if (is.null(di$responselist)) print(response.names(object),...)
+       else print(di$responselist)
    } 
    if (length(grep("param",design.info(object)$type))>0 & length(grep("wide",design.info(object)$type))>0 ){
       message("\nOuter array:")

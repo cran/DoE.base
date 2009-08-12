@@ -31,7 +31,8 @@ oa
         \code{ID} must be of class \code{oa}.
         If omitted, ID is automatically determined based on \code{nlevels} 
         or \code{factor.names}. }
-  \item{nruns}{ number of runs, can be omitted if obvious from \code{ID} or if 
+  \item{nruns}{ minimum number of runs to be used, 
+        can be omitted if obvious from \code{ID} or if 
         the smallest possible array is to be found }
   \item{nfactors}{ number of factors; 
         only needed if \code{nlevels} is a single number and 
