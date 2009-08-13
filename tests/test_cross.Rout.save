@@ -2408,6 +2408,12 @@ $cross.seed[[3]]
 NULL
 
 
+$seed
+NULL
+
+$cross.repeat.only
+[1] FALSE FALSE FALSE
+
 $cross.selected.columns
 $cross.selected.columns[[1]]
 [1] 1 3 2
@@ -2419,11 +2425,16 @@ $cross.selected.columns[[3]]
 [1] 1 2 3
 
 
-$seed
-NULL
+$cross.nlevels
+$cross.nlevels[[1]]
+[1] 2 6 2
 
-$cross.repeat.only
-[1] FALSE FALSE FALSE
+$cross.nlevels[[2]]
+[1] 2 2 2
+
+$cross.nlevels[[3]]
+[1] 2 2 2
+
 
 > factor.names(cross2) <- Letters[1:design.info(cross2)$nfactors]
 > summary.data.frame(cross2)
@@ -2453,7 +2464,7 @@ In param.design(oa12, oa4, direction = "wide") :
 10     10            10     2      1     2  NA  NA  NA  NA
 11     11            11     2      3     2  NA  NA  NA  NA
 12     12            12     2      5     2  NA  NA  NA  NA
-class=design, type=paramwide
+class=design, type=oa.paramwide
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 Outer array:
   D E F
@@ -2462,7 +2473,7 @@ Outer array:
 3 2 1 2
 4 2 2 1
 > summary(param1)
-Experimental design of type paramwide
+Experimental design of type oa.paramwide
 12 runs
 
 Factor settings:
@@ -2475,7 +2486,11 @@ Factor settings:
 6            6      
 
 Responses:
-[1] "y.1" "y.2" "y.3" "y.4"
+    y
+1 y.1
+2 y.2
+3 y.3
+4 y.4
 
 Outer array:
   D E F

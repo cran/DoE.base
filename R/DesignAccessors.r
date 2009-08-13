@@ -210,7 +210,7 @@ design.info <- function(design){
      if (!is.list(value)) stop("value for design.info must be a list")
      if (!value$nruns*value$replications==nrow(design)){
          if (is.null(value$wbreps)) stop("mismatch between content of value and number of rows in design")
-         else if(!value$nruns*value$replications*value$wbreps==nrow(design)) 
+         else if(!value$nruns*value$bbreps*value$wbreps==nrow(design)) 
                stop("mismatch between content of value and number of rows in design")}
      if (!all(c("type","nruns","nfactors","factor.names","replications", "randomize","seed", "repeat.only", "creator") %in% names(value))) 
          stop("value does not contain all necessary elements")

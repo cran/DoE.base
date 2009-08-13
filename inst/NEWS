@@ -3,11 +3,39 @@ Changes to package DoE.base
 This package is under development. Although substantial progress has been made, 
 many parts are still considered experimental. Suggestions and bug reports are very welcome. 
 
-Most important next steps include 
-- extension of available orthogonal arrays for function oa.design
+Most immiment next steps for this package:
+- extension of available orthogonal arrays for function oa.design 
 - data aggregation functions for designs with repeat.only replications and for 
   parameter designs (=innner/outer array designs)
-- automatic creation of formulae for default analyses (will presumably take longest)
+- automatic creation of formulae for some default analyses (will presumably take longest)
+
+12/08/2009, Version 0.6-1
+- added further design types to designs for which run.order is displayed
+  (for upcoming version of FrF2)
+- bugfix: function design.info refused to assign correct design info element 
+  to blocked designs
+
+11/08/2009, Version 0.6
+- further restricted the designs to be treatable by function cross.design 
+  (splitplot and combined designs excluded, wide version designs excluded, 
+  designs with response.names excluded);
+  this should not limit reasonable use much and greatly reduces the number 
+  of cases to be distinguished
+- improved the design.info content for designs output by function cross.design, 
+  particularly the generators element (in case of FrF2.generator designs), but also 
+  for the elements generating.oa, origin, residual.df, clear, res3, map, nlevels 
+  (the last two are set to NULL and replaced by elements cross.map and cross.nlevels 
+  respectively)
+- modified the type of designs output by function paramtowide to be the type of the 
+  inner array design suffixed by .paramwide
+- modified the design.info for wide parameter designs to refer to the inner array 
+  only (the outer array is usually the noise array that is aggregated over in various 
+  ways for analysis purposes)
+- modified summary.design (printing of response for wide format designs) 
+- added function qua.design for switching between quantitative and qualitative factors 
+  and choosing contrasts for qualitative factors (limited freedom of choice for contrasts!)
+- documentation bug fix: nruns in oa.design gives the *minimum* number of runs
+
 
 31/07/2009 Version 0.5
 - changed R version to R-2.8.0 or newer (extractor for class design does not work 

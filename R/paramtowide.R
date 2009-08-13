@@ -34,11 +34,12 @@ paramtowide <- function(design, constant=NULL, ...){
     ## bring back into class design 
     ## adjust replication info and response names
     ## provide additional design.info for reshaping back to long
+    ## for the moment decided to disable switching back to long
         rnlong <- di$response.names
         restlong <- setdiff(colnames(hilf),c(fn, rnlong, constant, "run.no", "run.no.outer"))
         di$response.names <- c(t(outer(rnlong, attr(aus,"reshapeWide")$times, paste, sep=".")))
         di$format <- "innerouterWide"
-        di$type <- paste(di$type,"wide",sep="")
+        di$type <- paste(di$cross.types[[1]],".paramwide",sep="")
         di$responselist <- as.data.frame(t(outer(rnlong, attr(aus,"reshapeWide")$times, paste, sep=".")),
                stringsAsFactors = FALSE)
         colnames(di$responselist) <- rnlong
@@ -71,12 +72,51 @@ paramtowide <- function(design, constant=NULL, ...){
     class(aus) <- c("design", class(aus))
     desnum(aus) <- desnum
     run.order(aus) <- ro
+    
+    ## treat design info
+
+    ## mandatory elements
     di$nruns <- di$cross.nruns[1]
-    di$outer <- des.outer
     di$cross.nruns <- NULL
-    di$factor.names <- di$factor.names[1:di$cross.nfactors[1]]
     di$nfactors <- di$cross.nfactors[1]
-    di$cross.nfactors <- NULL
+    di$factor.names <- di$factor.names[1:di$nfactors]
+    di$replications <- di$cross.replications[1]
+    di$repeat.only <- di$cross.repeat.only[1]
+    di$randomize <- di$cross.randomize[1]
+    di$seed <- di$cross.seed[1]
+    di$outer <- des.outer
+    di$inner <- NULL
+    di$cross.randomize <- NULL
+    di$cross.seed <- NULL
+    di$cross.repeat.only <- NULL
+    di$cross.replications <- NULL
+    ## elements not always present
+    di$aliased <- di$aliased[[1]]
+    di$generators <- di$generators[[1]]
+    di$catlg.entry <- di$catlg.entry[[1]]
+    di$map <- di$cross.map[[1]]
+    di$cross.map <- NULL
+    di$clear <- di$clear[1]
+      if (!is.null(di$clear)) if (is.na(di$clear)) di$clear <- NULL
+    di$res3 <- di$res3[1]
+      if (!is.null(di$res3)) if (is.na(di$res3)) di$res3 <- NULL
+    di$nlevels <- di$cross.nlevels[[1]]
+    di$cross.nlevels <- NULL
+    di$selected.columns <- di$selected.columns[[1]]
+    di$selected.columns <- NULL
+    di$generating.oa <- di$generating.oa[1]
+       if (identical(di$generating.oa,"")) di$generating.oa <- NULL
+    di$origin <- di$origin[1]
+       if (identical(di$origin,"")) di$origin <- NULL
+    di$comment <- di$comment[1]
+       if (identical(di$comment,"")) di$comment <- NULL
+    di$residual.df <- di$residual.df[1]
+        if (!is.null(di$residual.df)) if (is.na(di$residual.df)) di$residual.df <- NULL
+    di$quantitative <- di$quantitative[1:di$nfactors]
+    di$ncube <- di$ncube[1]
+        if (!is.null(di$ncube)) if (is.na(di$ncube)) di$ncube <- NULL
+    di$ncenter <- di$ncenter[1]
+        if (!is.null(di$ncenter)) if (is.na(di$ncenter)) di$ncenter <- NULL
     design.info(aus) <- di
     aus
  }
