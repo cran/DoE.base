@@ -9,6 +9,20 @@ Most immiment next steps for this package:
   parameter designs (=innner/outer array designs)
 - automatic creation of formulae for some default analyses (will presumably take longest)
 
+24/08/09, Version 0.8
+- updated qua.design to also be able to make quantitative designs qualitative (except lhs designs), 
+  fixed several bugs in qua.design, added a test file, and tidied the code
+- made functions fac.design and oa.design tolerate factor.names to be an unnamed list
+- bug fix: plot.design did not work, if design.info had a quantitative element with all entries NA
+- removed bug for add.response, if some but not all response values are NA and replace=FALSE
+Thanks to Matthias Burger for initiating the following improvements:
+- exported function origin and added a usage example (was unintentionally internal before)
+- eliminated instances of partial argument matching in function html.data.frame
+- use functions comment and comment<- from package base and do not define special function here
+- fixed installation note regarding global binding of result
+- improved markup in Rd files
+
+
 17/08/2009, Version 0.7
 - added function plot.design for allowing to deviate from plot.design 
   in package graphics as appropriate

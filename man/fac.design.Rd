@@ -15,7 +15,12 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                   can be omitted, if obvious from \code{factor.names} }
   \item{nfactors}{ number of factors, can be omitted if obvious from entries \code{nlevels} or \code{factor.names} }
   \item{factor.names}{ if \code{nlevels} is given, \code{factor.names} can be a character vector of factor names. 
-        Otherwise it must be a named list of vectors with factor levels. If both \code{nlevels} and factor.names are 
+        In this case, default factor levels are the numbers from 1 to the number of levels for each factor.\cr
+        Otherwise it must be a list of vectors with factor levels. 
+        If the list is named, list names represent factor names, otherwise default factor names are used.
+        Default factor names are the first elements of the character vector \code{\link{Letters}}, 
+        or the factors position numbers preceded by capital F in case of more than 50 factors.
+        If both \code{nlevels} and factor.names are 
         given, they must be compatible.}
   \item{replications}{ positive integer number. Default 1 (i.e. each row just once). 
        If larger, each design run is executed replication times. 
@@ -31,12 +36,12 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
        more likely suitable for usage as error variance 
        (unless e.g. the same parts are used for replication runs although build 
        variation is important).}
-  \item{repeat.only}{ logical, relevant only if replications > 1. If TRUE, 
+  \item{repeat.only}{ logical, relevant only if replications > 1. If \code{TRUE}, 
         replications of each run are grouped together 
        (repeated measurement rather than true replication). The default is 
        \code{repeat.only=FALSE}, i.e. the complete experiment 
        is conducted in \code{replications} blocks, and each run occurs in each block.  }
-  \item{randomize}{ logical. If TRUE, the design is randomized. This is the default. 
+  \item{randomize}{ logical. If \code{TRUE}, the design is randomized. This is the default. 
        In case of replications, the nature of randomization depends on the setting of 
        option \code{repeat.only}.}
   \item{seed}{ optional seed for the randomization process }
@@ -67,7 +72,7 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}} } 
 \examples{
   ## only specify level combination 
   fac.design(nlevels=c(4,3,3,2))

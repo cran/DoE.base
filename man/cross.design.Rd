@@ -38,14 +38,14 @@ cross.design(design1, design2, ..., randomize = TRUE, seed=NULL)
 
   If replications are desired, it is recommended to accomodate them in the last 
   design. Only the last design may have \code{repeat.only} replications. If the 
-  last design has repeat.only replications and there are also proper replications 
-  in earlier designs, a warning is thrown, but the repeat.only replications are 
+  last design has \code{repeat.only} replications and there are also proper replications 
+  in earlier designs, a warning is thrown, but the \code{repeat.only} replications are 
   nevertheless accomodated; this is experimental and may not yield the expected 
   results under all circumstances.
 }
 \value{
   Function \code{cross.design} returns a simple data frame without design 
-  information, if design1 is not of class \code{design}.
+  information, if \code{design1} is not of class \code{design}.
 
   Otherwise, the value is a data frame of class \code{\link{design}} 
   with type \dQuote{crossed} and the following extraordinary elements: 
@@ -57,7 +57,7 @@ cross.design(design1, design2, ..., randomize = TRUE, seed=NULL)
   \item{cross.replications}{vector of numbers of replications of individual designs}
   \item{cross.repeat.only}{vector of logicals (repeat.only or not) of individual designs}
   \item{cross.map}{list with the map vectors for component designs of type \code{FrF2.estimable} }
-  \item{cross.selected.columns}{NULL (if no oa type design) or list of column vectors for each design}
+  \item{cross.selected.columns}{\code{NULL} (if no \code{oa} type design) or list of column vectors for each design}
   \item{cross.nlevels}{list with the \code{nlevels} vectors for those component designs that have them}
 
   The standard elements are as usual, with \code{randomize} and \code{seed} referring to 

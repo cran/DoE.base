@@ -42,7 +42,8 @@ html(object, ...)
         some additional legend information and row color formatting.}
   \item{OutDec}{ decimal separator for the output file; one of \code{"."} or \code{","}; 
         the default is the option setting in the R options; this option also directs  
-        whether \code{write.csv} or \code{write.csv2} is used and is very important for 
+        whether \code{\link[utils:write.table]{write.csv}} or 
+        \code{\link[utils:write.table]{write.csv2}} is used and is very important for 
         usability of the exported files e.g. with Excel}
   \item{replace}{ logical indicating whether an existing file should be replaced; 
         if FALSE (default), the routine aborts without any action if one of the 
@@ -76,6 +77,8 @@ html(object, ...)
    Generation of the html-file is particularly important for Taguchi inner/outer array designs 
    in wide format, because it provides the legend to the suffix numbers of response columns in terms of 
    outer array experimental setups!
+   
+   The function \code{html} and its data frame method are internal.
 }
 \value{The functions are used for their side effects and do not generate a result.
 }
@@ -84,7 +87,7 @@ html(object, ...)
 }
 \author{ Ulrike Groemping; the html functions have been adapted from package Hmisc }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ ~~See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See also \code{\link[FrF2]{FrF2-package}}, \code{\link[DoE.wrapper]{DoE.wrapper-package}} }
 \examples{
   ## six 2-level factors
   test <- oa.design(nlevels=c(2,3,3,3))

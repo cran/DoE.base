@@ -53,6 +53,15 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                 stop("If ID and nlevels are not given, factor.names must contain level entries for at least two levels for each factors.")
           }
           ## now nlevels is known and is a vector longer than 1
+
+          if (is.list(factor.names)){ 
+                    if (!(all(nlevels==sapply(factor.names,length) | sapply(factor.names,length)==1)))
+                          stop("Entries in nlevels do not match entries in factor.names.") 
+            if (is.null(names(factor.names))){ 
+                    if (nfactors<=50) names(factor.names) <- Letters[1:nfactors] 
+                       else names(factor.names) <- paste("F",1:nfactors,sep="")
+                           }}
+
           if (!is.null(nfactors)){ 
                if (!nfactors==length(nlevels)) 
                     stop("mismatch between nfactors and nlevels or factor.names")
@@ -280,7 +289,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
            if (repeat.only) orig.no.rp <- paste(orig.no.rp,rep(1:replications,nruns),sep=".")
            else orig.no.rp <- paste(orig.no.rp,rep(1:replications,each=nruns),sep=".")
        }
-      desmat <- model.matrix(1:nrow(aus)~.,data=aus)[,-1,drop=FALSE]
+      desmat <- model.matrix(~.,data=aus)[,-1,drop=FALSE]
       rownames(aus) <- rownames(desmat) <- 1:nrow(aus)
 
       attr(aus,"desnum") <- desmat

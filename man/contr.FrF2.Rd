@@ -27,7 +27,8 @@ for the main effects model are orthogonal to each other and to the column for th
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ See Also \code{\link[stats]{contrasts}}, \code{FrF2}, \code{\link{fac.design}}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See Also \code{\link[stats]{contrasts}}, \code{\link[FrF2]{FrF2}}, 
+      \code{\link{fac.design}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}} }
 \examples{
 ## assign contr.FrF2 contrasts to a factor
 status <- as.factor(rep(c("current","new"),4))

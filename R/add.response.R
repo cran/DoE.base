@@ -82,7 +82,7 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
        ## now gleich contains the new names that are already in the design
     gleich <- intersect(colnames(design),respnam)
     if (length(gleich) > 0 & !replace){
-        if (!(all(is.na(as.matrix(design[,gleich]))) | all(design[,gleich]==response[,gleich])))
+        if (!(all(is.na(as.matrix(design[,gleich]))) | identical(design[,gleich],response[,gleich])))
            stop("response variables ", paste(gleich, sep=", "), " already exist in the design with partly different values!")
         }
     design[,respnam] <- response[,respnam]

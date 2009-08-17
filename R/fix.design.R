@@ -3,6 +3,7 @@ fix.design <- function(x,..., prompt=FALSE){
     ##    add response names element to design.info
     ##    bugfix prompt
     pickresps <- function (varliste){
+        result <- NULL
         ## functions internal in the prompt function
         getSelection <- function(object) varliste[as.numeric(tkcurselection(yBox)) + 1]
         onOK <- function(){

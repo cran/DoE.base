@@ -10,7 +10,7 @@ plot.design <- function(x, y=NULL, ...){
              di <- design.info(x)
              graphics <- FALSE
              table <- FALSE
-             if (is.null(di$quantitative)){
+             if (is.null(di$quantitative) | all(is.na(di$quantitative))){
                  if(!(is.null(y) & is.null(di$response.names))) graphics <- TRUE
                  else table <- TRUE
              }

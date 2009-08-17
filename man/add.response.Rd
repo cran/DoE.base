@@ -32,10 +32,10 @@ add.response(design, response, rdapath=NULL, replace = FALSE,
       cf. also the details section}
   \item{InDec}{ decimal separator in the external csv file; defaults to the 
       \code{OutDec} option (viewable under \code{options("OutDec"}), 
-      and also governs whether the \code{csv}-file is read with \code{\link[utils]{read.csv}} or with 
-      \code{\link[utils]{read.csv}}: 
-      separator semicolon goes with decimal comma and triggers use of \code{\link{read.csv2}}, 
-      separator comma goes with decimal point and trigggers use of \code{\link{read.csv}}. )}
+      and also governs whether the \code{csv}-file is read with \code{\link[utils:read.table]{read.csv}} or with 
+      \code{\link[utils:read.table]{read.csv}}: 
+      separator semicolon goes with decimal comma and triggers use of \code{\link[utils:read.table]{read.csv2}}, 
+      separator comma goes with decimal point and trigggers use of \code{\link[utils:read.table]{read.csv}}. )}
   \item{\dots}{further arguments; currently not used}
 }
 \details{

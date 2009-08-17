@@ -677,10 +677,10 @@ L144.4.36.36.1
    The design names also indicate the number of runs and the numbers of factors: 
    The first portion of each array name (starting with L) indicates number of runs, 
    each subsequent pair of numbers indicates a number of levels together with the frequency with which it occurs.
-   For example, L18.2.1.3.7 is an 18 run design with one factor with 
+   For example, \code{L18.2.1.3.7} is an 18 run design with one factor with 
    2 levels and seven factors with 3 levels each. 
    
-   Apart from L18 and L36 (Taguchi, but also in the collection under different names), 
+   Apart from \code{L18} and \code{L36} (Taguchi, but also in the collection under different names), 
    the source for the arrays is Warren Kuhfelds 
    collection of \dQuote{parent} arrays. 
    It is possible to combine these with each other, or 
@@ -699,7 +699,7 @@ L144.4.36.36.1
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ See also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}} }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 % keyword internal is supposed to hide this help file from the index but does not. Why???

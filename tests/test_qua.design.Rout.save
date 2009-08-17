@@ -1,0 +1,309 @@
+
+R version 2.9.1 Patched (2009-07-22 r48993)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> require(DoE.base)
+Loading required package: DoE.base
+Loading required package: tcltk
+Loading Tcl/Tk interface ... done
+Loading required package: vcd
+Loading required package: MASS
+Loading required package: grid
+Loading required package: colorspace
+
+Attaching package: 'DoE.base'
+
+
+	The following object(s) are masked from package:graphics :
+
+	 plot.design 
+
+
+	The following object(s) are masked from package:utils :
+
+	 fix 
+
+> 
+> set.seed(12445)
+> 
+> ## NA
+> plan1 <- fac.design(4,nlevels=2)
+>  lm(rnorm(16)~., plan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = plan1)
+
+Coefficients:
+(Intercept)            A            B            C            D  
+    0.09263      0.94148     -0.18190      0.09181     -0.70366  
+
+> 
+> plan2 <- oa.design(nlevels=c(2,6,2))
+>  lm(rnorm(12)~., plan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = plan2)
+
+Coefficients:
+(Intercept)           A1          B.L          B.Q          B.C          B^4  
+    -0.2356       0.1010       0.2662       0.9323       1.3540      -0.3836  
+        B^5           C1  
+    -0.4438       0.1938  
+
+> 
+> ### NA to quantitative
+> quantplan1 <- qua.design(plan1, quantitative="all")
+>  lm(rnorm(16)~., quantplan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = quantplan1)
+
+Coefficients:
+(Intercept)            A            B            C            D  
+     2.2325      -1.0142      -0.1475      -0.2802      -0.1012  
+
+> 
+> quantplan2 <- qua.design(plan2, quantitative="all")
+>  lm(rnorm(12)~., quantplan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = quantplan2)
+
+Coefficients:
+(Intercept)            A            B            C  
+     0.3230       0.3080      -0.1581      -0.2312  
+
+>  
+> ### NA to qualitative, no contrasts given
+> ### (does not change anything)
+> qualplan1 <- qua.design(plan1, quantitative="none")
+>  lm(rnorm(16)~., qualplan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = qualplan1)
+
+Coefficients:
+(Intercept)           A1           B1           C1           D1  
+     0.4513       0.3287       0.3646       0.3118      -0.3488  
+
+> 
+> qualplan2 <- qua.design(plan2, quantitative="none")
+>  lm(rnorm(12)~., qualplan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = qualplan2)
+
+Coefficients:
+(Intercept)           A1          B.L          B.Q          B.C          B^4  
+     0.2719      -0.2609      -0.1859      -0.9566      -0.3076       0.1848  
+        B^5           C1  
+     0.5570      -0.2870  
+
+> 
+> ### quantitative to qualitative, no contrasts given
+> qualplan1 <- qua.design(quantplan1, quantitative="none")
+>  lm(rnorm(16)~., qualplan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = qualplan1)
+
+Coefficients:
+(Intercept)           A1           B1           C1           D1  
+   -0.41036      0.12689      0.03618      0.10815      0.20587  
+
+> 
+> qualplan2 <- qua.design(quantplan2, quantitative="none")
+>  lm(rnorm(12)~., qualplan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = qualplan2)
+
+Coefficients:
+(Intercept)           A1          B.L          B.Q          B.C          B^4  
+   -0.13633     -0.19914     -0.41328     -0.36223      0.75513      0.08119  
+        B^5           C1  
+   -0.20175      0.05674  
+
+> 
+> ### quantitative to NA, no contrasts given
+> qualplan1 <- qua.design(quantplan1, quantitative=NA)
+>  lm(rnorm(16)~., qualplan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = qualplan1)
+
+Coefficients:
+(Intercept)           A1           B1           C1           D1  
+    0.18080     -0.12894      0.22014     -0.07796     -0.05043  
+
+> 
+> qualplan2 <- qua.design(quantplan2, quantitative=NA)
+>  lm(rnorm(12)~., qualplan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = qualplan2)
+
+Coefficients:
+(Intercept)           A1          B.L          B.Q          B.C          B^4  
+    -0.2407      -0.1659      -0.1477       0.6865       0.8965       1.2567  
+        B^5           C1  
+    -0.2024      -0.1075  
+
+> 
+> ### quantitative to NA, contrasts given
+> ### contrasts are ignored
+> qualplan1 <- qua.design(quantplan1, quantitative=NA, contrasts=c(B="contr.treatment"))
+>  lm(rnorm(16)~., qualplan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = qualplan1)
+
+Coefficients:
+(Intercept)           A1           B1           C1           D1  
+   -0.27941      0.05120     -0.07132     -0.43292      0.13275  
+
+> 
+> qualplan2 <- qua.design(quantplan2, quantitative=NA, contrasts=c(B="contr.treatment"))
+>  lm(rnorm(12)~., qualplan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = qualplan2)
+
+Coefficients:
+(Intercept)           A1          B.L          B.Q          B.C          B^4  
+    0.40731      0.23984     -0.09938      0.11923     -2.01167     -0.04375  
+        B^5           C1  
+   -0.04881      0.19631  
+
+> 
+> ### NA to qualitative, contrasts given
+> qualplan1 <- qua.design(plan1, quantitative="none", contrasts=c(B="contr.treatment"))
+>  lm(rnorm(16)~., qualplan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = qualplan1)
+
+Coefficients:
+(Intercept)           A1           B2           C1           D1  
+  -0.202142    -0.098283     0.003430     0.017793    -0.077055  
+
+> 
+> qualplan2 <- qua.design(plan2, quantitative="none", contrasts=c(B="contr.treatment"))
+>  lm(rnorm(12)~., qualplan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = qualplan2)
+
+Coefficients:
+(Intercept)           A1           B2           B3           B4           B5  
+   -1.42775      0.02864      1.28660      1.54543     -0.28004      1.41906  
+         B6           C1  
+    1.86004     -0.35614  
+
+> 
+> ### quantitative to qualitative, contrasts given
+> qualplan1 <- qua.design(quantplan1, quantitative="none", contrasts=c(B="contr.treatment"))
+>  lm(rnorm(16)~., qualplan1)
+
+Call:
+lm(formula = rnorm(16) ~ ., data = qualplan1)
+
+Coefficients:
+(Intercept)           A1           B2           C1           D1  
+    -0.8394      -0.2527       1.2119       0.2244       0.1775  
+
+> 
+> qualplan2 <- qua.design(quantplan2, quantitative="none", contrasts=c(B="contr.treatment"))
+>  lm(rnorm(12)~., qualplan2)
+
+Call:
+lm(formula = rnorm(12) ~ ., data = qualplan2)
+
+Coefficients:
+(Intercept)           A1           B2           B3           B4           B5  
+     0.6842      -0.2097      -0.7127      -0.5222      -0.4243      -0.4434  
+         B6           C1  
+    -1.0936       0.4477  
+
+> 
+> plan3 <- oa.design(factor.names=list(X=c(1,2),Y=c(1,2),Z=c(1,2)), ID=L4.2.3)
+> desnum(qua.design(qua.design(cross.design(plan1,plan3),quantitative="all")))
+   A1 B1 C1 D1 X1 Y1 Z1
+18  1  1 -1  1 -1  1  1
+3  -1  1 -1  1  1  1 -1
+39  1  1 -1 -1  1  1 -1
+27  1 -1 -1  1  1  1 -1
+4  -1  1 -1  1 -1 -1 -1
+59 -1  1  1 -1  1  1 -1
+23 -1 -1  1  1  1  1 -1
+60 -1  1  1 -1 -1 -1 -1
+35 -1  1 -1 -1  1  1 -1
+26  1 -1 -1  1 -1  1  1
+58 -1  1  1 -1 -1  1  1
+16  1  1  1  1 -1 -1 -1
+33 -1  1 -1 -1  1 -1  1
+30 -1 -1 -1 -1 -1  1  1
+25  1 -1 -1  1  1 -1  1
+24 -1 -1  1  1 -1 -1 -1
+64 -1  1  1  1 -1 -1 -1
+20  1  1 -1  1 -1 -1 -1
+49  1  1  1 -1  1 -1  1
+10  1 -1  1  1 -1  1  1
+36 -1  1 -1 -1 -1 -1 -1
+50  1  1  1 -1 -1  1  1
+21 -1 -1  1  1  1 -1  1
+45 -1 -1 -1  1  1 -1  1
+42  1 -1  1 -1 -1  1  1
+61 -1  1  1  1  1 -1  1
+51  1  1  1 -1  1  1 -1
+2  -1  1 -1  1 -1  1  1
+1  -1  1 -1  1  1 -1  1
+32 -1 -1 -1 -1 -1 -1 -1
+22 -1 -1  1  1 -1  1  1
+56 -1 -1  1 -1 -1 -1 -1
+13  1  1  1  1  1 -1  1
+37  1  1 -1 -1  1 -1  1
+29 -1 -1 -1 -1  1 -1  1
+57 -1  1  1 -1  1 -1  1
+54 -1 -1  1 -1 -1  1  1
+8   1 -1 -1 -1 -1 -1 -1
+34 -1  1 -1 -1 -1  1  1
+9   1 -1  1  1  1 -1  1
+6   1 -1 -1 -1 -1  1  1
+63 -1  1  1  1  1  1 -1
+38  1  1 -1 -1 -1  1  1
+47 -1 -1 -1  1  1  1 -1
+17  1  1 -1  1  1 -1  1
+40  1  1 -1 -1 -1 -1 -1
+52  1  1  1 -1 -1 -1 -1
+41  1 -1  1 -1  1 -1  1
+48 -1 -1 -1  1 -1 -1 -1
+5   1 -1 -1 -1  1 -1  1
+19  1  1 -1  1  1  1 -1
+55 -1 -1  1 -1  1  1 -1
+28  1 -1 -1  1 -1 -1 -1
+44  1 -1  1 -1 -1 -1 -1
+31 -1 -1 -1 -1  1  1 -1
+14  1  1  1  1 -1  1  1
+53 -1 -1  1 -1  1 -1  1
+12  1 -1  1  1 -1 -1 -1
+62 -1  1  1  1 -1  1  1
+43  1 -1  1 -1  1  1 -1
+15  1  1  1  1  1  1 -1
+11  1 -1  1  1  1  1 -1
+46 -1 -1 -1  1 -1  1  1
+7   1 -1 -1 -1  1  1 -1
+> 

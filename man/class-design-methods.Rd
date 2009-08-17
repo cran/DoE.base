@@ -21,12 +21,12 @@
   \item{i}{ indices for subsetting rows }
   \item{j}{ indices for subsetting columns }
   \item{drop.attr}{ logical, controls whether or not attributes are dropped; 
-       if TRUE, the result is no longer of class \code{design}, and all special design attributes are dropped;
+       if \code{TRUE}, the result is no longer of class \code{design}, and all special design attributes are dropped;
        otherwise, the design attributes are adjusted to reflect the subsetting result}
   \item{drop}{ logical that controls dropping of dimensions in the Extract function for 
-       data.frame objects, which is called by the method for class design}
-  \item{show.order}{ NULL or logical; if TRUE, the design is printed with run order information; 
-        default is TRUE for design types for which this information is helpful (see code for detail), FALSE otherwise }
+       data.frame objects, which is called by the method for class \code{design}}
+  \item{show.order}{ \code{NULL} or logical; if \code{TRUE}, the design is printed with run order information; 
+        default is \code{TRUE} for design types for which this information is helpful (see code for detail), \code{FALSE} otherwise }
   \item{\dots}{ further arguments to functions \code{\link{print}}, \code{\link{summary}}, or in case of plotting, 
         \code{\link{plot}}, \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics  }
   \item{object}{ data frame of S3 class \code{design}, like argument \code{design} }
@@ -78,19 +78,19 @@
         the default option \code{drop.attr=TRUE} also returns a 
         data frame without attributes.\cr
         Exception: Even for \code{drop.attr=TRUE}, if \code{i} is a permutation of 
-        the row numbers or a logical vector with all elements TRUE, 
+        the row numbers or a logical vector with all elements \code{TRUE}, 
         the attributes are preserved, and attributes \code{run.order} 
         and \code{desnum} are reordered along with the design, if necessary.\cr
         If \code{drop.attr=FALSE} and \code{j} is empty, 
         the function returns an object of class design with rows of attributes \code{run.order} 
         and \code{desnum} selected in line with those of the design itself. 
         In this case, the new \code{design.info} attribute is a list with entries 
-        \itemize{
+        \describe{
         \item{type}{resolving to \dQuote{subset of design}, }
         \item{subset.rows}{ a numeric or logical vector with the selected rows, and}
-        \item{orig.design.info}{ which contains the original design.info attribute.}
+        \item{orig.design.info}{ which contains the original \code{design.info} attribute.}
         }}
-    The print, summary and plot methods are called for their side effects and return \code{NULL}.
+    The \code{print}, \code{summary} and \code{plot} methods are called for their side effects and return \code{NULL}.
 }
 \note{ The package is currently subject to intensive development; most key functionality is now included. 
 Some changes to input and output structures may still occur.}

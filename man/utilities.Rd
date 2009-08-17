@@ -18,12 +18,13 @@ Letters
 \arguments{
   \item{name}{ ... }
   \item{liste}{ ... }
-  \item{orignames}{ ...}
-  \item{factor.names}{ ...}
-  \item{var}{ ... }
-  \item{recodes}{ ... }
-  \item{as.factor.result}{ ... }
-  \item{char}{ ... }
+  \item{orignames}{ ... }
+  \item{factor.names}{ ... }
+  \item{var}{ variable }
+  \item{recodes}{ character string specifying recodes, so far only used in the principal form \dQuote{-1=level[1];1=level[2]} }
+  \item{as.factor.result}{ logical that specifies whether or not results are to be coerced to factor. 
+            The default is that factors are coerced to factor, while numeric variables with numeric recodes are kept numeric.}
+  \item{char}{ logical: should replacement be treated as character string (TRUE) or evaluated? default is FALSE}
 }
 \details{
    The functions are not intended for direct use. 
@@ -42,8 +43,12 @@ Letters
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ ~~See Also \code{FrF2}, \code{\link{oa.design}}, \code{pb} }
+\seealso{ See Also \code{\link[FrF2]{FrF2-package}}, \code{\link[DoE.wrapper]{DoE.wrapper-package}} }
 \examples{
+## default factor names for most design generating functions 
+## (some quantitative designs have other default factor names)
+## for up to 50 factors
+Letters
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

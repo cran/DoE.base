@@ -55,4 +55,5 @@ des.recode <- function (var, recodes, as.factor.result, char)
 
 ## accessor functions for attributes of orthogonal arrays
 origin<-function(ID) attr(ID,"origin")
-comment<-function(ID) attr(ID,"comment")
+## not needed, as it is available in package base
+#comment<-function(ID) attr(ID,"comment")
