@@ -19,8 +19,17 @@ Type 'q()' to quit R.
 Loading required package: DoE.base
 Loading required package: tcltk
 Loading Tcl/Tk interface ... done
+Loading required package: vcd
+Loading required package: MASS
+Loading required package: grid
+Loading required package: colorspace
 
 Attaching package: 'DoE.base'
+
+
+	The following object(s) are masked from package:graphics :
+
+	 plot.design 
 
 
 	The following object(s) are masked from package:utils :

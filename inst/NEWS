@@ -9,6 +9,18 @@ Most immiment next steps for this package:
   parameter designs (=innner/outer array designs)
 - automatic creation of formulae for some default analyses (will presumably take longest)
 
+17/08/2009, Version 0.7
+- added function plot.design for allowing to deviate from plot.design 
+  in package graphics as appropriate
+- splitted documentation for class design into documentation of class itself 
+  with direct accessor functions on the one hand and methods for the class 
+  on the other hand
+- generalized function des.recode to be usable within FrF2 as well in place of the 
+  previously existing internal function within FrF2; 
+  made the function visible rather than internal
+- bug fix: explicitly disabled qua.design for designs with center points for the time being
+  (it is intended (but not trivial) to allow switching away from quantitative later)
+
 12/08/2009, Version 0.6-1
 - added further design types to designs for which run.order is displayed
   (for upcoming version of FrF2)
