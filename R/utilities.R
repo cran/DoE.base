@@ -30,9 +30,11 @@ des.recode <- function (var, recodes, as.factor.result, char)
     is.fac <- is.factor(var)
     if (missing(as.factor.result)) 
         as.factor.result <- is.fac
+    if (missing(char)) char <- FALSE
     result <- var
     if (is.fac) 
         result <- as.character(result)
+        
     for (term in recode.list){
         set <- eval(parse(text = strsplit(term, "=")[[1]][1]))
         if (!char)

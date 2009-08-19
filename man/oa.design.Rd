@@ -147,12 +147,12 @@ oa
    \item{residual.df}{returns the requested residual degrees of freedom for a main effects model.} 
    Other information is generic, like documented for class \code{\link{design}}. 
 }
+\author{ Ulrike Groemping }
 \references{ 
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
   
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
 }
-\author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
 \seealso{ See Also \code{FrF2}, \code{\link{fac.design}}, \code{pb} }
 \examples{

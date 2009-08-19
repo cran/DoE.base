@@ -5,6 +5,7 @@ qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
    if (!"design" %in% class(design)) stop("design must be of class design")
    di <- design.info(design)
    if (di$type %in% c("rsm","lhs")) stop("qua.design does not work for purely quantitative designs")
+   if (length(grep("center",di$type))>0) stop("qua.design does not work for designs with center points")
    fn <- names(di$factor.names)
    qu.old <- di$quantitative
    if (is.null(qu.old)){
