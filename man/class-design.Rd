@@ -56,8 +56,7 @@ ord(matrix, decreasing=FALSE)
 }
 \details{
     Items of class \code{design} are data frames with attributes. They are generated 
-    by various functions that create experimental designs, currently by 
-    \code{FrF2}, \code{pb}, \code{\link{oa.design}} \code{\link{fac.design}}, and 
+    by various functions that create experimental designs (cf. see also section), and 
     by various utility functions for designs like 
     the above extractor function for class \code{design} or \code{\link{fix.design}}.
     
@@ -93,19 +92,21 @@ ord(matrix, decreasing=FALSE)
     For some design types, notably designs of types starting with \dQuote{FrF2} and 
     designs that have been created by combining other designs, 
     there can be substantial additional information available from the \code{design.info} 
-    attribute in specialized situations. Detailed information on the structure of \code{design.info} 
-    can be found in the value sections of the respective functions.
+    attribute in specialized situations. Detailed information on the structure of the 
+    \code{design.info} attribute 
+    can be found in the value sections of the respective functions. A tabular overview 
+    of the available \code{design.info} elements is given on the authors homepage.
     
     Function \code{undesign} removes all design-related attributes from a class design 
     object; this may be necessary for making some independent code work on design objects. 
     (For example, function \code{\link[stats]{reshape}} from package \pkg{stats} does not 
-    work on a class design object, presumably because of the specific extractor method for class design.) 
+    work on a class design object, presumably because of the specific extractor method for class \code{design}.) 
     Occasionally, one may also want 
     to reconnect a processed undesigned object to its design properties. This is the purpose of 
     function \code{redesign}.
     
     The functions \code{desnum}, \code{run.order}, and \code{design.info} extract 
-    the respective attribute, i.e. e.g. function design.info 
+    the respective attribute, i.e. e.g. function \code{design.info} 
     extracts the design information for the design. The corresponding assignment 
     functions should only be used by very experienced users, as they may 
     mess up things badly if they are used naively .
@@ -125,7 +126,7 @@ ord(matrix, decreasing=FALSE)
     \item{run.order}{returns a 3-column data frame with standard and actual run order 
          as well as a run order with replication identifiers attached; 
          the corresponding replacement function modifies a class design object }
-    \item{design.info}{returns the design.info attribute of the design; 
+    \item{design.info}{returns the \code{design.info} attribute of the design; 
          the corresponding replacement function modifies a class design object }
     \item{factor.names}{returns a named list the names of which are the names of the 
          treatment factors of the design while the list elements are the vectors of levels 
@@ -161,11 +162,18 @@ ord(matrix, decreasing=FALSE)
     Some changes to input and output structures may still occur.
     }
 \seealso{ See also the following functions known to produce objects of class 
-    \code{design}: \code{FrF2}, \code{pb}, \code{\link{fac.design}}, \code{\link{oa.design}}; 
-    there are also special methods for class \code{design} (\code{\link{[.design}}, 
-    \code{\link{print.design}}, \code{\link{summary.design}}, \code{\link{plot.design}})}
+    \code{design}: \code{\link[FrF2]{FrF2}}, \code{\link[FrF2]{pb}}, 
+    \code{\link{fac.design}}, \code{\link{oa.design}}, 
+    \code{\link[DoE.wrapper]{bbd.design}}, \code{\link[DoE.wrapper]{ccd.design}}, 
+    \code{\link[DoE.wrapper]{ccd.augment}}, \code{\link[DoE.wrapper]{lhs.design}}, 
+    as well as \code{\link{cross.design}}, \code{\link{param.design}}, and 
+    utility functions in this package for reshaping designs.\cr 
+    There are also special methods for class \code{design} (\code{\link{[.design}}, 
+    \code{\link{print.design}}, \code{\link{summary.design}}, \code{\link{plot.design}})
+    }
 \examples{
 oa12 <- oa.design(nlevels=c(2,2,6))
+
 
 #### Examples for factor.names and response.names
   factor.names(oa12)
@@ -185,11 +193,17 @@ oa12 <- oa.design(nlevels=c(2,2,6))
   ## --> drop it from responselist but not from data
   response.names(oa12) <- c("y1","y2")
 
+## looking at attributes of the design
+  desnum(oa12)
+  run.order(oa12)
+  design.info(oa12)
+
 ## undesign and redesign
   u.oa12 <- undesign(oa12)
+  str(u.oa12)  
   u.oa12$new <- rnorm(12)
   r.oa12 <- redesign(oa12, u.oa12)
-## make known that new is also a respons
+## make known that new is also a response
   response.names(r.oa12) <- c(response.names(r.oa12), "new") 
 ## look at design-specific summary
   summary(r.oa12)

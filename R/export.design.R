@@ -3,9 +3,11 @@ export.design <- function(design, response.names=NULL, path=".", filename=NULL,
      if (!(is.null(response.names) | is.character(response.names))) 
          stop("response.names must be a character vector of response names or NULL")
      if (!is.logical(replace)) stop("replace must be logical")
-     if (!type %in% c("rda","html","csv","all")) stop("type must be one of rda, html, csv, or all")
+     if (!type %in% c("rda","html","csv","all")) 
+        stop("type must be one of rda, html, csv, or all")
      if (!OutDec %in% c(".",",")) stop("OutDec must be one of . or ,")
-     if (!(is.null(legend) | is.data.frame(legend))) stop("legend must be a data frame with legend information")
+     if (!(is.null(legend) | is.data.frame(legend))) 
+        stop("legend must be a data frame with legend information")
      desname <- deparse(substitute(design))
      if (!"design" %in% class(design)) stop("design must be of class design")
      if (!desname %in% ls(envir=.GlobalEnv)){ 
@@ -26,12 +28,14 @@ export.design <- function(design, response.names=NULL, path=".", filename=NULL,
      if (!replace){ 
            lf <- tolower(list.files(path=path))
            if (tolower(paste(filename,"rda",sep=".")) %in% lf) 
-               stop("file ", paste(filename,"rda","."), " exists in the chosen directory and is not replaced (replace=FALSE). Change directory, filename, or replace option.")
+               stop("file ", paste(filename,"rda","."), 
+               " exists in the chosen directory and is not replaced (replace=FALSE). Change directory, filename, or replace option.")
          }
-     if (type %in% c("html","all")){
+     if (type %in% c("html", "all")){
          if (!replace){ 
            if (tolower(paste(filename,"html",sep=".")) %in% lf) 
-               stop("file ", paste(filename,"html","."), " exists and is not replaced (replace=FALSE). Change directory, filename, or replace option.")
+               stop("file ", paste(filename,"html","."), 
+               " exists and is not replaced (replace=FALSE). Change directory, filename, or replace option.")
          }
          if (is.null(legend)){
              di <- design.info(design)
@@ -66,10 +70,11 @@ export.design <- function(design, response.names=NULL, path=".", filename=NULL,
          else dfn <- cbind(dfn, rbind(legend,hilf))
          html(dfn,file=paste(path,paste(filename,"html",sep="."),sep="/"),OutDec=OutDec, ...)
      }
-     if (type %in% c("csv","all")) {
+     if (type %in% c("csv", "all")) {
          if (!replace){ 
            if (tolower(paste(filename,"csv",sep=".")) %in% lf) 
-               stop("file ", paste(filename,"csv","."), " exists and is not replaced (replace=FALSE). \nChange directory, filename, or replace option.")
+               stop("file ", paste(filename,"csv","."), 
+               " exists and is not replaced (replace=FALSE). \nChange directory, filename, or replace option.")
          }
          if (OutDec==",") write.csv2(df, file=paste(path,paste(filename,"csv",sep="."),sep="/"))
          else write.csv(df, file=paste(path,paste(filename,"csv",sep="."),sep="/"))

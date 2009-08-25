@@ -1,7 +1,6 @@
 \name{oa.design}
 \alias{oa.design}
 \alias{origin}
-\alias{comment}
 \alias{oacat}
 \alias{oa}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -18,7 +17,6 @@ oa.design(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         replications=1, repeat.only=FALSE,
         randomize=TRUE, seed=NULL, min.residual.df=0)
 origin(ID)
-comment(ID)
 oacat
 oa
 }
@@ -29,7 +27,7 @@ oa
         available names can be looked at via \code{oacat$name};
         users can also specify names of their own designs here (cf. details). 
         \code{ID} must be of class \code{oa}.
-        If omitted, ID is automatically determined based on \code{nlevels} 
+        If omitted, \code{ID} is automatically determined based on \code{nlevels} 
         or \code{factor.names}. }
   \item{nruns}{ minimum number of runs to be used, 
         can be omitted if obvious from \code{ID} or if 
@@ -46,11 +44,12 @@ oa
         can be a single number if \code{nfactors} is known directly or as length of 
         \code{factor.names} }
   \item{factor.names}{ a character vector of \code{nfactors} factor names 
-      or a named list with \code{nfactors} elements, for which the names represent factor names 
-      and the elements are \cr
-      EITHER vectors of appropriate length (corresponding to nlevels) 
+      or a list with \code{nfactors} elements;\cr 
+      if the list is named, list names represent factor names, otherwise default factor names are used;\cr 
+      the elements of the list are \cr
+      EITHER vectors of appropriate length (corresponding to \code{nlevels}) 
       with factor levels for the respective factor\cr
-      OR empty strings.  ;\cr
+      OR empty strings;\cr
        Default factor names are the first elements of the character vector \code{\link{Letters}}, 
        or the factors position numbers preceded by capital F in case of more than 50 factors.
        Default factor levels are the numbers from 1 to the number of levels for each factor.}
@@ -62,7 +61,8 @@ oa
         or repeated measurements only. Note that replications are not considered for 
         accomodation of \code{min.residual.df} residual degrees of freedom, 
         unless a full factorial is used.}
-  \item{repeat.only}{ default FALSE implies real replications, TRUE implies repeated measurements only }
+  \item{repeat.only}{ default \code{FALSE} implies real replications, 
+        \code{TRUE} implies repeated measurements only }
   \item{randomize}{ logical indicating whether the run order is to be randomized ? }
   \item{seed}{ integer seed for the random number generator }
   \item{min.residual.df}{ minimum number of residual degrees of freedom;\cr
@@ -74,11 +74,11 @@ oa
    available within package \pkg{DoE.base} or are provided by the user. 
    The available arrays and their properties are listed in the 
    data frame \code{oacat}. The design names also indicate the number of runs and the numbers of factors 
-   for each number of levels, e.g. L18.2.1.3.7 is an 18 run design with one factor with 
+   for each number of levels, e.g. \code{L18.2.1.3.7} is an 18 run design with one factor with 
    2 levels and seven factors with 3 levels each. 
    
    \code{oa} is the S3 class used for orthogonal arrays. Objects of class \code{oa} should at least have 
-   the attribute \dQuote{origin}, an attribute \dQuote{comment} should be used for additional information.
+   the attribute \code{origin}, an attribute \code{comment} should be used for additional information.
    
    Users can define their own orthogonal arrays and hand them to \code{oa.design} with parameter \code{ID}. 
    Requirements for the arrays: \cr
@@ -90,7 +90,7 @@ oa
        \item The array should have an attribute \code{origin}.
        \item The array can have an attribute \code{comment}; \cr
              this should be used for mentioning specific properties, e.g. 
-             for the L18.2.1.3.7 that the interaction of the first two factors 
+             for the \code{L18.2.1.3.7} that the interaction of the first two factors 
              can be estimated.
              }
    
@@ -142,10 +142,14 @@ oa
    \item{nlevels}{vector containing the number of levels for each factor}
    \item{generating.oa}{contains information on the generating orthogonal array,}
    \item{selected.columns}{contains information, which column of the orthogonal array underlies which factor,}
-   \item{origin}{returns the respective attribute of the orthogonal array,} 
-   \item{comment}{returns the respective attribute of the orthogonal array,} 
-   \item{residual.df}{returns the requested residual degrees of freedom for a main effects model.} 
+   \item{origin}{contains the respective attribute of the orthogonal array,} 
+   \item{comment}{contains the respective attribute of the orthogonal array,} 
+   \item{residual.df}{contains the requested residual degrees of freedom for a main effects model.} 
    Other information is generic, like documented for class \code{\link{design}}. 
+   
+   Function \code{origin} returns the origin attribute of the orthogonal array \code{ID}, 
+   functions \code{\link{comment}} and \code{"comment<-"} from package \pkg{base} 
+   return and set the comment attribute.
 }
 \author{ Ulrike Groemping }
 \references{ 
@@ -154,7 +158,7 @@ oa
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
 }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ See Also \code{FrF2}, \code{\link{fac.design}}, \code{pb} }
+\seealso{ See Also \code{\link[FrF2]{FrF2}}, \code{\link{fac.design}}, \code{\link[FrF2]{pb}} }
 \examples{
   ## smallest available array for 6 factors with 3 levels each
   oa.design(nfactors=6,nlevels=3)
@@ -195,7 +199,10 @@ oa
   L54.2.1.3.25 <- as.matrix(L54.2.1.3.25[ord(L54.2.1.3.25),])
   class(L54.2.1.3.25) <- c("oa", "matrix")
   attr(L54.2.1.3.25, "origin") <- "L54.3.18.18.1, 18.1 -> L18.2.1.3.7"
-  attr(L54.2.1.3.25, "comment") <- comment(L18.2.1.3.7)
+  comment(L54.2.1.3.25) <- comment(L18.2.1.3.7)
+     ## uses comment function from package base
+  origin(L54.2.1.3.25)
+  comment(L54.2.1.3.25)
     ## can now be used in oa.design, like the built-in arrays
   oa.design(ID=L54.2.1.3.25,nfactors=22,nlevels=3) 
 }

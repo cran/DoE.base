@@ -1,5 +1,5 @@
      export("oa.design", "fac.design","desnum", "run.order", "design.info", 
-            "factor.names","response.names",
+            "origin","factor.names","response.names",
             "desnum<-", "run.order<-", "design.info<-",
             "factor.names<-","response.names<-","ord", 
             "Letters","make.formulas","make.generators",

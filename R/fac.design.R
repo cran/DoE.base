@@ -40,10 +40,12 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       if (!(is.null(nlevels) | is.null(factor.names))) {
                       if (length(nlevels)>1 & !(length(factor.names)==length(nlevels)))
                           stop("length of factor.names and length of nlevels do not match.")
-                      if (length(nlevels)==1) nlevels <- rep(nlevels,length(factor.names))
+                      if (length(nlevels)==1) nlevels <- rep(nlevels,length(factor.names))}
       if (is.list(factor.names)){ 
                              if (!(all(nlevels==sapply(factor.names,length) | sapply(factor.names,length)==1)))
                                  stop("Entries in nlevels do not match entries in factor.names.") 
+            if (is.null(names(factor.names))){ if (nfactors<=50) names(factor.names) <- Letters[1:nfactors] 
+                       else names(factor.names) <- paste("F",1:nfactors,sep="")
                            }}
       if (is.null(nfactors)) nfactors <- length(nlevels)
       if (length(nlevels)==1) nlevels <- rep(nlevels, nfactors)

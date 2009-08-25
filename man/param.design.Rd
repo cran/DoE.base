@@ -20,17 +20,18 @@ paramtowide(design, constant=NULL, ...)
                 randomize, its runs should already be randomized }
   \item{outer}{ an experimental design for the outer array, 
                 data frame of class \code{\link{design}} or vector}
-  \item{direction}{character taking the values \dQuote{wide} or \dQuote{long};
+  \item{direction}{character taking the values \code{"wide"} or \code{"long"};
                 if long, the outer array runs for each inner array run are 
                 listed underneath each other; if wide, they are listed within the 
                 same row}
-  \item{responses}{ NULL, or character vector of response names;\cr
-                for the long format, there are no response columns if \code{responses} is NULL, 
+  \item{responses}{ \code{NULL}, or character vector of response names;\cr
+                for the long format, there are no response columns if \code{responses} is \code{NULL}, 
                 while response columns of the specified 
-                name(s) containing NA values are generated if \code{responses} is specified;\cr 
+                name(s) containing \code{NA} values are generated if \code{responses} is specified;\cr 
                 for the wide format, response columns are always generated 
                 (one column per run of the outer array for each response): 
-                if \code{responses} is NULL, response columns are called \dQuote{y.1}, \dQuote{y.2} etc., 
+                if \code{responses} is \code{NULL}, 
+                response columns are called \code{"y.1"}, \code{"y.2"} etc., 
                 if \code{responses} is specified, a set of response columns 
                 for each specified name is generated 
                 }

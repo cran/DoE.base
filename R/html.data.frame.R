@@ -31,7 +31,7 @@ html.data.frame <- function (object, file = paste(first.word(deparse(substitute(
     x <- format.df(object, ...)
     adj <- attr(x, "col.just")
     if (any(adj == "r"))
-        for (i in seq(along = adj)[adj == "r"]) x[, i] <- paste("<div align=right>",
+        for (i in seq(along.with = adj)[adj == "r"]) x[, i] <- paste("<div align=right>",
             x[, i], "</div>", sep = "")
     if (length(r <- dimnames(x)[[1]]))
         x <- cbind(Name = r, x)
@@ -206,7 +206,7 @@ format.df <- function (x, digits, dec = NULL, rdec = NULL, cdec = NULL, numeric.
         4), math.row.names = FALSE, math.col.names = FALSE, ...) 
 {
     if (cdot && dcolumn) 
-        stop("cannot have both cdot=T and dcolumn=T")
+        stop("cannot have both cdot=TRUE and dcolumn=TRUE")
     if (missing(digits)) 
         digits <- NULL
     if ((!length(digits)) + (!length(dec)) + (!length(rdec)) + 

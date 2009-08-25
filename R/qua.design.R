@@ -4,8 +4,9 @@ qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
 
    if (!"design" %in% class(design)) stop("design must be of class design")
    di <- design.info(design)
-   if (di$type %in% c("rsm","lhs")) stop("qua.design does not work for purely quantitative designs")
-   if (length(grep("center",di$type))>0) stop("qua.design does not work for designs with center points")
+  # if (di$type %in% c("ccd","bbd")) stop("qua.design does not work for purely quantitative designs")
+  # if (length(grep("center",di$type))>0) stop("qua.design does not work for designs with center points")
+   if (di$type == "lhs") stop("qua.design does not work for lhs designs (they are always quantitative)")
    fn <- names(di$factor.names)
    qu.old <- di$quantitative
    if (is.null(qu.old)){
@@ -14,7 +15,7 @@ qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
        }
    
    if (!(identical(quantitative,"all") | identical(quantitative,"none") | 
-        length(quantitative) %in% c(0,di$nfactors) | (!is.null(names(quantitative))) | 
+        length(quantitative) == di$nfactors | (!is.null(names(quantitative))) | 
         identical(quantitative,NA)))
       stop("quantitative must be all, none, NA, a named vector or a vector of length nfactors")
    if (identical(quantitative,"all")) quantitative <- rep(TRUE, di$nfactors)
@@ -33,7 +34,6 @@ qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
         names(quantitative) <- names(di$factor.names)
    di$quantitative <- quantitative
    
-   
    hilf <- options("warn")
    options(warn=-1)
    
@@ -41,17 +41,20 @@ qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
       ## nonnum are not coercible to numeric
       options(warn=hilf$warn)
   
-   
    ## determine default contrasts
    nlevels <- di$nlevels
-   if (is.null(nlevels)) nlevels <- rep(2,di$nfactors) ## ist das wirklich immer 2, wenn nicht angegeben?
+   if (is.null(nlevels) & (length(grep("FrF2",di$type))>0 | length(grep("pb",di$type))>0))
+           nlevels <- rep(2,di$nfactors) ## ist das wirklich immer 2, wenn nicht angegeben?
+   if (length(grep("center",di$type))>0 | di$type=="bbd" | di$type=="ccd") nlevels <- rep(3, di$nfactors)
+   ## if (di$type=="ccd" & !di$alpha==1) nlevels <- rep(5,di$nfactors)
+   ## once alpha has been added to design.info
    defcontrasts <- rep("contr.treatment",di$nfactors)
    defcontrasts[which(!nonnum)] <- "contr.poly"
    defcontrasts[which(nlevels==2)] <- "contr.FrF2"
    names(defcontrasts) <- fn  ## per default, everything is a factor
    
    ## these are currently factors
-   nowfactors <- names(di$factor.names)[which(sapply(design,"is.factor"))]
+   nowfactors <- names(di$factor.names)[which(sapply(design[,names(di$factor.names)],"is.factor"))]
    
    if (length(contrasts)>0){ 
       if (is.null(names(contrasts))) stop("contrasts must be a named vector")
@@ -78,42 +81,44 @@ qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
      for (i in 1:di$nfactors){
          ## NA
          if (is.na(quantitative[fn[i]])){
-            hilf[,fn[i]] <- factor(hilf[,fn[i]], levels = di$factor.names[[i]])
-            contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",nlevels[i],")",sep="")))
-            if (defcontrasts[fn[i]]=="contr.poly") 
-            contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",nlevels[i],", scores=sort(di$factor.names[[i]]))",sep="")))
+           # hilf[,fn[i]] <- factor(hilf[,fn[i]], levels = di$factor.names[[i]])
+            hilf[,fn[i]] <- factor(hilf[,fn[i]])
+            contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",length(levels(hilf[,fn[i]])),")",sep="")))
+            if (defcontrasts[fn[i]]=="contr.poly")
+            contrasts(hilf[,fn[i]]) <- eval(parse(text=paste("contr.poly(",
+                length(levels(hilf[,fn[i]])),", scores=sort(unique(as.numeric(as.character(hilf[,fn[i]])))))",sep="")))
          }
          else{
          ## quantitative (possible, otherwise error above)
          if (quantitative[fn[i]]) hilf[,fn[i]] <- as.numeric(as.character(hilf[,fn[i]]))
-         
+         else{
          ## qualitative
-         if (!quantitative[fn[i]]){
             ## only change if wasn't factor before or change in contrast requested 
             if (fn[i] %in% names(contrasts) | !(fn[i] %in% nowfactors) ){
-               ## no new contrast requested, i.e. was quantitative before
+               ## new contrasts specified, or not a factor yet
                if (!fn[i] %in% names(contrasts)){
-                       hilf[,fn[i]] <- factor(hilf[,fn[i]], levels=di$factor.names[[i]])
-                       contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",nlevels[i],")",sep="")))
+                     ## no new contrast requested, i.e. not a factor yet (would mean quantitative, would it not?)
+                     #  hilf[,fn[i]] <- factor(hilf[,fn[i]], levels=di$factor.names[[i]])
+                       hilf[,fn[i]] <- factor(hilf[,fn[i]])
+                       contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",length(levels(hilf[,fn[i]])),")",sep="")))
                        if (defcontrasts[fn[i]]=="contr.poly") 
-                         contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",nlevels[i],", scores=sort(di$factor.names[[i]]))",sep="")))
+                         contrasts(hilf[,fn[i]]) <- eval(parse(text=paste("contr.poly(",
+                         length(levels(hilf[,fn[i]])),", scores=sort(unique(as.numeric(as.character(hilf[,fn[i]])))))",sep="")))
                   }
                else{
-                      if (!fn[i] %in% nowfactors) hilf[,fn[i]] <- factor(hilf[,fn[i]], levels=di$factor.names[[i]])
+                     ## (new) contrast requested
+                     ## may have been factor already, or not a factor yet 
+                      if (!fn[i] %in% nowfactors){ 
+                          if (!nonnum[i]) hilf[,fn[i]] <- as.numeric(hilf[,fn[i]])
+                          hilf[,fn[i]] <- factor(hilf[,fn[i]])
+                              }
                       ## now is a factor
-                      
-                      if (fn[i] %in% names(contrasts)){
-                         contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(contrasts[fn[i]],"(",nlevels[i],")",sep="")))
+                     ## contrasts specified
+                         contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(contrasts[fn[i]],"(",
+                            length(levels(hilf[,fn[i]])),")",sep="")))
                          if (contrasts[fn[i]]=="contr.poly") 
-                         contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(contrasts[fn[i]],"(",nlevels[i],", scores=sort(di$factor.names[[i]]))",sep="")))
-                         }
-                      else{
-                         if (!fn[i] %in% nowfactors) 
-                         contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",nlevels[i],")",sep="")))
-                         if (defcontrasts[fn[i]]=="contr.poly") 
-                         contrasts(hilf[,fn[i]]) <- eval(parse(text=paste(defcontrasts[fn[i]],"(",nlevels[i],", scores=sort(di$factor.names[[i]]))",sep="")))
-                      }
-                      hilf[,fn[i]] <- factor(hilf[,fn[i]], levels=di$factor.names[[i]])
+                            contrasts(hilf[,fn[i]]) <- eval(parse(text=paste("contr.poly(",
+                                length(levels(hilf[,fn[i]])),", scores=sort(unique(as.numeric(as.character(hilf[,fn[i]])))))",sep="")))
                       
                   }
             }

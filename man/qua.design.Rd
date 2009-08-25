@@ -26,37 +26,41 @@ qua.design(design, quantitative = NA, contrasts = character(0), ...)
        OR
        
        an unnamed vector of length \code{nfactors} 
-       with an entry TRUE, NA or FALSE for each factor, 
-       where TRUE makes a factor into a numeric variable, 
-       and FALSE makes it into a factor with treatment contrasts, and NA 
+       with an entry \code{TRUE}, \code{NA} or \code{FALSE} for each factor, 
+       where \code{TRUE} makes a factor into a numeric variable, 
+       and \code{FALSE} makes it into a factor with treatment contrasts, and NA 
        reinstates the default factor settings;\cr 
        
        OR
        
        a named vector (names from the factor names of the design) with 
-       an entry TRUE, NA or FALSE for each named factor 
+       an entry \code{TRUE}, \code{NA} or \code{FALSE} for each named factor 
        (implying no change for the omitted factors)
        }
   \item{contrasts}{ only takes effect for factors for which quantitative is \code{FALSE};\cr
-       the default \code{character(0)} does not change any contrasts vs. the previous 
+       the default \code{character(0)} does not change any contrasts vs.~the previous 
        or default contrasts.\cr
        For customizing, a named character vector can be given; the names must correspond to names of factors 
        to be modified, and entries must be names of contrast functions. The contrast functions 
        are then applied to the respective factors with the correct number of levels.\cr
        Possible contrast function names include (at least) 
-       contr.FrF2 (for number of levels a power of 2 only), contr.helmert, contr.treatment, contr.SAS, contr.sum, contr.poly.
-       CAUTION: Function \code{qua.design} checks whether the contrast names actually define a function, but it is not checked 
+       \code{\link{contr.FrF2}} (for number of levels a power of 2 only), 
+       \code{\link{contr.helmert}}, \code{\link[stats:contrast]{contr.treatment}}, 
+       \code{\link[stats:contrast]{contr.SAS}}, \code{\link[stats:contrast]{contr.sum}}, 
+       \code{\link[stats:contrast]{contr.poly}}.
+       CAUTION: Function \code{qua.design} checks whether the contrast names 
+       actually define a function, but it is not checked 
        whether this function is a valid contrast function.}
   \item{\dots}{ currently not used }
 }
 \details{
-  An experimental factor for which quantitative is TRUE is recoded into a numeric variable. 
-  An experimental factor for which quantitative is NA is recoded into an R-factor 
+  An experimental factor for which quantitative is \code{TRUE} is recoded into a numeric variable. 
+  An experimental factor for which quantitative is \code{NA} is recoded into an R-factor 
   with the default contrasts given below. An experimental factor for which quantitative is FALSE´is 
   recoded into an R-factor with treatment contrasts (default) or with custom contrasts as indicated by the 
   \code{contrasts} parameter.
   
-  The default contrasts for factors in class \code{design} objects 
+  The default contrasts for factors in class \code{\link{design}} objects 
   (exception: purely quantitative design types like lhs or rsm designs) 
   depend on the number and content of levels: \cr
   2-level experimental factors are coded as R-factors with -1/1 contrasts, \cr
@@ -65,8 +69,14 @@ qua.design(design, quantitative = NA, contrasts = character(0), ...)
   and qualitatitve experimental factors with more than two levels are coded 
   as R factors with treatment contrasts. 
   
+  Note that, for 2-level factors, the default contrasts from function \code{qua.design} 
+  differ from the default contrasts with which the factors were generated in case of 
+  functions \code{\link{fac.design}} or \code{\link{oa.design}}. Thus, for recreating 
+  the original state, it may be necessary to explicity specify 
+  
   Warning: It is possible to misuse this function especially for designs that have been 
-  combined from several designs. For example, while setting factors in an lhs design to 
+  combined from several designs. For example, while setting factors in an lhs design 
+  (cf. \code{\link[DoE.wrapper]{lhs.design}}) to 
   qualitative is prevented, if the lhs design has been crossed with another design of a different 
   type, it would be possible to make such a nonsensical modification.
   
@@ -77,20 +87,30 @@ qua.design(design, quantitative = NA, contrasts = character(0), ...)
 }
 \references{ ~put references to the literature/web site here ~ }
 \author{ Ulrike Groemping }
-\note{ This function is still experimental.
+\note{ Although testing of this function has progressed, it is still somewhat experimental.
 }
 \examples{
 ## usage with all factors treated alike
+y <- rnorm(12)
 plan <- oa.design(nlevels=c(2,6,2))
-plan
+lm(y~.,plan)
+## quantitative = FALSE entries (or none) leave contrasts unchanged 
+## vs. previous state
 plan <- qua.design(plan, quantitative = "none")
-plan
+lm(y~.,plan)
+plan <- qua.design(plan, quantitative = "none", contrasts=c(B="contr.treatment"))
+lm(y~.,plan)
+plan <- qua.design(plan, quantitative = "none")
+lm(y~.,plan)
+
 plan <- qua.design(plan, quantitative = "all")
-plan
-plan <- qua.design(plan)
-plan
+lm(y~.,plan)
+plan <- qua.design(plan)  ## NA resets to default state
+lm(y~.,plan)
+
 ## usage with individual factors treated differently
-plan <- oa.design(factor.names = list(liquid=c("type1","type2"), dose=c(0,10,50,100,200,500), temperature=c(10,15)))
+plan <- oa.design(factor.names = list(liquid=c("type1","type2"), 
+     dose=c(0,10,50,100,200,500), temperature=c(10,15)))
 str(undesign(plan))
 \dontrun{
 ## would cause an error, since liquid is character and cannot be reasonably coerced to numeric
@@ -112,8 +132,6 @@ plan <- add.response(plan,y)
 plan <- qua.design(plan, quantitative = c(dose=FALSE), contrasts=c(dose="contr.treatment"))
 str(undesign(plan))
 desnum(plan)
-
-
 }
 \keyword{ design }
 \keyword{ array }% __ONLY ONE__ keyword per line

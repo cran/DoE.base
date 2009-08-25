@@ -20,7 +20,7 @@ reptolong(design)
       (\code{repeat.only=TRUE} in \code{design.info} attribute). \cr
       For \code{reptolong}, the design must be in the wide form produced 
       by function \code{reptowide}.} 
-  \item{constant}{ NULL or character vector; 
+  \item{constant}{ \code{NULL} or character vector; 
       if \code{design} contains variables other than the experimental 
       factors and the block column (e.g. covariables) that do not 
       change over repeated measurements within the same experimental unit,
@@ -63,7 +63,8 @@ reptolong(design)
 \author{ Ulrike Groemping }
 \note{ The package is currently subject to intensive development; most key functionality is now included. 
 Some changes to input and output structures may still occur.}
-\seealso{ See Also \code{FrF2}, \code{pb}, \code{\link{fac.design}}, \code{\link{oa.design}} }
+\seealso{ See Also \code{\link[FrF2]{FrF2}}, \code{\link[FrF2]{pb}}, 
+      \code{\link{fac.design}}, \code{\link{oa.design}} }
 \examples{
     ### design without response data
     ### response variable y is added per default
