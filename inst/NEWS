@@ -5,9 +5,34 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
-- data aggregation functions for designs with repeat.only replications and for 
-  parameter designs (=innner/outer array designs)
-- automatic creation of formulae for some default analyses (will presumably take longest)
+
+
+07/09/09, Version 0.9
+- export function contr.FrF2 
+- fixed bugs in oa.design and fac.design for factor.names as an unnamed list 
+  for cases with nfactors unspecified 
+- made all experimental factors for function fac.design R factors per default 
+  (previously, numeric 2-level experimental factors were exported as numerics)
+- created method for aggregate for aggregating related response columns for the wide 
+  designs (useful for repeated measurements and parameter designs)
+- made contrasts option of function qua.design more user-friendly
+- added function change.contr to change contrasts for design objects 
+  even more user-friendly than with qua.design
+- made function formula.design (method for function formula) a serious function that 
+  covers the currently available design types for packages DoE.base, FrF2 and DoE.wrapper
+- added a generic, a default and a class design method for function lm,
+  the class design method of which does default analyses and adds the class lm.design 
+  to the output object
+- added a summary method for class lm.design that adds a class summary.lm.design 
+  to a standard output object from summary.lm
+- added print methods for classes lm.design and summary.lm.design in order to
+  make sure that automatic changes to the data body (like 
+  omission of center points or aggregation) cannot go unnoticed
+- added function iscube (identical to the one in package FrF2) as an internal function  
+  in support of lm.design
+- bug fix: [.design generated a warning for logical i 
+- bug fix: repeat.only element of design.info of wide format repeated measurement designs 
+  was TRUE, which led to inconsistent behavior (fixed in function reptowide)
 
 24/08/09, Version 0.8
 - updated qua.design to also be able to make quantitative designs qualitative (except lhs designs), 

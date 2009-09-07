@@ -16,8 +16,11 @@
            class(x) <- c("design","data.frame")
            return(x)}
        else{
+           if (is.logical(i)){
+              if (!length(i) == nrow(x)) stop("i has wrong length")
+              i <- which(i)
+              } 
            nnew <- length(i)
-             if (is.logical(i)) nnew <- sum(i)
            repl <- nnew/nrow(x)
            di <- design.info(x)
            ro <- run.order(x)

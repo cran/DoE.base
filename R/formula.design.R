@@ -1,37 +1,72 @@
-formula.design <- function(x, ..., response = NULL, degree = NULL){
-      ## open: correct formula for blocked FrF2 designs in all cases
-      ## either via block name variable or via individual 2-level variables with full degree
-      
+formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use.center=TRUE){
       ## open: aggregation of repeat.only designs
       ## open: aggregation of parameter designs
+      ###### implement with function aggregate.design
+      
+      ### why does variant with ncenter not work ?
+      
       
       ## error checks
+      xnam <- deparse(substitute(x))
+      
+      ## avoid NOTE about no global function definition
+      ##if (!is.loaded("FrF2")) iscube <- function(design) NULL
+      ## does not work
+
+      
       if (!"design" %in% class(x)) stop("This function is applicable to class design objects only.")
+      di <- design.info(x)
+      if (is.null(di$response.names)) stop("formula.design needs at least one response in the design")
       if (!(is.null(degree) | is.numeric(degree))) stop("degree must be numeric or NULL")
       if (is.numeric(degree)){ 
            if(!degree > 0) stop("degree must be positive")
            if (!degree == round(degree)) stop("degree must be an integer number")
            }
-      
-      ## identify and check response candidates
-      respnam <-design.info(x)$response.names
+      if (!is.null(response)) 
+         if (length(response)>1) stop("formula.design can only handle one response at a time")
+
+      ## prepare wide format design, if it has not yet been aggregated
+      ## character responses only
+      if(!is.null(di$responselist)){
+      if (is.null(response)){
+          if (di$response.names[1]==di$responselist[1,1]){
+              if (is.null(FUN)) FUN <- "mean"
+              x <- aggregate(x, FUN=FUN)
+              di <- design.info(x)
+              response <- di$response.names[1]
+              assign(response, undesign(x)[,response])
+          }}
+      else{ 
+      if (is.character(response) & !as.character(response) %in% di$response.names){
+          if (!response %in% colnames(di$responselist)) stop("invalid response name")
+              response <- which(colnames(di$responselist)==response)
+              if (is.null(FUN)) FUN <- "mean"
+              x <- aggregate(x, FUN=FUN)
+              di <- design.info(x)
+              response <- di$response.names[response]
+              assign(response, undesign(x)[,response])
+          }
+          }
+          } 
+
+      ## check available responses
+      respnam <-di$response.names
       respnamOK <- intersect(colnames(x),respnam)
       if (is.null(respnamOK) | length(respnamOK)==0)
           stop("For formula.design, the design requires at least one response to be available.")
       respnamOK <- respnamOK[which(sapply(x[,respnamOK], function(obj) all(!is.na(obj))))]
       if (length(respnamOK)==0) stop("the design does not contain any response variable with complete observations")
-      respposOK <- which(design.info(x)$response.names %in% respnamOK)
+      respposOK <- which(di$response.names %in% respnamOK)
       
       ## check response given by user
       if (!is.null(response)){
          if (!(is.character(response) | is.numeric(response))) 
               stop("response must be a character string of the response name or a position number")
-         if (length(response)>1) stop("formula.design can only handle one response at a time")
          if (is.numeric(response)) {
                if (response < 1 | response > length(respnam) | !response==round(response)) 
                      stop("if numeric, response must be an integer from 1 to ", length(respnam))
-               if (!response %in% respposOK) 
-                     stop("response respnam[respposOK] is not available (missing data?)")
+               response <- respnam[response]
+               ## now response is character
             }
          if (is.character(response)) {
                if (!response %in% colnames(x)) 
@@ -45,23 +80,144 @@ formula.design <- function(x, ..., response = NULL, degree = NULL){
       else response <- respnamOK[1]
       ## else: no response given by user
       
-      type <- design.info(x)$type
+    ##  if (length(grep("center",di$type))>0 & !is.loaded("FrF2")) 
+    ##      stop("For working with center point designs, package FrF2 must be loaded")
+    ## is it possible to protect users from this error ?
+      if (length(grep("center",di$type))>0 & !use.center){
+          x <- x[iscube(x),]
+          fn <- names(di$factor.names)
+          assign(response, x[,response])
+          if (!is.null(di$block.name)) assign(di$block.name, x[,di$block.name])
+          for (i in 1:di$nfactors) 
+            assign(fn[i], x[,fn[i]])
+          class(x) <- c("design","data.frame")
+          di$nruns <- di$ncube
+          design.info(x) <- di
+          message("analysis without center points")
+      } 
+          
+     ## long format repeated measurement or parameter designs 
+      if (di$repeat.only){ 
+          if (is.null(FUN)) FUN <- "mean"
+          x <- aggregate(reptowide(x),response=response, FUN=FUN)
+          ## new response names!!
+          response <- response.names(x)[1]
+          di <- design.info(x)
+          fn <- names(di$factor.names)
+          assign(response, undesign(x)[,response])
+          if (!is.null(di$block.name)) assign(block.name, undesign(x)[,block.name])
+          for (i in 1:di$nfactors) 
+            assign(fn[i], undesign(x)[,fn[i]])
+          message("analysing repeated measurement ", FUN)
+      }
+      if (length(grep("param",di$type))>0 & length(grep("wide",di$type))==0){
+          if (is.null(FUN)) FUN <- "mean"
+          x <- aggregate(paramtowide(x),response=response, FUN=FUN)
+          response <- response.names(x)[1]
+          di <- design.info(x)
+          fn <- names(di$factor.names)
+          assign(response, undesign(x)[,response])
+          for (i in 1:di$nfactors) 
+            assign(fn[i], undesign(x)[,fn[i]])
+          message("analysing outer array ", FUN)
+      }
+      
+      ## identify and check response candidates
+      type <- di$type
       
       ## default degrees: 1 for pb and oa, 2 for everything else
-      if (is.null(degree) & type %in% c("pb","oa")) degree <- 1
+      if (is.null(degree) & substr(type,1,2) %in% c("pb","oa")) degree <- 1
       if (is.null(degree)) degree <- 2
 
-      factor.names <- design.info(x)$factor.names
-
+      factor.names <- di$factor.names
+      
+      block.name <- di$block.name
+      if (!(is.null(block.name))){
       ## now degree is given
-          if (degree==1)
-             aus <- as.formula(paste(response, paste(names(factor.names),collapse="+"),sep="~"))
-          if (degree > 1){ 
-              if (type %in% c("pb","oa")) warning("degree > 1 is often inadequate with design types pb and oa")
-              aus <- as.formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
-              if (type=="FrF2.blocked")
-              aus <- as.formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
-                  ## make correct for blocked designs: block main effects, degree applied to other experimental columns only
+          if (degree==1){
+              aus <- formula(paste(response, paste(c(block.name,names(factor.names)),collapse="+"),sep="~"))
+              if (length(grep("center",type))>0){ 
+                      if (use.center){
+                      center <- !iscube(x)
+                      aus <- formula(paste(response, paste(c(block.name, names(factor.names), "center"), collapse="+"),sep="~"))
+                      }
+                      else{
+                      aus <- formula(paste(response, paste(c(block.name, names(factor.names)), collapse="+"),sep="~"))
+                      }
+                      }
               }
+          if (degree > 1){ 
+              if (substr(type,1,2) %in% c("pb","oa")) warning("degree > 1 is often inadequate with design types pb and oa")
+              if (!type %in% c("bbd.blocked","ccd")){
+                  if (length(grep("center",type))>0){
+                    if (use.center){
+                      center <- iscube(x)
+                      aus <- formula(paste(response, paste(c(block.name, 
+                          paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""), "center"), collapse="+"),sep="~"))
+                    }       
+                    else 
+                       aus <- formula(paste(response, 
+                         paste(block.name, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="+"),
+                         sep="~"))
+                  }
+                  else{
+                    aus <- formula(paste(response, 
+                      paste(block.name,paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="+"),
+                      sep="~"))
+                  }
+                  }
+                  else{ 
+                    ##bbd.blocked oder ccd
+                    aus <- formula(paste(response, 
+                      paste(block.name,paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),
+                      paste(paste("I(",names(factor.names),"^",degree,")",sep=""),collapse="+"),sep="+"),
+                      sep="~"))
+                    #else aus <- formula(paste(response, 
+                    #  paste(block.name, paste("FO(",paste(names(factor.names),collapse=","),")",sep=""),
+                    #      paste("TWI(",paste(names(factor.names),collapse=","),")",sep=""),
+                    #      paste("PQ(",paste(names(factor.names),collapse=","),")",sep=""),sep="+"),
+                    #  sep="~"))
+                      }
+          }
+          }
+      else {if (degree==1){
+              aus <- formula(paste(response, paste(names(factor.names),collapse="+"),sep="~"))
+              if (length(grep("center",type))>0){ 
+                   if (use.center){
+                      center <- !iscube(x)
+                      aus <- formula(paste(response, paste(c(names(factor.names), "center"), collapse="+"),sep="~"))
+                      }
+                   else
+                      aus <- formula(paste(response, paste(c(names(factor.names)), collapse="+"),sep="~"))
+              }
+              }
+          if (degree > 1){ 
+              if (substr(type,1,2) %in% c("pb","oa")) warning("degree > 1 is often inadequate with design types pb and oa")
+              aus <- formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
+              if (type %in% c("bbd","lhs")){ 
+                    aus <- formula(paste(response, 
+                      paste(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),
+                      paste(paste("I(",names(factor.names),"^",degree,")",sep=""),collapse="+"),sep="+"),
+                      sep="~"))
+                    #else aus <- formula(paste(response, 
+                    #      paste("SO(",paste(names(factor.names),collapse=","),")",sep=""),
+                    #      sep="~"))
+                      }
+              if (length(grep("center",type))>0){ 
+                   if (use.center){
+                      center <- !iscube(x)
+                      aus <- formula(paste(response, 
+                      paste(c(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""), "center"), collapse="+"),
+                      sep="~"))
+                      }
+                   else aus <- formula(paste(response, 
+                      paste(c(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep="")), collapse="+"),
+                      sep="~"))
+                      }
+              else if (!type %in% c("bbd","ccd","lhs")){
+              aus <- formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
+              }
+              }
+      }
        aus   
 }

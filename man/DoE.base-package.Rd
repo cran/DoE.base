@@ -46,6 +46,15 @@ Maintainer: Ulrike Groemping <groemping@bht-berlin.de>
 \keyword{ array }
 \keyword{ design }
 \seealso{
-\code{FrF2-package}, \code{\link{fac.design}}, \code{\link{oa.design}}, 
-\code{\link{export.design}}
+Functions \code{\link{fac.design}}, \code{\link{oa.design}} for generating designs 
+and class \code{\link{design}} which is utilized also by packages 
+\pkg{\link[FrF2:FrF2-package]{FrF2}} and \pkg{\link[DoE.wrapper:DoE.wrapper-package]{DoE.wrapper}}.\cr 
+Furthermore, there are various utility functions like \code{\link{export.design}} or 
+\code{\link{add.response}} and functions \code{\link{cross.design}} or \code{\link{param.design}} 
+for combining designs.\cr
+Finally, several \code{\link[=class-design-methods]{methods for class design objects}} 
+are provided, 
+especially also functions \code{\link{formula.design}} and \code{\link{lm.design}} 
+for automatic generation of linear models (but beware: these are convenience functions 
+that provide a quick first look but NOT necessarily the best statistical approach to analysis!).
 }

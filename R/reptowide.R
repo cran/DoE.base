@@ -82,6 +82,7 @@
     class(aus) <- c("design", class(aus))
     desnum(aus) <- desnum
     run.order(aus) <- ro
+    di$repeat.only <- FALSE
     design.info(aus) <- di
     aus
  }

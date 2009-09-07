@@ -10,7 +10,7 @@ contr.FrF2 <- function (n)
     else levels <- n
     lenglev <- length(levels)
     if (!2^round(log2(lenglev))==lenglev) 
-        stop("contr.blocks requires that the number of levels is a power of 2.")
+        stop("contr.FrF2 requires that the number of levels is a power of 2.")
 
     ## definition of contrast matrix
        if (lenglev==2) destxt <- "matrix(c(-1,1),ncol=1)"

@@ -13,8 +13,8 @@
     to be generated}
 }
 \details{
-  This is an internal function that supports \code{-1/+1} contrasts for 2-level factors.
-  NOTE: The function also works if the number of levels is a power of 2. 
+  This function mainly supports \code{-1/+1} contrasts for 2-level factors.
+  It does also work if the number of levels is a power of 2. 
   For more than four levels, the levels of the factor must be in an appropriate order 
   in order to guarantee that the columns of the model matrix for an FrF2-derived structure 
   are orthogonal.
@@ -32,7 +32,7 @@ for the main effects model are orthogonal to each other and to the column for th
 \examples{
 ## assign contr.FrF2 contrasts to a factor
 status <- as.factor(rep(c("current","new"),4))
-contrasts(status) <- DoE.base:::contr.FrF2(2)
+contrasts(status) <- contr.FrF2(2)
 contrasts(status)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

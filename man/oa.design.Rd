@@ -55,7 +55,9 @@ oa
        Default factor levels are the numbers from 1 to the number of levels for each factor.}
   \item{columns}{ vector of column numbers referring to columns of design \code{ID};
         must not be specified, if \code{ID} is omitted; 
-        the entries assign columns of the array to the factors}
+        the entries assign columns of the array to the factors;\cr
+        it may be possible to improve on the properties of the design by using 
+        the columns option, since the default column choice is not always ideal!}
   \item{replications}{ the number of replications of the array, 
         the setting of \code{repeat.only} determines, whether these are real replications
         or repeated measurements only. Note that replications are not considered for 
@@ -121,6 +123,13 @@ oa
    factors in 5 runs, you may e.g. call \code{oacat[oacat$n5>0,]$name} in order to see the 
    names of more promising candidate arrays for combination, or you may also want to look 
    up arrays with \code{n25>0} subsequently.
+   
+   WARNING: Usually, it is recommended to investigate the properties of a design automatically 
+   created by function \code{oa.design} before starting experimentation. 
+   While all designs can estimate main effects \emph{in the absence of interactions}, 
+   the presence of interactions may render some designs useless or even dangerous. 
+   Deliberate choice of columns different from the default may improve a design 
+   (an example for this will be added shortly)!
 
 }
 \value{\code{oa.design} returns a data frame of S3 class \code{\link{design}} 
