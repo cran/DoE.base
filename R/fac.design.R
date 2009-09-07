@@ -35,21 +35,23 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       if (!(is.null(nlevels) | is.null(nfactors))) if (length(nlevels)>1 & !nfactors==length(nlevels))
                           stop("nfactors does not match the length of nlevels.")
       if (is.null(nlevels)) {nlevels <- hilf
-                      if (!is.null(nfactors)) if (!length(nfactors)==length(nlevels))
+                      if (!is.null(nfactors)) if (!nfactors==length(nlevels))
                           stop("nfactors does not match the number of entries in factor.names.")}
       if (!(is.null(nlevels) | is.null(factor.names))) {
                       if (length(nlevels)>1 & !(length(factor.names)==length(nlevels)))
                           stop("length of factor.names and length of nlevels do not match.")
                       if (length(nlevels)==1) nlevels <- rep(nlevels,length(factor.names))}
+      if (is.null(nfactors)) nfactors <- length(nlevels)
+      if (nfactors==1) stop("one factor only is not covered by fac.design")
+      if (length(nlevels)==1) nlevels <- rep(nlevels, nfactors)
       if (is.list(factor.names)){ 
                              if (!(all(nlevels==sapply(factor.names,length) | sapply(factor.names,length)==1)))
                                  stop("Entries in nlevels do not match entries in factor.names.") 
             if (is.null(names(factor.names))){ if (nfactors<=50) names(factor.names) <- Letters[1:nfactors] 
                        else names(factor.names) <- paste("F",1:nfactors,sep="")
                            }}
-      if (is.null(nfactors)) nfactors <- length(nlevels)
-      if (length(nlevels)==1) nlevels <- rep(nlevels, nfactors)
       if (is.null(factor.names) | !is.list(factor.names)) {
+                 ## null or character vector
                  hilf <- NULL
                  if (!is.null(factor.names)) hilf <- factor.names
                  factor.names <-  rep(list(numeric(0)),nfactors)
@@ -58,15 +60,15 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                        else names(factor.names) <- paste("F",1:nfactors,sep="")
                  for (i in 1:nfactors) factor.names[i] <- list(1:nlevels[i])
              }
-      if (is.list(factor.names)) if (any(sapply(factor.names,length)==1)) 
+      if (is.list(factor.names)){ 
+            if (is.null(names(factor.names))){ if (nfactors<=50) names(factor.names) <- Letters[1:nfactors] 
+                       else names(factor.names) <- paste("F",1:nfactors,sep="")}
+            if (any(sapply(factor.names,length)==1)) 
                  for (i in 1:nfactors) if (length(factor.names[[i]])==1) factor.names[[i]] <- 1:nlevels[i]
+                 }
       design <- expand.grid(factor.names)
       nruns <- nrow(design)
       row.names(design) <- 1:nruns 
-      if (all(nlevels==2)) {factor.names[1:nfactors] <- rep(list(c(-1,1)),nfactors)
-                 desnum <- as.matrix(expand.grid(factor.names))
-                 row.names(desnum) <- 1:nrow(design) 
-             } else{ 
                 desnum <- NULL
                 quant <- sapply(factor.names, "is.numeric")
                 for (i in 1:nfactors){
@@ -75,7 +77,6 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                     if (nlevels[i]==2) contrasts(design[,i]) <- contr.FrF2(2)
                     else if (quant[i]) contrasts(design[,i]) <- contr.poly(nlevels[i],scores=factor.names[[i]])
                 }
-             }
 
       rand.ord <- rep(1:nrow(design),replications)
       if (replications > 1 & repeat.only) rand.ord <- rep(1:nrow(design),each=replications)

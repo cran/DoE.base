@@ -62,3 +62,6 @@ qualplan2 <- qua.design(quantplan2, quantitative="none", contrasts=c(B="contr.tr
 
 plan3 <- oa.design(factor.names=list(X=c(1,2),Y=c(1,2),Z=c(1,2)), ID=L4.2.3)
 desnum(qua.design(qua.design(cross.design(plan1,plan3),quantitative="all")))
+
+desnum(change.contr(quantplan1, "contr.helmert"))
+desnum(change.contr(quantplan2, "contr.helmert"))

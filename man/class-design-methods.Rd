@@ -1,8 +1,10 @@
 \name{Methods for class design objects}
 \alias{[.design}
+\alias{aggregate.design}
 \alias{print.design}
 \alias{summary.design}
 \alias{plot.design}
+\alias{class-design-methods}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Methods for class design objects}
@@ -14,6 +16,8 @@
 \method{[}{design}(x, i, j, drop.attr = TRUE, drop = FALSE)
 \method{print}{design}(x, show.order=NULL, ...)
 \method{summary}{design}(object, ...)
+\method{aggregate}{design}(x, ..., 
+    by = NULL, response = NULL, FUN = "mean", postfix = NULL, replace = TRUE)
 \method{plot}{design}(x, y=NULL, ...)
 }
 \arguments{
@@ -27,17 +31,36 @@
        data.frame objects, which is called by the method for class \code{design}}
   \item{show.order}{ \code{NULL} or logical; if \code{TRUE}, the design is printed with run order information; 
         default is \code{TRUE} for design types for which this information is helpful (see code for detail), \code{FALSE} otherwise }
-  \item{\dots}{ further arguments to functions \code{\link{print}}, \code{\link{summary}}, or in case of plotting, 
+  \item{\dots}{ further arguments to functions \code{\link{print}}, \code{\link{summary}}, \code{\link{aggregate}}, 
+        \code{\link{contrasts}} or in case of plotting, 
         \code{\link{plot}}, \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics  }
   \item{object}{ data frame of S3 class \code{design}, like argument \code{design} }
+  \item{by}{by variables for the \code{\link[stats:aggregate]{data frame method}} 
+        of function \code{aggregate}, 
+       needed if \code{x} is not a wide design for which the special 
+       method for class \code{\link{design}} is intended}
+  \item{response}{used for wide format designs only; \cr
+       if \code{NULL}, all responses of the design are aggregated; 
+       specify names of selected responses (column names of the \code{responselist} element 
+       of the \code{design.info} attribute) for restricting the responses that are treated}
+  \item{FUN}{a function to be used for aggregation, the default is \code{"mean"};\cr
+       can be used like the \code{FUN} argument to \code{\link{apply}} }
+  \item{postfix}{\code{NULL} implies postfixing the response name with (a character version of) 
+       \code{FUN}; a character string can be given instead for a user-defined postfix}
+  \item{replace}{logical that decides whether an existing variable of the given name 
+       is to be replaced; the default is \code{TRUE} for convenience reasons. 
+       WARNING: If custom variables other than aggregation variables are added to wide format designs, 
+       it is recommended to use variables names that are not likely to be generated 
+       by this function.}
   \item{y}{ a character vector of names of numeric variables in \code{x} to be plotted as responses, 
       or a numeric response vector, or a numeric matrix containing response columns, 
       or a data frame of numeric response variables (the latter would not work when directly 
       using function \code{\link[graphics]{plot.design}} from package graphics)}
-}
+  }
 \details{
     Items of class \code{\link{design}} are data frames with attributes, 
-    that have been created for conducting experiments. 
+    that have been created for conducting experiments. Apart from the methods 
+    documented here, a separate file documents the method \code{\link{formula.design}}.
     
     The extractor method subsets the design, taking care of the attributes accordingly (cf. the value section). 
     Subsetting can also handle replication in a limited way, although this is not first 
@@ -47,6 +70,11 @@
     The methods for \code{print} or \code{summary} provide design-specific information - 
     especially the \code{summary} method will develop further. If a standard data frame summary 
     is desired, explicitly use function \code{summary.data.frame} instead of \code{summary}.
+    
+    The method for \code{aggregate} provides aggregation utilities for wide format designs and 
+    links back to the method for data frames for designs that are not of wide format. 
+    If a wide format design is to be treated with the \code{aggregate} method for data frames, 
+    \code{\link[stats:aggregate]{aggregate.data.frame}} must be used explicitly. 
     
     The method for \code{plot} calls the method available in package graphics 
     (see \code{\link[graphics]{plot.design}}) wherever this makes sense (\code{x} not of class \code{design}, 
@@ -63,7 +91,7 @@
     for designs with relatively few factors (cf. example below; function \code{plot.design} calls 
     function \code{\link[vcd]{mosaic}} for this purpose).\cr
     For designs with at least one experimental factor that is not an R-factor, function 
-    \code{plot.design} calls function \code{\link[graphics]{plot.data.frame}} in order 
+    \code{plot.design} calls function \code{\link[graphics:plot.dataframe]{plot.data.frame}} in order 
     to create a scatter plot matrix.\cr 
     Currently, there is no good method for plotting designs with mixed qualitative 
     and quantitative factors.
@@ -90,7 +118,12 @@
         \item{subset.rows}{ a numeric or logical vector with the selected rows, and}
         \item{orig.design.info}{ which contains the original \code{design.info} attribute.}
         }}
+    
     The \code{print}, \code{summary} and \code{plot} methods are called for their side effects and return \code{NULL}.
+    
+    The method for \code{aggregate} returns the input wide format design with one or more 
+    additional response columns and the \code{response.names} element of the 
+    \code{design.info} attribute changed to only include the newly-added responses. 
 }
 \note{ The package is currently subject to intensive development; most key functionality is now included. 
 Some changes to input and output structures may still occur.}
@@ -98,7 +131,9 @@ Some changes to input and output structures may still occur.}
 \author{ Ulrike Groemping }
 \seealso{ See also the following functions known to produce objects of class 
     \code{design}: \code{FrF2}, \code{pb}, \code{\link{fac.design}}, \code{\link{oa.design}},
-    and function \code{\link[graphics]{plot.design}} from package graphics }
+    and function \code{\link[graphics]{plot.design}} from package graphics; 
+    a method for function \code{\link[stats]{lm}} is described in the separate help file 
+    \code{\link{lm.design}}.}
 \examples{
 oa12 <- oa.design(nlevels=c(2,2,6))
 #### Examples for extractor function
@@ -154,7 +189,28 @@ oa12 <- oa.design(nlevels=c(2,2,6))
   summary(oa12)
 ## look at data frame style summary instead
   summary.data.frame(oa12)
-
+  
+## aggregation examples
+  plan <- oa.design(nlevels=c(2,6,2), replications=2, repeat.only=TRUE)
+  y <- rnorm(24)
+  z <- rexp(24)
+  plan <- add.response(plan, cbind(y=y,z=z))
+  plan <- reptowide(plan)
+  plan.mean <- aggregate(plan)
+  plan.mean
+  aggregate(plan, response="z")
+  aggregate(plan, FUN=sd)
+  aggregate(plan, FUN = function(obj) max(obj) - min(obj), postfix="range")
+  ## several aggregates: add standard deviations to plan with means
+  plan.mean.sd <- aggregate(plan.mean, FUN=sd)
+  plan.mean.sd
+  response.names(plan.mean.sd)
+  ## change response.names element of design.info back to y.mean and z.mean
+  ## may be needed for automatic analysis routines that have not been 
+  ## created yet
+  plan.mean.sd <- aggregate(plan.mean.sd, FUN=mean)
+  plan.mean.sd
+  response.names(plan.mean.sd)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

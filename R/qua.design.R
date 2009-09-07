@@ -57,7 +57,10 @@ qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
    nowfactors <- names(di$factor.names)[which(sapply(design[,names(di$factor.names)],"is.factor"))]
    
    if (length(contrasts)>0){ 
-      if (is.null(names(contrasts))) stop("contrasts must be a named vector")
+      if (length(contrasts)==1) contrasts <- rep(contrasts, di$nfactors)
+      if (length(contrasts)==di$nfactors & is.null(names(contrasts))) 
+         names(contrasts) <- names(di$factor.names)
+      if (is.null(names(contrasts))) stop("contrasts must be a named vector, if not of length 1 or nfactors")
       if (length(setdiff(names(contrasts),fn))>0) stop("invalid factor names for contrasts")
       if (any(sapply(contrasts, function(obj) !is.function(eval(parse(text=obj))))))
           stop("invalid contrast names")

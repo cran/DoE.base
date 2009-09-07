@@ -11,7 +11,8 @@ refers to the first response in the design and is of design-type specific
 nature.
 }
 \usage{
-\method{formula}{design}(x, ..., response=NULL, degree=NULL)
+\method{formula}{design}(x, ..., response=NULL, degree=NULL, FUN=NULL, 
+      use.center=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,36 +27,67 @@ nature.
   \item{degree}{ degree of the model (1=main effects only, 2=with 2-factor 
            interactions and quadratic effects, 3=with 3-factor interactions and 
            up to cubic effects, ... }
+  \item{FUN}{ function for the \code{\link{aggregate.design}} method; 
+        this must be an unquoted function name or \code{NULL};\cr
+        This option is relevant for repeated measurement designs 
+        and parameter designs in long format only}
+  \item{use.center}{ logical indicating whether center points are to be used +
+        in the analysis; relevant for \code{pb} and \code{FrF2} designs with 
+        center points only}
 }
 \details{
-Function \code{link[stats]{formula}} creates an appropriate formula for mny kinds of 
+Function \code{link[stats]{formula}} creates an appropriate formula for many kinds of 
 objects, e.g. for data frames (try e.g. \code{formula(swiss)}). Function 
 \code{link[stats]{as.formula}} uses function formula, but cannot take any additional 
 arguments. 
 
 The method for class \code{design} objects modifies the way a data frame 
 would normally be treated by the \code{formula} function. This also carries through 
-to default linear models, as function \code{link[stats]{lm}} simply forces its first 
-argument to be a formula via \code{as.formula}.
+to default linear models.
 
 Without the additional arguments, the function creates the formula with the first 
 response from the \code{response.names} element of the \code{design.info} attribute. 
 The default degree depends on the type of design: it is 
 \itemize{
 \item{}{1 for \code{oa} and \code{pb}}
-\item{}{2 for designs with types starting with \dQuote{FrF2} (blocked designs receive special treatment, 
-  with blocks entering without any interactions)}
-\item{}{will be 2 for response surface designs and lhs designs}
-\item{}{will be the model formula used in optimizing the design for optimal designs}
+\item{}{2 for all other design types}}
+
+\code{degree} does not have an effect for response surface designs 
+  (types \code{bbd}, \code{bbd.blocked} and \code{ccd}) and latin hypercube designs (type \code{lhs}), 
+  where the function always creates the formula for a full second order model including quadratic 
+  effects.
+ 
+Where \code{degree} does have an effect, it is the exponent of the sum of all experimental factors, 
+i.e. it refers to the degree of interactions, not to powers of the variables themselves 
+(e.g. \code{(A+B+C)^2} for degree 2).
+
+For designs with a block variable (types \code{FrF2.blocked}, \code{bbd.blocked} and \code{ccd}) 
+the block variable enters the formula as a main effect factor without any interactions. 
+
+For 2-level designs with center points (types \code{FrF2.center} or \code{pb.center}), 
+the formula contains an indicator variable \code{center} for the center points 
+that can is used for checking whether quadratic effects are needed.
+
+For designs with repeated measurements (\code{repeat.only} and parameter designs, 
+the default is to analyse aggregated responses. For more detail, 
+see the documentation of \code{\link{lm.design}}. 
+
+For optimal designs (not implemented yet), the formula will be the model formula 
+used in optimizing the design.
 }
-}
+
 \value{
 a formula
 }
 \author{ Ulrike Groemping }
-\seealso{ See also \code{\link[stats]{formula}} }
+\seealso{ See also \code{\link[stats]{formula}} and \code{\link{lm.design}} }
 \examples{
-   my.L18 <- oa.design(ID=L18, factor.names = c("one","two","three","four","five","six","seven"), nlevels=c(3,3,3,2,3,3,3))
+  ## indirect usage via function lm.design is much more interesting
+  ## cf help for lm design!
+
+   my.L18 <- oa.design(ID=L18, 
+       factor.names = c("one","two","three","four","five","six","seven"), 
+       nlevels=c(3,3,3,2,3,3,3))
    y <- rnorm(18)
    my.L18 <- add.response(my.L18, y)
    formula(my.L18)

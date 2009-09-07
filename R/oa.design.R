@@ -54,6 +54,12 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           }
           ## now nlevels is known and is a vector longer than 1
 
+          if (!is.null(nfactors)){ 
+               if (!nfactors==length(nlevels)) 
+                    stop("mismatch between nfactors and nlevels or factor.names")
+          }
+          else nfactors <- length(nlevels)
+
           if (is.list(factor.names)){ 
                     if (!(all(nlevels==sapply(factor.names,length) | sapply(factor.names,length)==1)))
                           stop("Entries in nlevels do not match entries in factor.names.") 
@@ -62,11 +68,6 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                        else names(factor.names) <- paste("F",1:nfactors,sep="")
                            }}
 
-          if (!is.null(nfactors)){ 
-               if (!nfactors==length(nlevels)) 
-                    stop("mismatch between nfactors and nlevels or factor.names")
-          }
-          else nfactors <- length(nlevels)
           ## determine ID from nlevels and other entries!
           hilf <- table(nlevels)
             names(hilf) <- paste("n",names(hilf),sep="")

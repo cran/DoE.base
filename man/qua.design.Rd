@@ -1,5 +1,6 @@
 \name{qua.design}
 \alias{qua.design}
+\alias{change.contr}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Function to switch between qualitative and quantitative factors and 
 different contrast settings}
@@ -9,6 +10,7 @@ different contrast settings.
 }
 \usage{
 qua.design(design, quantitative = NA, contrasts = character(0), ...)
+change.contr(design, contrasts=contr.treatment)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,25 +42,40 @@ qua.design(design, quantitative = NA, contrasts = character(0), ...)
   \item{contrasts}{ only takes effect for factors for which quantitative is \code{FALSE};\cr
        the default \code{character(0)} does not change any contrasts vs.~the previous 
        or default contrasts.\cr
-       For customizing, a named character vector can be given; the names must correspond to names of factors 
-       to be modified, and entries must be names of contrast functions. The contrast functions 
-       are then applied to the respective factors with the correct number of levels.\cr
+       
+       For customizing, a 
+       
+       character string \cr
+       OR a character vector with a contrast name entry for each factor
+       OR a named character vector of arbitrary length from 1 to number of factors\cr
+       
+       can be given; the names must correspond to names of factors 
+       to be modified, and entries must be names of contrast functions. 
+       The contrast functions are then applied to the respective factors 
+       with the correct number of levels.\cr
        Possible contrast function names include (at least) 
        \code{\link{contr.FrF2}} (for number of levels a power of 2 only), 
-       \code{\link{contr.helmert}}, \code{\link[stats:contrast]{contr.treatment}}, 
-       \code{\link[stats:contrast]{contr.SAS}}, \code{\link[stats:contrast]{contr.sum}}, 
+       \code{\link[stats:contrast]{contr.helmert}}, 
+       \code{\link[stats:contrast]{contr.treatment}}, 
+       \code{\link[stats:contrast]{contr.SAS}}, 
+       \code{\link[stats:contrast]{contr.sum}}, 
        \code{\link[stats:contrast]{contr.poly}}.
        CAUTION: Function \code{qua.design} checks whether the contrast names 
        actually define a function, but it is not checked 
-       whether this function is a valid contrast function.}
+       whether this function is a valid contrast function.
+       }
   \item{\dots}{ currently not used }
 }
 \details{
-  An experimental factor for which quantitative is \code{TRUE} is recoded into a numeric variable. 
+  With function \code{qua.design}, option \code{quantitative} has the following implications:\cr
+  An experimental factor for which quantitative is \code{TRUE} is recoded into a numeric variable.\cr 
   An experimental factor for which quantitative is \code{NA} is recoded into an R-factor 
-  with the default contrasts given below. An experimental factor for which quantitative is FALSE´is 
-  recoded into an R-factor with treatment contrasts (default) or with custom contrasts as indicated by the 
-  \code{contrasts} parameter.
+  with the default contrasts given below.\cr 
+  An experimental factor for which quantitative is FALSE is recoded into an R-factor 
+  with treatment contrasts (default) or with custom contrasts as indicated by the 
+  \code{contrasts} parameter. \cr
+  If the intention is to change contrasts only, function \code{change.contr} 
+  is a convenience interface to function \code{qua.design}.
   
   The default contrasts for factors in class \code{\link{design}} objects 
   (exception: purely quantitative design types like lhs or rsm designs) 
@@ -72,9 +89,13 @@ qua.design(design, quantitative = NA, contrasts = character(0), ...)
   Note that, for 2-level factors, the default contrasts from function \code{qua.design} 
   differ from the default contrasts with which the factors were generated in case of 
   functions \code{\link{fac.design}} or \code{\link{oa.design}}. Thus, for recreating 
-  the original state, it may be necessary to explicity specify 
+  the original state, it may be necessary to explicity specify the desired contrasts.
   
-  Warning: It is possible to misuse this function especially for designs that have been 
+  Function \code{change.contr} makes all factors qualitative. Per default, treatment 
+  contrasts (cf. \code{\link[stats:contrast]{contr.treatment}}) 
+  are assigned to all factors. The default contrasts can of course be modified.
+  
+  Warning: It is possible to misuse these functions especially for designs that have been 
   combined from several designs. For example, while setting factors in an lhs design 
   (cf. \code{\link[DoE.wrapper]{lhs.design}}) to 
   qualitative is prevented, if the lhs design has been crossed with another design of a different 
@@ -94,8 +115,7 @@ qua.design(design, quantitative = NA, contrasts = character(0), ...)
 y <- rnorm(12)
 plan <- oa.design(nlevels=c(2,6,2))
 lm(y~.,plan)
-## quantitative = FALSE entries (or none) leave contrasts unchanged 
-## vs. previous state
+lm(y~., change.contr(plan))   ## with treatment contrasts instead
 plan <- qua.design(plan, quantitative = "none")
 lm(y~.,plan)
 plan <- qua.design(plan, quantitative = "none", contrasts=c(B="contr.treatment"))
