@@ -6,6 +6,12 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+11/09/2009, Version 0.9-1
+- changed message to cat in print and summary
+- added function SN for signal-to-noise ratio 
+  (target only, since other versions are not scale invariant)
+- added generic, default and design method for showData (in support of RcmdrPlugin.DoE)
+- added design method for subset
 
 07/09/09, Version 0.9
 - export function contr.FrF2 
