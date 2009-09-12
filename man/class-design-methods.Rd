@@ -2,6 +2,9 @@
 \alias{[.design}
 \alias{aggregate.design}
 \alias{print.design}
+\alias{showData}
+\alias{showData.default}
+\alias{showData.design}
 \alias{summary.design}
 \alias{plot.design}
 \alias{class-design-methods}
@@ -15,6 +18,53 @@
 \usage{
 \method{[}{design}(x, i, j, drop.attr = TRUE, drop = FALSE)
 \method{print}{design}(x, show.order=NULL, ...)
+showData(dataframe,colname.bgcolor = "grey50", 
+       rowname.bgcolor = "grey50", 
+       body.bgcolor = "white", 
+       colname.textcolor = "white", 
+       rowname.textcolor = "white", 
+       body.textcolor = "black",
+       font = "Courier 12", 
+       maxheight = 30, 
+       maxwidth = 80, 
+       title = NULL,
+       rowname.bar = "left",
+       colname.bar = "top",
+       rownumbers = FALSE, 
+       placement = "-20-40",
+       suppress.X11.warnings = TRUE)
+\method{showData}{default}(dataframe, 
+       colname.bgcolor = "grey50", 
+       rowname.bgcolor = "grey50", 
+       body.bgcolor = "white", 
+       colname.textcolor = "white", 
+       rowname.textcolor = "white", 
+       body.textcolor = "black",
+       font = "Courier 12", 
+       maxheight = 30, 
+       maxwidth = 80, 
+       title = NULL,
+       rowname.bar = "left",
+       colname.bar = "top",
+       rownumbers = FALSE, 
+       placement = "-20-40",
+       suppress.X11.warnings = TRUE)
+\method{showData}{design}(dataframe,
+       colname.bgcolor = "grey50", 
+       rowname.bgcolor = "grey50", 
+       body.bgcolor = "white", 
+       colname.textcolor = "white", 
+       rowname.textcolor = "white", 
+       body.textcolor = "black",
+       font = "Courier 12", 
+       maxheight = 30, 
+       maxwidth = 80, 
+       title = NULL,
+       rowname.bar = "left",
+       colname.bar = "top",
+       rownumbers = FALSE, 
+       placement = "-20-40",
+       suppress.X11.warnings = TRUE)
 \method{summary}{design}(object, ...)
 \method{aggregate}{design}(x, ..., 
     by = NULL, response = NULL, FUN = "mean", postfix = NULL, replace = TRUE)
@@ -32,8 +82,10 @@
   \item{show.order}{ \code{NULL} or logical; if \code{TRUE}, the design is printed with run order information; 
         default is \code{TRUE} for design types for which this information is helpful (see code for detail), \code{FALSE} otherwise }
   \item{\dots}{ further arguments to functions \code{\link{print}}, \code{\link{summary}}, \code{\link{aggregate}}, 
-        \code{\link{contrasts}} or in case of plotting, 
+        \code{\link{contrasts}},  or in case of plotting, 
         \code{\link{plot}}, \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics  }
+  \item{dataframe}{data frame; if of S3 class \code{design}, the method for \code{design} is used, 
+       otherwise the default method}
   \item{object}{ data frame of S3 class \code{design}, like argument \code{design} }
   \item{by}{by variables for the \code{\link[stats:aggregate]{data frame method}} 
         of function \code{aggregate}, 
@@ -56,6 +108,22 @@
       or a numeric response vector, or a numeric matrix containing response columns, 
       or a data frame of numeric response variables (the latter would not work when directly 
       using function \code{\link[graphics]{plot.design}} from package graphics)}
+  The following items are documented in package \code{\link[relimp:showData]{relimp}}:
+      \item{colname.bgcolor}{}
+      \item{rowname.bgcolor}{}
+      \item{body.bgcolor}{}
+      \item{colname.textcolor}{}
+      \item{rowname.textcolor}{}
+      \item{body.textcolor}{}
+      \item{font}{}
+      \item{maxheight}{}
+      \item{maxwidth}{}
+      \item{title}{}
+      \item{rowname.bar}{}
+      \item{colname.bar}{}
+      \item{rownumbers}{}
+      \item{placement}{}
+      \item{suppress.X11.warnings}{}
   }
 \details{
     Items of class \code{\link{design}} are data frames with attributes, 
@@ -70,6 +138,14 @@
     The methods for \code{print} or \code{summary} provide design-specific information - 
     especially the \code{summary} method will develop further. If a standard data frame summary 
     is desired, explicitly use function \code{summary.data.frame} instead of \code{summary}.
+    
+    The default method for \code{showData} is the function from package \pkg{\link[relimp:showData]{relimp}}, 
+    which is also used in R-Commander for viewing data sets. The method for class \code{design} objects 
+    is needed for successfully using the view button of \code{design} dataframes in R-commander. 
+    They are undesigned before viewing. However, it is preferrable to inspect a printout from function 
+    \code{print.design} which provides additional information. 
+    This can also be done in the R-Commander using the \code{Design} menu in package \code{RcmdrPlugin.DoE} 
+    (to be available soon).  
     
     The method for \code{aggregate} provides aggregation utilities for wide format designs and 
     links back to the method for data frames for designs that are not of wide format. 

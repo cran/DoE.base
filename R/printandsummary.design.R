@@ -8,42 +8,89 @@ print.design <- function(x,show.order=NULL, ...){
    print(cbind(run.order(x)[,2:3],x), ...)
    else 
    print(cbind(x), ...)
-   message("class=design, type=", di$type)
+   cat("class=design, type=", di$type,"\n")
    if (show.order) message("NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame")
    if (length(grep("param",di$type))>0 & length(grep("wide",di$type))>0 ){
-      message("Outer array:")
+      cat("Outer array:\n")
       print(di$outer, ...)
       }
 }
 
+## these methods allow to use the view data button in Rcmdr with reasonable printed output
+showData <- function(dataframe, 
+       colname.bgcolor = "grey50", 
+       rowname.bgcolor = "grey50", 
+       body.bgcolor = "white", 
+       colname.textcolor = "white", 
+       rowname.textcolor = "white", 
+       body.textcolor = "black",
+       font = "Courier 12", 
+       maxheight = 30, 
+       maxwidth = 80, 
+       title = NULL,
+       rowname.bar = "left",
+       colname.bar = "top",
+       rownumbers = FALSE, 
+       placement = "-20-40",
+       suppress.X11.warnings = TRUE){
+  UseMethod("showData")
+}
+
+showData.default <- relimp::showData
+
+showData.design <- function(dataframe, colname.bgcolor = "grey50", 
+       rowname.bgcolor = "grey50", 
+       body.bgcolor = "white", 
+       colname.textcolor = "white", 
+       rowname.textcolor = "white", 
+       body.textcolor = "black",
+       font = "Courier 12", 
+       maxheight = 30, 
+       maxwidth = 80, 
+       title = NULL,
+       rowname.bar = "left",
+       colname.bar = "top",
+       rownumbers = FALSE, 
+       placement = "-20-40",
+       suppress.X11.warnings = TRUE) {
+   if (!"design" %in% class(dataframe))
+       stop("This method is for class design data frames only.")
+   showData(undesign(dataframe),colname.bgcolor=colname.bgcolor, 
+      rowname.bgcolor=rowname.bgcolor, body.bgcolor=body.bgcolor,
+      colname.textcolor=colname.textcolor, rowname.textcolor=rowname.textcolor,
+      body.textcolor=body.textcolor, font=font,maxheight=maxheight,
+      maxwidth=maxwidth,title=title, rowname.bar=rowname.bar, colname.bar=colname.bar,
+      rownumbers=rownumbers,placement=placement,suppress.X11.warnings=suppress.X11.warnings)
+   }
+
 summary.design <- function(object,...){
    di <- design.info(object)
    if (is.language(di$creator)){ 
-       message("Call:")
+       cat("Call:\n")
        print(di$creator, ...)
-       message("\n")
+       cat("\n")
        }
    else if (length(class(di$creator))>1)
-       message("design was generated with RcmdrPlugin.DoE\n")
-   message("Experimental design of type ", di$type)
-   message(di$nruns, " runs\n")
+       message("design was generated with RcmdrPlugin.DoE\n\n")
+       cat("Experimental design of type ", di$type,"\n")
+       cat(di$nruns, " runs\n\n")
 ## ??? how to handle blocks from ccd ???
    blocks <- di$blocks
    if (is.null(blocks)) blocks <- 1
        if (blocks > 1){
-          message("blocked design with ", di$blocks, " blocks")
+          cat("blocked design with ", di$blocks, " blocks\n")
           if (di$bbreps>1)
-             message("each type of block independently conducted ", di$bbreps, " times")
+             cat("each type of block independently conducted ", di$bbreps, " times\n")
           if (di$wbreps>1 & !di$repeat.only)
-             message("each run within each block independently conducted ", di$wbreps, " times")
+             cat("each run within each block independently conducted ", di$wbreps, " times\n")
           if (di$wbreps>1 & di$repeat.only)
-             message("each run measured ", di$wbreps, " times (no proper replication)")
+             cat("each run measured ", di$wbreps, " times (no proper replication)\n")
        }
     else if (di$replications>1)
       if (di$repeat.only)
-         message(di$replications, " measurements per run (not proper replications)")
+         cat(di$replications, " measurements per run (not proper replications)\n")
       else
-         message("each run independently conducted ", di$replications, " times")
+         cat("each run independently conducted ", di$replications, " times\n")
 
 #   nlevels <- di$nlevels
 #   if (is.null(nlevels))
@@ -59,35 +106,35 @@ summary.design <- function(object,...){
    lfn <- max(sapply(pfn, "length"))
    pfn <- lapply(pfn, function(obj) if (length(obj)==lfn) obj else c(obj,rep("",lfn-length(obj))))
    pfn <- as.data.frame(pfn)
-   message("Factor settings:")
+   cat("Factor settings:\n")
    print(pfn,...)
    if (!is.null(response.names(object))){
-       message("\nResponses:")
+       cat("\nResponses:\n")
        if (is.null(di$responselist)) print(response.names(object),...)
        else print(di$responselist)
    } 
    if (length(grep("param",design.info(object)$type))>0 & length(grep("wide",design.info(object)$type))>0 ){
-      message("\nOuter array:")
+      cat("\nOuter array:\n")
       print(design.info(object)$outer, ...)
       }
    ## alias information for FrF2 designs
    if (substr(di$type,1,4)=="FrF2"){
       if (any(sapply(di$aliased,"length")>1)){ 
-         message("\nAlias structure:")
+         cat("\nAlias structure:\n")
          print(di$aliased,...)}
-         else message("no aliasing of main effects or 2fis")
+         else cat("no aliasing of main effects or 2fis\n")
       if (di$type=="FrF2.blocked"){
         if (length(di$aliased.with.blocks)>1){ 
-           message("Aliased with block main effects:")
+           cat("Aliased with block main effects:\n")
            print(di$aliased.with.blocks,...)
          }
        }
    }
    ## what for pb and oa.design?
    if (substr(di$type,1,4)=="oa"){
-       message("Generating Orthogonal Array:")
+       cat("Generating Orthogonal Array:\n")
          print(di$generating.oa,...)
-       message("Selected Columns:")
+       cat("Selected Columns:\n")
          print(di$selected.columns,...)
        }
    ## nothing for pb or full factorials
@@ -97,8 +144,8 @@ summary.design <- function(object,...){
    nWPs <- di$nWPs
    if (is.null(nWPs)) nWPs <- 1
    if (nWPs > 1){ 
-          message("split-plot design: ", nWPs, " whole plots")
-          message("                 : first ", di$nfac.WP, " factors are whole plot factors")
+          cat("split-plot design: ", nWPs, " whole plots\n")
+          cat("                 : first ", di$nfac.WP, " factors are whole plot factors\n")
           }
 
 }

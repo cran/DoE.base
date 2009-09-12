@@ -2,10 +2,10 @@
      export("oa.design", "fac.design","desnum", "run.order", "design.info", 
             "origin","factor.names","response.names",
             "desnum<-", "run.order<-", "design.info<-",
-            "factor.names<-","response.names<-","ord", 
+            "factor.names<-","response.names<-","ord", "SN",
             "Letters","make.formulas","make.generators",
             "export.design","add.response", "qua.design", "cross.design",
-            "plot.design","lm",
+            "plot.design","lm","showData",
             "param.design","paramtowide", "undesign", "redesign", "fix", "change.contr",
             "reptowide", "reptolong", "L18", "L36", "oacat","des.recode","contr.FrF2",
             "L4.2.3","L8.2.4.4.1","L9.3.4","L12.2.11","L12.2.2.6.1",
@@ -85,6 +85,8 @@
             S3method("print",design)
             S3method("print",lm.design)
             S3method("print",summary.lm.design)
+            S3method("showData",default)
+            S3method("showData",design)
             S3method("summary",design)
             S3method("summary",lm.design)
             S3method("plot",design)
