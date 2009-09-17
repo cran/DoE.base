@@ -6,12 +6,21 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+17/09/2009, Version 0.9-2
+- added meaningful title to showData display (was always undesign(dataframe))
+- corrected a link in documentation for lm.design
+
+14/09/2009, Version 0.9-2
+- add.response now converts the name of a numeric variable to a valid R name. This 
+  solves issues with using add.response indirectly when applying it with a calculated response. 
+- oa.design and fac.design now also convert factor names to valid R names using make.names
+- param.design now converts given response names to valid R names.
+
 11/09/2009, Version 0.9-1
 - changed message to cat in print and summary
 - added function SN for signal-to-noise ratio 
   (target only, since other versions are not scale invariant)
 - added generic, default and design method for showData (in support of RcmdrPlugin.DoE)
-- added design method for subset
 
 07/09/09, Version 0.9
 - export function contr.FrF2 

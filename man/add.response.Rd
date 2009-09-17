@@ -75,6 +75,8 @@ which remains an object of class \code{\link{design}} with the following modific
        plan <- fac.design(nlevels=c(2,3,2,4))
        result <- rnorm(2*3*2*4)
        add.response(plan,response=result)
+       ## direct use of rnorm() is also possible, but looks better with 48 
+       add.response(plan,response=rnorm(48))
        
    \dontrun{   
        export.design(path="c:/projectA/experiments",plan)

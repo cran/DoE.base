@@ -67,6 +67,10 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                     if (nfactors<=50) names(factor.names) <- Letters[1:nfactors] 
                        else names(factor.names) <- paste("F",1:nfactors,sep="")
                            }}
+          ## make names valid under all circumstances 
+          ## needed here already because of some return() instances below
+          if (!is.null(names(factor.names)))
+          names(factor.names) <- make.names(names(factor.names), unique=TRUE)
 
           ## determine ID from nlevels and other entries!
           hilf <- table(nlevels)
@@ -195,6 +199,9 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           factor.names <- as.list(rep("",length(factor.names)))
           names(factor.names) <- hilf
       }   ## factor.names is now a list, but perhaps without level entries
+      ## make factor names valid
+      names(factor.names) <- make.names(names(factor.names), unique=TRUE)
+
 
       ### check whether the requested nlevels can be accomodated in design ID
            ### compare two tables, make sure that apples are compared to apples!

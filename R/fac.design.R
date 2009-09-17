@@ -66,6 +66,9 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
             if (any(sapply(factor.names,length)==1)) 
                  for (i in 1:nfactors) if (length(factor.names[[i]])==1) factor.names[[i]] <- 1:nlevels[i]
                  }
+      ## make names valid under all circumstances
+      names(factor.names) <- make.names(names(factor.names), unique=TRUE)
+
       design <- expand.grid(factor.names)
       nruns <- nrow(design)
       row.names(design) <- 1:nruns 
