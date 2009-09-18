@@ -55,7 +55,7 @@ summary.lm.design
         in the analysis; relevant for \code{pb} and \code{FrF2} designs with 
         center points only;\cr
         the default \code{FALSE} allows application of analysis from package 
-        \code{\link[FrF2]{FrF2-package}} (e.g. function \code{\link[FrF2]{MEPlot}})
+        \code{\link[FrF2]{FrF2-package}} (e.g. function \code{\link[FrF2]{IAPlot}})
         }
   \item{x}{ object of class \code{lm} or \code{summary.lm},\cr 
         for \code{lm.default} like in \code{\link[stats]{lm}}  }

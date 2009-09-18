@@ -2,8 +2,10 @@ param.design <- function(inner, outer, direction="long", responses=NULL, ...){
     if (!"design" %in% class(inner))
        stop ("inner must be a design")
     if (!direction %in% c("long","wide")) stop("direction must be one of long or wide")
-    if (!is.null(responses)) if (!is.character(responses)) 
+    if (!is.null(responses)) {if (!is.character(responses)) 
        stop("if given, responses must be a character vector of long format response names")
+       responses <- make.names(responses, unique=TRUE)
+       }
     di <- design.info(inner)
     if (!di$randomize) warning("inner array should be randomized")
     if (di$replications>1 | di$repeat.only) 

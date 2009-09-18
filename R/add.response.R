@@ -5,13 +5,13 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
         load(rdapath)
         if (!exists(design)) stop(design, " not found in ", rdapath)
         ## desnam <- design  ## that is not needed, is it ?
-        assign(design, get(design))
+        assign(design, get(design))  ## why this?
         design <- get(design)
         if (!"design" %in% class(design)) stop("design must be of class design")
         }
      if (is.character(response)){ 
         if (!substr(response, nchar(response)-2,nchar(response))=="csv") 
-                              stop("response must be a vector or the name of a csv-file")
+            stop("response must be a numeric vector or matrix, a data frame or the name of a csv-file")
         if (InDec==".") assign("response", read.csv(response))
              else assign("response", read.csv2(response))
      }
@@ -19,11 +19,11 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
 ### take care of name that is automatically stored and should subsequently only be added if 
 ### it has been changed in the mean time
 
-    rn <- deparse(substitute(response))
+    rn <- make.names(deparse(substitute(response)))    ## make.names makes valid R names from e.g. rnorm(8)
 
     if (!"design" %in% class(design)) stop("add.response works on class design objects only.")
     if (!(is.numeric(response) | is.data.frame(response)))
-        stop("response must be a numeric vector, a matrix or a data frame.")
+        stop("response must be a numeric vector or matrix or a data frame.")
 
     ## response to become a data frame with reasonable column names
     if (is.matrix(response)) response <- data.frame(response)
