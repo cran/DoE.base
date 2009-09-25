@@ -101,7 +101,7 @@ summary.lm.design
     
     Designs with center points are per default analysed without the center points; the main 
     reason for this is convenient usage of functions \code{\link[FrF2]{DanielPlot}}, 
-    \code{\link[FrF2]{MEPlot}} and \code{\link[FrF2]{IAPlot}} from package \pkg{FrF2}. 
+    \code{\link[FrF2:IAPlot]{MEPlot}} and \code{\link[FrF2]{IAPlot}} from package \pkg{FrF2}. 
     With the \code{use.center} option, this default can be changed; in this case, significance 
     of the center point indicator implies that there are one or more quadratic effect(s) 
     in the model.
