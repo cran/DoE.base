@@ -6,7 +6,11 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
-17/09/2009, Version 0.9-2
+25/09/2009, Version 0.9-4
+- corrected another link in documentation for lm.design
+
+
+17/09/2009, Version 0.9-3
 - added meaningful title to showData display (was always undesign(dataframe))
 - corrected a link in documentation for lm.design
 
