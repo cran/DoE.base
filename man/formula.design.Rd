@@ -36,9 +36,9 @@ nature.
         center points only}
 }
 \details{
-Function \code{link[stats]{formula}} creates an appropriate formula for many kinds of 
+Function \code{\link[stats]{formula}} creates an appropriate formula for many kinds of 
 objects, e.g. for data frames (try e.g. \code{formula(swiss)}). Function 
-\code{link[stats]{as.formula}} uses function formula, but cannot take any additional 
+\code{\link[stats]{as.formula}} uses function formula, but cannot take any additional 
 arguments. 
 
 The method for class \code{design} objects modifies the way a data frame 

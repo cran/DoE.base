@@ -6,9 +6,15 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+03/11/2009, Version 0.9-5
+- bug fix: 
+  export also lm.default and lm.design, as registration as S3 methods did not 
+  suffice to have them found; this messed up function update (error message: 
+  lm.default not found)
+- fixed broken links in documentation to formula.design
+
 25/09/2009, Version 0.9-4
 - corrected another link in documentation for lm.design
-
 
 17/09/2009, Version 0.9-3
 - added meaningful title to showData display (was always undesign(dataframe))

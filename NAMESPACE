@@ -5,7 +5,7 @@
             "factor.names<-","response.names<-","ord", "SN",
             "Letters","make.formulas","make.generators",
             "export.design","add.response", "qua.design", "cross.design",
-            "plot.design","lm","showData",
+            "plot.design","lm","lm.default","lm.design","showData",
             "param.design","paramtowide", "undesign", "redesign", "fix", "change.contr",
             "reptowide", "reptolong", "L18", "L36", "oacat","des.recode","contr.FrF2",
             "L4.2.3","L8.2.4.4.1","L9.3.4","L12.2.11","L12.2.2.6.1",
