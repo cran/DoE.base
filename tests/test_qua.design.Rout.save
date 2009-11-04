@@ -1,5 +1,5 @@
 
-R version 2.9.1 Patched (2009-07-22 r48993)
+R version 2.10.0 (2009-10-26)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -17,14 +17,20 @@ Type 'q()' to quit R.
 
 > require(DoE.base)
 Loading required package: DoE.base
-Loading required package: tcltk
+Loading required package: relimp
 Loading Tcl/Tk interface ... done
+Loading required package: tcltk
 Loading required package: vcd
 Loading required package: MASS
 Loading required package: grid
 Loading required package: colorspace
 
 Attaching package: 'DoE.base'
+
+
+	The following object(s) are masked from package:relimp :
+
+	 showData 
 
 
 	The following object(s) are masked from package:stats :
@@ -41,9 +47,6 @@ Attaching package: 'DoE.base'
 
 	 fix 
 
-Warning messages:
-1: package 'vcd' was built under R version 2.9.2 
-2: package 'colorspace' was built under R version 2.9.2 
 > 
 > set.seed(12445)
 > 
@@ -52,7 +55,7 @@ Warning messages:
 >  lm(rnorm(16)~., plan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = plan1)
+lm(formula = rnorm(16) ~ ., plan1)
 
 Coefficients:
 (Intercept)           A1           B1           C1           D1  
@@ -63,7 +66,7 @@ Coefficients:
 >  lm(rnorm(12)~., plan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = plan2)
+lm(formula = rnorm(12) ~ ., plan2)
 
 Coefficients:
 (Intercept)           A1          B.L          B.Q          B.C          B^4  
@@ -77,7 +80,7 @@ Coefficients:
 >  lm(rnorm(16)~., quantplan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = quantplan1)
+lm(formula = rnorm(16) ~ ., quantplan1)
 
 Coefficients:
 (Intercept)            A            B            C            D  
@@ -88,7 +91,7 @@ Coefficients:
 >  lm(rnorm(12)~., quantplan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = quantplan2)
+lm(formula = rnorm(12) ~ ., quantplan2)
 
 Coefficients:
 (Intercept)            A            B            C  
@@ -101,7 +104,7 @@ Coefficients:
 >  lm(rnorm(16)~., qualplan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = qualplan1)
+lm(formula = rnorm(16) ~ ., qualplan1)
 
 Coefficients:
 (Intercept)           A1           B1           C1           D1  
@@ -112,7 +115,7 @@ Coefficients:
 >  lm(rnorm(12)~., qualplan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = qualplan2)
+lm(formula = rnorm(12) ~ ., qualplan2)
 
 Coefficients:
 (Intercept)           A1          B.L          B.Q          B.C          B^4  
@@ -126,7 +129,7 @@ Coefficients:
 >  lm(rnorm(16)~., qualplan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = qualplan1)
+lm(formula = rnorm(16) ~ ., qualplan1)
 
 Coefficients:
 (Intercept)           A1           B1           C1           D1  
@@ -137,7 +140,7 @@ Coefficients:
 >  lm(rnorm(12)~., qualplan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = qualplan2)
+lm(formula = rnorm(12) ~ ., qualplan2)
 
 Coefficients:
 (Intercept)           A1          B.L          B.Q          B.C          B^4  
@@ -151,7 +154,7 @@ Coefficients:
 >  lm(rnorm(16)~., qualplan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = qualplan1)
+lm(formula = rnorm(16) ~ ., qualplan1)
 
 Coefficients:
 (Intercept)           A1           B1           C1           D1  
@@ -162,7 +165,7 @@ Coefficients:
 >  lm(rnorm(12)~., qualplan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = qualplan2)
+lm(formula = rnorm(12) ~ ., qualplan2)
 
 Coefficients:
 (Intercept)           A1          B.L          B.Q          B.C          B^4  
@@ -177,7 +180,7 @@ Coefficients:
 >  lm(rnorm(16)~., qualplan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = qualplan1)
+lm(formula = rnorm(16) ~ ., qualplan1)
 
 Coefficients:
 (Intercept)           A1           B1           C1           D1  
@@ -188,7 +191,7 @@ Coefficients:
 >  lm(rnorm(12)~., qualplan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = qualplan2)
+lm(formula = rnorm(12) ~ ., qualplan2)
 
 Coefficients:
 (Intercept)           A1          B.L          B.Q          B.C          B^4  
@@ -202,7 +205,7 @@ Coefficients:
 >  lm(rnorm(16)~., qualplan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = qualplan1)
+lm(formula = rnorm(16) ~ ., qualplan1)
 
 Coefficients:
 (Intercept)           A1           B2           C1           D1  
@@ -213,7 +216,7 @@ Coefficients:
 >  lm(rnorm(12)~., qualplan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = qualplan2)
+lm(formula = rnorm(12) ~ ., qualplan2)
 
 Coefficients:
 (Intercept)           A1           B2           B3           B4           B5  
@@ -227,7 +230,7 @@ Coefficients:
 >  lm(rnorm(16)~., qualplan1)
 
 Call:
-lm.default(formula = rnorm(16) ~ ., data = qualplan1)
+lm(formula = rnorm(16) ~ ., qualplan1)
 
 Coefficients:
 (Intercept)           A1           B2           C1           D1  
@@ -238,7 +241,7 @@ Coefficients:
 >  lm(rnorm(12)~., qualplan2)
 
 Call:
-lm.default(formula = rnorm(12) ~ ., data = qualplan2)
+lm(formula = rnorm(12) ~ ., qualplan2)
 
 Coefficients:
 (Intercept)           A1           B2           B3           B4           B5  

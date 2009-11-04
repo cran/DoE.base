@@ -6,11 +6,19 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+04/11/2009, Version 0.9-6
+provided a more robust bug fix for the "lm.default" not found bug: 
+modified the call of the stored lm objects so that they can be handled 
+without package DoE.base loaded, and excluded lm.default and lm.design 
+from exporting again; 
+also removed most arguments from lm.default
+
 03/11/2009, Version 0.9-5
 - bug fix: 
   export also lm.default and lm.design, as registration as S3 methods did not 
   suffice to have them found; this messed up function update (error message: 
   lm.default not found)
+  Thanks to Alex Loguinov for the bug report.
 - fixed broken links in documentation to formula.design
 
 25/09/2009, Version 0.9-4
