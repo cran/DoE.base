@@ -13,9 +13,7 @@
 }
 \usage{
 lm(formula, ...)
-\method{lm}{default}(formula, data, subset, weights, na.action, method = "qr", 
-    model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, 
-    contrasts = NULL, offset, ...)
+\method{lm}{default}(formula, ...)
 \method{lm}{design}(formula, ..., response=NULL, degree=NULL, FUN=mean, 
     use.center=FALSE)
 \method{print}{lm.design}(x, ...)
@@ -66,18 +64,7 @@ summary.lm.design
   \item{summary.lm.design}{a class that is identical in content to class \code{summary.lm}; 
         its purpose is to call a specific print method that provides slightly more 
         detail than the standard summary for linear models}
-  \item{data}{ like in \code{\link[stats]{lm}}}
-  \item{subset}{ like in \code{\link[stats]{lm}}}
-  \item{weights}{ like in \code{\link[stats]{lm}}}
-  \item{na.action}{ like in \code{\link[stats]{lm}}}
-  \item{method}{ like in \code{\link[stats]{lm}}}
-  \item{model}{ like in \code{\link[stats]{lm}}}
-  \item{y}{ like in \code{\link[stats]{lm}}}
-  \item{qr}{ like in \code{\link[stats]{lm}}}
-  \item{singular.ok}{ like in \code{\link[stats]{lm}}}
-  \item{contrasts}{ like in \code{\link[stats]{lm}}}
-  \item{offset}{ like in \code{\link[stats]{lm}}}
-   }
+}
 \details{
     The \code{lm} method for class \code{\link{design}} 
     conducts a default linear model analysis for data frames of 

@@ -1,12 +1,24 @@
 
-lm <- function(formula, ...){
-UseMethod("lm")
-}
+lm <- function(formula, ...) ergeb <- UseMethod("lm")
 
-lm.default <- stats::lm
+lm.default <- function(formula, ...) {
+   ## most lines of code are for producing a call element of the result 
+   ## that does also work if DoE.base is not available (i.e. does not require
+   ##       function lm.default to be defined)
+   ruf <- match.call()
+   ergeb <- stats::lm(formula, ...)
+   ruf[[1]] <- as.symbol(quote(lm))
+   ergeb$call <- as.call(ruf)
+   ergeb
+   }
 
 lm.design <- function (formula, ..., response = NULL, degree = NULL, FUN = mean, 
     use.center=FALSE){
+   ## name of data set is stored i order to make sure that the lm object knows 
+   ##     how it has been created (data element of call) 
+   ##     even if package DoE.base is not loaded
+   ## for the same reason, the formula is stored within the call element
+    daten <- deparse(substitute(formula))
     if (!"design" %in% class(formula)) 
         stop("lm.design works on class design objects only")
     di <- design.info(formula)
@@ -17,8 +29,12 @@ lm.design <- function (formula, ..., response = NULL, degree = NULL, FUN = mean,
         aus <- lm(fo, data = model.frame(fo, data = NULL), ...)
     else aus <- lm(fo, data = model.frame(fo, data = formula), ...)
     if (di$type %in% c("ccd", "bbd", "bbd.blocked", "lhs")) 
-        lm(fo, data = model.frame(fo, data = formula), ...)
+        aus <- lm(fo, data = model.frame(fo, data = formula), ...)
     class(aus) <- c("lm.design",class(aus))
+    ruf <- as.list(aus$call)
+    ruf$data <- as.symbol(daten)
+    ruf$formula <- fo
+    aus$call <- as.call(ruf)
     aus
 }
 
