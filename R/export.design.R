@@ -49,6 +49,11 @@ export.design <- function(design, response.names=NULL, path=".", filename=NULL,
              ncols <- max(sapply(fn, "length"))
              for (i in 1:length(fn)) if (length(fn[[i]])<ncols) fn[[i]] <- c(fn[[i]], rep("",ncols-length(fn[[i]])))
              cn <- c("Factor", paste("Level",1:ncols,sep=""))
+             if (di$type=="ccd") cn <- c("Factor", paste("Cube Level",1:ncols,sep=" "))
+             else {if (ncols==2 & !is.null(di$quantitative))
+                 if (all(di$quantitative)) cn <- c("Factor", "Low Level", "High Level")
+             }
+             if (di$type=="ccd") cn <- c("Factor", paste("Cube Level",1:ncols,sep=" "))
              legend <- data.frame(names(fn))
              for (i in 1:ncols) legend <- cbind(legend,sapply(fn, function(obj) obj[i]))
              colnames(legend) <- cn

@@ -1,5 +1,5 @@
 
-R version 2.9.1 Patched (2009-07-22 r48993)
+R version 2.10.0 (2009-10-26)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -17,14 +17,25 @@ Type 'q()' to quit R.
 
 > require("DoE.base")
 Loading required package: DoE.base
-Loading required package: tcltk
+Loading required package: relimp
 Loading Tcl/Tk interface ... done
+Loading required package: tcltk
 Loading required package: vcd
 Loading required package: MASS
 Loading required package: grid
 Loading required package: colorspace
 
 Attaching package: 'DoE.base'
+
+
+	The following object(s) are masked from package:relimp :
+
+	 showData 
+
+
+	The following object(s) are masked from package:stats :
+
+	 lm 
 
 
 	The following object(s) are masked from package:graphics :
@@ -621,14 +632,33 @@ Attaching package: 'DoE.base'
 574 12_4_10      12_4_2.3     2      5     2 2 2 1 1 2 2
 575 12_4_11      12_4_3.3     2      5     2 2 2 1 2 1 2
 576 12_4_12      12_4_4.3     2      5     2 2 2 1 2 2 1
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > summary(cross1)
-Experimental design of type crossed
-192 runs
+Multi-step-call:
+$original
+$original[[1]]
+oa.design(nlevels = c(2, 6, 2), factor.names = c("first", "second", 
+    "third"), randomize = FALSE)
 
-each run independently conducted 3 times
-Factor settings:
+$original[[2]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6], 
+    randomize = FALSE)
+
+$original[[3]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[7:9], 
+    repl = 3, randomize = FALSE)
+
+
+$modify
+cross.design(oa12, oa4, oa4rep, randomize = FALSE)
+
+
+Experimental design of type  crossed 
+192  runs
+
+each run independently conducted  3  times
+Factor settings (scale ends):
   first second third D E F G H J
 1     1      1     1 1 1 1 1 1 1
 2     2      2     2 2 2 2 2 2 2
@@ -1215,14 +1245,33 @@ Factor settings:
 574 12_12_2      12_4.3_2     2      5     2 2 2 1 1 2 2
 575 12_12_3      12_4.3_3     2      5     2 2 2 1 2 1 2
 576 12_12_4      12_4.3_4     2      5     2 2 2 1 2 2 1
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > summary(cross2)
-Experimental design of type crossed
-192 runs
+Multi-step-call:
+$original
+$original[[1]]
+oa.design(nlevels = c(2, 6, 2), factor.names = c("first", "second", 
+    "third"), randomize = FALSE)
 
-each run independently conducted 3 times
-Factor settings:
+$original[[2]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[7:9], 
+    repl = 3, randomize = FALSE)
+
+$original[[3]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6], 
+    randomize = FALSE)
+
+
+$modify
+cross.design(oa12, oa4rep, oa4, randomize = FALSE)
+
+
+Experimental design of type  crossed 
+192  runs
+
+each run independently conducted  3  times
+Factor settings (scale ends):
   first second third G H J D E F
 1     1      1     1 1 1 1 1 1 1
 2     2      2     2 2 2 2 2 2 2
@@ -1379,13 +1428,31 @@ Factor settings:
 142 12_4_1        12_4_1     2      5     2 2 2 1     35
 143 12_4_2        12_4_2     2      5     2 2 2 1     55
 144 12_4_3        12_4_3     2      5     2 2 2 1     80
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > summary(cross3)
-Experimental design of type crossed
-144 runs
+Multi-step-call:
+$original
+$original[[1]]
+oa.design(nlevels = c(2, 6, 2), factor.names = c("first", "second", 
+    "third"), randomize = FALSE)
 
-Factor settings:
+$original[[2]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6], 
+    randomize = FALSE)
+
+$original[[3]]
+[1] "altern"
+
+
+$modify
+cross.design(oa12, oa4, altern, randomize = FALSE)
+
+
+Experimental design of type  crossed 
+144  runs
+
+Factor settings (scale ends):
   first second third D E F altern
 1     1      1     1 1 1 1     35
 2     2      2     2 2 2 2     55
@@ -1542,13 +1609,31 @@ Factor settings:
 142 12_4_1        12_4_2     2      5     2 2 2 1   jung
 143 12_4_2        12_4_3     2      5     2 2 2 1 mittel
 144 12_4_3        12_4_1     2      5     2 2 2 1    alt
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > summary(cross4)
-Experimental design of type crossed
-144 runs
+Multi-step-call:
+$original
+$original[[1]]
+oa.design(nlevels = c(2, 6, 2), factor.names = c("first", "second", 
+    "third"), randomize = FALSE)
 
-Factor settings:
+$original[[2]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6], 
+    randomize = FALSE)
+
+$original[[3]]
+[1] "alterc"
+
+
+$modify
+cross.design(oa12, oa4, alterc, randomize = FALSE)
+
+
+Experimental design of type  crossed 
+144  runs
+
+Factor settings (scale ends):
   first second third D E F alterc
 1     1      1     1 1 1 1    alt
 2     2      2     2 2 2 2   jung
@@ -2136,14 +2221,33 @@ Factor settings:
 574 12_4_10      12_4_4.1     2      5     2 2 2 1 2 2 1
 575 12_4_11      12_4_4.2     2      5     2 2 2 1 2 2 1
 576 12_4_12      12_4_4.3     2      5     2 2 2 1 2 2 1
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > summary(cross5)
-Experimental design of type crossed
-192 runs
+Multi-step-call:
+$original
+$original[[1]]
+oa.design(nlevels = c(2, 6, 2), factor.names = c("first", "second", 
+    "third"), randomize = FALSE)
 
-3 measurements per run (not proper replications)
-Factor settings:
+$original[[2]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6], 
+    randomize = FALSE)
+
+$original[[3]]
+oa.design(nlevels = c(2, 2, 2), repl = 3, factor.names = Letters[10:12], 
+    repeat.only = TRUE, randomize = FALSE)
+
+
+$modify
+cross.design(oa12, oa4, oa4reprepeat.only, randomize = FALSE)
+
+
+Experimental design of type  crossed 
+192  runs
+
+3  measurements per run (not proper replications)
+Factor settings (scale ends):
   first second third D E F K L M
 1     1      1     1 1 1 1 1 1 1
 2     2      2     2 2 2 2 2 2 2
@@ -2301,14 +2405,29 @@ In workhorse(design1, design2, ...) :
 142  12_10       4.3_4.1 2 2 1 2 2 1
 143  12_11       4.3_4.2 2 2 1 2 2 1
 144  12_12       4.3_4.3 2 2 1 2 2 1
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > summary(cross6)
-Experimental design of type crossed
-16 runs
+Multi-step-call:
+$original
+$original[[1]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[7:9], 
+    repl = 3, randomize = FALSE)
 
-9 measurements per run (not proper replications)
-Factor settings:
+$original[[2]]
+oa.design(nlevels = c(2, 2, 2), repl = 3, factor.names = Letters[10:12], 
+    repeat.only = TRUE, randomize = FALSE)
+
+
+$modify
+cross.design(oa4rep, oa4reprepeat.only, randomize = FALSE)
+
+
+Experimental design of type  crossed 
+16  runs
+
+9  measurements per run (not proper replications)
+Factor settings (scale ends):
   G H J K L M
 1 1 1 1 1 1 1
 2 2 2 2 2 2 2
@@ -2473,7 +2592,7 @@ In param.design(oa12, oa4, direction = "wide") :
 10     10            10     2      1     2  NA  NA  NA  NA
 11     11            11     2      3     2  NA  NA  NA  NA
 12     12            12     2      5     2  NA  NA  NA  NA
-class=design, type=oa.paramwide
+class=design, type= oa.paramwide 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 Outer array:
   D E F
@@ -2482,10 +2601,25 @@ Outer array:
 3 2 1 2
 4 2 2 1
 > summary(param1)
-Experimental design of type oa.paramwide
-12 runs
+Multi-step-call:
+$original
+$original[[1]]
+oa.design(nlevels = c(2, 6, 2), factor.names = c("first", "second", 
+    "third"), randomize = FALSE)
 
-Factor settings:
+$original[[2]]
+oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6], 
+    randomize = FALSE)
+
+
+$modify
+cross.design(inner, outer, randomize = FALSE)
+
+
+Experimental design of type  oa.paramwide 
+12  runs
+
+Factor settings (scale ends):
   first second third
 1     1      1     1
 2     2      2     2
