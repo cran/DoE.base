@@ -71,8 +71,13 @@ summary.design <- function(object,...){
        print(di$creator, ...)
        cat("\n")
        }
-   else if (length(class(di$creator))>1)
-       message("design was generated with RcmdrPlugin.DoE\n\n")
+   else {if (length(class(di$creator))>1)
+       cat("design was generated with RcmdrPlugin.DoE\n\n")
+       else {
+           cat("Multi-step-call:\n")
+           print(di$creator, ...)
+           cat("\n")}
+       }
        cat("Experimental design of type ", di$type,"\n")
        cat(di$nruns, " runs\n\n")
 ## ??? how to handle blocks from ccd ???
@@ -107,8 +112,22 @@ summary.design <- function(object,...){
    lfn <- max(sapply(pfn, "length"))
    pfn <- lapply(pfn, function(obj) if (length(obj)==lfn) obj else c(obj,rep("",lfn-length(obj))))
    pfn <- as.data.frame(pfn)
-   cat("Factor settings:\n")
+   if (all(di$quantitative)){
+      if (!"ccd" %in% di$type)
+          cat("Factor settings (scale ends):\n")
+      else cat("Factor settings (cube):\n")
+      }
+   else
+      cat("Factor settings:\n")
    print(pfn,...)
+
+   if ("ccd" %in% di$type){
+      cat("\nNumbers of cube and star points: \n") 
+      print(c(Cube=di$ncube, Star=di$nstar))
+      cat("Numbers of center points: \n") 
+      print(c(Cube=di$ncenter[1], Star=di$ncenter[2]))
+   }
+
    if (!is.null(response.names(object))){
        cat("\nResponses:\n")
        if (is.null(di$responselist)) print(response.names(object),...)

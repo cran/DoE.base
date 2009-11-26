@@ -225,7 +225,7 @@ factor.names <- function(design){
      if (!"design" %in% class(design)) stop("design.info is applicable for class design only.")
      else attr(design,"design.info")$factor.names
  }
-`factor.names<-` <- function(design, value){
+`factor.names<-` <- function(design, contr.modify=TRUE, value){
    di <- design.info(design)
    if (!(is.list(value) | is.character(value))) stop("value must be a list or a character vector")
    fnold <- factor.names(design)
@@ -251,20 +251,49 @@ factor.names <- function(design){
    nlevelsnew <- sapply(value, "length")
    if (!all(nlevelsold==nlevelsnew)) 
         stop("some elements of factor.names do not have the right length")
+   
    for (i in 1:length(value)){
-        if (is.factor(design[[fnnold[i]]])) {
-            lev <- as.list(fnold[[i]])
-            names(lev) <- value[[i]] 
-            levels(design[[fnnold[i]]]) <- lev
-              }
-        else design[[fnnold[i]]] <- factor(design[[fnnold[i]]],levels=fnold[[i]],labels=value[[i]])
+        ersetze <- FALSE
+        if (nlevelsnew[i]>2 | is.null(di$quantitative[i])) ersetze <- TRUE
+        if (nlevelsnew[i]==2 & !is.null(di$quantitative)){
+            if (!di$quantitative[i]) ersetze <- TRUE
+        }
+        if (ersetze){
+            if (!is.factor(design[[fnnold[i]]]))
+               design[[fnnold[i]]] <- as.factor(design[[fnnold[i]]])
+            if (is.factor(design[[fnnold[i]]])) {
+                #lev <- as.list(fnold[[i]])
+                #names(lev) <- value[[i]] 
+                levels(design[[fnnold[i]]]) <- value[[i]]
+                  }
+ #           else design[[fnnold[i]]] <- 
+ #                factor(design[[fnnold[i]]],levels=fnold[[i]],labels=value[[i]])
+           if (contr.modify){
+            if (nlevelsnew[i]==2) contrasts(design[[i]]) <- contr.FrF2(2)
+            else {
+              if (is.numeric(value[[i]])) contrasts(design[[i]]) <- contr.poly(nlevelsnew[i],scores=value[[i]])
+                else contrasts(design[[i]]) <- contr.treatment(nlevelsnew[i])}
+          }
+        }
+        else{
+        design[[fnnold[i]]] <- (design[[fnnold[i]]] - mean(fnold[[i]]))/(max(fnold[[i]])-min(fnold[[i]])) * 
+               (max(value[[i]])-min(value[[i]]))+mean(value[[i]])}
    }
+   
    ## must be outside loop, because otherwise problems with names occurring in both versions
    colnames(design)[sapply(fnnold, function(obj) which(colnames(design)==obj))] <- names(value)
+   if (!is.null(di$aliased)){
+        dial <- strsplit(di$aliased$legend,"=")
+        newnames <- names(value)
+        dial <- lapply(dial, function(obj){ obj[2] <- newnames[which(fnnold==obj[2])]
+                                           obj})
+        di$aliased$legend <- sapply(dial, function(obj) paste(obj,collapse="="))
+   }
    ## how about blocks (block variable is currently a character variable; why ?
    di$factor.names <- value
    attr(design, "design.info") <- di
-   attr(design, "desnum") <- model.matrix(~.,design)[,-1,drop=FALSE] 
+   if (!di$type %in% c("lhs","ccd","bbd","bbd.blocked")) 
+        attr(design, "desnum") <- model.matrix(~.,design)[,-1,drop=FALSE] 
    design
 }
 
@@ -273,7 +302,7 @@ response.names <- function(design){
      else attr(design,"design.info")$response.names
  }
 
-`response.names<-` <- function(design, value){
+`response.names<-` <- function(design, remove=FALSE, value){
    di <- design.info(design)
    if (!(is.character(value) | is.null(value))) 
        stop("value must be a character vector or NULL")
@@ -304,8 +333,19 @@ response.names <- function(design){
 
    di$response.names <- setdiff(value, newrespdrop)
    attr(design,"design.info") <- di
-   if (length(dropresp)>0)
-   message("previous responses ", paste(dropresp, collapse=","), " are not considered responses any longer")
+   if (length(dropresp)>0){
+      if (remove) {
+          hilf <- desnum(design)
+          for (i in 1:length(dropresp)){ 
+              design[dropresp[i]] <- NULL
+              hilf <- hilf[,-which(colnames(hilf)==dropresp[i])]
+              }
+          desnum(design) <- hilf
+          message("previous responses ", paste(dropresp, collapse=","), " have been removed from the design")
+      }
+      else
+      message("previous responses ", paste(dropresp, collapse=","), " are not considered responses any longer")
+   }
    design
 }
 
@@ -338,4 +378,28 @@ redesign <- function(design, undesigned){
    run.order(undesigned) <- run.order(design)
    design.info(undesigned) <- design.info(design)
    undesigned
+}
+
+col.remove <- function(design, colnames){
+    if (!"design" %in% class(design)) stop("design must be of class design")
+    di <- design.info(design)
+    if (!is.character(colnames)) stop("colnames must be character")
+    if (any(colnames %in% names(di$factor.names))) 
+       stop("design factors cannot be removed")
+    if (!is.null(di$block.name)) 
+      if (di$block.name %in% colnames) 
+         stop("the block factor cannot be removed")
+    if (length(loeschresp <- intersect(colnames, di$response.names)) > 0){
+         loeschrest <- setdiff(colnames, loeschresp)
+         response.names(design, remove=TRUE) <- setdiff(di$response.names, loeschresp)
+         if (length(loeschrest)>0){
+          hilf <- desnum(design)
+          for (i in 1:length(loeschrest)){ 
+              design[loeschrest[i]] <- NULL
+              hilf <- hilf[,setdiff(1:ncol(hilf),which(colnames(hilf)==loeschrest[i]))]
+              }
+              desnum(design) <- hilf
+          }
+    } 
+    design
 }

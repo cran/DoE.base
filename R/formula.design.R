@@ -68,7 +68,7 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
                response <- respnam[response]
                ## now response is character
             }
-         if (is.character(response)) {
+         if (is.character(response)){
                if (!response %in% colnames(x)) 
                      stop("response is not a column of x")
                if (!response %in% respnam) 
@@ -180,8 +180,10 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
                       }
           }
           }
-      else {if (degree==1){
-              aus <- formula(paste(response, paste(names(factor.names),collapse="+"),sep="~"))
+      else {
+          ## no blocks
+          if (degree==1){
+                 aus <- formula(paste(response, paste(names(factor.names),collapse="+"),sep="~"))
               if (length(grep("center",type))>0){ 
                    if (use.center){
                       center <- !iscube(x)
@@ -203,6 +205,9 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
                     #      paste("SO(",paste(names(factor.names),collapse=","),")",sep=""),
                     #      sep="~"))
                       }
+              if (di$type == "Dopt"){
+                  aus <- formula(paste(response, paste(as.character(di$formula), collapse=" ")))
+              }
               if (length(grep("center",type))>0){ 
                    if (use.center){
                       center <- !iscube(x)
@@ -214,7 +219,7 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
                       paste(c(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep="")), collapse="+"),
                       sep="~"))
                       }
-              else if (!type %in% c("bbd","ccd","lhs")){
+              else if (!type %in% c("bbd","ccd","lhs","Dopt")){
               aus <- formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
               }
               }

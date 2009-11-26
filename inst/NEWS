@@ -6,6 +6,28 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+26/11/2009, Version 0.9-8
+- added a function col.remove for removing responses and non-design columns 
+  while preserving the class design structure
+- added a remove option to `response.names<-` 
+- added to function `factor.names<-` the possibility of choosing 
+  whether or not to modify contrasts
+- made documentation of class design more explicit for attributes desnum 
+  and value of assignment functions `response.names<-` and `factor.names<-`
+- provided for lm.design and formula.design for Dopt designs (to be implemented 
+  soon in DoE.wrapper)
+- modified summary.design:
+  - cat instead of message for design generation info for RcmdrPlugin.DoE
+    (--> no longer shown as warning in RcmdrPlugin.DoE)
+  - improved output for ccd, bbd and lhs designs 
+    (further enhancements to come, which require pending changes in DoE.wrapper)
+- modified export.design to include more meaningful headers for factor levels 
+  legend in case of quantitative designs
+bug fixes: 
+`factor.names<-` now also modifies the legend of the alias information 
+  for FrF2 designs. Furthermore, it correctly handles designs with quantitative 
+  factors and does not modify the desnum attribute of lhs, ccd and bbd designs.
+
 05/11/2009, Version 0.9-7
 The fix in 0.9-6 was not as robust as intended, reverted to the previous version. 
 

@@ -12,6 +12,7 @@
 \alias{factor.names<-}
 \alias{response.names}
 \alias{response.names<-}
+\alias{col.remove}
 \alias{ord}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -25,15 +26,16 @@ design
 undesign(design)
 redesign(design, undesigned)
 desnum(design)
-`desnum<-`(design, value)
+desnum(design) <- value
 run.order(design)
-`run.order<-`(design, value)
+run.order(design) <- value
 design.info(design)
-`design.info<-`(design, value)
+design.info(design) <- value
 factor.names(design)
-`factor.names<-`(design, value)
+factor.names(design, contr.modify = TRUE) <- value
 response.names(design)
-`response.names<-`(design, value)
+response.names(design, remove=FALSE) <- value
+col.remove(design, colnames)
 ord(matrix, decreasing=FALSE)
 }
 \arguments{
@@ -45,12 +47,26 @@ ord(matrix, decreasing=FALSE)
       a numeric version of the design matrix for function \code{desnum} (usage not encouraged for non-experts!)\cr
       a run order data frame for function \code{run.order} (usage not encouraged for non-experts!)\cr
       a list with appropriate design information for function \code{design.info} (usage not encouraged for non-experts!)\cr
-      for function \code{factor.names} a character vector of new factor names (levels remain unchanged) 
+      for function \code{`factor.names<-`} a character vector of new factor names (levels remain unchanged) 
       or a named list of level combinations for the factors, 
       like \code{factor.names} in function \code{\link{fac.design}} \cr
-      for function \code{response.names} a character vector of response names referring to variables 
+      for function \code{`response.names<-`} a character vector of response names referring to variables 
       which are already available in \code{design}
       }
+  \item{contr.modify}{logical to indicate whether contrasts are to be modified to match the new levels;
+      relevant for R factors only, not for numeric design variables;\cr 
+      if \code{TRUE}, factors with 2 levels get -1/+1 contrasts, factors with more than two quantitative levels 
+      get polynomial contrasts with scores identical to the factor levels, and factors with more than two 
+      character levels get treatment contrasts; if FALSE, the contrasts remain unchanged from their previous state.\cr
+      If solely the contrasts are to be changed, function \code{\link{change.contr}} is preferrable.}
+  \item{remove}{logical to indicate whether responses not indicated in \code{value} are to be removed from 
+      the design altogether. \cr
+      If \code{TRUE}, the respective columns are deleted from the design. 
+      Otherwise, the columns remain in the data frame but loose their status as a response variable. }
+  \item{colnames}{character vector of names of columns to be removed from the design;
+      design factors or the block factor cannot be removed; with non-numeric variables, 
+      the \code{desnum} attribute of the design may have to be manually modified for 
+      removing the respective columns in some cases.}
   \item{matrix}{matrix, data frame or also object of class design that is to be ordered column by column}
   \item{decreasing}{logical, indicates whether decreasing order or not (increasing is default)}
 }
@@ -60,13 +76,20 @@ ord(matrix, decreasing=FALSE)
     by various utility functions for designs like 
     the above extractor function for class \code{design} or \code{\link{fix.design}}.
     
-    The data frame itself always contains the design in uncoded form (for all currently 
-    implemented design generation functions, these are factors; for future functions for 
-    quantitative factors, this may be different). 
+    The data frame itself always contains the design in uncoded form. For many 
+    design generation functions, these are factors. For designs for quantitative factors 
+    (bbd, ccd, lhs, 2-level designs with center points), the design variables are numeric. 
+    This is always indicated by the design.info element quantitative, for which all components 
+    are \code{TRUE} in that case. 
+    
     Generally, its attributes are \code{desnum}, 
-    \code{run.order}, and \code{design.info}. Attribute \code{desnum} contains 
-    a numeric coded version of the design, attribute \code{run.order} a data frame 
-    with run order information (standard order, randomized order, order with replication info), 
+    \code{run.order}, and \code{design.info}.\cr 
+    Attribute \code{desnum} contains 
+    a numeric coded version of the design. For factor design variables, the content of 
+    \code{desnum} depends on the contrast information of the factors (cf. \code{\link{change.contr}} 
+    for modifying this).\cr  
+    Attribute \code{run.order} is a data frame 
+    with run order information (standard order, randomized order, order with replication info), \cr
     and the details of \code{design.info} partly depend on the type of design. 
     
     \code{design.info} generally is a list with first element \code{type}, 
@@ -115,10 +138,13 @@ ord(matrix, decreasing=FALSE)
     respective elements of the \code{design.info} attribute. The corresponding assignment 
     functions allow to change factor names and/or factor codes and to exclude or include 
     a numeric variable from the list of responses that are recognized as such by analysis 
-    procudures. Note that the \code{response.names} function is not directly able to 
+    procedures. Note that the \code{response.names} function can (on request, not by default) 
+    remove response variables from the data frame \code{design}. However, it is not directly able to 
     add new responses from outside the data frame \code{design}. This is what the 
     function \code{\link{add.response}} is for.
     
+    Function \code{col.remove} removes columns from the design and returns the 
+    design without these columns and an intact class \code{design} structure. 
 }
 \value{
     \item{desnum}{returns a numeric matrix, 
@@ -130,13 +156,23 @@ ord(matrix, decreasing=FALSE)
          the corresponding replacement function modifies a class design object }
     \item{factor.names}{returns a named list the names of which are the names of the 
          treatment factors of the design while the list elements are the vectors of levels 
-         for each factor; 
-         the corresponding replacement function modifies a class design object 
-         in order to rename factors and/or change labels for factor levels}
+         for each factor}
+    \item{`factor.names<-`}{returns a class \code{design} object with modified 
+         factor names information (renamed factors and/or changed factor levels);
+         }
     \item{response.names}{returns a character vector of response names that 
          (names of numeric variables within the data frame \code{design} 
          that are to be treated as response variables ) ; 
          the corresponding replacement function modifies the design }
+    \item{`response.names<-`}{returns a class \code{design} object with modified 
+         response names information (add or remove numeric columns of the design 
+         to or from set of response variables), and potentially response columns 
+         removed from the design.
+         }
+    \item{col.remove}{returns a class \code{design} object with some columns 
+         removed from both the design itself and the \code{desnum} attribute.
+         Response columns may be removed, but factor or block columns may not.
+         }
     \item{ord}{returns an index vector that orders the matrix or data frame; 
         for example, \code{design[ord(design),]} orders the design in increasing order with respect to the first,
         then the second etc. factor.}
