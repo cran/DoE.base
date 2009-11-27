@@ -293,7 +293,11 @@ factor.names <- function(design){
    di$factor.names <- value
    attr(design, "design.info") <- di
    if (!di$type %in% c("lhs","ccd","bbd","bbd.blocked")) 
-        attr(design, "desnum") <- model.matrix(~.,design)[,-1,drop=FALSE] 
+        desnum(design) <- model.matrix(~.,design)[,-1,drop=FALSE] 
+   else {hilf <- desnum(design)
+          colnames(hilf)[sapply(fnnold, function(obj) which(colnames(hilf)==obj))] <- names(value)
+       desnum(design) <- hilf
+       }
    design
 }
 
