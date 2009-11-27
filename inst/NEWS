@@ -6,6 +6,10 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+27/11/2009, Version 0.9-9
+- bug fix: column names of desnum attribute were not updated to new names when
+     using `factor.names<-` replacement for the design
+
 26/11/2009, Version 0.9-8
 - added a function col.remove for removing responses and non-design columns 
   while preserving the class design structure
