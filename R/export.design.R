@@ -81,8 +81,9 @@ export.design <- function(design, response.names=NULL, path=".", filename=NULL,
                stop("file ", paste(filename,"csv","."), 
                " exists and is not replaced (replace=FALSE). \nChange directory, filename, or replace option.")
          }
-         if (OutDec==",") write.csv2(df, file=paste(path,paste(filename,"csv",sep="."),sep="/"))
-         else write.csv(df, file=paste(path,paste(filename,"csv",sep="."),sep="/"))
+         df <- cbind(name = rownames(df), df)
+         if (OutDec==",") write.csv2(df, file=paste(path,paste(filename,"csv",sep="."),sep="/"), row.names=FALSE)
+         else write.csv(df, file=paste(path,paste(filename,"csv",sep="."),sep="/"), row.names=FALSE)
      }
      ## still export design as an image rda under the same name
      save(list=desname, file=paste(path,paste(filename,"rda",sep="."),sep="/") )
