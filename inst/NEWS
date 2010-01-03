@@ -6,8 +6,18 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+02/01/2010, Version 0.9-11
+- extended print.design and summary.design to accomodate specialities of 
+  D-optimal designs
+Bug fixes:
+- summary.design gave the wrong number of blocks 
+  (block size instead of number of blocks)
+- export.design for csv files exported row names without header, 
+  which led to a numeric variable X when reimporting the file 
+  with default behavior
+
 27/11/2009, Version 0.9-10
-- bug fix of Version 0.9-10 really implemented
+- bug fix of Version 0.9-9 really implemented
 
 27/11/2009, Version 0.9-9
 - bug fix: column names of desnum attribute were not updated to new names when

@@ -2,7 +2,8 @@ print.design <- function(x,show.order=NULL, ...){
    if (!"design" %in% class(x)) stop("this function works for class design objects only")
    di <- design.info(x)
    if (is.null(show.order)) 
-       show.order <- di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "FrF2.splitplot", "FrF2.splitplot.folded", "crossed") | 
+       show.order <- di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "FrF2.splitplot", "FrF2.splitplot.folded", 
+       "crossed", "Dopt.blocked", "Dopt.splitplot") | 
            length(grep("param",di$type))>0 | di$replications>1
    if (show.order)
    print(cbind(run.order(x)[,2:3],x), ...)
@@ -80,17 +81,26 @@ summary.design <- function(object,...){
        }
        cat("Experimental design of type ", di$type,"\n")
        cat(di$nruns, " runs\n\n")
-## ??? how to handle blocks from ccd ???
-   blocks <- di$blocks
+## handle blocks from ccd differently
+## report varying block sizes, if applicable
+   blocks <- di$nblocks
    if (is.null(blocks)) blocks <- 1
        if (blocks > 1){
-          cat("blocked design with ", di$blocks, " blocks\n")
+          if (length(grep("ccd",di$type))>0) 
+               cat("blocked design with ", blocks, " cube blocks and one star block\n")
+          else
+              cat("blocked design with ", blocks, " blocks\n")
+          if (!all(di$blocksize==di$blocksize[1])){
+              cat("Varying block sizes: \n")
+              print(di$blocksize)}
+          if (!length(grep("Dopt",di$type))>0){
           if (di$bbreps>1)
              cat("each type of block independently conducted ", di$bbreps, " times\n")
           if (di$wbreps>1 & !di$repeat.only)
              cat("each run within each block independently conducted ", di$wbreps, " times\n")
           if (di$wbreps>1 & di$repeat.only)
              cat("each run measured ", di$wbreps, " times (no proper replication)\n")
+             }
        }
     else if (di$replications>1)
       if (di$repeat.only)
@@ -127,6 +137,9 @@ summary.design <- function(object,...){
       cat("Numbers of center points: \n") 
       print(c(Cube=di$ncenter[1], Star=di$ncenter[2]))
    }
+
+   if (length(grep("Dopt",di$type))>0)
+      cat("\nOptimum value of D: ", di$D, "\n") 
 
    if (!is.null(response.names(object))){
        cat("\nResponses:\n")
