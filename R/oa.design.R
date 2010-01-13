@@ -39,13 +39,16 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                 stop("columns must not be specified, if ID is omitted")
           if (!is.null(nlevels)) {
                 if (!is.numeric(nlevels)) stop("nlevels must be numeric")
-                if (!all(floor(nlevels)==nlevels)) stop("nlevels must be integer")
+                if (!all(floor(nlevels)==nlevels)) 
+                    stop("nlevels must be an integer number or a vector of integer numbers.")
                 if (length(nlevels)==1 & is.null(nfactors) & is.null(factor.names))
                     stop("designs for one factor only are not implemented")
                 if (length(nlevels)==1 & is.null(nfactors)) nlevels <- rep(nlevels,length(factor.names))
                 if (length(nlevels)==1 & !is.null(nfactors)) nlevels <- rep(nlevels,nfactors)
+                if (any(nlevels < 2)) 
+                   stop("nlevels must not contain entries smaller than 2")
                 }
-          if(is.null(nlevels) & !is.list(factor.names))
+          if (is.null(nlevels) & !is.list(factor.names))
              stop("number of levels for each factor must be specified via ID or nlevels or level specifications in factor.names!")
           if (is.null(nlevels) & !is.null(factor.names)) {
              nlevels <- sapply(factor.names, "length")

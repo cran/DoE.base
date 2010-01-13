@@ -6,6 +6,22 @@ many parts are still considered experimental. Suggestions and bug reports are ve
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
 
+13/01/2010, Version 0.9-14
+- fixed new bug in plot.design that stopped the function to work for designs 
+  with responses
+
+13/01/2010, Version 0.9-13
+- modified function plot.design to enable selection of some factors only
+- fixed bug in plot.design that led to creation of an insubstantial warning
+  for many designs
+
+13/01/2010, Version 0.9-12
+- created function show.oas, which allows to inspect the available orthogonal 
+  arrays according to a few criteria
+Bug fixes:
+- fac.design and oa.design did not provide reasonable error messages, 
+  if nlevels contained integers below 2
+
 02/01/2010, Version 0.9-11
 - extended print.design and summary.design to accomodate specialities of 
   D-optimal designs

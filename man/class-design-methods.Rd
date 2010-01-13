@@ -68,7 +68,7 @@ showData(dataframe,colname.bgcolor = "grey50",
 \method{summary}{design}(object, ...)
 \method{aggregate}{design}(x, ..., 
     by = NULL, response = NULL, FUN = "mean", postfix = NULL, replace = TRUE)
-\method{plot}{design}(x, y=NULL, ...)
+\method{plot}{design}(x, y=NULL, select=NULL, ...)
 }
 \arguments{
   \item{x}{ data frame of S3 class \code{\link{design}} }
@@ -108,6 +108,14 @@ showData(dataframe,colname.bgcolor = "grey50",
       or a numeric response vector, or a numeric matrix containing response columns, 
       or a data frame of numeric response variables (the latter would not work when directly 
       using function \code{\link[graphics]{plot.design}} from package graphics)}
+  \item{select}{ a vector of integers with position numbers of experimental factors, 
+      a character vector of factor letters, or a character vector of factor names 
+      for factors to be selected for plotting; \cr
+      \code{select} has been added in order to obtain manageable plot sizes. For example, 
+      mosaic plots are most easily readible for up to three or at most four factors. 
+      Main effects plots with too many factors may also be hard to read because of overlapping 
+      labeling.\cr
+      \code{select} can also be used for bringing the factors into a desirable order. }
   The following items are documented in package \code{\link[relimp:showData]{relimp}}:
       \item{colname.bgcolor}{}
       \item{rowname.bgcolor}{}
@@ -236,9 +244,19 @@ oa12 <- oa.design(nlevels=c(2,2,6))
   ## equivalent to mosaic(~A+B+C, oa12)
   ## alternative order:
   mosaic(~C+A+B, oa12)
+  ## using the select function: the plots show that the projection for factors 
+  ## C, D and E (columns 3, 14 and 15 of the array) is a full factorial, 
+  ## while A, D and E does (columns 1, 14, and 15 of the array) do not occur in 
+  ## all combinations
+  plot(oa.design(L24.2.13.3.1.4.1,nlevels=c(2,2,2,3,4)),select=c("E","D","A"))
+  plot(oa.design(L24.2.13.3.1.4.1,nlevels=c(2,2,2,3,4)),select=c("E","D","C"))
+  
   ## plotting a design with response
   y=rnorm(12)
   plot(oa12, y)
+  ## plot design with a response included
+  oa12.r <- add.response(oa12,y)
+  plot(oa12.r)
   ## plotting a numeric design (with or without response, 
   ##   does not make statistical sense here, for demo only)
   noa12 <- qua.design(oa12, quantitative="all")
