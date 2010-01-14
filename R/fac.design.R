@@ -18,8 +18,13 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
 
       ### check integer numbers
       creator <- sys.call()
-      if (!is.null(nlevels)) if (!all(floor(nlevels)==nlevels)) 
-           stop("nlevels must be an integer number or a vector of integer numbers.")
+      if (!is.null(nlevels)){ 
+           if (!is.numeric(nlevels)) stop("nlevels must be numeric")
+           if (!all(floor(nlevels)==nlevels)) 
+              stop("nlevels must be an integer number or a vector of integer numbers.")
+           if (any(nlevels < 2)) 
+              stop("nlevels must not contain entries smaller than 2")
+           }
       if (!is.null(nfactors)) if (!floor(nfactors)==nfactors) 
            stop("nfactors must be an integer number.")
       if (!is.null(seed)) if (!floor(seed)==seed) 
@@ -31,7 +36,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       if (is.null(nlevels) & !is.list(factor.names)) 
              stop("If factor.names does not specify the factor levels, nlevels must be given!")
       if (is.null(nlevels) & is.list(factor.names)) if (!min(hilf <- sapply(factor.names,length))>1) 
-             stop("If factor.names does not specify the levels for all factors, nlevels must be given!")
+             stop("If factor.names does not specify at least two levels for each factor, nlevels must be given!")
       if (!(is.null(nlevels) | is.null(nfactors))) if (length(nlevels)>1 & !nfactors==length(nlevels))
                           stop("nfactors does not match the length of nlevels.")
       if (is.null(nlevels)) {nlevels <- hilf
@@ -40,7 +45,8 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       if (!(is.null(nlevels) | is.null(factor.names))) {
                       if (length(nlevels)>1 & !(length(factor.names)==length(nlevels)))
                           stop("length of factor.names and length of nlevels do not match.")
-                      if (length(nlevels)==1) nlevels <- rep(nlevels,length(factor.names))}
+                      if (length(nlevels)==1) nlevels <- rep(nlevels,length(factor.names))
+                      }
       if (is.null(nfactors)) nfactors <- length(nlevels)
       if (nfactors==1) stop("one factor only is not covered by fac.design")
       if (length(nlevels)==1) nlevels <- rep(nlevels, nfactors)
