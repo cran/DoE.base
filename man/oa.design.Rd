@@ -6,14 +6,16 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Function for accessing orthogonal arrays }
 \description{
-  Function for accessing orthogonal arrays
+  Function for accessing orthogonal arrays, 
+  allowing limited optimal allocation of columns 
 }
 \usage{
 oa.design(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL, 
       factor.names = if (!is.null(nfactors)) {
         if (nfactors <= 50) Letters[1:nfactors]
            else paste("F", 1:nfactors, sep = "")} 
-        else NULL, columns=NULL, 
+        else NULL, 
+        columns="order", 
         replications=1, repeat.only=FALSE,
         randomize=TRUE, seed=NULL, min.residual.df=0)
 origin(ID)
@@ -53,11 +55,22 @@ oa
        Default factor names are the first elements of the character vector \code{\link{Letters}}, 
        or the factors position numbers preceded by capital F in case of more than 50 factors.
        Default factor levels are the numbers from 1 to the number of levels for each factor.}
-  \item{columns}{ vector of column numbers referring to columns of design \code{ID};
-        must not be specified, if \code{ID} is omitted; 
-        the entries assign columns of the array to the factors;\cr
-        it may be possible to improve on the properties of the design by using 
-        the columns option, since the default column choice is not always ideal!}
+  \item{columns}{ 
+        EITHER\cr
+        a vector of column numbers referring to columns of design \code{ID}, 
+        assigning a specific column of the array to each factor;\cr
+        this can only be specified, if \code{ID} is also given;\cr 
+        OR\cr
+        a string that defines the degree of optimization requested 
+        in terms of column allocation (cf. section \dQuote{Details}): 
+        choices are \code{"order"}, \code{"min3"} or \code{"min34"}.\cr
+        For resource reasons, the default is \code{"order"}, but smaller designs 
+        can sometimes be substantially improved with other choices.
+        Cf. the \dQuote{Details} section for the 
+        meaning of the character string specifications for \code{columns.}
+        Column optimization can be computationally intensive. If it cannot 
+        be accomplished with the given ressources, a warning is issued, and 
+        an unoptimized design is returned.}
   \item{replications}{ the number of replications of the array, 
         the setting of \code{repeat.only} determines, whether these are real replications
         or repeated measurements only. Note that replications are not considered for 
@@ -124,6 +137,19 @@ oa
    names of more promising candidate arrays for combination, or you may also want to look 
    up arrays with \code{n25>0} subsequently.
    
+   With version ??? of the package, an automatic allocation of columns for improved design 
+   performance has been implemented. The first step is selection of an array, either explicitly by the 
+   user (option \code{ID}) or automatically according to the required combination of factors. 
+   Per default, the function then tries to allocate the experimental 
+   factors to columns of the selected array such that aliasing between main effects and 2-factor 
+   interactions is kept to a minimal degree (option \code{columns="min3"}), 
+   minimizing the number of generalized words of length 3 according to Xu and Wu (2001). 
+   It is possible to modify this option to return to the previous unoptimized behavior of 
+   allocating factors from left to right (option \code{columns="order"}), or to 
+   define a more demanding optimization (which may take very long) with option \code{columns="min34"}, 
+   which requests that the number of words of generalized length 4 is also minimized (e.g. useful 
+   if there are several designs without any generalized words of length 3).
+   
    WARNING: Usually, it is recommended to investigate the properties of a design automatically 
    created by function \code{oa.design} before starting experimentation. 
    While all designs can estimate main effects \emph{in the absence of interactions}, 
@@ -185,6 +211,33 @@ oa
   oa.design(nruns=12, nfactors=3, nlevels=2)
   ## array requested with min.residual.df
   oa.design(nfactors=3, nlevels=2, min.residual.df=12)
+  
+  ## examples showing alias structures and their improvment with option columns
+  plan <- oa.design(nfactors=6,nlevels=3)
+  plan
+     ## generalized word length pattern
+     length3(plan)
+     ## length3 (first element of GWP) can be slightly improved by columns="min3"
+     plan <- oa.design(nfactors=6,nlevels=3,columns="min3")
+     summary(plan)  ## the first 3-level column of the array is not used
+     length3(plan)
+  plan <- oa.design(nlevels=c(2,2,2,6))
+     length3(plan)
+  plan.opt <- oa.design(nlevels=c(2,2,2,6),columns="min3") ## substantial improvement
+     length3(plan.opt)   
+     length4(plan.opt)   
+  ## visualize practical relevance of improvement:
+     ## for optimal plan, all 3-dimensional projections are full factorials
+  plot(plan, select=1:3)
+  plot(plan, select=c(1,2,4))
+  plot(plan, select=c(1,3,4))
+  plot(plan, select=2:4)
+  plot(plan.opt, select=1:3)
+  plot(plan.opt, select=c(1,2,4))
+  plot(plan.opt, select=c(1,3,4))
+  plot(plan.opt, select=2:4)
+  
+
   ## The last example:
   ## generate an orthogonal array equivalent to Taguchi's L54.2.1.3.25 array 
   ## (which is not currently included) up to swaps of levels within a factor 

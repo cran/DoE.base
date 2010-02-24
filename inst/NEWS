@@ -1,10 +1,51 @@
 Changes to package DoE.base
 
-This package is under development. Although substantial progress has been made, 
-many parts are still considered experimental. Suggestions and bug reports are very welcome. 
+This package is under development. 
+Suggestions and bug reports are very welcome. 
 
 Most immiment next steps for this package:
 - extension of available orthogonal arrays for function oa.design 
+  by incorporating child arrays from Kuhfeld 2009
+- accompany extensions of other packages with suitable modifications 
+  to summary function
+
+24/02/2010, Version 0.9-17
+- fixed documentation issues
+- added functions length3 and length4 for calculating numbers 
+  of generalized words of lengths 3 and 4 in support 
+  of automatic choice of better designs than just populating columns 
+  from left to right
+- added functions oa.min3, oa.min34 and oa.max3 for looking at best 
+  and worst arrays
+- added optimization possibility (default: no optimization, like previously) 
+  to oa.design (using option columns)
+- added some large (128, 256, 2048) resolution V non-regular arrays for 2-level 
+  factors from textbook by Mee 2009
+- improved print.design for blocked and split-plot structures: 
+  structured the printout to display structuring lines between blocks or plots
+- improved summary.design for FrF2-type designs: 
+  - removed empty aliased entries (i.e. empty entries for main or fi2s 
+    that were displayed as character(0) previously)
+  - added the possibility to displaying the design itself with the summary
+    (default: designs with up to 40 runs and 12 factors are displayed, others not;
+    controllable by option brief)
+  - added display of generator information via function generators 
+    (generic with methods)
+    - note that function generators.design does not work for designs of 
+      types FrF2.param... and FrF2.folded
+    - note that this feature does not work on blocked or splitplot designs 
+      that were produced with old versions of FrF2, 
+      as calculated generators would be wrong in some cases
+      (this is protected against by checking for the new entry FrF2.version 
+      in design.info of newer FrF2 designs) 
+  - removed message on non-usage of center points with formula.design
+bug fixes:
+  - nlevels of length 1 with ID produced uncaptured error
+  - various factor specifications with only one factor produced uncaptured error
+  - full factorial is returned whenever possible; originally, 
+    a (arbitrarily badly-aliased) design from the orthogonal array catalogue was returned, 
+    if one existed with same size as full factorial
+
 
 13/01/2010, Version 0.9-14
 - fixed new bug in plot.design that stopped the function to work for designs 

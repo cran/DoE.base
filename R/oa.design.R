@@ -10,7 +10,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
       factor.names = if (!is.null(nfactors)) {
         if (nfactors <= 50) Letters[1:nfactors]
            else paste("F", 1:nfactors, sep = "")} 
-        else NULL, columns=NULL, 
+        else NULL, columns="order",  
         replications=1, repeat.only=FALSE,
         randomize=TRUE, seed=NULL, min.residual.df=0){
         ## ID identifies the design
@@ -30,25 +30,22 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         ## compatibility checks necessary
       creator <- sys.call()
       if (!is.null(ID)) generating.oa <- deparse(substitute(ID))  ## document selected OA
-
+      
       if (is.null(ID) & is.null(factor.names) & is.null(nlevels)) 
          stop("ID or factor.names or nlevels must be specified!")
       if (is.null(ID)){
           ## determine array, if not explicitly given
-          if (!is.null(columns)) 
-                stop("columns must not be specified, if ID is omitted")
+          if (is.numeric(columns)) 
+                stop("column numbers must not be specified, if ID is omitted")
           if (!is.null(nlevels)) {
                 if (!is.numeric(nlevels)) stop("nlevels must be numeric")
-                if (!all(floor(nlevels)==nlevels)) 
-                    stop("nlevels must be an integer number or a vector of integer numbers.")
+                if (!all(floor(nlevels)==nlevels)) stop("nlevels must be integer")
                 if (length(nlevels)==1 & is.null(nfactors) & is.null(factor.names))
                     stop("designs for one factor only are not implemented")
                 if (length(nlevels)==1 & is.null(nfactors)) nlevels <- rep(nlevels,length(factor.names))
                 if (length(nlevels)==1 & !is.null(nfactors)) nlevels <- rep(nlevels,nfactors)
-                if (any(nlevels < 2)) 
-                   stop("nlevels must not contain entries smaller than 2")
                 }
-          if (is.null(nlevels) & !is.list(factor.names))
+          if(is.null(nlevels) & !is.list(factor.names))
              stop("number of levels for each factor must be specified via ID or nlevels or level specifications in factor.names!")
           if (is.null(nlevels) & !is.null(factor.names)) {
              nlevels <- sapply(factor.names, "length")
@@ -94,7 +91,8 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           else {
              for (i in 1:length(hilf))
                 cand <- eval(parse(text=paste("cand[cand$",names(hilf)[i],">=",hilf[i],",]",sep="")))
-             cand <- cand[cand$nruns<=ffnrun,]
+## bug fix: cand <=ffnrun was stupid, because it returns a worse oa in case a full factorial is possible
+             cand <- cand[cand$nruns<ffnrun,]
              if (nrow(cand)==0){ 
                   if ((replications>1 & repeat.only)){
                   if (minnrun <= ffnrun)
@@ -116,6 +114,9 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           des <- ID
           if (!("oa" %in% class(des))) stop("ID does not specify an orthogonal array.")
           if (!is.null(columns)) {
+              if (is.numeric(columns)){
+## bugfix: columns of length 1 threw an uncaptured error
+                 if (length(columns)==1) stop("oa.design only works for at least two design columns")
                  if (!is.null(nfactors)){ 
                      if (!length(columns)==nfactors) stop("mismatch between columns and nfactors")}
                  else nfactors <- length(columns)
@@ -125,6 +126,9 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                          else if (any(!apply(des[,columns,drop=FALSE],2,function(obj) length(table(obj)))==nlevels))
                              stop("mismatch between nlevels and columns")}
                  else nlevels <- apply(des[,columns,drop=FALSE],2,function(obj) length(table(obj)))
+                 }  ## end of numeric columns
+              if (is.character(columns))
+                 if (!columns %in% c("order","min3","min34")) stop("invalid choice for columns")
              }
           if (!(is.null(nruns))){
              if (!nrow(des)==nruns) 
@@ -139,23 +143,35 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
              if (nfactors > ncol(des)) stop("too many factors for design ", ID)
           }
           ## default: all columns are used, order is left to right
-          if (is.null(nfactors) & is.null(factor.names) & is.null(nlevels) & is.null(columns)) {
+          if (is.null(nfactors) & is.null(factor.names) & is.null(nlevels) & !is.numeric(columns)){
+               if (!(identical(columns,"order") | is.null(columns))) 
+                  warning("All columns of the design are used, columns option was ignored")
                nfactors <- ncol(des)
                nlevels <- apply(des, 2, max)  ## assuming coding as 1:number of levels
                columns <- 1:ncol(des)
                factor.names <- as.list(rep("",nfactors))
-               if (nfactors<=50) names(factor.names) <- Letters[1:ncol(des)]
+               if (nfactors <= 50) names(factor.names) <- Letters[1:ncol(des)]
                     else names(factor.names) <- paste("F",1:nfactors,sep="")
-               ## now, nfactors, nlevels, columns and factor.names are all non-null
+               ## now, nfactors, nlevelsand factor.names are all non-null,
+               ## and columns is numeric
                }  
          ## factor number is nfactors, otherwise given by (in this order of precedence) factor.names, columns, nlevels
          ## factor types is not permitted here, because at least one of these others also needs to be available
-         if (is.null(nfactors)) 
+         if (is.null(nfactors)){ 
              if (!is.null(factor.names)) nfactors <- length(factor.names) else 
-             if (!is.null(columns)) nfactors <- length(columns) else 
-             if (!is.null(nlevels)) nfactors <- length(nlevels) 
+             if (is.numeric(columns)) nfactors <- length(columns) else 
+             if (is.null(nfactors) & !is.null(nlevels)) 
+                 if (length(nlevels) > 1) nfactors <- length(nlevels) else 
+                 stop("A length 1 entry for nlevels can only be used,\nif at least factor.names, nfactors or a numeric vector for columns is specified as well.")
+             if (is.null(nfactors))
+                 stop("There is not enough information regarding the number of factors.")
+             if (nfactors==1) stop("Designs with only one factor are not supported")
+             }
                ## at least one of the above has an entry, i.e. nfactors is now non-null
+               ## or an error has been thrown
+## bug fix: ID and a length 1 nlevels threw an uncaptured error
          if (length(nlevels)==1) nlevels <- rep(nlevels, nfactors)
+         
           
 
       ## correct number of valid factor types ?
@@ -176,13 +192,14 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
          ## factor.names is now also non-null
 
         if (!is.null(ID)) if (nfactors > ncol(des)) 
-              stop("The design ", ID, " accomodates at most ", ncol(des), " factors, mismatch to specified nfactors!")
+              stop("The design ", ID, " accomodates at most ", ncol(des), 
+                    " factors, mismatch to specified nfactors!")
         if (!is.null(nlevels)) 
               if (!length(nlevels)==nfactors) 
                  stop("nlevels must have exactly one entry for each factor")
         if (!length(factor.names)==nfactors) 
                  stop("factor.names must have exactly one entry for each factor")
-        if (!is.null(columns)){
+        if (is.numeric(columns)){
             if (any(table(columns) > 1)) stop("columns contains duplicates!")
             if (any(!columns %in% 1:ncol(des))) stop("invalid entry in columns")
             if (!is.null(nlevels)) 
@@ -208,7 +225,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
 
       ### check whether the requested nlevels can be accomodated in design ID
            ### compare two tables, make sure that apples are compared to apples!
-      if (is.null(columns)){
+      if (!is.numeric(columns)){
          ## with columns has already been checked otherwise 
          hilf <- table(apply(des,2,max))
          if (is.null(nlevels)) nlevels <- sapply(factor.names,length)
@@ -226,7 +243,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           if (identical(factor.names[[i]],"")) factor.names[[i]] <- 1:nlevels[i]
       
       ### arrange columns of oa in order needed for design
-      if (!is.null(columns)) {
+      if (is.numeric(columns)) {
          des <- des[,columns]
          desorigcode <- des
          origorder <- 1:nfactors
@@ -236,11 +253,28 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           origorder <- (1:nfactors)[order(nlevels)]
           factor.names <- factor.names[order(nlevels)]
           nlevels <- nlevels[order(nlevels)]
+          if (columns=="order" | is.null(columns))
+             cat("The columns of the array have been used in order of appearance. ", 
+             "For designs with relatively few columns, ", 
+             "the properties can sometimes be substantially improved ", 
+             "using option columns with min3 or even min34.", fill=TRUE)
+          nutze <- NULL
+          if (columns=="min3") nutze <- try(oa.min3(ID, nlevels)$column.variants[1,], silent=TRUE)
+          else if (columns=="min34") nutze <- try(oa.min34(ID, nlevels)$column.variants[1,], silent=TRUE)
+          if ("try-error" %in% class(nutze)) {
+               columns <- "order"
+               warning("ressources were not sufficient for optimizing column selection")
+               nutze <- NULL
+          }
+          ## select optimum columns (in the order of nlevels)
+          if (!is.null(nutze)) des <- des[,nutze]
+          ## assign design in requested order and column numbers
           columns <- numeric(0)
           hilf <- table(nlevels)
           for (i in as.numeric(names(hilf)))
               columns <- c(columns,which(apply(des,2,max)==i)[1:hilf[paste(i)]])
           des <- des[,columns]
+          if (!is.null(nutze)) columns <- nutze[columns]
           names(columns) <- NULL
           names(nlevels) <- NULL
       desorigcode <- des[,order(origorder)]
@@ -293,6 +327,9 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
       if (randomize & repeat.only) rand.ord <- rep(sample(1:nrow(design)), each=replications)
 
       aus <- design[rand.ord,]
+      # GWP <- c("3"=length3(aus), "4"=length4(aus))  ## can be very resource intensive, stopped for the moment
+      # resolution <- "III"
+      
       ## extract run number in standard order
       ## remove uniqueness appendix
       orig.no <- orig.no.rp <- sapply(strsplit(rownames(aus),".",fixed=TRUE),function(obj) obj[1])

@@ -1,5 +1,5 @@
 
-R version 2.9.1 Patched (2009-07-22 r48993)
+R version 2.10.0 (2009-10-26)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -18,14 +18,25 @@ Type 'q()' to quit R.
 > ## test reshape functions in DoE.base
 > require(DoE.base)
 Loading required package: DoE.base
-Loading required package: tcltk
+Loading required package: relimp
 Loading Tcl/Tk interface ... done
+Loading required package: tcltk
 Loading required package: vcd
 Loading required package: MASS
 Loading required package: grid
 Loading required package: colorspace
 
 Attaching package: 'DoE.base'
+
+
+	The following object(s) are masked from package:relimp :
+
+	 showData 
+
+
+	The following object(s) are masked from package:stats :
+
+	 lm 
 
 
 	The following object(s) are masked from package:graphics :
@@ -40,6 +51,10 @@ Attaching package: 'DoE.base'
 > 
 > a <- fac.design(nlevels=c(2,4,3),repl=2,repeat.only=TRUE,randomize=FALSE)
 > b <- oa.design(nlevels=c(2,6,2),repl=3,repeat.only=TRUE,randomize=FALSE)
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > c <- a
 > response.names(c) <- c("Y1", "Y2")
 > d <- b
@@ -83,7 +98,7 @@ Attaching package: 'DoE.base'
 22 2 3 3  NA  NA
 23 1 4 3  NA  NA
 24 2 4 3  NA  NA
-class=design, type=full factorial
+class=design, type= full factorial 
 > al
    run.no run.no.std.rp A B C  y
 1       1           1.1 1 1 1 NA
@@ -134,7 +149,7 @@ class=design, type=full factorial
 46     46          23.2 1 4 3 NA
 47     47          24.1 2 4 3 NA
 48     48          24.2 2 4 3 NA
-class=design, type=full factorial
+class=design, type= full factorial 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > bw
    A B C y.1 y.2 y.3
@@ -150,7 +165,7 @@ NOTE: columns run.no and run.no.std.rp are annotation, not part of the data fram
 10 2 1 2  NA  NA  NA
 11 2 3 2  NA  NA  NA
 12 2 5 2  NA  NA  NA
-class=design, type=oa
+class=design, type= oa 
 > bl
    run.no run.no.std.rp A B C  y
 1       1           1.1 1 1 1 NA
@@ -189,7 +204,7 @@ class=design, type=oa
 34     34          12.1 2 5 2 NA
 35     35          12.2 2 5 2 NA
 36     36          12.3 2 5 2 NA
-class=design, type=oa
+class=design, type= oa 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > 
 > design.info(aw)$responselist

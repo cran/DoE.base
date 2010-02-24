@@ -50,9 +50,25 @@ Attaching package: 'DoE.base'
 > ### test programs for crossing designs
 > ### and parameter designs
 > oa12 <- oa.design(nlevels=c(2,6,2), factor.names=c("first","second","third"),randomize=FALSE)
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > oa4 <- oa.design(nlevels=c(2,2,2), factor.names=Letters[4:6],randomize=FALSE)
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > oa4rep <- oa.design(nlevels=c(2,2,2), factor.names=Letters[7:9], repl=3,randomize=FALSE)
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > oa4reprepeat.only <-oa.design(nlevels=c(2,2,2), repl=3, factor.names=Letters[10:12], repeat.only=TRUE,randomize=FALSE)
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > cross1 <- cross.design(oa12,oa4,oa4rep,randomize=FALSE)
 > cross1
      run.no run.no.std.rp first second third D E F G H J
@@ -2635,6 +2651,29 @@ Responses:
 3 y.3
 4 y.4
 
+Outer array:
+  D E F
+1 1 1 1
+2 1 2 2
+3 2 1 2
+4 2 2 1
+
+The design itself:
+   run.no run.no.std.rp first second third y.1 y.2 y.3 y.4
+1       1             1     1      1     1  NA  NA  NA  NA
+2       2             2     1      3     1  NA  NA  NA  NA
+3       3             3     1      5     1  NA  NA  NA  NA
+4       4             4     1      2     2  NA  NA  NA  NA
+5       5             5     1      4     2  NA  NA  NA  NA
+6       6             6     1      6     2  NA  NA  NA  NA
+7       7             7     2      2     1  NA  NA  NA  NA
+8       8             8     2      4     1  NA  NA  NA  NA
+9       9             9     2      6     1  NA  NA  NA  NA
+10     10            10     2      1     2  NA  NA  NA  NA
+11     11            11     2      3     2  NA  NA  NA  NA
+12     12            12     2      5     2  NA  NA  NA  NA
+class=design, type= oa.paramwide 
+NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 Outer array:
   D E F
 1 1 1 1
