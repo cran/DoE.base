@@ -1,5 +1,5 @@
 
-R version 2.9.1 Patched (2009-07-22 r48993)
+R version 2.10.0 (2009-10-26)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -17,8 +17,9 @@ Type 'q()' to quit R.
 
 > require(DoE.base)
 Loading required package: DoE.base
-Loading required package: tcltk
+Loading required package: relimp
 Loading Tcl/Tk interface ... done
+Loading required package: tcltk
 Loading required package: vcd
 Loading required package: MASS
 Loading required package: grid
@@ -27,9 +28,14 @@ Loading required package: colorspace
 Attaching package: 'DoE.base'
 
 
+	The following object(s) are masked from package:relimp :
+
+	 showData 
+
+
 	The following object(s) are masked from package:stats :
 
-	 contrasts 
+	 lm 
 
 
 	The following object(s) are masked from package:graphics :
@@ -43,6 +49,10 @@ Attaching package: 'DoE.base'
 
 > set.seed(9890)
 > plan <- oa.design(nlevels=c(2,6,2), replications=2, repeat.only=TRUE)
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > y <- rnorm(24)
 > plan <- reptowide(add.response(plan,y))
 > aggregate(plan)
@@ -59,9 +69,13 @@ Attaching package: 'DoE.base'
 10 2 6 1 -1.14492138  0.5610340 -0.291943686
 11 1 4 2  0.23347780 -0.2243080  0.004584888
 12 1 2 2 -1.36868861 -0.2820471 -0.825367843
-class=design, type=oa
+class=design, type= oa 
 > 
 > plan <- param.design(oa.design(nlevels=c(2,6,2), factor.names=c("C1","C2","C3")), oa.design(ID=L4.2.3))
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > y <- rnorm(48)
 > plan <- paramtowide(add.response(plan,y))
 > aggregate(plan)
@@ -91,7 +105,7 @@ class=design, type=oa
 10  1.3975709190
 11 -0.3293651650
 12 -0.0660101590
-class=design, type=oa.paramwide
+class=design, type= oa.paramwide 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 Outer array:
   A B C
@@ -126,7 +140,7 @@ Outer array:
 10  1.3975709190
 11 -0.3293651650
 12 -0.0660101590
-class=design, type=oa.paramwide
+class=design, type= oa.paramwide 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 Outer array:
   A B C
@@ -136,6 +150,10 @@ Outer array:
 4 1 1 1
 > 
 > plan <- param.design(oa.design(nlevels=c(2,6,2), factor.names=c("C1","C2","C3")), oa.design(ID=L4.2.3))
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > plan <- paramtowide(plan)
 > aggregate(plan)
    run.no run.no.std.rp C1 C2 C3 y.1 y.2 y.3 y.4 y.mean
@@ -151,7 +169,7 @@ Outer array:
 10     10             1  1  1  1  NA  NA  NA  NA     NA
 11     11             8  2  4  1  NA  NA  NA  NA     NA
 12     12             6  1  6  2  NA  NA  NA  NA     NA
-class=design, type=oa.paramwide
+class=design, type= oa.paramwide 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 Outer array:
   A B C
@@ -161,6 +179,10 @@ Outer array:
 4 1 2 2
 > 
 > plan <- cross.design(oa.design(nlevels=c(2,6,2), factor.names=c("C1","C2","C3")), oa.design(ID=L4.2.3,replications=2,repeat.only=TRUE))
+The columns of the array have been used in order of appearance.  
+For designs with relatively few columns,  
+the properties can sometimes be substantially improved  
+using option columns with min3 or even min34.
 > y <- rnorm(96)
 > plan <- reptowide(add.response(plan,y))
 > aggregate(plan)
@@ -213,7 +235,7 @@ Outer array:
 46     46          12_3  2  4  1 1 2 2  0.847171812 -0.79710838  0.02503172
 47     47          12_4  2  5  2 2 2 1  0.229650044  0.45783819  0.34374412
 48     48          12_2  1  4  2 1 1 1 -0.256478646  0.30369296  0.02360716
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > aggregate(plan,response="y",FUN=sd)
    run.no run.no.std.rp C1 C2 C3 A B C          y.1         y.2         y.sd
@@ -265,6 +287,6 @@ NOTE: columns run.no and run.no.std.rp are annotation, not part of the data fram
 46     46          12_3  2  4  1 1 2 2  0.847171812 -0.79710838 1.1626816742
 47     47          12_4  2  5  2 2 2 1  0.229650044  0.45783819 0.1613533864
 48     48          12_2  1  4  2 1 1 1 -0.256478646  0.30369296 0.3961011414
-class=design, type=crossed
+class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > 

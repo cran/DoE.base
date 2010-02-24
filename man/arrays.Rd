@@ -287,6 +287,7 @@
 \alias{L128.2.6.4.26.8.4.16.1}
 \alias{L128.2.6.4.33.8.1.16.1}
 \alias{L128.2.6.4.5.8.13.16.1}
+\alias{L128.2.15.8.1}
 \alias{L128.2.64.64.1}
 \alias{L128.4.32.32.1}
 \alias{L128.8.16.16.1}
@@ -330,6 +331,8 @@
 \alias{L144.3.48.48.1}
 \alias{L144.4.11.12.2}
 \alias{L144.4.36.36.1}
+\alias{L256.2.19}
+\alias{L2048.2.63}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Orthogonal arrays in the package }
@@ -625,6 +628,7 @@ L128.2.6.4.19.8.7.16.1
 L128.2.6.4.26.8.4.16.1
 L128.2.6.4.33.8.1.16.1
 L128.2.6.4.5.8.13.16.1
+L128.2.15.8.1
 L128.2.64.64.1
 L128.4.32.32.1
 L128.8.16.16.1
@@ -668,26 +672,49 @@ L144.2.76.3.7.4.1.6.5.12.1
 L144.3.48.48.1
 L144.4.11.12.2
 L144.4.36.36.1
+L256.2.19
+L2048.2.63
 }
 %- maybe also 'usage' for other objects documented here.
 
 \details{
-   The arrays and their properties are listed in the 
+   All arrays are guaranteed to have orthogonal main effects. 
+   
+   When being fully populated 
+   with experimental factors, most of the arrays are guaranteed to work well only 
+   under the ASSUMPTION that there are NO INTERACTIONS; known exceptions are noted 
+   in the \code{comment} attribute of the array. Exceptions are, for example, arrays 
+   \code{L128.2.15.8.1}, \code{L256.2.19} and \code{L2048.2.63}, 
+   which have been taken from Mee (2009, chapter 8) and are resolution V in the 
+   2-level factors (but are not regular arrays, there is partial aliasing between 
+   higher order effects). 
+   
+   Populating an array with fewer than the maximum number of factors can 
+   result in a reasonable design even in the presence of interactions. The degree 
+   of confounding can be checked using functions \code{\link{length3}} 
+   and \code{{length4}}, and some optimization of column allocation is possible 
+   with function \code{\link{oa.design}}. These investigations of a designs properties 
+   work well for smaller designs but may be resource-wise prohibitive for larger 
+   designs / numbers of factors.
+
+   The arrays and their numbers of factors are listed in the 
    data frame \code{oacat}. 
    The design names also indicate the number of runs and the numbers of factors: 
    The first portion of each array name (starting with L) indicates number of runs, 
    each subsequent pair of numbers indicates a number of levels together with the frequency with which it occurs.
    For example, \code{L18.2.1.3.7} is an 18 run design with one factor with 
-   2 levels and seven factors with 3 levels each. 
+   2 levels and seven factors with 3 levels each. It is possible to obtain an overview about 
+   available arrays for a certain purpose by using function \code{\link{show.oas}}.
    
-   Apart from \code{L18} and \code{L36} (Taguchi, but also in the collection under different names), 
-   the source for the arrays is Warren Kuhfelds 
-   collection of \dQuote{parent} arrays. 
-   It is possible to combine these with each other, or 
+   Apart from \code{L18} and \code{L36} (Taguchi, but also in the collection under different names) 
+   and the Mee 2009 designs mentioned above, the source for the arrays is Warren Kuhfelds 
+   collection of \dQuote{parent} arrays. It is planned to also implement rules to create 
+   the child arrays from these parent arrays.
+
+   It is possible to combine arrays with each other, or 
    with Plackett-Burman, full or fractional factorial designs by nesting, as described 
-   by Warren Kuhfeld. This is not currently implemented. 
-   (The two Taguchi arrays are derived arrays, not parent arrays, and are therefore 
-   explicitly included.)
+   by Warren Kuhfeld under the name \dQuote{expansive replacement}. 
+   This is not currently implemented in an automated way, but can be done manually. 
 }
 \value{
    All arrays are of class \code{\link{oa}}.
@@ -696,10 +723,14 @@ L144.4.36.36.1
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
   
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
+  
+  Mee, R. (2009). \emph{A Comprehensive Guide to Factorial Two-Level Experimentation}. 
+    New York: Springer.
+
 }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}} }
+\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}}, \code{\link{length3}} }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 % keyword internal is supposed to hide this help file from the index but does not. Why???

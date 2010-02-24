@@ -93,7 +93,9 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
           class(x) <- c("design","data.frame")
           di$nruns <- di$ncube
           design.info(x) <- di
-          message("analysis without center points")
+          #message("analysis without center points")
+          # message removed, because it is more annoying than helpful 
+          # particularly with repeated usage
       } 
           
      ## long format repeated measurement or parameter designs 

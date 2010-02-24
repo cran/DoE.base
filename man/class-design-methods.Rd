@@ -17,7 +17,7 @@
 }
 \usage{
 \method{[}{design}(x, i, j, drop.attr = TRUE, drop = FALSE)
-\method{print}{design}(x, show.order=NULL, ...)
+\method{print}{design}(x, show.order=NULL, group.print=TRUE, ...)
 showData(dataframe,colname.bgcolor = "grey50", 
        rowname.bgcolor = "grey50", 
        body.bgcolor = "white", 
@@ -65,7 +65,7 @@ showData(dataframe,colname.bgcolor = "grey50",
        rownumbers = FALSE, 
        placement = "-20-40",
        suppress.X11.warnings = TRUE)
-\method{summary}{design}(object, ...)
+\method{summary}{design}(object, brief = NULL, quote = FALSE, ...)
 \method{aggregate}{design}(x, ..., 
     by = NULL, response = NULL, FUN = "mean", postfix = NULL, replace = TRUE)
 \method{plot}{design}(x, y=NULL, select=NULL, ...)
@@ -81,12 +81,22 @@ showData(dataframe,colname.bgcolor = "grey50",
        data.frame objects, which is called by the method for class \code{design}}
   \item{show.order}{ \code{NULL} or logical; if \code{TRUE}, the design is printed with run order information; 
         default is \code{TRUE} for design types for which this information is helpful (see code for detail), \code{FALSE} otherwise }
+  \item{group.print}{ logical, default \code{TRUE}; 
+        if \code{TRUE}, structured designs (blocked and split-plot designs) 
+        are printed with intermediate lines at structure breaks; 
+        if \code{FALSE}, the designs are simply printed as data frames.}
   \item{\dots}{ further arguments to functions \code{\link{print}}, \code{\link{summary}}, \code{\link{aggregate}}, 
         \code{\link{contrasts}},  or in case of plotting, 
         \code{\link{plot}}, \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics  }
   \item{dataframe}{data frame; if of S3 class \code{design}, the method for \code{design} is used, 
        otherwise the default method}
   \item{object}{ data frame of S3 class \code{design}, like argument \code{design} }
+  \item{brief}{ \code{NULL} or logical; \code{TRUE} requests a printout of the 
+       design at the end of the \code{summary} output, \code{FALSE} suppresses such a printout. 
+       If \code{brief = NULL} (the default), the \code{summary} method prints 
+       the design \code{object} if it has up to 40 rows and up to 20 columns. }
+  \item{quote}{ logical; \code{TRUE} requests quoting strings in print parts of the output, 
+       \code{FALSE} suppresses quotes.}
   \item{by}{by variables for the \code{\link[stats:aggregate]{data frame method}} 
         of function \code{aggregate}, 
        needed if \code{x} is not a wide design for which the special 
@@ -116,22 +126,22 @@ showData(dataframe,colname.bgcolor = "grey50",
       Main effects plots with too many factors may also be hard to read because of overlapping 
       labeling.\cr
       \code{select} can also be used for bringing the factors into a desirable order. }
-  The following items are documented in package \code{\link[relimp:showData]{relimp}}:
-      \item{colname.bgcolor}{}
-      \item{rowname.bgcolor}{}
-      \item{body.bgcolor}{}
-      \item{colname.textcolor}{}
-      \item{rowname.textcolor}{}
-      \item{body.textcolor}{}
-      \item{font}{}
-      \item{maxheight}{}
-      \item{maxwidth}{}
-      \item{title}{}
-      \item{rowname.bar}{}
-      \item{colname.bar}{}
-      \item{rownumbers}{}
-      \item{placement}{}
-      \item{suppress.X11.warnings}{}
+  The following items are documented in package \pkg{\link[relimp:showData]{relimp}}:
+      \item{colname.bgcolor}{as documented in \pkg{relimp}}
+      \item{rowname.bgcolor}{as documented in \pkg{relimp}}
+      \item{body.bgcolor}{as documented in \pkg{relimp}}
+      \item{colname.textcolor}{as documented in \pkg{relimp}}
+      \item{rowname.textcolor}{as documented in \pkg{relimp}}
+      \item{body.textcolor}{as documented in \pkg{relimp}}
+      \item{font}{as documented in \pkg{relimp}}
+      \item{maxheight}{as documented in \pkg{relimp}}
+      \item{maxwidth}{as documented in \pkg{relimp}}
+      \item{title}{as documented in \pkg{relimp}}
+      \item{rowname.bar}{as documented in \pkg{relimp}}
+      \item{colname.bar}{as documented in \pkg{relimp}}
+      \item{rownumbers}{as documented in \pkg{relimp}}
+      \item{placement}{as documented in \pkg{relimp}}
+      \item{suppress.X11.warnings}{as documented in \pkg{relimp}}
   }
 \details{
     Items of class \code{\link{design}} are data frames with attributes, 
