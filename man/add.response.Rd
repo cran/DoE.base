@@ -68,7 +68,6 @@ which remains an object of class \code{\link{design}} with the following modific
      is added or modified}
 }
 
-\references{ ~put references to the literature/web site here ~ }
 \author{ Ulrike Groemping }
 \seealso{ See also \code{\link{export.design}} }
 \examples{

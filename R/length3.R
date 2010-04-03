@@ -42,29 +42,31 @@ length3 <- function(design, with.blocks=FALSE){
     mm <- model.matrix(fo,design)
     ## store column allocation to factors
     zuord <- attr(mm, "assign")
+    ## normalize columns to Euclidean norm sqrt(n)
     mm <- sqrt(n)*mm %*% diag(1/sqrt(colSums(mm^2)))
     ## remove intercept column
     mm <- mm[,-1]
     zuord <- zuord[-1]
-    ##colnames(mm) <- zuord
+    ##colnames(mm) <- zuord   ## takes too long
     nfac <- max(zuord)
-    if (nfac<3) return(0)
+    if (nfac < 3) return(0)
 
     ## 3fi columns
+    ## store all in one matrix, faster but requires large matrix
     triples <- nchoosek(nfac, 3)
     anz <- 0
     for (i in 1:ncol(triples))
        anz <- anz+prod(nlevels[triples[,i,drop=FALSE]]-1)
     mm3 <- matrix(NA,nrow(design), anz)
-    ##colnames(mm3) <- rep("sp",ncol(mm3))
+    ## colnames(mm3) <- rep("sp",ncol(mm3))   ## takes too long
 
-    zaehl <- 1
+    zaehl <- 1   ## column accessor
 
-    for (i in 1:(max(zuord)-2)){
+    for (i in 1:(nfac - 2)){
      icols <- which(zuord==i)
-      for (j in (i+1):(max(zuord)-1)){
+      for (j in (i+1):(nfac - 1)){
         jcols <- which(zuord==j)
-      for (k in (j+1):(max(zuord))){
+      for (k in (j+1):(nfac)){
         kcols <- which(zuord==k)
           for (a in icols){
            for (b in jcols){

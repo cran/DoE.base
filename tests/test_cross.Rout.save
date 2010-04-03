@@ -1,5 +1,5 @@
 
-R version 2.10.0 (2009-10-26)
+R version 2.10.1 (2009-12-14)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -50,25 +50,9 @@ Attaching package: 'DoE.base'
 > ### test programs for crossing designs
 > ### and parameter designs
 > oa12 <- oa.design(nlevels=c(2,6,2), factor.names=c("first","second","third"),randomize=FALSE)
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > oa4 <- oa.design(nlevels=c(2,2,2), factor.names=Letters[4:6],randomize=FALSE)
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > oa4rep <- oa.design(nlevels=c(2,2,2), factor.names=Letters[7:9], repl=3,randomize=FALSE)
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > oa4reprepeat.only <-oa.design(nlevels=c(2,2,2), repl=3, factor.names=Letters[10:12], repeat.only=TRUE,randomize=FALSE)
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > cross1 <- cross.design(oa12,oa4,oa4rep,randomize=FALSE)
 > cross1
      run.no run.no.std.rp first second third D E F G H J

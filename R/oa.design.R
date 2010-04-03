@@ -29,12 +29,22 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         ## if more than one of the entries are given:
         ## compatibility checks necessary
       creator <- sys.call()
-      if (!is.null(ID)) generating.oa <- deparse(substitute(ID))  ## document selected OA
+
+      generating.oa <- deparse(substitute(ID))  ## document selected OA; NULL if NULL
+      if (generating.oa=="NULL") generating.oa <- NULL
+      if ("try-error" %in% class(try(is.null(ID), silent = TRUE))){ 
+          if (!generating.oa %in% oacat$name) stop("invalid ID")
+          ID <- "NULL"   ## made NULL only after the check for nlevels etc.
+          }
       
       if (is.null(ID) & is.null(factor.names) & is.null(nlevels)) 
          stop("ID or factor.names or nlevels must be specified!")
-      if (is.null(ID)){
-          ## determine array, if not explicitly given
+      if (identical(ID, "NULL")) ID <- NULL
+      
+      if (is.null(ID) & is.null(generating.oa)){
+          ## determine array, if not explicitly given or non-existing in the data base
+          ## array not given: both ID and generating.oa are NULL
+          ## array non-existing: ID is NULL, generating.oa is a text string of the array
           if (is.numeric(columns)) 
                 stop("column numbers must not be specified, if ID is omitted")
           if (!is.null(nlevels)) {
@@ -94,7 +104,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
 ## bug fix: cand <=ffnrun was stupid, because it returns a worse oa in case a full factorial is possible
              cand <- cand[cand$nruns<ffnrun,]
              if (nrow(cand)==0){ 
-                  if ((replications>1 & repeat.only)){
+                  if ((replications > 1 & repeat.only)){
                   if (minnrun <= ffnrun)
                       return(fac.design(nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
                          replications=replications, repeat.only=repeat.only, randomize=randomize, seed=seed))
@@ -105,11 +115,15 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                       replications=ceiling(minnrun/ffnrun), randomize=randomize, seed=seed))
                   }
              else {
-                 ID <- get(as.character(cand[1,1]))
-                 generating.oa <- as.character(cand[1,1])
+                 if (cand[1,]$lineage == "") 
+                       ID <- get(as.character(cand[1,1]))
+                   else ID <- genChild(parseArrayLine(cand[1,]))
+                       generating.oa <- as.character(cand[1,1])
              }
           }
-      }  ## end if (is.null(ID)), now ID is non-null
+      }  ## end if (is.null(ID) & is.null(generating.oa)), now both are non-null, if both were NULL
+      
+      if (is.null(ID)) ID <- genChild(parseArrayLine(oacat[which(oacat$name==generating.oa),]))
 
           des <- ID
           if (!("oa" %in% class(des))) stop("ID does not specify an orthogonal array.")
@@ -253,7 +267,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           origorder <- (1:nfactors)[order(nlevels)]
           factor.names <- factor.names[order(nlevels)]
           nlevels <- nlevels[order(nlevels)]
-          if (columns=="order" | is.null(columns))
+          if ((columns=="order" | is.null(columns)) & !nfactors==ncol(ID))
              cat("The columns of the array have been used in order of appearance. ", 
              "For designs with relatively few columns, ", 
              "the properties can sometimes be substantially improved ", 
@@ -263,7 +277,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           else if (columns=="min34") nutze <- try(oa.min34(ID, nlevels)$column.variants[1,], silent=TRUE)
           if ("try-error" %in% class(nutze)) {
                columns <- "order"
-               warning("ressources were not sufficient for optimizing column selection")
+               warning("resources were not sufficient for optimizing column selection")
                nutze <- NULL
           }
           ## select optimum columns (in the order of nlevels)

@@ -126,22 +126,21 @@ showData(dataframe,colname.bgcolor = "grey50",
       Main effects plots with too many factors may also be hard to read because of overlapping 
       labeling.\cr
       \code{select} can also be used for bringing the factors into a desirable order. }
-  The following items are documented in package \pkg{\link[relimp:showData]{relimp}}:
-      \item{colname.bgcolor}{as documented in \pkg{relimp}}
-      \item{rowname.bgcolor}{as documented in \pkg{relimp}}
-      \item{body.bgcolor}{as documented in \pkg{relimp}}
-      \item{colname.textcolor}{as documented in \pkg{relimp}}
-      \item{rowname.textcolor}{as documented in \pkg{relimp}}
-      \item{body.textcolor}{as documented in \pkg{relimp}}
-      \item{font}{as documented in \pkg{relimp}}
-      \item{maxheight}{as documented in \pkg{relimp}}
-      \item{maxwidth}{as documented in \pkg{relimp}}
-      \item{title}{as documented in \pkg{relimp}}
-      \item{rowname.bar}{as documented in \pkg{relimp}}
-      \item{colname.bar}{as documented in \pkg{relimp}}
-      \item{rownumbers}{as documented in \pkg{relimp}}
-      \item{placement}{as documented in \pkg{relimp}}
-      \item{suppress.X11.warnings}{as documented in \pkg{relimp}}
+   \item{colname.bgcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{rowname.bgcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{body.bgcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{colname.textcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{rowname.textcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{body.textcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{font}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{maxheight}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{maxwidth}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{title}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{rowname.bar}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{colname.bar}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{rownumbers}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{placement}{as documented in \pkg{\link[relimp:showData]{relimp}}}
+      \item{suppress.X11.warnings}{as documented in \pkg{\link[relimp:showData]{relimp}}}
   }
 \details{
     Items of class \code{\link{design}} are data frames with attributes, 
@@ -176,7 +175,7 @@ showData(dataframe,colname.bgcolor = "grey50",
     defined in package \pkg{DoE.base}, 
     and \code{x} a design with all factors being R-factors and at least one response available). 
     
-    Function \code{\link[graphics]{plot.design}}) from package \pkg{graphics} is not 
+    Function \code{\link[graphics]{plot.design}} from package \pkg{graphics} is not 
     an adequate choice for designs without responses or designs with experimental factors 
     that are not R-factors. \cr
     For designs with all factors being R-factors and no response defined (e.g. a freshly-created 

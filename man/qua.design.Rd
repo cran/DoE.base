@@ -106,10 +106,7 @@ change.contr(design, contrasts=contr.treatment)
   A data frame of class \code{\link{design}}; the element \code{quantitative} of attribute \code{design.info}, 
   the data frame itself and the \code{desnum} attribute are modified as appropriate.
 }
-\references{ ~put references to the literature/web site here ~ }
 \author{ Ulrike Groemping }
-\note{ Although testing of this function has progressed, it is still somewhat experimental.
-}
 \examples{
 ## usage with all factors treated alike
 y <- rnorm(12)

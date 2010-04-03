@@ -1,5 +1,5 @@
-show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", show = 10){
-    ## preparation: check nlevels and nfactors and unite into one single case
+show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", show = 10, parents.only = FALSE){
+    ## preparation: check nlevels and factors and unite into one single case
     if (!(identical(nlevels,"all") | identical(factors,"all")) )
         stop("nlevels and factors must not be specified simultaneously")
     if (!identical(nlevels,"all")){
@@ -10,7 +10,10 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
         factors  <- list(nlevels=as.numeric(names(hilf)), number=hilf)
         nlevels <- "all"
         }
-    zeige <- oacat
+    ## exclude or include child arrays 
+    if (parents.only) zeige <- oacat[oacat$lineage=="",] 
+        else zeige <- oacat
+    ## treat name subsetting
     if (!identical(name,"all")){ 
         if (!is.character(name)) stop("name must be character")
         if (length(name)==0) stop("At least one name must be given.")
@@ -20,6 +23,7 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
                  warning("not all requested names found")
         zeige <- zeige[zeige$name %in% name,]
       }
+    ## treat nruns subsetting
     if (!identical(nruns, "all")){
         if (!is.numeric(nruns)) stop("nruns must be numeric")
         if (!all(nruns %% 1 == 0)) stop("nruns must be integer")
@@ -27,6 +31,7 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
         if (length(nruns)==1) zeige <- zeige[zeige$nruns==nruns,]
              else zeige <- zeige[zeige$nruns>=min(nruns) & zeige$nruns<=max(nruns),]
     }
+    ## treat factors (or nlevels which has been previously transformed into factors)
     if (!identical(factors,"all")){
         if (!is.list(factors)) stop("factors must be a list")
         if (!length(factors)==2) stop("factors must have the element vectors nlevels and number")
@@ -39,19 +44,24 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
         for (i in 1:length(stufen))
            zeige <- zeige[zeige[,paste("n",stufen[i],sep="")]>=anzahl[i],]
     }
+    ## treat the resulting data frame
     if (nrow(zeige)>0){
-        if (show < nrow(zeige))
-        cat(nrow(zeige), " designs found, \nthe first ", show, " are listed\n")
-        else
-        cat(nrow(zeige), " designs found\n")
-    for (i in 1:min(nrow(zeige),show)){
-#        print(as.character(zeige[i,1]), quote=FALSE)
-        cat(as.character(zeige[,1])[i],"\n")
-        #if (!zeige$comment=="") cat(zeige$comment,"\n")
-    }}
+        ## make show="all" numeric
+        if (show=="all") show <- nrow(zeige)
+        ## display information, if not suppressed
+        if (show > 0){
+            if (show < nrow(zeige))
+            cat(nrow(zeige), " designs found, \nthe first ", show, " are listed\n")
+            else
+            cat(nrow(zeige), " designs found\n")
+            print(zeige[1:min(show,nrow(zeige)),,drop=FALSE][c("name","nruns","lineage")], quote=FALSE)
+        }
+        ## return information for further use
+        invisible(zeige[c("name","nruns","lineage")])
+    }
     else{ 
       cat("no such orthogonal array found\n")
-      cat("you may be able to construct one from the parent arrays that are available\n")
-      cat("automatic creation of child arrays for increasing the number of available arrays is currently under development\n")
+      if (parents.only) cat("choose parent.only=FALSE in order to see which further arrays up to 143 runs can be manually constructed in what way.\n",
+      "automatic creation of child arrays for increasing the number of available arrays is currently under development\n")
     }
 }

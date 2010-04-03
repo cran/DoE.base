@@ -207,7 +207,7 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
                     #      paste("SO(",paste(names(factor.names),collapse=","),")",sep=""),
                     #      sep="~"))
                       }
-              if (di$type == "Dopt"){
+              if (length(grep("Dopt",di$type)) > 0 ){
                   aus <- formula(paste(response, paste(as.character(di$formula), collapse=" ")))
               }
               if (length(grep("center",type))>0){ 
@@ -221,7 +221,8 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
                       paste(c(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep="")), collapse="+"),
                       sep="~"))
                       }
-              else if (!type %in% c("bbd","ccd","lhs","Dopt")){
+              else 
+              if (!di$type %in% c("bbd","ccd","lhs","Dopt","Dopt.blocked","Dopt.splitplot")){
               aus <- formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
               }
               }

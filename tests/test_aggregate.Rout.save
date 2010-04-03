@@ -1,5 +1,5 @@
 
-R version 2.10.0 (2009-10-26)
+R version 2.10.1 (2009-12-14)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -49,10 +49,6 @@ Attaching package: 'DoE.base'
 
 > set.seed(9890)
 > plan <- oa.design(nlevels=c(2,6,2), replications=2, repeat.only=TRUE)
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > y <- rnorm(24)
 > plan <- reptowide(add.response(plan,y))
 > aggregate(plan)
@@ -72,10 +68,6 @@ using option columns with min3 or even min34.
 class=design, type= oa 
 > 
 > plan <- param.design(oa.design(nlevels=c(2,6,2), factor.names=c("C1","C2","C3")), oa.design(ID=L4.2.3))
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > y <- rnorm(48)
 > plan <- paramtowide(add.response(plan,y))
 > aggregate(plan)
@@ -150,10 +142,6 @@ Outer array:
 4 1 1 1
 > 
 > plan <- param.design(oa.design(nlevels=c(2,6,2), factor.names=c("C1","C2","C3")), oa.design(ID=L4.2.3))
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > plan <- paramtowide(plan)
 > aggregate(plan)
    run.no run.no.std.rp C1 C2 C3 y.1 y.2 y.3 y.4 y.mean
@@ -179,10 +167,6 @@ Outer array:
 4 1 2 2
 > 
 > plan <- cross.design(oa.design(nlevels=c(2,6,2), factor.names=c("C1","C2","C3")), oa.design(ID=L4.2.3,replications=2,repeat.only=TRUE))
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > y <- rnorm(96)
 > plan <- reptowide(add.response(plan,y))
 > aggregate(plan)

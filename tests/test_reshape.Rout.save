@@ -1,5 +1,5 @@
 
-R version 2.10.0 (2009-10-26)
+R version 2.10.1 (2009-12-14)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -50,11 +50,8 @@ Attaching package: 'DoE.base'
 
 > 
 > a <- fac.design(nlevels=c(2,4,3),repl=2,repeat.only=TRUE,randomize=FALSE)
+creating full factorial with  24  runs ...
 > b <- oa.design(nlevels=c(2,6,2),repl=3,repeat.only=TRUE,randomize=FALSE)
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > c <- a
 > response.names(c) <- c("Y1", "Y2")
 > d <- b
