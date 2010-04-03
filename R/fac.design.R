@@ -74,9 +74,13 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                  }
       ## make names valid under all circumstances
       names(factor.names) <- make.names(names(factor.names), unique=TRUE)
+      
+      nruns <- prod(sapply(factor.names,"length"))
+      cat("creating full factorial with ", nruns, " runs ...\n")
 
-      design <- expand.grid(factor.names)
-      nruns <- nrow(design)
+      design <- try(expand.grid(factor.names))
+      if ("try-error" %in% class(design)) 
+          stop("design with ", nruns, " runs could not be generated")
       row.names(design) <- 1:nruns 
                 desnum <- NULL
                 quant <- sapply(factor.names, "is.numeric")

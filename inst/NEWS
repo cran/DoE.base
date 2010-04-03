@@ -4,10 +4,32 @@ This package is under development.
 Suggestions and bug reports are very welcome. 
 
 Most immiment next steps for this package:
-- extension of available orthogonal arrays for function oa.design 
-  by incorporating child arrays from Kuhfeld 2009
 - accompany extensions of other packages with suitable modifications 
   to summary function
+- check and where necessary improve the somewhat experimental combination functions
+
+03/04/2010, Version 0.10
+- meaningful error message, if full factorial is too large;
+  now indicate before trying to create full factorial how many runs this will have
+- implemented child arrays with substantial contributions from Boyko Amarov
+- included child arrays into oacat
+- moved documentation of oacat from oa.design documentation to a separate file
+- made show.oas show lineage information and child arrays
+- made show.oas return the displayed information as a data frame
+- allowed for show=0 and show="all" in show.oas
+- removed arrays L18.2.1.3.7 and L36.2.11.3.12, which were identical to Taguchi arrays 
+  L18 and L36; Taguchi arrays are available now as L18, L36 and L54; the corresponding 
+  arrays with regular labelling (L18.2.1.3.7, L36.2.11.3.12, L54.2.1.3.25) 
+  can be constructed as children from Kuhfeld parent arrays, as indicated in oacat 
+- adapted formula.design to reflect formula in (future) Dopt designs
+- adapted summary.design for lhs and Dopt type designs to display optimality 
+  criteria
+- added functions P3.3, P4.3 and P4.4 for pattern of length 3 (4) words 
+  of projections onto 3 (4) factors
+- added an explanation of generalized word length to the documentation 
+  word length based functions
+- added some word length information to summary.design for smaller type oa designs
+- made option quote for summary.design take effect on more aspects
 
 24/02/2010, Version 0.9-17
 - fixed documentation issues

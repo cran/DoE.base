@@ -203,13 +203,16 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
       print(c(Cube=di$ncenter[1], Star=di$ncenter[2]))
    }
 
-   if (length(grep("Dopt",di$type))>0)
-      cat("\nOptimum value of D: ", di$D, "\n") 
+   if (length(grep("Dopt",di$type))>0 | length(grep("lhs",di$type))>0)
+      if (!is.null(di$optimality.criteria)){
+        cat("\nOptimality criteria:\n ") 
+        print(unlist(di$optimality.criteria))
+        }
 
    if (!is.null(response.names(object))){
        cat("\nResponses:\n")
-       if (is.null(di$responselist)) print(response.names(object),...)
-       else print(di$responselist)
+       if (is.null(di$responselist)) print(response.names(object), quote=quote, ...)
+       else print(di$responselist, quote=quote, ...)
    } 
    if (length(grep("param",design.info(object)$type))>0 & length(grep("wide",design.info(object)$type))>0 ){
       cat("\nOuter array:\n")
@@ -263,16 +266,20 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
          print(di$generating.oa, quote=quote, ...)
        cat("Selected Columns:\n")
          print(di$selected.columns,...)
+       if (di$nfactors <= 15){
+          cat("Numbers of generalized words of lengths 3 and 4:\n")
+          print(c("3"=length3(object),"4"=length4(object)))}
+       else if (di$nfactors <= 30)
+          cat("Number of generalized words of length 3: ", length3(object),"\n")
        }
    ## nothing for pb or full factorials
-   ## quality criteria for D-optimal designs
-   ## quality criteria for lhs designs
+
    ## what for rsm designs? 
    nWPs <- di$nWPs
    if (is.null(nWPs) | length(nWPs)==0) nWPs <- 1
         ### nWPs = numeric(0) for folded designs; why?
    if (nWPs > 1){ 
-          cat("split-plot design: ", nWPs, " whole plots\n")
+          cat("\nsplit-plot design: ", nWPs, " whole plots\n")
           cat("                 : first ", di$nfac.WP, " factors are whole plot factors\n")
           }
    if (!brief){ 

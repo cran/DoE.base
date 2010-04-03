@@ -1,4 +1,14 @@
 oa.min34 <- function(ID, nlevels, min3=NULL, all=FALSE){
+    ## retrieve child array or array identified by character string
+          ## gsub for case where ID is character string
+    IDname <- gsub("\"","",deparse(substitute(ID)))
+    if (all(IDname %in% oacat$name)){ 
+    if (!exists(IDname)) 
+          ID <- eval(parse(text=paste("oa.design(",IDname,")")))
+    else if (is.character(ID)) 
+          ID <- eval(parse(text=paste("oa.design(",IDname,")")))
+    }
+
      if (is.null(min3))
          min3 <- oa.min3(ID, nlevels, all=TRUE)
      if (!is.list(min3)) stop("min3 must be a list")
@@ -12,6 +22,7 @@ oa.min34 <- function(ID, nlevels, min3=NULL, all=FALSE){
          return(list(GWP=c("3"=GWP3, "4"=length4(ID[,variants])),
                      column.variants=variants))
      else{
+     ## initialize curMin
      curMin <- Inf
      MinVariants <- numeric(0)
      for (i in 1:nrow(variants)){

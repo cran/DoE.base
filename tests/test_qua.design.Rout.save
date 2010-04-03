@@ -1,5 +1,5 @@
 
-R version 2.10.0 (2009-10-26)
+R version 2.10.1 (2009-12-14)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -52,6 +52,7 @@ Attaching package: 'DoE.base'
 > 
 > ## NA
 > plan1 <- fac.design(4,nlevels=2)
+creating full factorial with  16  runs ...
 >  lm(rnorm(16)~., plan1)
 
 Call:
@@ -63,10 +64,6 @@ Coefficients:
 
 > 
 > plan2 <- oa.design(nlevels=c(2,6,2))
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 >  lm(rnorm(12)~., plan2)
 
 Call:
@@ -255,10 +252,6 @@ Coefficients:
 
 > 
 > plan3 <- oa.design(factor.names=list(X=c(1,2),Y=c(1,2),Z=c(1,2)), ID=L4.2.3)
-The columns of the array have been used in order of appearance.  
-For designs with relatively few columns,  
-the properties can sometimes be substantially improved  
-using option columns with min3 or even min34.
 > desnum(qua.design(qua.design(cross.design(plan1,plan3),quantitative="all")))
    A1 B1 C1 D1 X1 Y1 Z1
 18  1  1 -1  1 -1  1  1

@@ -97,7 +97,7 @@ accessed August 11, 2009. \url{http://www.itl.nist.gov/div898/handbook/pri/secti
 ## oa.design designs are used here.
 
 ## quick preliminary checks to try out possibilities
-control <- oa.design(L18.2.1.3.7, columns=1:4, factor.names=paste("C",1:4,sep=""))
+control <- oa.design(L18, columns=1:4, factor.names=paste("C",1:4,sep=""))
 noise <- oa.design(L4.2.3, columns=1:3, factor.names=paste("N",1:3,sep=""))
 ## long
 long <- param.design(control,noise)
@@ -110,7 +110,7 @@ long
 ## should of course be as meaningful as possible for your data
 fnc <- c(list(c("current","new")),rep(list(c("type1", "type2","type3")),3))
 names(fnc) <- paste("C", 1:4, sep="")
-control <- oa.design(L18.2.1.3.7, factor.names=fnc)
+control <- oa.design(L18, factor.names=fnc)
 fnn <- rep(list(c("low","high")),3)
 names(fnn) <- paste("N",1:3,sep="")
 noise <- oa.design(L4.2.3, factor.names = fnn)

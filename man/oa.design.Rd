@@ -1,7 +1,6 @@
 \name{oa.design}
 \alias{oa.design}
 \alias{origin}
-\alias{oacat}
 \alias{oa}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Function for accessing orthogonal arrays }
@@ -19,15 +18,17 @@ oa.design(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         replications=1, repeat.only=FALSE,
         randomize=TRUE, seed=NULL, min.residual.df=0)
 origin(ID)
-oacat
 oa
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{ID}{ orthogonal array to be used; must be given as the name without quotes 
         (e.g. \code{L12.2.2.6.1}); 
-        available names can be looked at via \code{oacat$name};
-        users can also specify names of their own designs here (cf. details). 
+        available names can be looked at using function \code{\link{show.oas}} 
+        with option \code{parents.only = TRUE} (later it will also be possible 
+        to directly access child designs); furthermore, \code{L18}, \code{L36} 
+        and \code{L54} for the respective Taguchi arrays can be used.
+        Users can also specify names of their own designs here (cf. details). 
         \code{ID} must be of class \code{oa}.
         If omitted, \code{ID} is automatically determined based on \code{nlevels} 
         or \code{factor.names}. }
@@ -88,9 +89,10 @@ oa
    Function \code{oa.design} assigns factors to the columns of orthogonal arrays that are 
    available within package \pkg{DoE.base} or are provided by the user. 
    The available arrays and their properties are listed in the 
-   data frame \code{oacat}. The design names also indicate the number of runs and the numbers of factors 
-   for each number of levels, e.g. \code{L18.2.1.3.7} is an 18 run design with one factor with 
-   2 levels and seven factors with 3 levels each. 
+   data frame \code{oacat} and can be systematically searched for using function \code{\link{show.oas}}. 
+   The design names also indicate the number of runs and the numbers of factors 
+   for each number of levels, e.g. \code{L18.3.6.6.1} is an 18 run design with six factors in 3 levels 
+   (\code{3.6}) and one factor in 6 levels (\code{6.1}). 
    
    \code{oa} is the S3 class used for orthogonal arrays. Objects of class \code{oa} should at least have 
    the attribute \code{origin}, an attribute \code{comment} should be used for additional information.
@@ -114,15 +116,12 @@ oa
    being a MUST in this case. (See the last example for how to assign an attribute.)
    
    Currently, package \pkg{DoE.base} contains the orthogonal arrays from Warren Kuhfelds 
-   collection of \dQuote{parent} arrays only, plus very few additional designs. 
-   It is possible to combine these with each other, or 
-   with Plackett-Burman, full or fractional factorial designs by expansive replacement, as described 
-   by Warren Kuhfeld. The thus-obtainable child arrays have so far not been implemented; 
-   as long as these are not available, function \code{oa.design} will 
-   often suggest larger designs than necessary. The child arrays with up to 143 runs 
-   listed in Warren Kuhfelds technical report will be implemented relatively soon. \cr
-   For the interim, consider the last example for combining 
-   designs manually. (A lot more than just the child arrays could be obtained from these arrays 
+   collection of \dQuote{parent} arrays only, plus very few additional designs, 
+   and can automatically create the child arrays from Kuhfelds collection, using 
+   the replacement instructions provided in the data frame \code{\link{oacat}} 
+   through the variable \code{lineage}. The last example below indicates how 
+   a child array can be created manually, and compares this to the automatically created array.\cr
+   (A lot more than just the child arrays could be obtained from these arrays 
    by implementing a functionality similar to the market research macros available in SAS; presumably, 
    this topic will not be addressed soon, as it will involve a substantial amount of work.)
    
@@ -137,16 +136,24 @@ oa
    names of more promising candidate arrays for combination, or you may also want to look 
    up arrays with \code{n25>0} subsequently.
    
-   With version ??? of the package, an automatic allocation of columns for improved design 
-   performance has been implemented. The first step is selection of an array, either explicitly by the 
-   user (option \code{ID}) or automatically according to the required combination of factors. 
-   Per default, the function then tries to allocate the experimental 
+   With version 0.9-18 of the package, 
+   the possibility for an automatic allocation of columns for improved design 
+   performance has been implemented. This is not switched on per default because of performance reasons. 
+   However, the package always issues a warning to remind users that an automatic unoptimized design 
+   can be quite far from ideal. 
+   If optimization is activated, the first step is selection of an array, 
+   either explicitly by the user (option \code{ID}) or automatically according to 
+   the required combination of factors. 
+   If option \code{columns="min3"} is chosen (recommended, if feasible resourcewise), 
+   the function then tries to allocate the experimental 
    factors to columns of the selected array such that aliasing between main effects and 2-factor 
-   interactions is kept to a minimal degree (option \code{columns="min3"}), 
+   interactions is kept to a minimal degree, 
    minimizing the number of generalized words of length 3 according to Xu and Wu (2001). 
-   It is possible to modify this option to return to the previous unoptimized behavior of 
-   allocating factors from left to right (option \code{columns="order"}), or to 
-   define a more demanding optimization (which may take very long) with option \code{columns="min34"}, 
+   The default \code{columns="order"} 
+   allocates factors from left to right (option \code{columns="order"}). 
+   If only very few columns of an array are used, it may be useful to 
+   define specify the most demanding optimization (which may sometimes take very long) 
+   with option \code{columns="min34"}, 
    which requests that the number of words of generalized length 4 is also minimized (e.g. useful 
    if there are several designs without any generalized words of length 3).
    
@@ -156,7 +163,30 @@ oa
    the presence of interactions may render some designs useless or even dangerous. 
    Deliberate choice of columns different from the default may improve a design 
    (an example for this will be added shortly)!
-
+   
+   Mathematical comment on the expansion example: 
+   There are 720 different ways to expand the unique \code{L18.3.6.6.1} 
+   into an \code{L18.2.1.3.7}, depending on which row of the replacement design 
+   \code{nest.des} is assigned to which level of the 6 level factor. 
+   According to Eric Schoen (personcal communication), all the resulting children 
+   are isomorphic to each other and are also isomorphic to the Taguchi L18. 
+   (This statement holds for qualitatitve factors only; there are 
+   more different possibilities for arrays for quantitative 
+   3 level factors, since arbitrary 
+   relabelling of the levels is no longer isomorphic). 
+   To see isomorphism of two designs is not easy; in the example, \code{nest.des} 
+   has been prepared such that it is easy to see isomorphism of the resulting 
+   child to the Taguchi \code{L18}: \code{L18} is reproduced by 
+   assigning the first row of \code{nest.des} to level 1 etc., 
+   except for a swap of columns \code{G} and \code{H}. 
+   
+   Schoen (2009) identified three different isomorphism classes of 
+   orthogonal arrays for one 2 level factor and seven 3 level factors. 
+   Note that Schoen classifies the isomorphism class of the Taguchi \code{L18} as worst among the 
+   three classes, based on the fact that it has more subsets of three factors with bad 
+   number of generalized three letter words than the other classes (\code{\link{P3.3}} pattern).
+   On the good side, the Taguchi array class also has the most orthogonal subsets of three factors. 
+   In most cases, the difference will not be practically relevant.
 }
 \value{\code{oa.design} returns a data frame of S3 class \code{\link{design}} 
     with attributes attached. 
@@ -191,6 +221,8 @@ oa
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
   
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
+  
+  Schoen, E. (2009). All orthogonal arrays with 18 runs. \emph{Quality and Reliability Engineering International} \bold{25}, 467--480. 
 }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
 \seealso{ See Also \code{\link[FrF2]{FrF2}}, \code{\link{fac.design}}, \code{\link[FrF2]{pb}} }
@@ -239,34 +271,45 @@ oa
   
 
   ## The last example:
-  ## generate an orthogonal array equivalent to Taguchi's L54.2.1.3.25 array 
-  ## (which is not currently included) up to swaps of levels within a factor 
-  ## for some of the factors J to a (i.e. factors 9 to 26) 
-  ## by combining L54.3.18.18.1 with L18.2.1.3.7
-  ## look at catalogued designs for checking possibilities first
-  ## assign class such that design is usable in function oa.design
-  ## assign attributes for documentation purpose
-  oacat[oacat$nruns==54,]$name   
-                 ##L54.3.18.18.1 looks most promising
-  oacat[oacat$nruns==18,]$name   
-                 ##L18.2.1.3.7 will deliver one 2-level and 25 3-level factors
-                 ##(it can itself be generated from L18.3.6.6.1 by nesting L6.2.1.3.1)
-  parent.des <- oa.design(ID=L54.3.18.18.1, nlevels=c(rep(3,18),18),factor.names=c(Letters[9:26],"comb"))
-  nest.des <- oa.design(ID=L18.2.1.3.7)
-  L54.2.1.3.25 <- cbind(nest.des[parent.des$comb,], parent.des)[-27]
-  rownames(L54.2.1.3.25) <- rownames(parent.des)
-  L54.2.1.3.25[ord(L54.2.1.3.25),]  ## look at sorted array
-    ## prepare for using it with function oa.design
-    ## (ordering it is not necessary, just **tidy**)
-  L54.2.1.3.25 <- as.matrix(L54.2.1.3.25[ord(L54.2.1.3.25),])
-  class(L54.2.1.3.25) <- c("oa", "matrix")
-  attr(L54.2.1.3.25, "origin") <- "L54.3.18.18.1, 18.1 -> L18.2.1.3.7"
-  comment(L54.2.1.3.25) <- comment(L18.2.1.3.7)
-     ## uses comment function from package base
-  origin(L54.2.1.3.25)
-  comment(L54.2.1.3.25)
-    ## can now be used in oa.design, like the built-in arrays
-  oa.design(ID=L54.2.1.3.25,nfactors=22,nlevels=3) 
+  ## generate an orthogonal array equivalent to Taguchi's L18
+  ## by combining L18.3.6.6.1 with a full factorial in 2 and 3 levels
+  show.oas(nruns=18, parents.only=FALSE)
+       ## lineage entry leads the way:
+           ## start from L18.3.6.6.1 
+           ## insert L6.2.1.3.1 for the 6 level factor
+  ## prepare the parent 
+   parent.des <- L18.3.6.6.1
+   colnames(parent.des) <- c(Letters[3:8], "comb")   
+       ## column comb will create the first two columns of the target design
+  ## 6-level design can be created by fac.design or expand.grid
+   nest.des <- as.matrix(expand.grid(1:3,1:2))[c(1:3,5,6,4),c(2,1)]  
+        ## want first column to change most slowly
+        ## want resulting design to be easily transformable into Taguchi L18
+        ## see mathematical comments in section Details
+   colnames(nest.des) <- c("A","B")
+  ## do the expansion (see mathematical comments in section Details)
+  L18.2.1.3.7.manual <- cbind(nest.des[parent.des[,"comb"],], parent.des)[,-9]
+  L18.2.1.3.7.manual <- L18.2.1.3.7.manual[ord(L18.2.1.3.7.manual),]  ## sort array
+      rownames(L18.2.1.3.7.manual) <- 1:18
+        ## (ordering is not necessary, just **tidy**)
+  ## prepare for using it with function oa.design
+  attr(L18.2.1.3.7.manual, "origin") <- 
+      c(show.oas(name="L18.2.1.3.7", parents.only=FALSE,show=0)$lineage, 
+        "unconventional order")
+  class(L18.2.1.3.7.manual) <- c("oa", "matrix")
+  comment(L18.2.1.3.7.manual) <- "Interaction of first two factors estimable"
+     ## indicates that first two factors are full factorial from 6-level factor
+  origin(L18.2.1.3.7.manual)
+  comment(L18.2.1.3.7.manual)
+  L18  ## Taguchi array
+  L18.2.1.3.7.manual  ## manually expanded array
+  oa.design(L18.2.1.3.7, randomize=FALSE)
+        ## automatically expanded array
+  P3.3(L18.2.1.3.7.manual)  ## length 3 pattern of 3 factor projections
+                  ## this also identifies the array as isomorphic to L18
+                  ## according to Schoen 2009
+  ## the array can now be used in oa.design, like the built-in arrays
+  oa.design(ID=L18.2.1.3.7.manual,nfactors=7,nlevels=3)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

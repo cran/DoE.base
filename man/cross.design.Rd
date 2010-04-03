@@ -90,7 +90,7 @@ cross.design(design1, design2, ..., randomize = TRUE, seed=NULL)
    ##     for each inner array run conducted in sequence
    ##   alternatively, a split-plot approach can also handle control and noise factor 
    ##     designs without necessarily crossing two separate designs
-   des.control <- oa.design(ID=L18.2.1.3.7)
+   des.control <- oa.design(ID=L18)
    des.noise <- oa.design(ID=L4.2.3,nlevels=2,factor.names=c("N1","N2","N3"))
    crossed <- cross.design(des.control, des.noise)
    crossed
