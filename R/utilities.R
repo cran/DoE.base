@@ -62,10 +62,21 @@ generators <- function(design, ...){
    UseMethod("generators")
 }
 generators.design <- function(design, ...){
+    ### !!!make sure that all functions use the correct catlg (from catlg.name entry)
+
     ## extract generating contrasts for all FrF2 designs
     ## special care is needed for splitplot, hard and blocked designs
     ## and also estimable
     di <- design.info(design)
+    catlg.name <- di$catlg.name
+    if (is.null(catlg.name)) catlg.name <- "catlg"
+    if (!exists(catlg.name)) {
+        catlg <- try(eval(parse(text=catlg.name)), silent=TRUE)
+        if ("try-error" %in% class(catlg))
+        stop("alias information can only be provided, if ", catlg.name, " is available")
+        }
+    else catlg <- get(catlg.name)   ## within this function, default catlg to the current catalogue
+    if (!"catlg" %in% class(catlg)) stop("alias information can not be provided, \nbecause ", catlg.name, " is not a valid design catalogue")
     k <- round(log2(di$nruns))
     if (length(grep("FrF2", di$type)) == 0) 
           stop("generators are only determined for regular fractional factorial 2-level designs.")
@@ -99,7 +110,7 @@ generators.design <- function(design, ...){
              ##      not only base factors
             if (is.null(di$base.design) & !is.null(di$map)){ 
                  ## determine unmapped generators
-                 hilf <- generators(names(di$map))[[1]]
+                 hilf <- generators(names(di$map), select.catlg=catlg)[[1]]
                  aus <- list("generators"=sort(chartr(paste(Letters[di$map[[1]]],collapse=""),paste(Letters[1:di$nfactors],collapse=""),hilf)))
                  }
             }
@@ -189,12 +200,24 @@ generators.catlg <- function(design, ...){
     lapply(design, gen.fun)
 }
 
-generators.character <- function(design, ...){
-    if (!is.character(design)) stop("This function works on character strings only.")
-    if (!exists("catlg")) stop("generators method for character strings requires availability of catlg.")
-    if (!all(design %in% names(catlg))) stop("character string design contains invalid elements")
-    generators(catlg[design])
+generators.character <- function (design, select.catlg=catlg, ...) 
+{
+     catlg.name <- deparse(substitute(select.catlg))
+     ## select.catlg is used for looking up the design name
+    if (!is.character(design)) 
+        stop("This function works on character strings only.")
+    if (!exists(catlg.name)) {
+        catlg <- try(eval(parse(text=catlg.name)), silent=TRUE)
+        if ("try-error" %in% class(catlg))
+        stop("alias information can only be provided, if ", catlg.name, " is available")
+        }
+    else catlg <- get(catlg.name)
+    if (!"catlg" %in% class(catlg)) stop(catlg.name, " is not a valid design catalogue")
+    if (!all(design %in% names(catlg))) 
+        stop("character string design contains invalid elements")
+    generators(select.catlg[design])
 }
+
 
 invperm <- function (perm) 
 {
