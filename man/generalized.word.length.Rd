@@ -16,7 +16,7 @@ projection frequencies or optimizing column selection within an array
 \description{
 Functions length3 and length4 calculate the numbers of generalized words 
 of lengths 3 and 4, respectively. Functions P3.3, P4.3 and P4.4 
-calculate projections frequencies, functions oa.min3, oa.min34 and oa.max3 
+calculate projection frequencies, functions oa.min3, oa.min34 and oa.max3 
 determine column allocations with minimum or maximum aliasing. 
 Function nchoosek is an auxiliary function 
 for calculating all subsets without replacement.
@@ -45,7 +45,7 @@ nchoosek(n, k)
       is not of class \code{design}.\cr 
       Per default, an existing block factor is ignored.\cr
       For designs without a block factor, the option does not have an effect.\cr
-      if the design is blocked, and \code{with.blocks} 
+      If the design is blocked, and \code{with.blocks} 
       is \code{TRUE}, the block factor is treated like any other factor in terms of word counting.}
   \item{separate}{a logical, indicating whether or not separate (and overlapping) sums are requested 
       for each two-factor interaction; the idea is to be able to identify clear two-factor interactions; 
@@ -67,9 +67,9 @@ nchoosek(n, k)
    Nevertheless it is possible to apply them to class \code{\link{design}} plans with quantitative 
    variables in them in some situations. 
    
-   The generalized word length as introduced in Xu and Wu (2001) pattern is the basis 
-   for the functions described here. Consult this article for rigorous mathematical detail 
-   of this concept. A brief explanation is also given hiere, 
+   The generalized word length pattern as introduced in Xu and Wu (2001) is the basis 
+   for the functions described here. Consult their article for rigorous mathematical detail 
+   of this concept. A brief explanation is also given here, 
    before explaining the details for the functions: Assume a design with qualitative 
    factors, for which all factors are coded with Helmert (\code{\link{contrasts}} 
    (which orthogonalizes the model matrix columns to the intercept column). 
@@ -82,9 +82,10 @@ nchoosek(n, k)
    of squares of the column sums of all four-factor interaction columns 
    (from a model matrix with all four-factor interactions included), divided by the 
    squared number of runs, and so on.\cr
-   A certain plausibility can be found in these numbers by noting that they are 
-   exactly zero for resolution IV or resolution V fractional factorial 2-level designs, 
-   respectively.
+   A certain plausibility can be found in these numbers by noting that they provide the 
+   more well-known word length pattern for regular fractional factorial 2-level designs, 
+   implying that they are exactly zero for resolution IV or resolution V fractional 
+   factorial 2-level designs, respectively.
 
    Functions \code{length3} and \code{length4} calculate the generalized word length 
    pattern (numbers of generalized words of lengths 3 and 4 respectively). 
@@ -139,6 +140,7 @@ nchoosek(n, k)
 \references{
    Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
       fractional factorial designs. \emph{Annals Statistics} \bold{29}, 1066--1077.
+      
    Xu, H., Cheng, S., and Wu, C.F.J. (2004). Optimal projective three-level
       designs for factor screening and interaction detection. \emph{Technometrics} \bold{46}, 
       280--292.

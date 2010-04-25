@@ -22,7 +22,7 @@ Letters
 generators(design, ...)
 \method{generators}{design}(design, ...)
 \method{generators}{catlg}(design, ...)
-\method{generators}{character}(design, ...)
+\method{generators}{character}(design, select.catlg = catlg, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,6 +41,8 @@ generators(design, ...)
         if data are not ordered by the \code{byvars}, several separate occurrences of the same group may occur}
   \item{design}{FrF2 design given as catalogue entry, design itself or character string; 
         function generators provides the generating contrasts for additional factors for these designs.
+       }
+  \item{select.catlg}{the catalogue in which to look for the design (should be of class \code{catlg})
        }
   \item{\dots}{ further arguments to function \code{print} or \code{generators} }
 }
