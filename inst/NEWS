@@ -8,6 +8,11 @@ Most immiment next steps for this package:
   to summary function
 - check and where necessary improve the somewhat experimental combination functions
 
+
+09/06/2010, Version 0.11-1
+Bug fix: function summary.design gave wrong statement on alias information 
+for FrF2 designs with only one alias entry for main effects or 2fis. 
+
 23/04/2010, Version 0.11
 - documentation of generalized.word.length: corrected typos and made it more understandable
 - made generators.character able to look up designs in arbitrary selected catalogues

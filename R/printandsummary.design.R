@@ -235,8 +235,8 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
           print(generators(object), quote=quote, ...)
           
           
-      if (all(sapply(di$aliased,"length") > 1) & length(di$aliased) > 1){
-         ## more than only the legend entry
+      if (all(sapply(di$aliased, "length") >= 1) & length(di$aliased) > 1){
+         ## more than only the legend entry, no NULL
          cat("\nAlias structure:\n")
          print(di$aliased[-1], quote=quote, ...)}
          else {
