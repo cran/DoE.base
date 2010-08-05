@@ -15,13 +15,14 @@ P4.4 <- function(ID, digits=4){
     if (!(is.data.frame(ID) | is.matrix(ID))) stop("ID must be a data frame or a matrix")
     if (is.matrix(ID)) ID <- as.data.frame(ID)
     if (!ncol(ID)>=4) return(NULL)  ## no projections onto 4 factors
+    nlevels <- sapply(ID, function(obj) length(unique(obj)))
     hilf <- rep(0, choose(ncol(ID), 4))
     waehl <- nchoosek(ncol(ID),4)
     hilf <- apply(waehl, 2, function(obj) length4(ID[,obj]))
-    aus <- table(hilf)
+       aus <- table(round(hilf,digits))
     ## formatting the table for output
-    aus <- cbind(length4=round(as.numeric(names(aus)),digits),frequency=aus)
-    colnames(aus) <- c("length4","frequency")
-    rownames(aus) <- rep("",nrow(aus))
+       aus <- cbind(length3=as.numeric(names(aus)),frequency=aus)
+       colnames(aus) <- c("length4","frequency")
+       rownames(aus) <- rep("",nrow(aus))
     aus  ## is a matrix
 }

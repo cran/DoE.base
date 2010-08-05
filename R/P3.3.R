@@ -15,13 +15,14 @@ P3.3 <- function(ID, digits=4){
     if (!(is.data.frame(ID) | is.matrix(ID))) stop("ID must be a data frame or a matrix")
     if (is.matrix(ID)) ID <- as.data.frame(ID)
     if (!ncol(ID)>=3) return(NULL)
+    nlevels <- sapply(ID, function(obj) length(unique(obj)))
     hilf <- rep(0, choose(ncol(ID), 3))
     waehl <- nchoosek(ncol(ID),3)
     hilf <- apply(waehl, 2, function(obj) length3(ID[,obj]))
-    aus <- table(hilf)
+    aus <- table(round(hilf,digits))
     ## formatting the table for output
-    aus <- cbind(length3=round(as.numeric(names(aus)),digits),frequency=aus)
-    colnames(aus) <- c("length3","frequency")
-    rownames(aus) <- rep("",nrow(aus))
+       aus <- cbind(length3=as.numeric(names(aus)),frequency=aus)
+       colnames(aus) <- c("length3","frequency")
+       rownames(aus) <- rep("",nrow(aus))
     aus  ## is a matrix
 }

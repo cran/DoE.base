@@ -3,11 +3,36 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
-Most immiment next steps for this package:
-- accompany extensions of other packages with suitable modifications 
-  to summary function
-- check and where necessary improve the somewhat experimental combination functions
 
+05/08/2010, Version 0.12
+Methods of lm and aov for class design:
+- added a generic for function aov, a default method (which is the function 
+  from package stats) and a method for class design, as well as 
+  summary and print functions that ensure that enough information 
+  is printed regarding the number of observations and the formula used 
+- added an explanation about the implications of the existence 
+  of lm and aov generics for match.call-requests
+- introduced a method for function coef for lm.design objects that omits 
+  NA coefficients
+Design diagnostics:
+- improved memory usage in functions length3 and length4 
+  (replace mm3 and mm4 by vec3 and vec4 with sum)
+- added functions length2 and length5 for occasional uses, 
+  plus an overall function lengths for all four implemented lengths
+- added option J to length functions for optional output of 
+  J-characteristics instead of lengths 
+  (for supporting theoretical investigations rather than 
+  practical design generation)
+- added function oa.max4 (for supporting theoretical investigations rather than 
+  practical design generation)
+- removed function P4.3 because it is considered redundant
+- further improvement to documentation of generalized word length 
+Bug fix:
+- made nruns a minimum requirement rather than an exact requirement in function 
+  oa.design, as was always documented; 
+  the previous version returned a full factorial, whenever the requested 
+  minimum number of runs itself was not feasible; 
+  now the smallest orthogonal array with at least nruns runs is returned
 
 09/06/2010, Version 0.11-1
 Bug fix: function summary.design gave wrong statement on alias information 
