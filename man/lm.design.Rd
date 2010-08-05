@@ -1,15 +1,22 @@
-\name{lm method for class design objects}
+\name{lm and aov method for class design objects}
 \alias{lm}
 \alias{lm.default}
 \alias{lm.design}
+\alias{coef.lm.design}
+\alias{aov}
+\alias{aov.default}
+\alias{aov.design}
 \alias{print.summary.lm.design}
 \alias{print.lm.design}
 \alias{summary.lm.design}
+\alias{print.summary.aov.design}
+\alias{print.aov.design}
+\alias{summary.aov.design}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{lm method for class design objects}
+\title{lm and aov methods for class design objects}
 \description{
-  Method for automatic linear models for data frames of class design 
+  Methods for automatic linear models for data frames of class design 
 }
 \usage{
 lm(formula, ...)
@@ -18,11 +25,22 @@ lm(formula, ...)
     contrasts = NULL, offset, ...)
 \method{lm}{design}(formula, ..., response=NULL, degree=NULL, FUN=mean, 
     use.center=FALSE)
+aov(formula, ...)
+\method{aov}{default}(formula, data = NULL, projections = FALSE, qr = TRUE,
+    contrasts = NULL, ...)
+\method{aov}{design}(formula, ..., response=NULL, degree=NULL, FUN=mean, 
+    use.center=FALSE)
 \method{print}{lm.design}(x, ...)
 \method{summary}{lm.design}(object, ...)
+\method{coef}{lm.design}(object, ...)
 \method{print}{summary.lm.design}(x, ...)
+\method{print}{aov.design}(x, ...)
+\method{summary}{aov.design}(object, ...)
+\method{print}{summary.aov.design}(x, ...)
 lm.design
 summary.lm.design
+aov.design
+summary.aov.design
 }
 \arguments{
   \item{formula}{ for the default method, cf. documentation for \code{\link[stats]{lm}} 
@@ -57,6 +75,10 @@ summary.lm.design
         the default \code{FALSE} allows application of analysis from package 
         \code{\link[FrF2]{FrF2-package}} (e.g. function \code{\link[FrF2]{IAPlot}})
         }
+  \item{projections}{ logical indicating whether the projections should be returned;
+        for orthogonal arrays, these are helpful, as they provide the estimated 
+        deviation from the overall average attributed to each particular factor; 
+        it is not recommended to use them with unbalanced designs } 
   \item{x}{ object of class \code{lm} or \code{summary.lm},\cr 
         for \code{lm.default} like in \code{\link[stats]{lm}}  }
   \item{object}{ object of class \code{lm.design} created by function \code{lm.design}}
@@ -79,8 +101,8 @@ summary.lm.design
   \item{offset}{ like in \code{\link[stats]{lm}}}
    }
 \details{
-    The \code{lm} method for class \code{\link{design}} 
-    conducts a default linear model analysis for data frames of 
+    The \code{aov} and \code{lm} methods for class \code{\link{design}} 
+    conduct a default linear model analysis for data frames of 
     class \code{\link{design}} that do contain at least one response.
     
     The intention for providing default analyses is to support convenient quick inspections. 
@@ -121,30 +143,50 @@ summary.lm.design
     of the \code{responselist} element of the \code{design.info} attribute of the 
     design (i.e. a response name from the long version of the design).
 
-    The implementation of the formulae is not done in function \code{lm.design} itself 
+    The implementation of the formulae is not done in functions \code{lm.design} or 
+    \code{aov.design} themselves 
     but based on the method for function formula (\code{\link{formula.design}}).
     
     The \code{print} methods prepend the formula and the number of experimental runs 
     underlying the analysis to the default printout. 
     The purpose of this is meaningful output in case a call from 
-    inside function \code{\link{lm.design}} (method for function \code{\link[stats]{lm}} ) 
+    inside function \code{\link{lm.design}} or \code{\link{aov.design}} 
+    (methods for functions \code{\link[stats]{lm}} and \code{\link[stats]{aov}} ) 
     does not reveal enough information, and another pointer that center points have been 
-    omitted or repeated measurements aggregated over.
+    omitted or repeated measurements aggregated over. The \code{coef} method for objects 
+    of class \code{lm.design} suppresses \code{NA} coefficients, i.e. 
+    returns valid coefficients only. For \code{aov} objects, this is the default 
+    anyway.
 }
 \value{
     The value for the \code{lm} functions is a linear model object, 
     exactly like for function \code{\link[stats]{lm}}, 
-    except for the added class \code{lm.design}.
+    except for the added class \code{lm.design} in case of the method for class \code{design}.
     
-    The value of the \code{summary} function for class \code{lm.design} 
-    is a linear model summary, exactly like documented in \code{\link[stats]{summary.lm}}, 
-    except for the added class \code{lm.design}.
+    The value for the \code{aov} functions is an aov object, 
+    exactly like for function \code{\link[stats]{aov}}.
+   
+    The value of the \code{summary} functions for class \code{lm.design} and 
+    \code{aov.design} respectively
+    is a linear model or aov summary, exactly like documented in \code{\link[stats]{summary.lm}} 
+    or \code{\link[stats]{summary.aov}}, 
+    except for the added classes \code{summary.lm.design} or \code{summary.aov.design}.
     
     The print functions return \code{NULL}; they are used for their side effects only.
    }
 \note{ The package is currently subject to intensive development; most key functionality is now included. 
 Some changes to input and output structures may still occur.}
-
+\section{Warning}{ The generics for \code{lm} and \code{aov} replace the functions 
+    from package \pkg{stats}. For normal use, this is not an issue, because their 
+    default methods are exactly the functions from package \pkg{stats}.\cr 
+    However, when programming on the language (or when using a package that relies on 
+    such constructs), you may see unexpected results. 
+    For example, \code{match.call(lm)} returns a different result, depending on 
+    whether or not package \pkg{DoE.base} is loaded. This can be avoided by 
+    explicitly requesting e.g. \code{match.call(stats::lm)}, which always works 
+    in the same way.\cr
+    Please report any additional issues that you may experience.
+}
 \author{ Ulrike Groemping }
 \seealso{ See also the information on class \code{\link{design}} 
     and its formula method \code{\link{formula.design}} }

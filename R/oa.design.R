@@ -93,11 +93,11 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                   ## full factorial, if this number of runs is requested
                   if (nruns==ffnrun) return(fac.design(nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,
                          replications=replications, repeat.only=repeat.only, randomize=randomize, seed=seed))
-                  cand <- oacat[oacat$nruns == nruns,]
+                  cand <- oacat[oacat$nruns >= nruns,]
                }
           else cand <- oacat[oacat$nruns >= minnrun,]
           if (nrow(cand)==0) 
-              stop("Currently, DoE.base only contains orthogonal arrays with up to 144 runs. Your request requires at least ", minnrun, " runs.")
+              stop("Currently, DoE.base does not contain an orthogonal array that can cover your request.")
           else {
              for (i in 1:length(hilf))
                 cand <- eval(parse(text=paste("cand[cand$",names(hilf)[i],">=",hilf[i],",]",sep="")))

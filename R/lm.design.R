@@ -16,8 +16,6 @@ lm.design <- function (formula, ..., response = NULL, degree = NULL, FUN = mean,
         length(grep("wide", di$type)) == 0) | (length(grep("center", di$type)) > 0 & !use.center)) 
         aus <- lm(fo, data = model.frame(fo, data = NULL), ...)
     else aus <- lm(fo, data = model.frame(fo, data = formula), ...)
-    if (di$type %in% c("ccd", "bbd", "bbd.blocked", "lhs", "Dopt")) 
-        lm(fo, data = model.frame(fo, data = formula), ...)
     class(aus) <- c("lm.design",class(aus))
     aus
 }
@@ -47,3 +45,4 @@ print.lm.design <-function(x, ...){
     stats:::print.lm(x, ...)
 }
 
+coef.lm.design <- stats:::coef.aov

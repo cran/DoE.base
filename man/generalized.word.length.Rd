@@ -1,34 +1,40 @@
 \name{generalized.word.length}
 \alias{generalized.word.length}
+\alias{length2}
 \alias{length3}
 \alias{length4}
+\alias{length5}
+\alias{lengths}
 \alias{P3.3}
-\alias{P4.3}
 \alias{P4.4}
 \alias{oa.min3}
 \alias{oa.min34}
 \alias{oa.max3}
+\alias{oa.max4}
 \alias{nchoosek}
 \title{
 Functions for calculating the generalized word length pattern,
 projection frequencies or optimizing column selection within an array
 }
 \description{
-Functions length3 and length4 calculate the numbers of generalized words 
-of lengths 3 and 4, respectively. Functions P3.3, P4.3 and P4.4 
-calculate projection frequencies, functions oa.min3, oa.min34 and oa.max3 
-determine column allocations with minimum or maximum aliasing. 
+Functions length2, length3, length4 and length5 calculate the numbers of generalized words 
+of lengths 2, 3, 4, and 5 respectively, lengths calculates them all. Functions P3.3 and P4.4 
+calculate projection frequencies, functions oa.min3, oa.min34, oa.max3 and 
+oa.max4 determine column allocations with minimum or maximum aliasing. 
 Function nchoosek is an auxiliary function 
 for calculating all subsets without replacement.
 }
 \usage{
-length3(design, with.blocks = FALSE)
-length4(design, with.blocks = FALSE, separate = FALSE)
+length2(design, with.blocks = FALSE, J = FALSE)
+length3(design, with.blocks = FALSE, J = FALSE)
+length4(design, with.blocks = FALSE, separate = FALSE, J = FALSE)
+length5(design, with.blocks = FALSE, J = FALSE)
+lengths(design, with.blocks = FALSE, J = FALSE)
 oa.min3(ID, nlevels, all)
 oa.min34(ID, nlevels, min3=NULL, all)
 oa.max3(ID, nlevels)
+oa.max4(ID, nlevels)
 P3.3(ID, digits = 4)
-P4.3(ID, digits = 4)
 P4.4(ID, digits = 4)
 nchoosek(n, k)
 }
@@ -47,11 +53,20 @@ nchoosek(n, k)
       For designs without a block factor, the option does not have an effect.\cr
       If the design is blocked, and \code{with.blocks} 
       is \code{TRUE}, the block factor is treated like any other factor in terms of word counting.}
-  \item{separate}{a logical, indicating whether or not separate (and overlapping) sums are requested 
-      for each two-factor interaction; the idea is to be able to identify clear two-factor interactions; 
-      this may be useful for a design for which \code{length3} returns zero, in analogy to clear 
-      2fis for regular fractional factorials, implemented in function \code{\link[FrF2]{FrF2}}; this 
-      is currently experimental and may be removed again if it does not prove useful.}
+  \item{J}{a logical, indicating whether or not a vector of contributions from 
+      individual degrees of freedom is produced. If \code{TRUE}, the entries of the vector 
+      are absolute normalized J-characteristics from all 3- or 4-factor products respectively, 
+      based on normalized Helmert contrasts (cf. Ai and Zhang 2004). \cr
+      This is not expected to be useful for practical purposes.\cr
+      \code{J} cannot be \code{TRUE} simultaneously with \code{separate}.}
+  \item{separate}{a logical, indicating whether or not separate (and overlapping) 
+      sums are requested for each two-factor interaction; 
+      the idea is to be able to identify clear two-factor interactions; 
+      this may be useful for a design for which \code{length3} returns zero, 
+      in analogy to clear 2fis for regular fractional factorials, 
+      implemented in function \code{\link[FrF2]{FrF2}}; this 
+      is currently experimental and may be removed again if it does not prove useful.\cr
+      \code{separate} cannot be \code{TRUE} simultaneously with \code{J}.}
   \item{ID}{an orthogonal array, either a matrix or a data frame; need not be of class \code{oa}; 
       can also be a character string containing the name of an array listed in data frame \code{\link{oacat}}}
   \item{nlevels}{a vector of requested level informations (vector with an entry for each factor)}
@@ -87,23 +102,28 @@ nchoosek(n, k)
    implying that they are exactly zero for resolution IV or resolution V fractional 
    factorial 2-level designs, respectively.
 
-   Functions \code{length3} and \code{length4} calculate the generalized word length 
-   pattern (numbers of generalized words of lengths 3 and 4 respectively). 
-   They are fast for small numbers of factors but can take a 
+   Function \code{lengths} 
+   calculates the generalized word length 
+   pattern (numbers of generalized words of lengths 2, 3, 4 and 5 respectively), 
+   functions \code{length2}, \code{length3}, \code{length4} and \code{length5} calculate 
+   each length separately. 
+   The most important ones are \code{length3} and \code{length4}; \code{length2}
+   should yield zero for all orthogonal arrays, and \code{length5} will in most 
+   cases not be of interest either. 
+   The length functions are fast for small numbers of factors but can take a 
    long time if the number of factors is large. Note that an orthogonal array 
-   based design is called (generalized) resolution III if the result of 
-   function \code{length3} is non-zero, (generalized) resolution IV, 
+   based design is called resolution III if the result of 
+   function \code{length3} is non-zero, resolution IV, 
    if the result of function \code{length3} is zero and the 
    result of function \code{length4} is non-zero, 
-   and (generalized) resolution V+ (at least V), 
-   if the result of both functions \code{length3} 
+   and resolution V+ (at least V), if the result of both functions \code{length3} 
    and \code{length4} are zero. 
    
-   Functions \code{P3.3}, \code{P4.3} and \code{P4.4} 
+   Functions \code{P3.3} and \code{P4.4} 
    calculate the pattern of generalized words of length 3 for all three-factor 
    projections of an array and of generalized words of length 3 or 4 for all four-factor 
    projections of an array. Calculation of such projection frequencies has been proposed 
-   by Xu, Cheng and Wu (2004).
+   by Xu, Cheng and Wu (2004). 
    
    The functions can be used in selecting among different possibilities to accomodate factors 
    within a given orthogonal array (cf. examples). For general purposes, it is recommended 
@@ -116,19 +136,31 @@ nchoosek(n, k)
    for which a certain factor combination must be accomodated: They return designs that allocate 
    columns such that the number of generalized words of length 3 is minimized (\code{oa.min3}) or 
    the number of generalized words of length 4 is minimized within all designs for which the number 
-   of generalized words of length 3 is minimal. Function \code{oa.max3} does the opposite: it searches 
-   for the worst design in terms of the number of generalized words of length 3. Such a design can be used 
-   for demonstrating the benefit of optimizing the number of words. Occasionally, it may also be useful, 
+   of generalized words of length 3 is minimal. Functions \code{oa.max3} and \code{oa.max4} 
+   do the opposite: they search for the worst design in terms of the number of 
+   generalized words of lengths 3 or 4. Such a design can e.g. be used 
+   for demonstrating the benefit of optimizing the number of words, 
+   or for exemplifying theoretical properties. 
+   Occasionally, it may also be useful, 
    if there are severe restrictions on possible combinations.
 }
 \value{
-   The functions \code{length3} and \code{length4} (currently) return the number of 
-   words only, functions \code{P3.3}, \code{P4.3} and \code{P4.4} return a matrix 
+   The functions \code{length3} and \code{length4} (currently) per default 
+   return the number of words. \cr
+   If option \code{J=TRUE} is set, their value 
+   is a named vector of normalized absolute J-characteristics (cf. Ai and Zhang 2004) 
+   for the respective length, based on normalized Helmert contrasts, 
+   with names indicating factor indices. 
+   (For blocked designs with the \code{with.blocks=TRUE} option, 
+   the block factor has index 1.)
+   
+   Functions \code{P3.3} and \code{P4.4} return a matrix 
    with the numbers of generalized words of length 3 (4) that do occur 
    for 3 (4) factor projections (column \code{length3} or \code{length4} resp.) 
-   and their frequencies.
+   and their frequencies. 
    
-   The functions \code{oa.min3} and \code{oa.min34} (currently) return a list with elements 
+   The functions \code{oa.min3}, \code{oa.min34}, \code{oa.max3} and \code{oa.max4} 
+   (currently) return a list with elements 
    \code{GWP} (the number(s) of generalized words of length 3 (lengths 3 and 4)) 
    \code{column.variants} (the columns to be used for design creation, ordered with 
    ascending nlevels) and \code{complete} (logical indicating whether or not the list is 
@@ -138,6 +170,10 @@ nchoosek(n, k)
    each of which contains a different subset of k elements.
 }
 \references{
+   Ai, M.-Y. and Zhang, R.-C. (2004). Projection justification of generalized minimum
+      aberration for asymmetrical fractional factorial designs. 
+      \emph{Metrika} \bold{60}, 279--285.
+      
    Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
       fractional factorial designs. \emph{Annals Statistics} \bold{29}, 1066--1077.
       
@@ -159,7 +195,6 @@ nchoosek(n, k)
    length3(oa12)
    ## length4 is of course 0, because there are only 3 factors
    P3.3(oa12)
-   P4.3(oa12)   ## returns NULL because there are no projections onto 4 factors
 
    ## the results need not be an integer
    oa12 <- oa.design(L12.2.11,columns=1:6)
@@ -169,6 +204,7 @@ nchoosek(n, k)
              ## which is known to be true for the complete L12.2.11 as well
    P3.3(L18)   ## this is the pattern of the Taguchi L18
              ## also published by Schoen 2009
+   P3.3(L18[,-2])  ## without the 2nd column (= the 1st 3-level column)
    
    ## choosing among different assignment possibilities
    ## for two 2-level factors and one 3- and 4-level factor each

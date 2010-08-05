@@ -1,7 +1,6 @@
-length4 <- function(design, with.blocks=FALSE, separate=FALSE, J=FALSE){
+length5 <- function(design, with.blocks=FALSE, J=FALSE){
     ## function to calculate generalized words of length 4
     ## according to Xu and Wu 2001 Annals
-    if (separate & J) stop("separate and J must not both be TRUE")
     ## it might be helpful to locate non-zeros
     ## this is so far not done
     n <- nrow(design)
@@ -47,65 +46,42 @@ length4 <- function(design, with.blocks=FALSE, separate=FALSE, J=FALSE){
     zuord <- zuord[-1]
     ##colnames(mm) <- zuord
     nfac <- max(zuord)
-    if (nfac < 4) return(0)
+    if (nfac < 5) return(0)
 
-    ## 4fi columns
-    quadruples <- nchoosek(nfac, 4)
+    ## 5fi columns
+    quintuples <- nchoosek(nfac, 5)
     anz <- 0
-    if (separate) {
-       ## columns of mm4 to be assigned to quadruple 4fis
-       anz.sep <- apply(quadruples, 2, function(obj) prod(nlevels[obj]-1))
-       anz <- sum(anz.sep)  ## total column number of matrix mm4
-       col.from <- c(1, (cumsum(anz.sep)+1)[-length(anz.sep)])
-       col.to <- cumsum(anz.sep)
-       rm(anz.sep)
-       }
-    else for (i in 1:ncol(quadruples))
-       anz <- anz+prod(nlevels[quadruples[,i]]-1)
-    vec4 <- rep(NA, anz)
-  #  if (!separate) rm(quadruples)
-    ##namvec <- rep("sp",ncol(mm4))  ## column names, only not attached as such
-    ## takes up time, not needed because of quadruples
-
+    for (i in 1:ncol(quintuples))
+       anz <- anz+prod(nlevels[quintuples[,i]]-1)
+    vec5 <- rep(NA, anz)
     zaehl <- 1
 
-    ## same order as quadruples
-    for (i in 1:(nfac-3)){
+    ## same order as quintuples
+    for (i in 1:(nfac-4)){
      icols <- which(zuord==i)
-      for (j in (i+1):(nfac-2)){
+      for (j in (i+1):(nfac-3)){
         jcols <- which(zuord==j)
-      for (k in (j+1):(nfac-1)){
+      for (k in (j+1):(nfac-2)){
         kcols <- which(zuord==k)
-      for (l in (k+1):nfac){
+      for (l in (k+1):(nfac-1)){
         lcols <- which(zuord==l)
+      for (m in (l+1):nfac){
+        mcols <- which(zuord==m)
           for (a in icols){
            for (b in jcols){
              for (c in kcols){
              for (d in lcols){
-              vec4[zaehl] <- sum(mm[,a]*mm[,b]*mm[,c]*mm[,d])
+             for (e in mcols){
+              vec5[zaehl] <- sum(mm[,a]*mm[,b]*mm[,c]*mm[,d]*mm[,e])
               ## namvec[zaehl] <- paste(i,j,k,l,sep=":") ## update names
               zaehl <- zaehl+1
-           }}}}
+           }}}}}
        }
-    }}}
-    if (separate){
-        fi2s <- nchoosek(nfac, 2)
-        aus <- rep(NA, ncol(fi2s))
-        for (i in 1:ncol(fi2s)){
-              sel <- apply(quadruples, 2, function(obj) all(fi2s[,i] %in% obj))
-                   ## logical selecting columns from quadruples = mm4
-              ## try and expand to complete matrix ?
-              cols <- unlist(mapply(":", col.from[sel], col.to[sel]))
-              aus[i] <- sum(vec4[cols]^2)/(n^2)
-              }
-        names(aus) <- apply(fi2s, 2, "paste", collapse=":")
-        return(aus)
-    }
-    else{
+    }}}}
     if (J) {
-        names(vec4) <- unlist(apply(quadruples,2,function(obj) rep(paste((1:nfac)[obj],collapse=":"), prod(nlevels[obj]-1))) )
-        return(abs(vec4)/n)
+        names(vec5) <- unlist(apply(quintuples,2,function(obj) rep(paste((1:nfac)[obj],collapse=":"), prod(nlevels[obj]-1))) )
+        return(abs(vec5)/n)
         }
     else
-    sum(vec4^2)/(n^2)}
+    sum(vec5^2)/(n^2)
 }

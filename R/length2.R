@@ -1,4 +1,10 @@
-length3 <- function(design, with.blocks=FALSE, J=FALSE){
+lengths <- function(design, with.blocks=FALSE, J=FALSE)
+   c("2"=length2(design, with.blocks=with.blocks, J=J), 
+     "3"=length3(design, with.blocks=with.blocks, J=J),
+     "4"=length4(design, with.blocks=with.blocks, J=J),
+     "5"=length5(design, with.blocks=with.blocks, J=J))
+
+length2 <- function(design, with.blocks=FALSE, J=FALSE){
     ## function to calculate number of generalized words of length 3
     ## according to Xu and Wu 2001 Annals
     
@@ -49,38 +55,35 @@ length3 <- function(design, with.blocks=FALSE, J=FALSE){
     zuord <- zuord[-1]
     ##colnames(mm) <- zuord   ## takes too long
     nfac <- max(zuord)
-    if (nfac < 3) return(0)
+    if (nfac < 2) return(0)
 
-    ## 3fi columns
+    ## 2fi columns
     ## store all in one matrix, faster but requires large matrix
-    triples <- nchoosek(nfac, 3)
+    paare <- nchoosek(nfac, 2)
     anz <- 0
-    for (i in 1:ncol(triples))
-       anz <- anz+prod(nlevels[triples[,i,drop=FALSE]]-1)
-    vec3 <- rep(NA, anz)
-    ## names(vec3) <- rep("sp",length(vec3))   ## takes too long
+    for (i in 1:ncol(paare))
+       anz <- anz+prod(nlevels[paare[,i,drop=FALSE]]-1)
+    vec2 <- rep(NA, anz)
+    ## names(vec2) <- rep("sp",length(vec2))   ## takes too long
 
     zaehl <- 1   ## column accessor
 
-    for (i in 1:(nfac - 2)){
+    for (i in 1:(nfac - 1)){
      icols <- which(zuord==i)
-      for (j in (i+1):(nfac - 1)){
+      for (j in (i+1):(nfac)){
         jcols <- which(zuord==j)
-      for (k in (j+1):(nfac)){
-        kcols <- which(zuord==k)
           for (a in icols){
            for (b in jcols){
-             for (c in kcols){
-              vec3[zaehl] <- sum(mm[,a]*mm[,b]*mm[,c])
-              ##names(vec3)[zaehl] <- paste(i,j,k,sep=":")
+              vec2[zaehl] <- sum(mm[,a]*mm[,b])
+              ##names(vec2)[zaehl] <- paste(i,j,k,sep=":")
               zaehl <- zaehl+1
-           }}}
+           }}
        }
-    }}
+    }
     if (J) {
-        names(vec3) <- unlist(apply(triples,2,function(obj) rep(paste((1:nfac)[obj],collapse=":"), prod(nlevels[obj]-1))) )
-        return(abs(vec3)/n)
+        names(vec2) <- unlist(apply(paare,2,function(obj) rep(paste((1:nfac)[obj],collapse=":"), prod(nlevels[obj]-1))) )
+        return(abs(vec2)/n)
         }
     else 
-    sum(vec3^2)/(n^2)
+    sum(vec2^2)/(n^2)
 }
