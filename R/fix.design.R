@@ -1,4 +1,7 @@
 fix.design <- function(x,..., prompt=FALSE){
+    tkmessageBox(title="Info for editing design objects",
+       message="It is not permitted to edit any factor variables.\nIf you change anything for any factor variable, ALL changes will be lost.", 
+       type="ok", icon="info")
     ## attributes are preserved
     ##    add response names element to design.info
     ##    bugfix prompt
@@ -72,18 +75,18 @@ fix.design <- function(x,..., prompt=FALSE){
     if (identical(rownames(x),rownames(y))){
             newnam <- setdiff(colnames(x),colnames(y))
             if (length(newnam)>0){
-            numnam <- newnam[which(sapply(as.list(x)[newnam], "is.numeric"))]
-            if (prompt & length(numnam)>0) respnam <- pickresps(numnam)
-              else if (length(numnam) > 0) respnam <- numnam
-                else respnam <- NULL
-            xnumnew <- data.frame(x[,newnam])
-            colnames(xnumnew) <- newnam
-            if (length(newnam) > length(numnam)) 
-                xnumnew[,setdiff(newnam,numnam)] <- 
-                lapply(xnumnew[setdiff(newnam,numnam)], function(obj) as.numeric(factor(obj)))
-            attr(x,"desnum") <- cbind(desnum(y), as.matrix(xnumnew))
-            hilf <- design.info(y)
-            if (length(respnam)>0) hilf$response.names <- c(hilf$response.names, respnam)
+              numnam <- newnam[which(sapply(as.list(x)[newnam], "is.numeric"))]
+              if (prompt & length(numnam)>0) respnam <- pickresps(numnam)
+                else if (length(numnam) > 0) respnam <- numnam
+                  else respnam <- NULL
+              xnumnew <- data.frame(x[,newnam])
+              colnames(xnumnew) <- newnam
+              if (length(newnam) > length(numnam)) 
+                  xnumnew[,setdiff(newnam,numnam)] <- 
+                  lapply(xnumnew[setdiff(newnam,numnam)], function(obj) as.numeric(factor(obj)))
+              attr(x,"desnum") <- cbind(desnum(y), as.matrix(xnumnew))
+              hilf <- design.info(y)
+              if (length(respnam)>0) hilf$response.names <- c(hilf$response.names, respnam)
             }
             else{
                 attr(x,"desnum") <- desnum(y)
@@ -95,7 +98,8 @@ fix.design <- function(x,..., prompt=FALSE){
             if (all(names(factor.names(y)) %in% colnames(x) & names(factor.names(y)) %in% colnames(y))){
               if (all(x[,names(factor.names(y))]==y[,names(factor.names(y))]))
                     assign(subx, x, envir = .GlobalEnv)
-              else warning("changes have not been stored, as it is not permitted to edit factor variables")}
+              else warning("changes have not been stored, as it is not permitted to edit factor variables")
+              }
             else warning("changes have not been stored, as it is not permitted to rename or delete factor variables")
          }
     else{

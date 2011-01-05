@@ -64,14 +64,19 @@ oa
         OR\cr
         a string that defines the degree of optimization requested 
         in terms of column allocation (cf. section \dQuote{Details}): 
-        choices are \code{"order"}, \code{"min3"} or \code{"min34"}.\cr
+        choices are \code{"order"}, \code{"min3"}, \code{"min34"}, 
+        \code{"min3.rela"}, \code{"min34.rela"}, or \code{"minRelProjAberr"}.\cr
         For resource reasons, the default is \code{"order"}, but smaller designs 
         can sometimes be substantially improved with other choices.
         Cf. the \dQuote{Details} section for the 
         meaning of the character string specifications for \code{columns.}
         Column optimization can be computationally intensive. If it cannot 
         be accomplished with the given ressources, a warning is issued, and 
-        an unoptimized design is returned.}
+        an unoptimized design is returned.\cr
+        Some of the optimization methods have just been proposed, and there is 
+        little experience with them. It is strongly recommended to always check 
+        the properties of the design w.r.t. suitability for the planned experiment 
+        BEFORE starting expensive investments.}
   \item{replications}{ the number of replications of the array, 
         the setting of \code{repeat.only} determines, whether these are real replications
         or repeated measurements only. Note that replications are not considered for 
@@ -142,20 +147,31 @@ oa
    However, the package always issues a warning to remind users that an automatic unoptimized design 
    can be quite far from ideal. 
    If optimization is activated, the first step is selection of an array, 
-   either explicitly by the user (option \code{ID}) or automatically according to 
-   the required combination of factors. 
-   If option \code{columns="min3"} is chosen (recommended, if feasible resourcewise), 
-   the function then tries to allocate the experimental 
+   either explicitly by the user (option \code{ID}) or automatically (unoptimized) 
+   according to the required combination of factors. 
+   If option \code{columns="min3"} is chosen, 
+   the function tries to allocate the experimental 
    factors to columns of the selected array such that aliasing between main effects and 2-factor 
    interactions is kept to a minimal degree, 
    minimizing the number of generalized words of length 3 according to Xu and Wu (2001). 
+   If option \code{columns="min3.rela"} is chosen, the same approach is taken, but with 
+   \emph{relative} number of generalized words according to Groemping (2011).
    The default \code{columns="order"} 
-   allocates factors from left to right (option \code{columns="order"}). 
+   allocates factors from left to right (option \code{columns="order"}), which 
+   is what most software does (but what is not necessarily good). 
    If only very few columns of an array are used, it may be useful to 
-   define specify the most demanding optimization (which may sometimes take very long) 
+   specify the most demanding optimization (which may sometimes take very long) 
    with option \code{columns="min34"}, 
    which requests that the number of words of generalized length 4 is also minimized (e.g. useful 
    if there are several designs without any generalized words of length 3).
+   Again, if option \code{columns="min34.rela"} is chosen, the same approach is taken, but with 
+   \emph{relative} number of generalized words according to Groemping (2011).
+   Finally, if option \code{columns="minRelProjAberr"} is chosen, minimum relative 
+   projection aberration according to Groemping (2011) is applied ((a): maximize generalized 
+   resolution, (b): minimize total relative number of shortest words, (c) rank designs 
+   according to relative projection frequency table (obtainable with P3.3 or P4.4, depending on resolution) 
+   and (d) resolve ties by looking at absolute number of length 4 words in case of resolution III).
+
    
    WARNING: Usually, it is recommended to investigate the properties of a design automatically 
    created by function \code{oa.design} before starting experimentation. 
@@ -218,11 +234,19 @@ oa
 }
 \author{ Ulrike Groemping }
 \references{ 
+   Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays. 
+      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
+      Department II, Beuth University of Applied Sciences, Berlin. 
+      
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
   
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
   
   Schoen, E. (2009). All orthogonal arrays with 18 runs. \emph{Quality and Reliability Engineering International} \bold{25}, 467--480. 
+
+  Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
+      fractional factorial designs. \emph{Annals of Statistics} \bold{29}, 1066--1077.
+      
 }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
 \seealso{ See Also \code{\link[FrF2]{FrF2}}, \code{\link{fac.design}}, \code{\link[FrF2]{pb}} }

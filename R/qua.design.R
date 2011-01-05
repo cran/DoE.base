@@ -1,4 +1,8 @@
 qua.design <- function(design, quantitative=NA, contrasts=character(0), ...){
+  ### TODO add coding element to 2-level designs that are made quantitative
+  ### possibly also to factors at more than two levels, based on polynomials and factor levels
+  ### subsequently add a menu item to modify designs dialog in RcmdrPlugin.DoE
+
    ## function to allow switching between numeric and character for all types of design
    ## (some are always numeric, though, e.g. lhs
 

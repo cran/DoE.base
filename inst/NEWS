@@ -4,6 +4,29 @@ This package is under development.
 Suggestions and bug reports are very welcome. 
 
 
+05/01/2011, Version 0.20
+- added function contr.XuWu for calculating normalized contrasts for GWLP 
+  calculation
+- use contr.XuWu in length functions instead of normalization to square root of n, 
+  which makes these functions work appropriately for designs with imbalanced 
+  individual columns
+- implemented several improvements with the purpose of supporting adequate selection 
+  of mixed level screening designs, following Groemping 2011
+  - added relative projection frequency tables in functions 
+    P3.3 and P4.4 with option rela
+  - implemented option rela also into functions length3, length4 and length5, 
+    for obtaining the total relative number of words (cf. Grömping 2011)
+  - implemented new function GR for generalized resolution (generalizing 
+    Deng and Tang 2009)
+  - also enhanced functions oa.min3, oa.max3, oa.max4, oa.min34 with rela option,
+    added functions oa.maxGR for maximizing generalized resolution and 
+    oa.maxGR.min34 for optimizing numbers of relative length 3 or 4 words 
+    among designs with maximum generalized resolution (and in case of ties 
+    absolute length 4 words for best relative length 3)
+  - added options regarding the new optimization facilities 
+    to function oa.design (additional choices for column option)
+- improvement for fix.design: message box that informs about permissible changes
+
 05/08/2010, Version 0.12
 Methods of lm and aov for class design:
 - added a generic for function aov, a default method (which is the function 

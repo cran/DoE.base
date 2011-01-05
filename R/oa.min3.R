@@ -1,58 +1,4 @@
-oa.max3 <- function (ID, nlevels) 
-{
-    tab.needed <- table(nlevels)
-
-    ## retrieve child array or array identified by character string
-          ## gsub for case where ID is character string
-    IDname <- gsub("\"","",deparse(substitute(ID)))
-    if (all(IDname %in% oacat$name)){ 
-    if (!exists(IDname)) 
-          ID <- eval(parse(text=paste("oa.design(",IDname,")")))
-    else if (is.character(ID)) 
-          ID <- eval(parse(text=paste("oa.design(",IDname,")")))
-    }
-    
-    ## identify match between available and requested levels
-    nlevID <- apply(ID, 2, max)
-    tab.available <- table(nlevID)[names(tab.needed)]
-    if (any(is.na(names(tab.available)))) stop("not all levels can be accomodated")
-    col.lists <- lapply(names(tab.needed), function(obj) which(nlevID == 
-        as.numeric(obj)))
-    spielraum <- tab.available - tab.needed
-         if (any(spielraum < 0)) 
-             stop("design does not have enough factors with ", 
-                  paste(names(spielraum)[which(spielraum<0)], collapse=" and "), " levels")
-
-    ## provide candidate column list to be looped through
-    cand.lists <- mapply(nchoosek, tab.available, tab.needed, SIMPLIFY=FALSE)
-    cand.lists <- mapply(function(obj1, obj2) matrix(obj1[obj2], 
-        nrow = nrow(obj2), ncol = ncol(obj2)), col.lists, cand.lists, 
-        SIMPLIFY = FALSE)
-
-    ## provide full factorial for all combinations of subsets, 
-    ## e.g. combining each variant of 3 2-level factors with each variant of 4 3-level factors
-    hilf <- lapply(cand.lists, function(obj) 1:ncol(obj))
-    hilf <- expand.grid(hilf)
-    
-    ## initialize curMax
-    curMax <- -Inf
-    MaxVariants <- numeric(0)
-    for (i in 1:nrow(hilf)) {
-        spalten <- c(unlist(mapply(function(obj1, obj2) obj1[, 
-            obj2], cand.lists, hilf[i, ])))
-        cur3 <- round(length3(ID[, spalten]), 4)
-        if (cur3 == curMax) 
-            MaxVariants <- rbind(MaxVariants, spalten)
-        else if (cur3 > curMax) {
-            curMax <- cur3
-            MaxVariants <- matrix(spalten, nrow = 1)
-        }
-    }
-    rownames(MaxVariants) <- 1:nrow(MaxVariants)
-    list(GWP3 = curMax, column.variants = MaxVariants, complete = TRUE)
-}
-
-oa.min3 <- function (ID, nlevels, all = FALSE) 
+oa.min3 <- function (ID, nlevels, all = FALSE, rela=FALSE) 
 {
     tab.needed <- table(nlevels)
     
@@ -93,7 +39,7 @@ oa.min3 <- function (ID, nlevels, all = FALSE)
     for (i in 1:nrow(hilf)) {
         spalten <- c(unlist(mapply(function(obj1, obj2) obj1[, 
             obj2], cand.lists, hilf[i, ])))
-        cur3 <- round(length3(ID[, spalten]), 4)
+        cur3 <- round(length3(ID[, spalten], rela=rela), 4)
         if (cur3 == curMin) 
             MinVariants <- rbind(MinVariants, spalten)
         else if (cur3 < curMin) {
@@ -105,11 +51,73 @@ oa.min3 <- function (ID, nlevels, all = FALSE)
         }
     }
     rownames(MinVariants) <- 1:nrow(MinVariants)
+    if (rela) names(curMin) <- "3.relative" else names(curMin) <- "3"
     list(GWP3 = curMin, column.variants = MinVariants, complete = TRUE)
 }
 
-oa.max4 <- function (ID, nlevels) 
+oa.max3 <- function (ID, nlevels, rela = FALSE) 
 {
+    tab.needed <- table(nlevels)
+    ## retrieve child array or array identified by character string
+          ## gsub for case where ID is character string
+    IDname <- gsub("\"", "", deparse(substitute(ID)))
+    if (all(IDname %in% oacat$name)) {
+        if (!exists(IDname)) 
+            ID <- eval(parse(text = paste("oa.design(", IDname, 
+                ")")))
+        else if (is.character(ID)) 
+            ID <- eval(parse(text = paste("oa.design(", IDname, 
+                ")")))
+    }
+    ## identify match between available and requested levels
+    nlevID <- apply(ID, 2, max)
+    tab.available <- table(nlevID)[names(tab.needed)]
+    if (any(is.na(names(tab.available)))) 
+        stop("not all levels can be accomodated")
+    col.lists <- lapply(names(tab.needed), function(obj) which(nlevID == 
+        as.numeric(obj)))
+    spielraum <- tab.available - tab.needed
+    if (any(spielraum < 0)) 
+        stop("design does not have enough factors with ", paste(names(spielraum)[which(spielraum < 
+            0)], collapse = " and "), " levels")
+
+    ## provide candidate column list to be looped through
+    cand.lists <- mapply(nchoosek, tab.available, tab.needed, 
+        SIMPLIFY = FALSE)
+    cand.lists <- mapply(function(obj1, obj2) matrix(obj1[obj2], 
+        nrow = nrow(obj2), ncol = ncol(obj2)), col.lists, cand.lists, 
+        SIMPLIFY = FALSE)
+
+    ## provide full factorial for all combinations of subsets, 
+    ## e.g. combining each variant of 3 2-level factors with each variant of 4 3-level factors
+    hilf <- lapply(cand.lists, function(obj) 1:ncol(obj))
+    hilf <- expand.grid(hilf)
+
+    ## initialize curMax
+    curMax <- -Inf
+    MaxVariants <- numeric(0)
+    for (i in 1:nrow(hilf)) {
+        spalten <- c(unlist(mapply(function(obj1, obj2) obj1[, 
+            obj2], cand.lists, hilf[i, ])))
+        cur3 <- round(length3(ID[, spalten], rela = rela), 4)
+        if (cur3 == curMax) 
+            MaxVariants <- rbind(MaxVariants, spalten)
+        else if (cur3 > curMax) {
+            curMax <- cur3
+            MaxVariants <- matrix(spalten, nrow = 1)
+        }
+    }
+    rownames(MaxVariants) <- 1:nrow(MaxVariants)
+    if (rela) 
+        names(curMax) <- "3.relative"
+    else names(curMax) <- "3"
+    list(GWP3 = curMax, column.variants = MaxVariants, complete = TRUE)
+}
+
+
+oa.max4 <- function (ID, nlevels, rela=FALSE) 
+{
+## oa.max4 only makes sense for selection from a resolution IV design
     tab.needed <- table(nlevels)
 
     ## retrieve child array or array identified by character string
@@ -150,7 +158,7 @@ oa.max4 <- function (ID, nlevels)
     for (i in 1:nrow(hilf)) {
         spalten <- c(unlist(mapply(function(obj1, obj2) obj1[, 
             obj2], cand.lists, hilf[i, ])))
-        cur4 <- round(length4(ID[, spalten]), 4)
+        cur4 <- round(length4(ID[, spalten], rela=rela), 4)
         if (cur4 == curMax) 
             MaxVariants <- rbind(MaxVariants, spalten)
         else if (cur4 > curMax) {
@@ -159,5 +167,6 @@ oa.max4 <- function (ID, nlevels)
         }
     }
     rownames(MaxVariants) <- 1:nrow(MaxVariants)
+    if (rela) names(curMax) <- "4.relative" else names(curMax) <- "4"
     list(GWP4 = curMax, column.variants = MaxVariants, complete = TRUE)
 }
