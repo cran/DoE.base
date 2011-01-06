@@ -16,7 +16,7 @@ length2 <- function(design, with.blocks=FALSE, J=FALSE){
     if (!"design" %in% class(design)){ 
         for (i in 1:ncol(design)){ 
             design[,i] <- factor(design[,i])
-            contrasts(design[,i]) <- "contr.helmert"
+            contrasts(design[,i]) <- "contr.XuWu"
         }
         nlevels <- sapply(as.list(design), function(obj) nlevels(obj))
         ##names(nlevels) <- colnames(design)
@@ -30,12 +30,12 @@ length2 <- function(design, with.blocks=FALSE, J=FALSE){
                 nlevels <- rep(2,length(di$factor.name))
         }
         ## orthogonal contrasts
-        design <- change.contr(design, "contr.helmert")
+        design <- change.contr(design, "contr.XuWu")
     
         ## if blocked and requested, accomodate blocks
         if (with.blocks & !is.null(di$block.name)){
           if (!is.factor(design[[di$block.name]])) design[[di$block.name]] <- factor(design[[di$block.name]])
-          contrasts(design[[di$block.name]]) <- "contr.helmert"
+          contrasts(design[[di$block.name]]) <- "contr.XuWu"
           fo <- formula(paste("~",paste(c(di$block.name,names(di$factor.names)),collapse="+")), data=design)
           nlevels <- c(di$nblocks,nlevels)
         }
@@ -48,8 +48,10 @@ length2 <- function(design, with.blocks=FALSE, J=FALSE){
     mm <- model.matrix(fo,design)
     ## store column allocation to factors
     zuord <- attr(mm, "assign")
+    ## no longer necessary, already done by contr.XuWu
+    ## --> works for imbalanced designs as well
     ## normalize columns to Euclidean norm sqrt(n)
-    mm <- sqrt(n)*mm %*% diag(1/sqrt(colSums(mm^2)))
+    ## mm <- sqrt(n)*mm %*% diag(1/sqrt(colSums(mm^2)))
     ## remove intercept column
     mm <- mm[,-1]
     zuord <- zuord[-1]

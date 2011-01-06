@@ -142,7 +142,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                  else nlevels <- apply(des[,columns,drop=FALSE],2,function(obj) length(table(obj)))
                  }  ## end of numeric columns
               if (is.character(columns))
-                 if (!columns %in% c("order","min3","min34")) stop("invalid choice for columns")
+                 if (!columns %in% c("order","min3","min34","min3.rela","min34.rela","minRelProjAberr")) stop("invalid choice for columns")
              }
           if (!(is.null(nruns))){
              if (!nrow(des)==nruns) 
@@ -274,7 +274,10 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
              "using option columns with min3 or even min34.", fill=TRUE)
           nutze <- NULL
           if (columns=="min3") nutze <- try(oa.min3(ID, nlevels)$column.variants[1,], silent=TRUE)
+          else if (columns=="min3.rela") nutze <- try(oa.min34(ID, nlevels, rela=TRUE)$column.variants[1,], silent=TRUE)
           else if (columns=="min34") nutze <- try(oa.min34(ID, nlevels)$column.variants[1,], silent=TRUE)
+          else if (columns=="min34.rela") nutze <- try(oa.min34(ID, nlevels, rela=TRUE)$column.variants[1,], silent=TRUE)
+          else if (columns=="minRelProjAberr") nutze <- try(oa.maxGR.min34(ID, nlevels)$column.variants[1,], silent=TRUE)
           if ("try-error" %in% class(nutze)) {
                columns <- "order"
                warning("resources were not sufficient for optimizing column selection")

@@ -1,15 +1,21 @@
-length5 <- function(design, with.blocks=FALSE, J=FALSE){
+length5 <- function(design, with.blocks=FALSE, J=FALSE, rela=FALSE){
     ## function to calculate generalized words of length 4
     ## according to Xu and Wu 2001 Annals
     ## it might be helpful to locate non-zeros
     ## this is so far not done
+    if (rela & J) stop("rela and J must not be simultaneously TRUE")
+    
     n <- nrow(design)
     if (!(is.data.frame(design) | is.matrix(design))) stop("design must be a data frame or a matrix")
     if (is.matrix(design)) design <- as.data.frame(design)
+    
+    if (rela) if (!(isTRUE(all.equal(length2(design), 0)) & isTRUE(all.equal(length3(design), 0)) & isTRUE(all.equal(length4(design),0)))) 
+       stop("relative length5 is applicable for resolution V or higher designs only")
+    
     if (!"design" %in% class(design)){
         for (i in 1:ncol(design)){
             design[,i] <- factor(design[,i])
-            contrasts(design[,i]) <- "contr.helmert"
+            contrasts(design[,i]) <- "contr.XuWu"
         }
         nlevels <- sapply(as.list(design), function(obj) nlevels(obj))
         ##names(nlevels) <- colnames(design)
@@ -23,12 +29,12 @@ length5 <- function(design, with.blocks=FALSE, J=FALSE){
                 nlevels <- rep(2,length(di$factor.name))
         }
         ## orthogonal contrasts
-        design <- change.contr(design, "contr.helmert")
+        design <- change.contr(design, "contr.XuWu")
 
         ## if blocked and requested, accomodate blocks
         if (with.blocks & !is.null(di$block.name)){
           if (!is.factor(design[[di$block.name]])) design[[di$block.name]] <- factor(design[[di$block.name]])
-          contrasts(design[[di$block.name]]) <- "contr.helmert"
+          contrasts(design[[di$block.name]]) <- "contr.XuWu"
           fo <- formula(paste("~",paste(c(di$block.name,names(di$factor.names)),collapse="+")), data=design)
           nlevels <- c(di$nblocks,nlevels)
         }
@@ -40,7 +46,10 @@ length5 <- function(design, with.blocks=FALSE, J=FALSE){
     mm <- model.matrix(fo,design)
     ## store column allocation to factors
     zuord <- attr(mm, "assign")
-    mm <- sqrt(n)*mm %*% diag(1/sqrt(colSums(mm^2)))
+    ## no longer necessary, already done by contr.XuWu
+    ## --> works for imbalanced designs as well
+    ## normalize to sqrt(n)
+    ## mm <- sqrt(n)*mm %*% diag(1/sqrt(colSums(mm^2)))
     ## remove intercept column
     mm <- mm[,-1]
     zuord <- zuord[-1]
@@ -73,6 +82,7 @@ length5 <- function(design, with.blocks=FALSE, J=FALSE){
              for (d in lcols){
              for (e in mcols){
               vec5[zaehl] <- sum(mm[,a]*mm[,b]*mm[,c]*mm[,d]*mm[,e])
+              if (rela) vec5[zaehl] <- vec5[zaehl]/sqrt(min(nlevels[c(i,j,k,l,m)])-1)
               ## namvec[zaehl] <- paste(i,j,k,l,sep=":") ## update names
               zaehl <- zaehl+1
            }}}}}
