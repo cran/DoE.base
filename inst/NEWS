@@ -3,6 +3,19 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+31/01/2011, Version 0.21
+- made the run.no.in.std.order column in the run.order attribute 
+  a factor with properly ordered levels for oa.design and fac.design
+- introduced option std.order for print.design
+- enabled response.names<- function for wide designs
+- fixed bug in param.design that led to problems with long-to-wide reformatting 
+  for designs without responses
+- improved treatment of one-column response matrix in add.response
+- modified aggregate.design to keep previous responses, apart from the individual ones
+- fixed bug in summary.design that made summaries fail for combined designs 
+  like parameter designs
+- fixed bug in function generator.design that led to showing wrong block 
+   generator information for full factorial blocked designs
 
 05/01/2011, Version 0.20
 - added function contr.XuWu for calculating normalized contrasts for GWLP 

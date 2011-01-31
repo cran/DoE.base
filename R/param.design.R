@@ -22,7 +22,8 @@ param.design <- function(inner, outer, direction="long", responses=NULL, ...){
     if (!is.null(design.info(aus)$aliased)) names(design.info(aus)$aliased) <- c("inner","outer")
     design.info(aus)$inner <- factor.names(inner)
     design.info(aus)$outer <- factor.names(outer)
-    if (!is.null(responses)) response.names(aus) <- responses
+    if (!is.null(responses)) response.names(aus) <- responses 
+       else response.names(aus) <- NULL
     if (nrow(outer)>8)
        warning("Are you sure ?\nA Taguchi inner/outer array with more than 8 runs in the outer array is very unusual")
     if (direction=="wide") aus <- paramtowide(aus)

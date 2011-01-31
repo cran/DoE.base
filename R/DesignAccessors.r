@@ -312,8 +312,15 @@ response.names <- function(design){
        stop("value must be a character vector or NULL")
    if (!length(unique(value))==length(value)) 
       stop("response.names elements are not unique")
-   if (!is.null(design.info(design)$responselist))
-      stop("this is a design in wide format, for which function response.names currently does not work")
+   ## dont know why changing response.names was suppressed earlier for wide designs
+   ## deactivated that 29 Jan 2011; changed it to impossibility to remove response
+   ##      in order to be on the safe side
+#   if (!is.null(design.info(design)$responselist))
+#      stop("this is a design in wide format, for which function response.names currently does not work")
+   if (!is.null(design.info(design)$responselist) && remove){
+      warning("this is a design in wide format, for which function response.names does not remove responses")
+      remove <- FALSE
+      }
    rnold <- di$response.names
    newresp <- setdiff(value, rnold)
    dropresp <- setdiff(rnold, value)

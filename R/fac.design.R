@@ -105,12 +105,16 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
            if (repeat.only) orig.no.rp <- paste(orig.no.rp,rep(1:replications,nruns),sep=".")
            else orig.no.rp <- paste(orig.no.rp,rep(1:replications,each=nruns),sep=".")
         }
+    ## row added 27 01 2011 (for proper ordering of design)
+    orig.no.levord <- sort(as.numeric(orig.no),index=TRUE)$ix
 
       if (is.null(desnum)) desnum <- model.matrix(1:nrow(aus)~.,data=aus)[,-1,drop=FALSE] else
            desnum <- desnum[rand.ord,]
       rownames(aus) <- rownames(desnum) <- 1:nrow(aus)
 
       attr(aus,"desnum") <- desnum
+      ## change 27 Jan 2011: leave orig.no as a factor, but with better-ordered levels
+      orig.no <- factor(orig.no, levels=unique(orig.no[orig.no.levord]))
       attr(aus,"run.order") <- data.frame("run.no.in.std.order"=orig.no,"run.no"=1:nrow(aus),"run.no.std.rp"=orig.no.rp)
       attr(aus,"design.info") <- list(type="full factorial", 
           nruns=nruns, nfactors=nfactors, nlevels=nlevels, factor.names=factor.names,

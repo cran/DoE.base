@@ -50,7 +50,9 @@ paramtowide <- function(design, constant=NULL, ...){
         }
         if (!is.null(di$restlist)) restlnames <- c(as.matrix(di$restlist)) else restlnames <- NULL
         cn <- colnames(aus)
-        vor <- cn[1:(min(which(cn %in% c(di$response.names,restlnames)))-1)]
+        if (min(which(cn %in% c(di$response.names,restlnames))) < Inf)
+             vor <- cn[1:(min(which(cn %in% c(di$response.names,restlnames)))-1)]
+             else vor <- character(0)
         rest <- setdiff(cn, c(di$response.names, restlnames, vor))
         aus <- aus[,c(vor,di$response.names,restlnames, rest)]
     ### ??? switch off warning here for NA from transformation ???

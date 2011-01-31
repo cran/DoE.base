@@ -26,7 +26,10 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
         stop("response must be a numeric vector or matrix or a data frame.")
 
     ## response to become a data frame with reasonable column names
-    if (is.matrix(response)) response <- data.frame(response)
+    if (is.matrix(response)) {
+        if (ncol(response) == 1 & is.null(colnames(response))) colnames(response) <- rn
+        response <- data.frame(response)
+        }
     if (is.numeric(response)) {
             response <- data.frame(response)
             colnames(response) <- rn

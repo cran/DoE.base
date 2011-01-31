@@ -67,6 +67,7 @@ generators.design <- function(design, ...){
     ## extract generating contrasts for all FrF2 designs
     ## special care is needed for splitplot, hard and blocked designs
     ## and also estimable
+    aus <- NULL
     di <- design.info(design)
     catlg.name <- di$catlg.name
     if (is.null(catlg.name)) catlg.name <- "catlg"
@@ -136,6 +137,8 @@ generators.design <- function(design, ...){
                     else return("For generator information, you need to load package FrF2.")
                   }
                }
+               ## Now di$base.design is numeric vector of column numbers
+               
                if (is.null(di$map)) di$map <- 1:k
                if (is.null(di$orig.fac.order)) di$orig.fac.order <- 1:di$nfactors
                mLetters <- Letters[invperm(di$orig.fac.order)]
@@ -148,17 +151,19 @@ generators.design <- function(design, ...){
                   if (k.block.add==0)
                   di$base.design <- paste(mLetters[(k+1):(di$nfactors)],
                                           sapply(di$base.design, function(obj) paste(sort(mLetters[obj]),collapse="")),sep="=")
-                  else di$base.design <- paste(Letters[(k-k.block.add+1):(di$nfactors)],
+                  else {## k.block.add > 0
+                       if (!identical(names(di$base.design),names(Yates[di$block.gen]))) 
+                          di$base.design <- paste(Letters[(k-k.block.add+1):(di$nfactors)],
                                           sapply(di$base.design, function(obj) 
                                           paste(c(paste("b",1:k.block.add,sep=""),Letters)[obj],collapse="")),sep="=")
-
+                          else di$base.design <- "full factorial"}
                if (!is.null(di$block.gen)){ 
                     hilf <- di$block.gen
-               if (k.block.add > 0) hilf <- paste("b",1:k.block.add,sep="")
-               else{
-                  if (is.list(hilf)) 
-                    hilf <- sapply(hilf, function(obj) which(names(Yates)==paste(Letters[sort(obj)],collapse="")))
-                    }
+                    if (k.block.add > 0) hilf <- paste(paste("b",1:k.block.add,sep=""), names(Yates[hilf]),sep="=")
+                     else{
+                      if (is.list(hilf)) 
+                       hilf <- sapply(hilf, function(obj) which(names(Yates)==paste(Letters[sort(obj)],collapse="")))
+                      }
                if (k.block.add > 0) aus <- c(list(di$base.design), list(hilf))
                    else aus <- c(list(di$base.design),
                       list(names(Yates)[hilf]))

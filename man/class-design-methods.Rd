@@ -17,7 +17,7 @@
 }
 \usage{
 \method{[}{design}(x, i, j, drop.attr = TRUE, drop = FALSE)
-\method{print}{design}(x, show.order=NULL, group.print=TRUE, ...)
+\method{print}{design}(x, show.order=NULL, group.print=TRUE, std.order=FALSE, ...)
 showData(dataframe,colname.bgcolor = "grey50", 
        rowname.bgcolor = "grey50", 
        body.bgcolor = "white", 
@@ -85,6 +85,9 @@ showData(dataframe,colname.bgcolor = "grey50",
         if \code{TRUE}, structured designs (blocked and split-plot designs) 
         are printed with intermediate lines at structure breaks; 
         if \code{FALSE}, the designs are simply printed as data frames.}
+  \item{std.order}{ logical, default \code{FALSE}; 
+        if \code{TRUE}, the design is printed in standard order rather 
+        than in the randomized order.}
   \item{\dots}{ further arguments to functions \code{\link{print}}, \code{\link{summary}}, \code{\link{aggregate}}, 
         \code{\link{contrasts}},  or in case of plotting, 
         \code{\link{plot}}, \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics  }
@@ -152,8 +155,14 @@ showData(dataframe,colname.bgcolor = "grey50",
     choice. Repeated measurements can be added to a design that has no proper replications, 
     and proper replications can be added to a design that has no repeated measurements. 
     
-    The methods for \code{print} or \code{summary} provide design-specific information - 
-    especially the \code{summary} method will develop further. If a standard data frame summary 
+    The method for \code{print} displays the design. Per default, the design is 
+    printed in the actual run order, and run order information is shown for designs 
+    with special structure (blocked, replicated). Optionally, the design can be 
+    printed in standard order, which may be useful for comparing to other designs 
+    or for getting a clearer idea about the structure of smaller designs. 
+    
+    The method for \code{summary} provides design-specific information - 
+    some further development may still be expected. If a standard data frame summary 
     is desired, explicitly use function \code{summary.data.frame} instead of \code{summary}.
     
     The default method for \code{showData} is the function from package \pkg{\link[relimp:showData]{relimp}}, 
@@ -168,6 +177,8 @@ showData(dataframe,colname.bgcolor = "grey50",
     links back to the method for data frames for designs that are not of wide format. 
     If a wide format design is to be treated with the \code{aggregate} method for data frames, 
     \code{\link[stats:aggregate]{aggregate.data.frame}} must be used explicitly. 
+    This method calculates a mean, standard deviation or SN ratio from the individual responses 
+    (which can be repeated measurements or outer array runs from a Taguchi parameter design).
     
     The method for \code{plot} calls the method available in package graphics 
     (see \code{\link[graphics]{plot.design}}) wherever this makes sense (\code{x} not of class \code{design}, 

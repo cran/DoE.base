@@ -128,7 +128,7 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
       type <- di$type
       
       ## default degrees: 1 for pb and oa, 2 for everything else
-      if (is.null(degree) & substr(type,1,2) %in% c("pb","oa")) degree <- 1
+      if (is.null(degree) && substr(type,1,2) %in% c("pb","oa")) degree <- 1
       if (is.null(degree)) degree <- 2
 
       factor.names <- di$factor.names
