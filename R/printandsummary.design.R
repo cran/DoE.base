@@ -1,8 +1,17 @@
 ## controls printing of the design
 ## especially with structure information
-print.design <- function(x,show.order=NULL, group.print=TRUE, ...){
+print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, ...){
    if (!"design" %in% class(x)) stop("this function works for class design objects only")
    di <- design.info(x)
+   if (std.order) {
+        print(cbind(run.order(x)[,c(1,2)],x)[ord(run.order(x)),])
+        cat("NOTE: columns run.no.in.std.order and run.no are annotation, not part of the data frame",fill=TRUE)
+         if (length(grep("param",di$type))>0 & length(grep("wide",di$type))>0 ){
+             cat("Outer array:\n")
+             print(di$outer, ...)
+        return(invisible())
+      }
+   }
    if (group.print)
    group.print <- di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "FrF2.splitplot", "FrF2.splitplot.folded", 
        "Dopt.blocked", "Dopt.splitplot")
@@ -228,8 +237,12 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
       ###     other designs should not be problematic
       ###     (blocked designs without blockpick.big should also work, but ...)
       neuver <- FALSE
-      if (!is.null(di$FrF2.version))
+      if (!is.null(di$FrF2.version) & length(di$FrF2.version)==1)
          if (compareVersion(di$FrF2.version, "1.1") >= 0) neuver <- TRUE
+      ## FrF2 version only relevant for single step FrF2 designs
+      #if (!is.null(di$FrF2.version) & length(di$FrF2.version) > 1)
+      #   if (all(sapply(di$FrF2.version, "compareVersion", "1.1") >= 0)) neuver <- TRUE
+
       if ((neuver | !(length(grep("blocked",di$type)) > 0 | length(grep("splitplot",di$type)) > 0)) & 
              !(length(grep("param",di$type)) > 0 | length(grep("folded", di$type))>0) )
           print(generators(object), quote=quote, ...)

@@ -26,7 +26,8 @@ aggregate.design <- function(x, ..., by=NULL, response=NULL, FUN="mean", postfix
         assign(paste(response[i],postfix,sep="."), apply(x[,di$responselist[,response[i]]],1,FUN))
         aus <- eval(parse(text=paste("add.response(aus,", paste(response[i],postfix,sep="."),", replace=replace)")))
         }
-     di$response.names <- paste(response,postfix,sep=".")
+     #modified 30 Jan 2011; not useful to remove all responses
+     di$response.names <- setdiff(design.info(aus)$response.names, unlist(di$responselist))
      design.info(aus) <- di
      aus
 }
