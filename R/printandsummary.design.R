@@ -9,8 +9,8 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
          if (length(grep("param",di$type))>0 & length(grep("wide",di$type))>0 ){
              cat("Outer array:\n")
              print(di$outer, ...)
-        return(invisible())
       }
+    return(invisible())
    }
    if (group.print)
    group.print <- di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "FrF2.splitplot", "FrF2.splitplot.folded", 

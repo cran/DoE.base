@@ -3,6 +3,11 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+27/04/2011, Version 0.21-1
+- bug in function print.design: 
+  for many designs, printing in standard order prompted two printouts, 
+  one in standard order and one in actual run order (wrongly placed return)
+
 31/01/2011, Version 0.21
 - made the run.no.in.std.order column in the run.order attribute 
   a factor with properly ordered levels for oa.design and fac.design
