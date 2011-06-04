@@ -7,10 +7,14 @@ make.generators <- function(name,liste){
    }
    
 make.formulas <- function(orignames, factor.names){
-   eval(parse(text=paste("list(",
+   ## function for creating coding information
+   ## for response surface analysis
+   aus <- eval(parse(text=paste("list(",
                 paste(paste(orignames,"~(",names(factor.names),"-",sapply(factor.names,"mean"),")/",
                        sapply(factor.names,function(obj) (obj[2]-obj[1])/2), sep=""),collapse=","),
                 ")",sep="")))
+   names(aus) <- orignames
+   aus
 }
 
 ord <- function(matrix, decreasing=FALSE){
