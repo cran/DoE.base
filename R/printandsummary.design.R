@@ -2,6 +2,12 @@
 ## especially with structure information
 print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, ...){
    if (!"design" %in% class(x)) stop("this function works for class design objects only")
+      else{ ## do the right thing for class design from package conf.design
+         if (is.null(design.info(x)))
+             print.data.frame(x, ...)
+         else{
+             ## now designs generated with suite DoE.base etc.
+             ## this else closes at the end of the function
    di <- design.info(x)
    if (std.order) {
         print(cbind(run.order(x)[,c(1,2)],x)[ord(run.order(x)),])
@@ -57,6 +63,8 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
        cat("Outer array:\n")
        print(di$outer, ...)
       }
+    }
+    }
 }
 
 printBy <- function(data, byvars, ...){
