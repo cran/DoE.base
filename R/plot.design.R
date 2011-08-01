@@ -2,7 +2,7 @@ plot.design <- function(x, y=NULL, select=NULL, ...){
       xnam <- deparse(substitute(x))
       if (!"design" %in% class(x))
          graphics:::plot.design(x, y, ...)
-      else{
+      else{## do the right thing for class design from package conf.design
          if (is.null(design.info(x)))
              graphics:::plot.design(x, y,...)
          else{
