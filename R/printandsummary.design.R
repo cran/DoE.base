@@ -19,8 +19,8 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
     return(invisible())
    }
    if (group.print)
-   group.print <- di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "FrF2.splitplot", "FrF2.splitplot.folded", 
-       "Dopt.blocked", "Dopt.splitplot")
+   group.print <- di$type %in% c("full factorial.blocked", "FrF2.blocked", "FrF2.blockedcenter", 
+        "FrF2.splitplot", "FrF2.splitplot.folded", "Dopt.blocked", "Dopt.splitplot")
          # | length(grep("param",di$type)) > 0
    if (is.null(show.order)) 
        show.order <- group.print | di$replications > 1 | di$type=="crossed" | length(grep("param",di$type)) > 0
@@ -29,7 +29,7 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
        print(cbind(run.order(x)[,2:3],x), ...)
        else{
           ## provisions for some Dopt types; not yet known whether all of them will exist 
-          if (di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "Dopt.blocked"))
+          if (di$type %in% c("full factorial.blocked", "FrF2.blocked", "FrF2.blockedcenter", "Dopt.blocked"))
              printBy(cbind(run.order(x)[,2:3],x), di$block.name,...)
           if (di$type %in% c("FrF2.splitplot", "FrF2.splitplot.folded","Dopt.splitplot"))
              printBy(cbind(run.order(x)[,2:3],x), names(di$factor.names)[1:di$nfac.WP], ...)
@@ -47,7 +47,7 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
           print(cbind(x), ...)
       else
        {
-          if (di$type %in% c("FrF2.blocked", "FrF2.blockedcenter", "Dopt.blocked"))
+          if (di$type %in% c("full factorial.blocked", "FrF2.blocked", "FrF2.blockedcenter", "Dopt.blocked"))
              printBy(cbind(x), di$block.name,...)
           if (di$type %in% c("FrF2.splitplot", "FrF2.splitplot.folded","Dopt.splitlot"))
              printBy(cbind(x), names(di$factor.names)[1:di$nfac.WP], ...)
@@ -183,6 +183,22 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
           if (di$wbreps > 1 & di$repeat.only)
              cat("each run measured ", di$wbreps, " times (no proper replication)\n")
              }
+          if (di$type=="full factorial.blocked"){
+             hilf <- factorize(di$nlevels)
+             names(hilf) <- Letters[1:di$nfactors]
+             hilf <- unlist(hilf)
+             if (is.null(colnames(di$block.gen)))
+                colnames(di$block.gen) <- names(hilf)
+             hilf.primes <- apply(di$block.gen, 1, 
+                 function(obj) unique(hilf[!obj==0]))
+             for (p in unique(hilf.primes)){
+                   chilf <- conf.set(di$block.gen[which(hilf.primes==p),,drop=FALSE], p)
+                   cat("\nConfounding of ", p, "-level pseudo-factors with blocks",
+                   "\n(each row gives one independent confounded effect):\n")
+                   print(chilf)
+                   cat("\n")
+                 }
+          }
        }
     else if (di$replications>1)
       if (di$repeat.only)

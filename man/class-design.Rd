@@ -192,7 +192,6 @@ ord(matrix, decreasing=FALSE)
     package \pkg{DoE.wrapper} (not yet on CRAN). If feasible with reasonable effort 
     and useful, functions for the class \code{design} documented here incorporate the functions 
     for the S class design (notably function \code{\link{plot.design}}). 
-    
 
     This package is currently subject to intensive development; most key functionality is now included. 
     Some changes to input and output structures may still occur.
