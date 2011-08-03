@@ -3,6 +3,17 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+03/08/2011, Version 0.22
+- added blocking facility to function fac.design, 
+  i.e. full factorials can now be blocked
+  (one level of blocking only; automatic possible, 
+  if only one prime of each type is needed 
+  (confounds the highest possible degree of interaction); 
+  otherwise, user must specify block generators)
+- added some functions for prime and pseudo factor 
+  factorization 
+- added dependence on package conf.design
+
 31/07/2011, Version 0.21-3
 - added a branch to function print.design for an exception 
   for class design from package conf.design

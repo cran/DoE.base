@@ -3,11 +3,14 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Function for full factorial designs }
 \description{
-  Function for creating full factorial designs with arbitrary numbers of levels
+  Function for creating full factorial designs with arbitrary numbers of levels, 
+  and potentially with blocking
 }
 \usage{
 fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL, 
-        replications=1, repeat.only = FALSE, randomize=TRUE, seed=NULL)
+        replications=1, repeat.only = FALSE, randomize=TRUE, seed=NULL, 
+        blocks=1, block.gen=NULL, block.name="Blocks", bbreps=replications, 
+        wbreps=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -44,11 +47,71 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
   \item{randomize}{ logical. If \code{TRUE}, the design is randomized. This is the default. 
        In case of replications, the nature of randomization depends on the setting of 
        option \code{repeat.only}.}
-  \item{seed}{ optional seed for the randomization process }
-}
+  \item{seed}{ optional seed for the randomization process (integer number)}
+  \item{blocks}{ is the number of blocks into which the experiment is to be subdivided; \cr
+       it must be a prime or a product of prime numbers which occur as common divisors 
+       of the numbers of levels of several factors (cf. Details section).\cr
+       
+       If the experiment is randomized, randomization happens within blocks. \cr
+       } 
+  \item{block.gen}{ provides block generating information.\cr
+       If \code{blocks} is a prime or a product of distinct prime numbers (e.g. 
+       2 or 3, or 2*3, but not 2*2), \code{block.gen} is not needed (but can be optionally specified).\cr
+       If given, \code{block.gen} can be \cr
+       a numeric vector of integer numbers \cr
+       OR a numeric matrix with integer elements.
+       
+       There must be a row for each prime number into which \code{blocks} factorizes, 
+       and a column for each (pseudo)factor into which the experimental 
+       design factors can be partitioned (cf. Details and Examples sections and 
+       function \code{\link{factorize}}).
+       
+       Rows for a p-level contributor to the block factor (p a prime) consist of 
+       entries 0 to p-1 only.
+       }
+  \item{block.name}{ name of the block factor, default \dQuote{Blocks}}
+  \item{bbreps}{ between block replications; these are always taken as genuine replications, 
+       not repeat runs; default: equal to \code{replications};
+       CAUTION: you should not modify \code{bbreps} if you do not work with blocks, 
+       because the program code uses it instead of \code{replications} in some places }
+  \item{wbreps}{ within block replications; whether or not these are taken as genuine replications 
+       depends on the setting of \code{repeat.only}}
+  }
 \details{
    \code{fac.design} creates full factorial designs, i.e. the number of runs is the 
-   product of all numbers of levels.
+   product of all numbers of levels.\cr\cr
+   It is possible to subdivide the design into blocks (one hierarchy level only) 
+   by specifying an appropriate number of blocks. The method used is a generalization of 
+   the one implemented in function \code{\link[conf.design]{conf.design}} for 
+   symmetric factorials (i.e. factorials with all factors at the same prime number 
+   of levels) and related to the method described in Collings (1984, 1989); 
+   function \code{\link[conf.design]{conf.set}} from 
+   package \pkg{conf.design} is used for checking the confounding 
+   consequences of blocking. 
+   
+   Note that the number of blocks must 
+   be compatible with the factor levels. Consider a design with five factors at 
+   2, 2, 3, 3, 6 levels. The 6-level factor can be thought of as consisting of 
+   two pseudo-factors, a 2-level and a 3-level pseudo-factor, according to the 
+   factorization of the number 6 into the two primes 2 and 3. It is possible \cr
+   to obtain two blocks by confounding the two-factor interaction of the 
+   two 2-level factors and the 2-level pseudo-factor of the 6-level factor, \cr
+   or to obtain three blocks by confounding the blocking factor with the 
+   three-factor interaction of the two three-level factors and the three-level 
+   pseudo-factor of the 6-level factor, \cr
+   or to get six blocks, by doing both simultaneously. \cr
+   All this can be done by simply specifying the number of blocks, 
+   because the best general way to do it is obvious.
+   
+   For 9 blocks, 9 factorizes into 3*3. These are not distinct; 
+   therefore, the user is requested to specify option \code{block.gen}. 
+   These four blocking examples can be found in the Examples section, 
+   all with specification of \code{block.gen}.
+   
+   5 blocks cannot be done for this design. Even if there were one additional 
+   factor at 5 levels, it would still not be possible to do a number of blocks 
+   with divisor 5, because this would confound the main effect of a factor with 
+   blocks and would thus generate an error. 
    
 }
 \value{
@@ -61,18 +124,50 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
    (i.e. analyses will per default use orthogonal polynomials). \cr
    For factors with more than 2 categorical levels, the default contrasts are used.
    
-   Future versions will most likely allow more user control about the type of 
-   contrasts to be used.
+   For changing the contrasts, use function \code{\link{change.contr}}.
    
-   The \code{design.info} attribute of the data frame has the element 
-   \code{nlevels} in addition to the standard elements documented for class \code{\link{design}}.
+   The \code{design.info} attribute of the data frame has the following elements:
+  \describe{
+    \item{type}{ character string \dQuote{full factorial} or 
+         \dQuote{full factorial.blocked}}
+    \item{nruns}{ number of runs (replications are not counted) }
+    \item{nfactors}{ number of factors}
+    \item{nlevels}{ vector with number of levels for each factor }
+    \item{factor.names }{ list named with (treatment) factor names and containing as 
+         entries vectors with coded factor levels }
+    \item{nblocks}{for designs of type \code{full factorial.blocked} only; \cr
+         number of blocks}
+    \item{block.gen}{for designs of type \code{full factorial.blocked} only; \cr
+         matrix the rows of which are the coefficients of the linear combinations 
+         that create block columns from of pseudo factors}
+    \item{blocksize}{for designs of type \code{full factorial.blocked} only; \cr
+         size of each block (without consideration of \code{wbreps})}
+    \item{replication }{ option setting in call to \code{FrF2} }
+    \item{repeat.only }{ option setting in call to \code{FrF2} }
+    \item{bbreps}{for designs of type \code{FrF2.blocked} only; 
+         number of between block replications}
+    \item{wbreps}{for designs of type \code{FrF2.blocked} only; 
+         number of within block replications;\cr
+         \code{repeat.only} indicates whether these are replications or repetitions only}
+    \item{randomize }{ option setting in call to \code{FrF2} }
+    \item{seed }{ option setting in call to \code{FrF2} }
+    \item{creator }{ call to function FrF2 
+         (or stored menu settings, if the function has been called via the R commander plugin 
+         \pkg{RcmdrPlugin.DoE}) }
+         }
 }
+
 \references{ 
-  Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
-}
+  Collings, B.J. (1984). Generating the intrablock and interblock subgroups for 
+     confounding in general factorial experiments. \emph{Annals of Statistics} \bold{12}, 
+     1500--1509.
+
+  Collings, B.J. (1989). Quick confounding. \emph{Technometrics} \bold{31}, 
+     107--110.
+  }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}} } 
+\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}}, \code{\link[conf.design]{conf.set}} } 
 \examples{
   ## only specify level combination 
   fac.design(nlevels=c(4,3,3,2))
@@ -80,6 +175,43 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
   fac.design(factor.names=list(one=c("a","b","c"), two=c(125,275), three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
   ## design requested via character factor.names and nlevels (with a little German lesson for one two three)
   fac.design(factor.names=c("eins","zwei","drei"),nlevels=c(2,3,2))
+  
+  ### blocking designs
+  fac.design(nlevels=c(2,2,3,3,6), blocks=6, seed=12345)
+  ## the same design, now unnecessarily constructed via option block.gen
+  ## preparation: look at the numbers of levels of pseudo factors
+  ## (in this order)
+  unlist(factorize(c(2,2,3,3,6)))
+  ## or, for more annotation, factorize the unblocked design
+  factorize(fac.design(nlevels=c(2,2,3,3,6)))
+  ## positions 1 2 5 are 2-level pseudo factors
+  ## positions 3 4 6 are 4-level pseudo factors
+  ## blocking with highest possible interactions
+  G <- rbind(two=c(1,1,0,0,1,0),three=c(0,0,1,1,0,1))
+  plan.6blocks <- fac.design(nlevels=c(2,2,3,3,6), blocks=6, block.gen=G, seed=12345)
+  plan.6blocks
+  
+  ## two blocks, default design, but unnecessarily constructed via block.gen
+  fac.design(nlevels=c(2,2,3,3,6), blocks=2, block.gen=c(1,1,0,0,1,0), seed=12345)
+  
+  ## three blocks, default design, but unnecessarily constructed via block.gen
+  fac.design(nlevels=c(2,2,3,3,6), blocks=3, block.gen=c(0,0,1,1,0,1), seed=12345)
+  
+  ## nine blocks, construction via block.gen required
+  ##    because 9=3*3 (twice the same prime)
+  ## confounding two-factor interactions cannot be avoided
+  ## there are warnings to that effect
+  G <- rbind(CD=c(0,0,1,1,0,0),CE2=c(0,0,1,0,0,1))
+  plan.9blocks <- fac.design(nlevels=c(2,2,3,3,6), blocks=9, block.gen=G, seed=12345)
+  
+  ## independently check aliasing
+  ## model with block main effects and all two-factor interactions
+  ## 6 factors: not aliased
+  summary(plan.6blocks)
+  alias(lm(1:nrow(plan.6blocks)~Blocks+(A+B+C+D+E)^2,plan.6blocks))
+  ## 9 factors: aliased
+  summary(plan.9blocks)
+  alias(lm(1:nrow(plan.9blocks)~Blocks+(A+B+C+D+E)^2,plan.9blocks))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
