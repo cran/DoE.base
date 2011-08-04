@@ -146,6 +146,10 @@ showData.design <- function(dataframe, colname.bgcolor = "grey50",
 summary.design <- function(object, brief = NULL, quote=FALSE, ...){
 ##summary.design <- function(object, ...){
    di <- design.info(object)
+   
+   ## dataframe summary for class design objects from package conf.design
+   if (is.null(di)) return(summary.data.frame(object=object, quote=quote, ...))
+   
    if (is.null(brief)) 
        if (nrow(object) <= 40 & ncol(object)<=12) brief <- FALSE else brief <- TRUE
    if (is.language(di$creator)){ 
