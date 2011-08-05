@@ -1,6 +1,4 @@
 \name{factorize}
-\alias{factorize}
-\alias{factorize.default}
 \alias{factorize.factor}
 \alias{factorize.design}
 \alias{factorize.data.frame}
@@ -14,8 +12,6 @@ into pseudo factors with integer numbers of levels
 }
 \usage{
 
-factorize(x, ...)
-\method{factorize}{default}(x, ...)
 \method{factorize}{factor}(x, name = deparse(substitute(x)), extension = letters,
     drop = FALSE, sep = "", ...)
 \method{factorize}{design}(x, extension = letters, sep = ".", long=FALSE, ...)
@@ -24,8 +20,7 @@ factorize(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{integer number or vector of numbers to be factorized into primes \cr
-           OR factor\cr
+  \item{x}{factor\cr
            OR data frame of class \code{design}
            OR data frame }
   \item{name}{name to use for prefixing the pseudo factors}
@@ -39,19 +34,18 @@ factorize(x, ...)
 
 \details{
   These functions are used for blocking full factorials. 
-  They are unchanged (default method) or modified (factor method) versions of 
-  functions from package \pkg{conf.design}, or convenience versions for designs 
+  The method for class \code{factors} is a modification of the analogous method 
+  from package \pkg{conf.design}, the other two are convenience versions for designs 
   and data frames.
   
-  If in doubt whether the correct methods are used, use {DoE.base::factorize}.
   }
 \value{
-   The default function returns a vector or a list of vectors. 
-   The other methods return a data frame of pseudo factors, 
-   or a numeric vector. 
+   All three methods return a matrix of pseudo factors (in case \code{long=TRUE}) 
+   or a named numeric vector of numbers of levels of the pseudo factors 
+   (for the default \code{long=FALSE}). 
 }
 \author{
-Bill Venables authored the originals, modifications and extensions by Ulrike Groemping
+Ulrike Groemping; Bill Venables authored the original of factorize.factor.
 }
 \note{
 There may be conflicts with functions from packages \pkg{conf.design} or \pkg{sfsmisc}.

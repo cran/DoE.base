@@ -1,9 +1,4 @@
-## unchanged functions from conf.design have been put here 
-## for preventing factorize from package sfsmisc from messing things up
-## if loaded before DoE.base but after conf.design
-factorize <- conf.design::factorize
-
-factorize.default <- conf.design::factorize.default
+## relies on the generic factorize and factorize.default from package conf.design
 
 factorize.factor <- function (x, name = deparse(substitute(x)), extension = letters,
     drop = FALSE, sep = "", ...)

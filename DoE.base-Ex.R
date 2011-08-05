@@ -361,8 +361,7 @@ flush(stderr()); flush(stdout())
 
 ### Name: factorize
 ### Title: Factorize integer numbers and factors
-### Aliases: factorize factorize.default factorize.factor factorize.design
-###   factorize.data.frame
+### Aliases: factorize.factor factorize.design factorize.data.frame
 ### Keywords: array design
 
 ### ** Examples

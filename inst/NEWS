@@ -3,6 +3,13 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+05/08/2011, Version 0.22-2
+- removed generic for factorize and factorize.default, 
+  which had been included for avoiding problems with function factorize 
+  from sfsmisc; as their inclusion created problems, 
+  the conflict with sfsmisc was solved via selective import 
+  from sfsmisc in package FrF2.
+
 04/08/2011, Version 0.22-1
 - catered for class design objects from package conf.design 
   in functions lm.design, aov.design, formula.design (error messages)
