@@ -16,6 +16,9 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
       
       if (!"design" %in% class(x)) stop("This function is applicable to class design objects only.")
       di <- design.info(x)
+      ## capture designs from conf.design
+          if (is.null(di)) stop("formula.design does not work for class design from package conf.design")
+
       if (is.null(di$response.names)) stop("formula.design needs at least one response in the design")
       if (!(is.null(degree) | is.numeric(degree))) stop("degree must be numeric or NULL")
       if (is.numeric(degree)){ 

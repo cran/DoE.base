@@ -161,16 +161,20 @@ summary.aov.design
 \value{
     The value for the \code{lm} functions is a linear model object, 
     exactly like for function \code{\link[stats]{lm}}, 
-    except for the added class \code{lm.design} in case of the method for class \code{design}.
+    except for the added class \code{lm.design} in case of the method for class \code{design}, 
+    and an added list element \code{WholePlotEffects} for split plot designs.
     
     The value for the \code{aov} functions is an aov object, 
-    exactly like for function \code{\link[stats]{aov}}.
+    exactly like for function \code{\link[stats]{aov}}, 
+    and an added list element \code{WholePlotEffects} for split plot designs.
    
     The value of the \code{summary} functions for class \code{lm.design} and 
     \code{aov.design} respectively
     is a linear model or aov summary, exactly like documented in \code{\link[stats]{summary.lm}} 
     or \code{\link[stats]{summary.aov}}, 
-    except for the added classes \code{summary.lm.design} or \code{summary.aov.design}.
+    except for the added classes \code{summary.lm.design} or \code{summary.aov.design}, 
+    and an added list element \code{WholePlotEffects} (for \code{summary.lm.design}) 
+    or attribute (for \code{summary.aov.design}) for split plot designs.
     
     The print functions return \code{NULL}; they are used for their side effects only.
    }

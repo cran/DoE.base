@@ -3,6 +3,15 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+04/08/2011, Version 0.22-1
+- catered for class design objects from package conf.design 
+  in functions lm.design, aov.design, formula.design (error messages)
+  and summary.design (summary for data frames)
+- added warning for split-plot experiments, 
+  indicating which effects might have too small p-values, 
+  to outputs from functions print.lm.design, summary.lm.design 
+  print.aov.design and summary.aov.design 
+
 03/08/2011, Version 0.22
 - added blocking facility to function fac.design, 
   i.e. full factorials can now be blocked
