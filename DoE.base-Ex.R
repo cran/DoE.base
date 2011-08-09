@@ -335,12 +335,17 @@ flush(stderr()); flush(stdout())
   ## three blocks, default design, but unnecessarily constructed via block.gen
   fac.design(nlevels=c(2,2,3,3,6), blocks=3, block.gen=c(0,0,1,1,0,1), seed=12345)
   
-  ## nine blocks, construction via block.gen required
-  ##    because 9=3*3 (twice the same prime)
+  ## nine blocks
   ## confounding two-factor interactions cannot be avoided
   ## there are warnings to that effect
   G <- rbind(CD=c(0,0,1,1,0,0),CE2=c(0,0,1,0,0,1))
   plan.9blocks <- fac.design(nlevels=c(2,2,3,3,6), blocks=9, block.gen=G, seed=12345)
+
+  ## further automatic designs 
+  fac.design(nlevels=c(2,2,3,3,6), blocks=4, seed=12345)
+  fac.design(nlevels=c(2,2,3,3,6), blocks=9, seed=12345)
+  fac.design(nlevels=c(2,2,3,3,6), blocks=36, seed=12345)
+  fac.design(nlevels=c(3,5,6,10), blocks=15, seed=12345)
   
   ## independently check aliasing
   ## model with block main effects and all two-factor interactions

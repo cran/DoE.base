@@ -98,31 +98,132 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
         if (!is.numeric(wbreps)) stop("wbreps must be an integer number.")
         ## pre-process needs for numbers of blocks and numbers of levels
         need.gen <- factorize.default(blocks)
+        ung <- unique(need.gen)   
+        ## levels of pseudofactors,
+        ## a list element for each factor
         hilfl <- factorize.default(nlevels)
         names(hilfl) <- names(factor.names)
+        ## numbers of pseudofactors for each factor
         lengths <- sapply(hilfl, length)
+        ## levels of pseudofactors in natural order
         collevs <- unlist(hilfl)
+        ## which element in collevs belongs to which original factor
         FUNC <- function(X, Y) rep(Y, X)
         pseudo.belongs <- unlist(mapply(FUNC, lengths, names(hilfl)))
+
+        tab <- table(need.gen)   ## number of pseudo factors needed of each level
+
         if (is.null(block.gen)){
             ## unspecified block generators
-            if (any(table(need.gen)>1))
+            tab.greater3 <- tab[as.character(setdiff(unique(need.gen),c(2,3)))]
+            if (length(tab.greater3)>0) 
+            if (any(tab.greater3 > 1))
               stop("For this number of blocks, block.gen must be specified (see documentation)")
-            ## now only one instance of each prime needed
-            ## block.gen can only be specified after creating the design
-            ## definite inacceptability can be checked now
-            for (i in unique(need.gen)) 
-                if (sum(sapply(hilfl, function(obj) i %in% obj)) == 0)
-                   stop("This number of blocks cannot be accomodated orthogonally to main effects.")
-                else if (sum(sapply(hilfl, function(obj) i %in% obj)) == 1)
-                   stop("Blocks would be confounded with main effects!") 
-            block.gen <- t(sapply(need.gen, function(obj) as.numeric(collevs==obj)))
-            for (i in 1:length(need.gen))
-                if (length(unique(pseudo.belongs[which(block.gen[i,]>0)]))==1)
-                   stop("Blocks would be confounded with main effects")
-            ## there are now block generators that have been checked out 
-            ## to come from separate factors within each prime group
-        }
+            ## use table of catalogued block generators for 2 and 3 levels
+            ##    if up to 8 factors with 2 level contributors or 5 factors with 3 level contributors
+            if (2 %in% ung){
+                if (tab["2"] > 8) 
+                    stop("For this number of blocks, block.gen must be specified (see documentation)")
+                else {
+                    k.block2 <- tab["2"]
+                    k2 <- sum(sapply(hilfl, function(obj) 2 %in% obj))
+                    mult2 <- sapply(hilfl, function(obj) sum(2 == obj))
+                    mult2 <- mult2[mult2>0]
+                        if (k2 <= k.block2) 
+                            stop("Too few factors with even number of factor levels for this number of blocks")
+                }
+            }
+            if (3 %in% ung){
+                if (tab["3"] > 5 )
+                    stop("For this number of blocks, block.gen must be specified (see documentation)")
+                else {
+                    k.block3 <- tab["3"]
+                    k3 <- sum(sapply(hilfl, function(obj) 3 %in% obj))
+                    mult3 <- sapply(hilfl, function(obj) sum(3 == obj))
+                    mult3 <- mult3[mult3>0]
+                        if (k3 <= k.block3) 
+                           stop("Too few factors with number of factor levels a multiple of 3 for this number of blocks")
+                }
+            }
+            ## now only one instance of each prime >3 needed
+            ## and up to 8 instances for 2-level, 
+            ## up to 5 instances for 3-level pseudo-factors
+            
+            ## too few pseudo factors with primes > 3
+            for (i in setdiff(unique(need.gen),c(2,3))) 
+                if (sum(sapply(hilfl, function(obj) i %in% obj)) %in% c(0,1))
+                   stop("Number of blocks must not be a multiple of ", i, " for this full factorial.")
+            
+            ## block generators for pseudo factors with more than 3 levels
+            ## NULL, if there are no such factors
+            block.gen <- unlist(t(sapply(setdiff(need.gen,c(2,3)), function(obj) as.numeric(collevs==obj))))
+           ### not needed, was duplicate check
+           # for (i in 1:length(need.gen))
+           #     if (length(unique(pseudo.belongs[which(block.gen[i,]>0)]))==1)
+           #        stop("Blocks would be confounded with main effects")
+            
+            ## prepend block generators for three and two factors
+            if (3 %in% ung){
+               hilf <- Yates3[unlist(block.catlg3[which(block.catlg3$k==k3 & block.catlg3$k.block==k.block3),][paste("b",1:k.block3,sep="")])]
+               ## k3 columns
+               hilfmat <- do.call(rbind, hilf)
+               if (k.block3==1) hilfmat <- matrix(hilfmat, nrow=1)
+               hilfmat <- hilfmat[,1:k3, drop=FALSE]
+               maxfacused <- colSums(hilfmat > 0)
+               pseudo.belongs3 <- pseudo.belongs[which(collevs==3)]
+               names(maxfacused) <- colnames(hilfmat) <- unique(pseudo.belongs3)
+               ## mult3 was already defined and gives number of 3-level pseudo factors 
+               ## for each factor
+               
+               ## length(collevs) columns
+               hilf3 <- matrix(0,nrow=tab[["3"]],ncol=length(collevs))
+               colnames(hilf3) <- pseudo.belongs
+               for (i in 1:ncol(hilfmat)){
+                   if (mult3[i]==1)
+                      hilf3[,intersect(which(pseudo.belongs==(colnames(hilfmat)[i])), which(collevs==3))] <- hilfmat[,i]
+                   else if (mult3[i]>1){
+                      ## factors with multiple pseudo factors;
+                      ## do not always use the same pseudo factor
+                      ## no guarantee to be optimal in any way
+                      hilfcols <- 
+                          intersect(which(pseudo.belongs == colnames(hilfmat)[[i]]), which(collevs==3))
+                          hilf3[,hilfcols] <- digitsBase(1:mult3[i])*matrix(hilfmat[,i],nrow=nrow(hilfmat),ncol=length(hilfcols))
+                      }
+                   }
+                      block.gen <- rbind(hilf3, block.gen)
+                   }
+            if (2 %in% ung){
+               hilfmat <- matrix(0,nrow=k.block2, ncol=k2)
+               hilf <- Yates[unlist(block.catlg[which(block.catlg$k==k2 & block.catlg$k.block==k.block2),][paste("b",1:k.block2,sep="")])]
+
+               for (i in 1:nrow(hilfmat)) hilfmat[i, hilf[[i]]] <- 1
+               maxfacused <- colSums(hilfmat > 0)
+               pseudo.belongs2 <- pseudo.belongs[which(collevs==2)]
+
+               names(maxfacused) <- colnames(hilfmat) <- unique(pseudo.belongs2)
+               ## mult2 was already defined and gives number of 2-level pseudo factors 
+               ## for each factor
+               
+               ## length(collevs) columns
+               hilf2 <- matrix(0,nrow=tab[["2"]],ncol=length(collevs))
+               colnames(hilf2) <- pseudo.belongs
+
+               for (i in 1:ncol(hilfmat)){
+                   if (mult2[i]==1)
+                      hilf2[,intersect(which(pseudo.belongs==(colnames(hilfmat)[i])), which(collevs==2))] <- hilfmat[,i]
+                   else if (mult2[i]>1){
+                      ## factors with multiple pseudo factors;
+                      ## do not always use the same pseudo factor
+                      ## no guarantee to be optimal in any way
+                      hilfcols <- 
+                          intersect(which(pseudo.belongs == colnames(hilfmat)[[i]]), which(collevs==2))
+                          hilf2[,hilfcols] <- digitsBase(1:mult2[i])*matrix(hilfmat[,i], nrow=nrow(hilfmat), ncol=length(hilfcols))
+                      }
+                      
+                   }
+                      block.gen <- rbind(hilf2, block.gen)
+                   }
+             }
         else{
             ## specified block generators
             if (! is.numeric(block.gen)) 
@@ -135,17 +236,16 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                stop("coefficients for ", ncol(block.gen), " pseudo-factors were specified, ",
                   length(collevs), " would be needed")
                }
+            
             ## continue of checking
             if (!nrow(block.gen)==length(need.gen)) 
                  stop(nrow(block.gen)," block generators specified, ", length(need.gen), " would be needed")
             ## identify relevant prime groups
-            ung <- unique(need.gen)
             pg <- vector(mode="list", length=length(ung))
-            
             for (i in 1:nrow(block.gen)){
                 hilf <- block.gen[i,,drop=TRUE]
                 chilf <- which(hilf>0)
-                if (length(lev <- unique(collevs[chilf]))>1) 
+                if (length(lev <- unique(collevs[chilf])) > 1) 
                     stop("each block generator must address pseudo factors with the same number of levels only")
                 if (!lev %in% ung)
                     stop("the ", i, "th generator is not compatible with the requested number of blocks")
@@ -163,6 +263,8 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                  ### check confounding using conf.set function from conf.design
                  hilf <- conf.set(pg[[i]], ung[i])
                  if (!is.matrix(hilf)) hilf <- matrix(hilf, nrow=1)
+                 if (!nrow(hilf)==(ung[i]^tab[as.character(ung[i])]-1)/(ung[i]-1))
+                      stop("dependant block generators for prime ", ung[i])
                  for (j in 1:nrow(hilf)) {
                       hilf2 <- length(unique(pseudo.belongs[which(hilf[j,]>0)]))
                       if (hilf2==1) stop("confounding of blocks with main effects")
