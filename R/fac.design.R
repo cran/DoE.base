@@ -187,7 +187,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                       ## no guarantee to be optimal in any way
                       hilfcols <- 
                           intersect(which(pseudo.belongs == colnames(hilfmat)[[i]]), which(collevs==3))
-                          hilf3[,hilfcols] <- digitsBase(1:mult3[i])*matrix(hilfmat[,i],nrow=nrow(hilfmat),ncol=length(hilfcols))
+                          hilf3[,hilfcols] <- matrix(hilfmat[,i],nrow=nrow(hilfmat),ncol=length(hilfcols))
                       }
                    }
                       block.gen <- rbind(hilf3, block.gen)
@@ -213,11 +213,12 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                       hilf2[,intersect(which(pseudo.belongs==(colnames(hilfmat)[i])), which(collevs==2))] <- hilfmat[,i]
                    else if (mult2[i]>1){
                       ## factors with multiple pseudo factors;
-                      ## do not always use the same pseudo factor
-                      ## no guarantee to be optimal in any way
+                      ## always use the same pseudo factor
+                      ## because otherwise there may be issues
+                      ##     with aliasing from different cancelling out behavior
                       hilfcols <- 
                           intersect(which(pseudo.belongs == colnames(hilfmat)[[i]]), which(collevs==2))
-                          hilf2[,hilfcols] <- digitsBase(1:mult2[i])*matrix(hilfmat[,i], nrow=nrow(hilfmat), ncol=length(hilfcols))
+                          hilf2[,hilfcols] <- matrix(hilfmat[,i], nrow=nrow(hilfmat), ncol=length(hilfcols))
                       }
                       
                    }
