@@ -55,8 +55,9 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
        If the experiment is randomized, randomization happens within blocks. \cr
        } 
   \item{block.gen}{ provides block generating information.\cr
-       If \code{blocks} is a prime or a product of distinct prime numbers (e.g. 
-       2 or 3, or 2*3, but not 2*2), \code{block.gen} is not needed (but can be optionally specified).\cr
+       If \code{blocks} is a prime or a power of 2 (up to 2^8) or 3 (up to 3^5) 
+       or a product of powers of 2, 3, and an individual other prime, 
+       \code{block.gen} is not needed (but can be optionally specified).\cr
        If given, \code{block.gen} can be \cr
        a numeric vector of integer numbers \cr
        OR a numeric matrix with integer elements.
@@ -90,7 +91,9 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
    consequences of blocking. 
    
    Note that the number of blocks must 
-   be compatible with the factor levels. Consider a design with five factors at 
+   be compatible with the factor levels; it must factor into primes that occur with 
+   high enough frequency among the pseudo-factors of the design. 
+   This statement is now explained by an example: Consider a design with five factors at 
    2, 2, 3, 3, 6 levels. The 6-level factor can be thought of as consisting of 
    two pseudo-factors, a 2-level and a 3-level pseudo-factor, according to the 
    factorization of the number 6 into the two primes 2 and 3. It is possible \cr
@@ -100,18 +103,25 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
    three-factor interaction of the two three-level factors and the three-level 
    pseudo-factor of the 6-level factor, \cr
    or to get six blocks, by doing both simultaneously. \cr
-   All this can be done by simply specifying the number of blocks, 
-   because the best general way to do it is obvious.
+   It is also possible to obtain 4 or 9 or even 36 blocks, if one is happy to 
+   confound two-factor interactions with blocks. The 36 blocks are the product 
+   of the 4 blocks from the 2-level portion with the nine blocks from the 3-level 
+   portion. For each portion separately, there is a lookup-table for blocking 
+   possibilities (\code{\link{block.catlg}}), for up to 128 blocks in 256 runs, 
+   or up to 81 blocks in 243 runs. 
    
-   For 9 blocks, 9 factorizes into 3*3. These are not distinct; 
-   therefore, the user is requested to specify option \code{block.gen}. 
-   These four blocking examples can be found in the Examples section, 
-   all with specification of \code{block.gen}.
-   
-   5 blocks cannot be done for this design. Even if there were one additional 
+   5 blocks cannot be done for the above example design. Even if there were one additional 
    factor at 5 levels, it would still not be possible to do a number of blocks 
    with divisor 5, because this would confound the main effect of a factor with 
    blocks and would thus generate an error. 
+   
+   For any primes apart from 2 or 3, only one at a time can be handled automatically. 
+   For example, if a design has three 5-level factors, it can be automatically subdivided 
+   into 5 blocks by the option \code{blocks=5}. 
+   It is also possible to run the design in 25 blocks; however, as 25=5*5, this cannot be done 
+   automatically but has to be requested by specifying the \code{block.gen} option
+   in addition to the \code{blocks} option 
+   (in this case, \code{block.gen=rbind(c(1,0,1),c(1,1,0))} would do the job).
    
 }
 \value{
@@ -167,7 +177,8 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
   }
 \author{ Ulrike Groemping }
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
-\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}}, \code{\link[conf.design]{conf.set}} } 
+\seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}}, \code{\link[conf.design]{conf.set}}, 
+    \code{\link{block.catlg}}} 
 \examples{
   ## only specify level combination 
   fac.design(nlevels=c(4,3,3,2))
@@ -197,12 +208,17 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
   ## three blocks, default design, but unnecessarily constructed via block.gen
   fac.design(nlevels=c(2,2,3,3,6), blocks=3, block.gen=c(0,0,1,1,0,1), seed=12345)
   
-  ## nine blocks, construction via block.gen required
-  ##    because 9=3*3 (twice the same prime)
+  ## nine blocks
   ## confounding two-factor interactions cannot be avoided
   ## there are warnings to that effect
   G <- rbind(CD=c(0,0,1,1,0,0),CE2=c(0,0,1,0,0,1))
   plan.9blocks <- fac.design(nlevels=c(2,2,3,3,6), blocks=9, block.gen=G, seed=12345)
+
+  ## further automatic designs 
+  fac.design(nlevels=c(2,2,3,3,6), blocks=4, seed=12345)
+  fac.design(nlevels=c(2,2,3,3,6), blocks=9, seed=12345)
+  fac.design(nlevels=c(2,2,3,3,6), blocks=36, seed=12345)
+  fac.design(nlevels=c(3,5,6,10), blocks=15, seed=12345)
   
   ## independently check aliasing
   ## model with block main effects and all two-factor interactions
