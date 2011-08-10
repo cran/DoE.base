@@ -3,6 +3,12 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+10/08/2011, Version 0.22-4
+- bug fix to automatic block creation in case of multiplicity of a prime in the same 
+  factor
+- made block.catlg and Yates internal in order to avoid warnings from loading the 
+  same quantities again with FrF2
+
 09/08/2011, Version 0.22-3
 - automatic block creation possible for many more situations by incorporation 
   of block factor catalogs for 2 and 3-level factor full factorials 

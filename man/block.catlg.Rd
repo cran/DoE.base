@@ -1,4 +1,4 @@
-\name{block.catlg}
+\name{block.catlg3}
 \alias{block.catlg}
 \alias{block.catlg3}
 \alias{Yates}
@@ -23,7 +23,7 @@ Yates3
 \details{
 The constants documented here are used for blocking full factorial designs 
 with function \code{\link{fac.design}}; \code{Yates} and \code{block.catlg} are 
-also used by function \code{\link[FrF2]{FrF2}}.
+internal here, as they have long been part of package \code{\link[FrF2]{FrF2-package}}.
 
 The block data frames hold Yates matrix column numbers for blocking full factorials 
 with 2-level (up to 256 runs) and 3-level factors (up to 243 runs). 
