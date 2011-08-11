@@ -10,7 +10,7 @@ the function is still experimental.
 }
 \usage{
 add.response(design, response, rdapath=NULL, replace = FALSE, 
-    InDec=options("OutDec")[[1]], ...)
+    InDec=options("OutDec")[[1]], tol = .Machine$double.eps ^ 0.5, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,16 +36,23 @@ add.response(design, response, rdapath=NULL, replace = FALSE,
       \code{\link[utils:read.table]{read.csv}}: 
       separator semicolon goes with decimal comma and triggers use of \code{\link[utils:read.table]{read.csv2}}, 
       separator comma goes with decimal point and trigggers use of \code{\link[utils:read.table]{read.csv}}. )}
+  \item{tol}{tolerance for comparing numerical values;\cr
+       useful for designs with numeric factors and for partial replacement of response values;
+       the value is used in comparisons of design and response via \code{\link{all.equal}}; 
+       errors from peculiar rounding behavior of spreadsheet programs can be prevented by 
+       allowing a larger \code{tol} }
   \item{\dots}{further arguments; currently not used}
-}
+  }
 \details{
       If \code{response} is a data frame or a matrix, responses are assumed to be 
-      all the numeric variables that are neither factor names in \code{design} 
+      all the numeric variables that are neither factor names or block names in \code{design} 
       (i.e. names of the \code{factor.names} element of the \code{design.info} attribute 
-      nor column names of the \code{run.order} attribute. 
+      or the \code{block.name} element of that same attribute)  
+      nor column names of the \code{run.order} attribute, nor \code{name} or \code{Name}. 
       
-      If \code{design} already contains columns for the response(s), these are per default 
-      overwritten if there are NA entries only in all such columns, but not otherwise. 
+      If \code{design} already contains columns for the response(s), NA entries of these 
+      are overwritten, if all non-NA entries coincide between \code{design} 
+      and \code{response}. 
       
       The idea behind this function is as follows:
       After using \code{\link{export.design}} for storing an R work space with the 

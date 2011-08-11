@@ -3,6 +3,17 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+11/08/2011, Version 0.22-5
+- improvements and bug fixes to add.response: 
+  - partial replacement of NA values for responses with otherwise idential values 
+    is now possible without the replace=TRUE option 
+  - small numeric differences between factors in design and response file 
+    led to error messages of different factor settings
+  - small numeric differences between responses in both files 
+    without the replace option led to error messages
+  - block columns and column name with small n were not automatically exempted 
+    from being responses
+
 10/08/2011, Version 0.22-4
 - bug fix to automatic block creation in case of multiplicity of a prime in the same 
   factor

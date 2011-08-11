@@ -1,5 +1,5 @@
 add.response <- function(design, response, rdapath=NULL, replace=FALSE, 
-     InDec=options("OutDec")[[1]], ...){
+     InDec=options("OutDec")[[1]], tol=.Machine$double.eps ^ 0.5, ...){
      ## invalid paths are reasonably warned about outside of this program
      if (!is.null(rdapath)){
         load(rdapath)
@@ -22,6 +22,8 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
     rn <- make.names(deparse(substitute(response)))    ## make.names makes valid R names from e.g. rnorm(8)
 
     if (!"design" %in% class(design)) stop("add.response works on class design objects only.")
+    di <- design.info(design)
+    
     if (!(is.numeric(response) | is.data.frame(response)))
         stop("response must be a numeric vector or matrix or a data frame.")
 
@@ -53,10 +55,11 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
                response <- response[ord(matrix(as.numeric(response[,"run.no"]),ncol=1)),]
             }}
     
-    fnam <- names(design.info(design)$factor.names)
+    fnam <- names(di$factor.names)
+    blocknam <- di$block.name
     if (!nrow(response) ==nrow(design))
             stop("wrong number of observations in response")
-    respnam <- setdiff(colnames(response)[which(numc)], c(fnam, colnames(run.order(design)), "Name"))
+    respnam <- setdiff(colnames(response)[which(numc)], c(fnam, blocknam, colnames(run.order(design)), "Name", "name"))
     if (length(respnam)==0) stop("no response variables in response")
     
      ## check consistency in case of overlapping variables
@@ -74,9 +77,17 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
                           response[[ffn]] <- design[[ffn]]
                           gleich <- setdiff(gleich, ffn)
                           }
-                          else{ print(as.character(design[[ffn]]));print(as.character(response[[ffn]]))}
-            if (length(gleich) > 0)
-            stop("There are variables of same names but with different content in design and response")
+                          else{ 
+                              if (isTRUE(all.equal(as.numeric(as.character(design[[ffn]])),as.numeric(as.character(response[[ffn]])),tolerance=tol))){ 
+                                response[[ffn]] <- design[[ffn]]
+                                gleich <- setdiff(gleich, ffn)
+                                }
+                             else{
+                                print(ffn)
+                                print(cbind(as.character(design[[ffn]]), as.character(response[[ffn]])))
+                                stop("There are variables of same names but with different content in design and response")
+                             }
+                          }
             }
             }
     
@@ -85,8 +96,19 @@ add.response <- function(design, response, rdapath=NULL, replace=FALSE,
        ## now gleich contains the new names that are already in the design
     gleich <- intersect(colnames(design),respnam)
     if (length(gleich) > 0 & !replace){
-        if (!(all(is.na(as.matrix(design[,gleich]))) | identical(design[,gleich],response[,gleich])))
+        ## check non-NA values for approximate equality
+              dm <- as.matrix(design[,gleich])
+              rm <- as.matrix(response[,gleich])
+        if (!(all(is.na(dm)) | 
+               isTRUE(all.equal(dm[!is.na(dm)],rm[!is.na(dm)],tolerance=tol))))
            stop("response variables ", paste(gleich, sep=", "), " already exist in the design with partly different values!")
+        if (!identical(dm[!is.na(dm)],rm[!is.na(dm)])){
+              ## replace rm values with small numeric differences (all.equal was TRUE) by dm values
+              ## necessary because of inadequate forced rounding in software like Excel 
+              ##             for calculated responses with many decimal places
+              rm[!is.na(dm)] <- dm[!is.na(dm)]
+              response[,gleich] <- as.data.frame(rm)
+            }
         }
     design[,respnam] <- response[,respnam]
     attr(design,"desnum") <- cbind(desnum(design), as.matrix(response[,respnam,drop=FALSE]))

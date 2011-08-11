@@ -1,4 +1,4 @@
-a201ed4a2181ebd4ca59f35cb906c279 *DESCRIPTION
+0a6adbbd960b1f404d35161cfd005311 *DESCRIPTION
 6dbffab688af4afb9da90ecfbf947bff *DoE.base-Ex.R
 e1b64a61bb21f02384c484ed1785968e *LICENSE
 12f19577e1ff39549944ece0b2acb67f *NAMESPACE
@@ -7,7 +7,7 @@ fb56bb43f251fef365648e29b77a730e *R/GR.R
 84697fc6277d2a31dc371bcf435abfae *R/P3.3.R
 3e587005bab723f85afa5f9dd1df64fd *R/P4.4.R
 6482b2e9c0587f5a850d0acf6358b96c *R/SN.R
-f055def2a776c0fdb3ac5b45c6977a65 *R/add.response.R
+57b2a8dbcd6281aab75cf70ae980d8e0 *R/add.response.R
 90c798bb6aa609a141c96d9459a51089 *R/aggregate.design.R
 4facab33dc3c0f24aa6578f678b0b7ec *R/aov.design.R
 5bd35d6b32731b4027d8be7164446439 *R/change.contr.R
@@ -46,10 +46,10 @@ a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 025dd228b5d881824dab148ffb1470f5 *R/sysdata.rda
 f0925b504f52055a738fc822bc692881 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-b76f378d7018f6d9668d6032edab93d0 *inst/NEWS
+1ac56b87e21c0737e51b9fef09d56dda *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
-1130559810d0cae65d93a40368da23f1 *man/add.response.Rd
+82aa74686c4e646de00cea3eacc9d8bd *man/add.response.Rd
 68d3f86c80c6fab22b3e12113a929435 *man/arrays.Rd
 2e947a10df096589403e000fb9307d94 *man/block.catlg.Rd
 7545ad191082e0c49c119dd94d9f20e3 *man/class-design-methods.Rd
