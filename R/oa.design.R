@@ -146,7 +146,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
              }
           if (!(is.null(nruns))){
              if (!nrow(des)==nruns) 
-                  stop("The design ", ID, " has ", nrow(des), " runs, mismatch to specified nruns!")
+                  stop("The design ", generating.oa, " has ", nrow(des), " runs, mismatch to specified nruns!")
              if (!is.numeric(nruns)) stop("nruns must be a number.")
              if (!nruns==floor(nruns)) stop("nruns must be an integer number.")
           }
@@ -268,10 +268,10 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           factor.names <- factor.names[order(nlevels)]
           nlevels <- nlevels[order(nlevels)]
           if ((columns=="order" | is.null(columns)) & !nfactors==ncol(ID))
-             cat("The columns of the array have been used in order of appearance. ", 
-             "For designs with relatively few columns, ", 
-             "the properties can sometimes be substantially improved ", 
-             "using option columns with min3 or even min34.", fill=TRUE)
+             message("The columns of the array have been used in order of appearance. \n", 
+             "For designs with relatively few columns, \n", 
+             "the properties can sometimes be substantially improved \n", 
+             "using option columns with min3 or even min34.\n")
           nutze <- NULL
           if (columns=="min3") nutze <- try(oa.min3(ID, nlevels)$column.variants[1,], silent=TRUE)
           else if (columns=="min3.rela") nutze <- try(oa.min34(ID, nlevels, rela=TRUE)$column.variants[1,], silent=TRUE)
