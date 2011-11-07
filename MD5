@@ -1,4 +1,4 @@
-0a6adbbd960b1f404d35161cfd005311 *DESCRIPTION
+0976c977b171f813ea51194eca2d2ff7 *DESCRIPTION
 6dbffab688af4afb9da90ecfbf947bff *DoE.base-Ex.R
 e1b64a61bb21f02384c484ed1785968e *LICENSE
 12f19577e1ff39549944ece0b2acb67f *NAMESPACE
@@ -31,7 +31,7 @@ d58897efbc468834e4bb8abefb8535e5 *R/length3.R
 80911de82f0c1779e14255257520dcb6 *R/length5.R
 d31f05cd81b7af8a2b3578753317a155 *R/lm.design.R
 f71fc7e4c8799ed485e20d3b390c4c19 *R/nchoosek.R
-4bbd1fc3d7c982abe4a53c24ceada2cc *R/oa.design.R
+840abd336cdf225e26f0bc15029c665c *R/oa.design.R
 c0a80993bb054cd6869e1debddd56bc4 *R/oa.maxGR.R
 ad3cbd964d5f2389056fec0d88570e18 *R/oa.min3.R
 2bfd09f26a2dd1828b79853883502997 *R/oa.min34.R
@@ -46,7 +46,7 @@ a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 025dd228b5d881824dab148ffb1470f5 *R/sysdata.rda
 f0925b504f52055a738fc822bc692881 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-1ac56b87e21c0737e51b9fef09d56dda *inst/NEWS
+3027bdafbb34ca88ceeb6692844a5214 *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
 82aa74686c4e646de00cea3eacc9d8bd *man/add.response.Rd

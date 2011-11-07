@@ -3,6 +3,13 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+07/11/2011, Version 0.22-6
+- oa.design now uses message command rather than cat() for conveying the message 
+  that a better way of column allocation would be available; 
+  this allows other packages to suppress this message, if appropriate
+- error message for mismatch between nruns and number of runs of specified array 
+  improved to show name of array rather than array itself
+
 11/08/2011, Version 0.22-5
 - improvements and bug fixes to add.response: 
   - partial replacement of NA values for responses with otherwise idential values 
