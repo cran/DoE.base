@@ -349,9 +349,9 @@ response.names <- function(design){
           hilf <- desnum(design)
           for (i in 1:length(dropresp)){ 
               design[dropresp[i]] <- NULL
-              hilf <- hilf[,-which(colnames(hilf)==dropresp[i])]
+              hilf <- hilf[,setdiff(1:ncol(hilf),which(colnames(hilf)==dropresp[i]))]
               }
-          desnum(design) <- hilf
+          attr(design, "desnum") <- hilf
           message("previous responses ", paste(dropresp, collapse=","), " have been removed from the design")
       }
       else
@@ -402,15 +402,23 @@ col.remove <- function(design, colnames){
          stop("the block factor cannot be removed")
     if (length(loeschresp <- intersect(colnames, di$response.names)) > 0){
          loeschrest <- setdiff(colnames, loeschresp)
-         response.names(design, remove=TRUE) <- setdiff(di$response.names, loeschresp)
          if (length(loeschrest)>0){
           hilf <- desnum(design)
           for (i in 1:length(loeschrest)){ 
               design[loeschrest[i]] <- NULL
               hilf <- hilf[,setdiff(1:ncol(hilf),which(colnames(hilf)==loeschrest[i]))]
               }
-              desnum(design) <- hilf
+              attr(design, "desnum") <- hilf
           }
+          response.names(design, remove=TRUE) <- setdiff(di$response.names, loeschresp)
     } 
+    else {
+          hilf <- desnum(design)
+          for (i in 1:length(colnames)){ 
+              design[colnames[i]] <- NULL
+              hilf <- hilf[,setdiff(1:ncol(hilf),which(colnames(hilf)==colnames[i]))]
+              }
+              attr(design, "desnum") <- hilf
+    }
     design
 }

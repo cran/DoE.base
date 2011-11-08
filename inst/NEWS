@@ -3,6 +3,15 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+08/11/2011, Version 0.22-7
+- bugfix: col.remove did not work, if no response was among the columns to be removed
+- bugfix: response.names with remove=TRUE caused various issues, if designs had been 
+  handled in unconventional ways before (e.g. columns added without using 
+  the add.response function); this has been fixed by making the handling of desnum 
+  more lenient; desnum is currently not really used for anything; if it would be, 
+  this would have to be revisited.
+
+
 07/11/2011, Version 0.22-6
 - oa.design now uses message command rather than cat() for conveying the message 
   that a better way of column allocation would be available; 
