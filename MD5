@@ -1,8 +1,8 @@
-0976c977b171f813ea51194eca2d2ff7 *DESCRIPTION
+c6a7217e5c04c0b69443e423a7c2a8d8 *DESCRIPTION
 6dbffab688af4afb9da90ecfbf947bff *DoE.base-Ex.R
 e1b64a61bb21f02384c484ed1785968e *LICENSE
 12f19577e1ff39549944ece0b2acb67f *NAMESPACE
-56983554f87079eccdd9222614834721 *R/DesignAccessors.r
+c2688372220c5393e3310b62109892b3 *R/DesignAccessors.r
 fb56bb43f251fef365648e29b77a730e *R/GR.R
 84697fc6277d2a31dc371bcf435abfae *R/P3.3.R
 3e587005bab723f85afa5f9dd1df64fd *R/P4.4.R
@@ -46,7 +46,7 @@ a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 025dd228b5d881824dab148ffb1470f5 *R/sysdata.rda
 f0925b504f52055a738fc822bc692881 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-3027bdafbb34ca88ceeb6692844a5214 *inst/NEWS
+9abc402033b9bc582676fab95b562a52 *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
 82aa74686c4e646de00cea3eacc9d8bd *man/add.response.Rd
