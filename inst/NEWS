@@ -3,6 +3,16 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+15/11/2011, Version 0.22-8
+- allow picking cube only runs from central composite
+   - moved function iscube from FrF2 to DoE.base
+   - added functions isstar and pickcube
+   - modified lm.design and formula.design to cover both 
+     designs with center points and ccd designs (added option use.star, 
+     changed default for option use.center to NULL (because of different 
+     default needs for designs with center points and ccd designs; 
+     should not affect standard usage of the functions)
+
 08/11/2011, Version 0.22-7
 - bugfix: col.remove did not work, if no response was among the columns to be removed
 - bugfix: response.names with remove=TRUE caused various issues, if designs had been 
