@@ -24,7 +24,7 @@ lm(formula, ...)
     model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, 
     contrasts = NULL, offset, ...)
 \method{lm}{design}(formula, ..., response=NULL, degree=NULL, FUN=mean, 
-    use.center=FALSE)
+    use.center=NULL, use.star=NULL)
 aov(formula, ...)
 \method{aov}{default}(formula, data = NULL, projections = FALSE, qr = TRUE,
     contrasts = NULL, ...)
@@ -69,11 +69,18 @@ summary.aov.design
         this must be an unquoted function name;\cr
         This option is relevant for repeated measurement designs 
         and parameter designs in long format only}
-  \item{use.center}{ logical indicating whether center points are to be used +
-        in the analysis; relevant for \code{pb} and \code{FrF2} designs with 
-        center points only;\cr
-        the default \code{FALSE} allows application of analysis from package 
+  \item{use.center}{ \code{NULL} or logical indicating whether center points are to be used +
+        in the analysis; \cr
+        if \code{NULL}, the default is FALSE for \code{pb} and \code{FrF2} designs with 
+        center points and TRUE for \code{ccd} designs; the option is irrelevant 
+        for all other design types.\cr
+        \code{FALSE} allows usage of simple analysis functions from package 
         \code{\link[FrF2]{FrF2-package}} (e.g. function \code{\link[FrF2]{IAPlot}})
+        }
+  \item{use.star}{ \code{NULL} or logical indicating whether the star portion of a CCD design 
+        is to be used in the analysis (ignored for all other types of designs). \cr
+        The default TRUE analyses the complete design. Specifying FALSE permits interim analyses of 
+        the cube portion of a central composite design.
         }
   \item{projections}{ logical indicating whether the projections should be returned;
         for orthogonal arrays, these are helpful, as they provide the estimated 

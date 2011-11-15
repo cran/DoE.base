@@ -14,7 +14,7 @@
             "des.recode","contr.FrF2",
             "lengths","length2","length3","length4","length5","contr.XuWu",
             "P3.3","P4.4","GR","oa.min3","oa.min34","oa.max3","oa.max4","oa.maxGR",
-            "oa.maxGR.min34",
+            "oa.maxGR.min34","iscube","isstar","pickcube",
             "show.oas","generators",
             "L4.2.3","L8.2.4.4.1","L9.3.4","L12.2.11","L12.2.2.6.1",
             "L12.2.4.3.1","L16.2.8.8.1","L16.4.5","L18.3.6.6.1",

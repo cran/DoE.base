@@ -1,4 +1,4 @@
-formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use.center=TRUE){
+formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use.center=NULL, use.star=NULL){
       ## open: aggregation of repeat.only designs
       ## open: aggregation of parameter designs
       ###### implement with function aggregate.design
@@ -18,6 +18,8 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
       di <- design.info(x)
       ## capture designs from conf.design
           if (is.null(di)) stop("formula.design does not work for class design from package conf.design")
+          if (is.null(use.center)) if (di$type=="ccd") use.center <- TRUE else use.center <- FALSE
+          if (is.null(use.star)) if (di$type=="ccd") use.star <- TRUE else use.star <- FALSE
 
       if (is.null(di$response.names)) stop("formula.design needs at least one response in the design")
       if (!(is.null(degree) | is.numeric(degree))) stop("degree must be numeric or NULL")
@@ -86,21 +88,40 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
     ##  if (length(grep("center",di$type))>0 & !is.loaded("FrF2")) 
     ##      stop("For working with center point designs, package FrF2 must be loaded")
     ## is it possible to protect users from this error ?
-      if (length(grep("center",di$type))>0 & !use.center){
+      if ((length(grep("center",di$type))>0 | length(grep("ccd",di$type))>0) & !use.center){
+          if (di$type=="ccd") x <- pickcube(x)
           x <- x[iscube(x),]
           fn <- names(di$factor.names)
           assign(response, x[,response])
-          if (!is.null(di$block.name)) assign(di$block.name, x[,di$block.name])
+          if (!is.null(di$block.name)){ if (nlevels(di$block.name)>1) assign(di$block.name, x[,di$block.name])
+                                         else di$block.name <- NULL}
           for (i in 1:di$nfactors) 
             assign(fn[i], x[,fn[i]])
           class(x) <- c("design","data.frame")
           di$nruns <- di$ncube
+          di$ncenter <- NULL
+          di$replications <- di$replications[1]
           design.info(x) <- di
           #message("analysis without center points")
           # message removed, because it is more annoying than helpful 
           # particularly with repeated usage
       } 
           
+      if (length(grep("ccd",di$type))>0 & use.center & !use.star){
+          x <- pickcube(x)
+#          fn <- names(di$factor.names)
+#          assign(response, x[,response])
+#          if (!is.null(di$block.name)) assign(di$block.name, x[,di$block.name])
+#          for (i in 1:di$nfactors) 
+#            assign(fn[i], x[,fn[i]])
+#          class(x) <- c("design","data.frame")
+#          di$nruns <- di$ncube
+#          design.info(x) <- di
+          #message("analysis without center points")
+          # message removed, because it is more annoying than helpful 
+          # particularly with repeated usage
+      } 
+
      ## long format repeated measurement or parameter designs 
       if (di$repeat.only){ 
           if (is.null(FUN)) FUN <- "mean"
@@ -156,7 +177,7 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
               if (!type %in% c("bbd.blocked","ccd")){
                   if (length(grep("center",type))>0){
                     if (use.center){
-                      center <- iscube(x)
+                      center <- !iscube(x)
                       aus <- formula(paste(response, paste(c(block.name, 
                           paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""), "center"), collapse="+"),sep="~"))
                     }       
@@ -201,7 +222,7 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
           if (degree > 1){ 
               if (substr(type,1,2) %in% c("pb","oa")) warning("degree > 1 is often inadequate with design types pb and oa")
               aus <- formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
-              if (type %in% c("bbd","lhs")){ 
+              if (type %in% c("bbd","ccd","lhs")){ 
                     aus <- formula(paste(response, 
                       paste(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),
                       paste(paste("I(",names(factor.names),"^",degree,")",sep=""),collapse="+"),sep="+"),
@@ -224,11 +245,22 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
                       paste(c(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep="")), collapse="+"),
                       sep="~"))
                       }
-              else 
-              if (!di$type %in% c("bbd","ccd","lhs","Dopt","Dopt.blocked","Dopt.splitplot")){
+              else {
+              if (di$type=="ccd"){ 
+                 aus <- formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
+              if (use.center & !use.star) {
+                 center <- !iscube(x)
+                 aus <- formula(paste(response, 
+                      paste(c(paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""), "center"), collapse="+"),
+                      sep="~"))
+                 }
+              }
+              else
+              if (!di$type %in% c("bbd","lhs","Dopt","Dopt.blocked","Dopt.splitplot")){
               aus <- formula(paste(response, paste("(",paste(names(factor.names),collapse="+"),")^",degree,sep=""),sep="~"))
               }
               }
+      }
       }
        aus   
 }

@@ -12,7 +12,7 @@ nature.
 }
 \usage{
 \method{formula}{design}(x, ..., response=NULL, degree=NULL, FUN=NULL, 
-      use.center=TRUE)
+      use.center=NULL, use.star=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,9 +31,15 @@ nature.
         this must be an unquoted function name or \code{NULL};\cr
         This option is relevant for repeated measurement designs 
         and parameter designs in long format only}
-  \item{use.center}{ logical indicating whether center points are to be used +
-        in the analysis; relevant for \code{pb} and \code{FrF2} designs with 
-        center points only}
+   \item{use.center}{ \code{NULL} or logical indicating whether center points are to be used +
+        in the analysis; \cr
+        if \code{NULL}, the default is FALSE for \code{pb} and \code{FrF2} designs with 
+        center points and TRUE for \code{ccd} designs; the option is irrelevant 
+        for all other design types.
+        }
+  \item{use.star}{ \code{NULL} or logical indicating whether the star portion of a CCD design 
+        is to be used in the analysis (ignored for all other types of designs). 
+        }
 }
 \details{
 Function \code{\link[stats]{formula}} creates an appropriate formula for many kinds of 
