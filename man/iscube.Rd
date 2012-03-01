@@ -1,5 +1,4 @@
 \name{iscube}
-\Rdversion{1.1}
 \alias{iscube}
 \alias{isstar}
 \alias{pickcube}
@@ -58,6 +57,13 @@ Ulrike Groemping
 \note{
     The functions have not been tested for central composite designs for which 
     the cube portion itself is blocked.
+}
+\section{Warning}{
+    For version 0.22-8 of package \pkg{DoE.base}, function \code{iscube} returned a wrong result 
+    without warning, when applied to an old version CCD design 
+    (before DoE.wrapper, version 0.8-6 of Nov 15 2011). \cr
+    Since version 0.23 of package \pkg{DoE.base}, the function works on old designs, 
+    except for blocked or replicated versions; for these, an error is thrown.)
 }
 
 \seealso{

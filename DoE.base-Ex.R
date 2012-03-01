@@ -445,7 +445,7 @@ flush(stderr()); flush(stdout())
 ###   projection frequencies or optimizing column selection within an array
 ### Aliases: generalized.word.length length2 length3 length4 length5
 ###   lengths contr.XuWu P3.3 P4.4 GR oa.min3 oa.min34 oa.max3 oa.max4
-###   oa.maxGR oa.maxGR.min34 nchoosek
+###   oa.maxGR oa.minRelProjAberr nchoosek
 ### Keywords: design array
 
 ### ** Examples
@@ -496,7 +496,7 @@ flush(stderr()); flush(stdout())
       ## then optimize these for overall relative number of words of length 3
       ##     and in addition absolute number of words of length 4 
    mGR <- oa.maxGR(L18, c(2,3,3,3,3,3,3))
-   oa.maxGR.min34(L18, c(2,3,3,3,3,3,3), maxGR=mGR)
+   oa.minRelProjAberr(L18, c(2,3,3,3,3,3,3), maxGR=mGR)
    
    oa.max3(L24.2.13.3.1.4.1, nlevels=c(2,2,3,4))    ## this is not for finding 
                                                     ## a good design!!!
@@ -507,7 +507,22 @@ flush(stderr()); flush(stdout())
 ##D    oa.min3(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4))
 ##D    best3 <- oa.min3(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), rela=TRUE)
 ##D    oa.min34(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4))
-##D    oa.min34(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), min3=best3, rela=TRUE)
+##D    oa.min34(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), min3=best3)
+##D    
+##D    ## generalized resolution according to Groemping 2011, manually
+##D    best3GR <- oa.min3(L36.2.11.3.12, c(rep(2,3),rep(3,3)), rela=TRUE, crit="worst")
+##D       ## optimum GR is 3.59
+##D    ## subsequent optimization w.r.t. rA3
+##D    best3reltot.GR <- oa.min3(L36.2.11.3.12, c(rep(2,3),rep(3,3)), rela=TRUE, 
+##D            variants=best3GR$column.variants)
+##D       ## optimum rA3 is 0.5069
+##D    ## (note: different from first optimizing rA3 (0.3611) and then GR (3.5))
+##D    ## remaining nine designs: optimize RPFTs
+##D    L36 <- oa.design(L36.2.11.3.12, randomize=FALSE)
+##D    lapply(1:9, function(obj) P3.3(L36[,best3reltot.GR$column.variants[obj,]]))
+##D       ## all identical
+##D    oa.min34(L36, nlevels=c(rep(2,3),rep(3,3)), min3=best3reltot.GR)
+##D       ## still all identical
 ##D    
 ## End(Not run)
 
@@ -930,7 +945,8 @@ flush(stderr()); flush(stdout())
 ### Name: utilities
 ### Title: Utility functions for DoE packages, not intended for direct use
 ### Aliases: make.formulas make.generators des.recode Letters printBy
-###   generators generators.default generators.design generators.catlg
+###   gen.fun generators generators.default generators.design
+###   generators.catlg PFTs.from.variants matrix.fromPFTs rankPFT bestPFT
 ### Keywords: array design internal
 
 ### ** Examples
@@ -946,6 +962,14 @@ Letters
 ##D generators(FrF2(16,5,blocks=4,alias.block.2fi=TRUE))
 ##D generators(FrF2(16,5,WPs=4,nfac.WP=2))
 ## End(Not run)
+## column selections from L18 with one 2-level and six 3-level factors
+v <- rbind(1:7, c(1:6,8), c(1:5,7:8), c(1:4,6:8), c(1:3,5:8), c(1:2,4:8), c(1,3:8))
+## RPFTs
+RPFTs <- DoE.base:::PFTs.from.variants(L18, v, rela=TRUE)
+rpfts <- DoE.base:::matrix.fromPFTs(RPFTs)
+rpfts
+DoE.base:::rankPFT(rpfts)
+DoE.base:::bestPFT(rpfts)
 
 
 

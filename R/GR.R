@@ -23,5 +23,5 @@ GR <- function(ID, digits=2){
        }
     RPFT <- NULL
     if (GR<5) RPFT <- hilf
-    list(GR=GR + 1-sqrt(max(hilf[,1])), RPFT=RPFT)
+    list(GR=round(GR + 1-sqrt(max(hilf[,1])),digits), RPFT=RPFT)
 }

@@ -14,7 +14,7 @@
 \alias{oa.max3}
 \alias{oa.max4}
 \alias{oa.maxGR}
-\alias{oa.maxGR.min34}
+\alias{oa.minRelProjAberr}
 \alias{nchoosek}
 \title{
 Functions for calculating the generalized word length pattern,
@@ -23,7 +23,7 @@ projection frequencies or optimizing column selection within an array
 \description{
 Functions length2, length3, length4 and length5 calculate the numbers of generalized words 
 of lengths 2, 3, 4, and 5 respectively, lengths calculates them all. Functions P3.3 and P4.4 
-calculate projection frequencies, functions oa.min3, oa.min34, oa.maxGR, oa.maxGR.min34, 
+calculate projection frequencies, functions oa.min3, oa.min34, oa.maxGR, oa.minRelProjAberr, 
 oa.max3 and oa.max4 determine column allocations with minimum or maximum aliasing. 
 Function nchoosek is an auxiliary function 
 for calculating all subsets without replacement.
@@ -35,12 +35,12 @@ length4(design, with.blocks = FALSE, separate = FALSE, J = FALSE, rela = FALSE)
 length5(design, with.blocks = FALSE, J = FALSE, rela = FALSE)
 lengths(design, with.blocks = FALSE, J = FALSE)
 contr.XuWu(n, contrasts = TRUE, sparse = FALSE)
-oa.min3(ID, nlevels, all, rela = FALSE)
-oa.min34(ID, nlevels, min3=NULL, all, rela = FALSE)
+oa.min3(ID, nlevels, all, rela = FALSE, variants = NULL, crit = "total")
+oa.min34(ID, nlevels, variants = NULL, min3=NULL, all = FALSE, rela = FALSE)
 oa.max3(ID, nlevels, rela = FALSE)
 oa.max4(ID, nlevels, rela = FALSE)
-oa.maxGR(ID, nlevels)
-oa.maxGR.min34(ID, nlevels, maxGR = NULL)
+oa.maxGR(ID, nlevels, variants = NULL)
+oa.minRelProjAberr(ID, nlevels, maxGR = NULL)
 P3.3(ID, digits = 4, rela=FALSE)
 P4.4(ID, digits = 4, rela=FALSE)
 GR(ID, digits=2)
@@ -96,8 +96,16 @@ nchoosek(n, k)
   \item{nlevels}{a vector of requested level informations (vector with an entry for each factor)}
   \item{all}{logical; if \code{FALSE}, the search stops whenever a design with 0 generalized words 
        of highest requested length is found; otherwise, the function always determines all best designs}
-  \item{min3}{the outcome of a call to \code{oa.min3}, which is to be used for a call to \code{oa.min34}}
-  \item{maxGR}{the outcome of a call to \code{oa.maxGR}, which is to be used for a call to \code{oa.maxGR.min34}}
+  \item{variants}{matrix of integer column number entries; each row gives the column numbers 
+       for one variant to be compared; the matrix columns must correspond to the entries of the \code{nlevels} 
+       option}
+  \item{crit}{character string that requests \code{"total"} or \code{"worst"} triple optimization; 
+       \code{"total"} corresponds to the previous version that optimizes the overall number of length 3 words;
+       \code{"worst"} minimizes the aliasing of the worst triple.}
+  \item{min3}{the outcome of a call to \code{oa.min3} with \code{crit="total"}, 
+       which is to be used for a call to \code{oa.min34}}
+  \item{maxGR}{the outcome of a call to \code{oa.min3} with \code{crit="worst"} and \code{rela=TRUE} 
+       (or the outcome of a call to \code{oa.maxGR}), which is to be used for a call to \code{oa.minRelProjAberr}}
   \item{digits}{number of decimal points to which to round the result}
   \item{k}{number of elements to be chosen, integer from 0 to n}
 }
@@ -160,7 +168,8 @@ nchoosek(n, k)
    
    The functions can be used in selecting among different possibilities to accomodate factors 
    within a given orthogonal array (cf. examples). For general purposes, it is recommended 
-   to use designs with as small an outcome of \code{length3} as possible, and within the same result 
+   to use designs with as small an outcome of \code{length3} as possible (either absolute or relative,
+   either total or worst case), and within the same result 
    for \code{length3} (particularly 0), with as small a result for \code{length4} as possible. This 
    corresponds to (a step towards) generalized minimum aberration. It can also be useful 
    to consider the patterns, particularly \code{P3.3}.
@@ -168,19 +177,33 @@ nchoosek(n, k)
    Function \code{GR} calculates the generalized resolution according to Deng and Tang (1999) 
    for 2-level designs or a generalization thereof according to Groemping (2011) for general 
    orthogonal arrays. It returns a value between 3 and 5, where the numeric value 5 stands for 
-   \dQuote{at least 5}.
+   \dQuote{at least 5}. Roughly, generalized resolution measures the closeness of a design 
+   to the next higher resolution (worst-case based, e.g. one completely aliased triple of 
+   factors implies resolution 3).
    
-   Functions \code{oa.min3}, \code{oa.min34}, \code{oa.maxGR} and \code{oa.maxGR.min34} 
+   Functions \code{oa.min3}, \code{oa.min34} 
    optimize column allocation for a given array 
    for which a certain factor combination must be accomodated: They return designs that allocate 
-   columns such that the number of generalized words of length 3 is minimized (\code{oa.min3}), or 
+   columns such that the number of generalized words of length 3 is minimized (\code{oa.min3}; 
+   with a choice between minimizing the total number or minimizing the number for the worst-case triple 
+   of factors), or 
    the number of generalized words of length 4 is minimized within all designs for which the number 
-   of generalized words of length 3 is minimal (\code{oa.min34}). Option \code{rela} allows to switch 
+   of generalized words of length 3 is minimal (\code{oa.min34}, total number only). 
+   Option \code{rela} allows to switch 
    from the default consideration of absolute numbers of words to relative numbers of words 
-   according to Groemping (2011). Function \code{oa.maxGR} maximizes generalized resolution 
+   according to Groemping (2011). 
+   
+   Function \code{oa.maxGR} maximizes generalized resolution 
    according to Deng and Tang (1999) as generalized by Groemping (2011), 
-   function \code{oa.maxGR.min34} minimizes relative words of lengths 3 or 4 (as appropriate) 
-   among the designs with maximum generalized resolution.\cr
+   function \code{oa.minRelProjAberr} conducts minimum relative projection aberration 
+   according to Groemping (2011), with the four steps (a) maximize GR, (b) minimize rA3 or 
+   rA4 (depending on resolution), (c) optimize RPFT (as obtained by \code{P3.3} 
+   or \code{P4.4}) and (d) minimize absolute words of lengths 4 etc. (only carried through 
+   to length 4 by the function. Note that function \code{oa.maxGR} 
+   can be replaced by the much faster function \code{oa.min3} with options 
+   \code{crit="worst"} and \code{rela=TRUE}, whenever GR<=4. Only for designs with 
+   GR > 4, the extra effort with function \code{oa.maxGR} is useful.
+   
    Functions \code{oa.max3} and \code{oa.max4} 
    do the opposite: they search for the worst design in terms of the number of 
    generalized words of lengths 3 or 4. Such a design can e.g. be used 
@@ -207,6 +230,10 @@ nchoosek(n, k)
    words are normalized by dividing them by the number of words that corresponds 
    to perfect aliasing among the factors for each projection. For \code{P4.4}, the 
    relative version is only reasonable for resolution IV designs.
+   The matrix of projection frequencies has the overall number of generalized words 
+   of the respective length as an attribute; in the case \code{rela=TRUE} it also 
+   has the generalized resolution and the overall absolute number of generalized words          
+   of the respective length as an attribute.
    
    The functions \code{oa.min3}, \code{oa.min34}, \code{oa.max3} and \code{oa.max4} 
    (currently) return a list with elements 
@@ -214,10 +241,11 @@ nchoosek(n, k)
    \code{column.variants} (the columns to be used for design creation, ordered with 
    ascending nlevels) and \code{complete} (logical indicating whether or not the list is 
    guaranteed to be complete). 
-   The function \code{oa.maxGR} returns a list with elements \code{GR}, \code{column.variants}, 
-   \code{RPFTs} and \code{complete}. Whenever element \code{GR} is less than 5, 
-   element \code{RPFTs} is a list of the relative projection frequency tables corresponding 
-   to the rows of the matrix \code{column.variants}. 
+   \code{oa.min3}, the name of the first element is either \code{GWP3} (\code{crit="total"}), 
+   \code{worst.a3} (\code{rela=FALSE, crit="worst"}) or \code{GR} (\code{rela=FALSE, crit="worst"}).
+   The function \code{oa.maxGR} returns a list with elements \code{GR}, \code{column.variants} 
+   and \code{complete}, the function \code{oa.minRelProjAberr} returns a list with elements 
+   \code{GR}, \code{GWP}, \code{column.variants} and \code{complete}.
    
    Function \code{GR} returns a list with elements \code{GR} (the generalized resolution of the array, a not necessarily integer 
    number between 3 and 5) and \code{RPFT} (the relative projection frequency table). 
@@ -251,9 +279,6 @@ nchoosek(n, k)
    they are intended (especially orthogonal arrays produced with oa.design) and 
    on 2-level fractional factorial designs produced with package \pkg{FrF2}. 
    They may produce meaningless results for some other types of designs.
-   
-   Programming of some of the functions with \code{rela=TRUE} is not optimized for 
-   efficiency; these may take a particularly long time.
    
    Furthermore, all optimizing functions work for relatively small problems only 
    and will break down for larger problems because of storage space requirements 
@@ -310,7 +335,7 @@ nchoosek(n, k)
       ## then optimize these for overall relative number of words of length 3
       ##     and in addition absolute number of words of length 4 
    mGR <- oa.maxGR(L18, c(2,3,3,3,3,3,3))
-   oa.maxGR.min34(L18, c(2,3,3,3,3,3,3), maxGR=mGR)
+   oa.minRelProjAberr(L18, c(2,3,3,3,3,3,3), maxGR=mGR)
    
    oa.max3(L24.2.13.3.1.4.1, nlevels=c(2,2,3,4))    ## this is not for finding 
                                                     ## a good design!!!
@@ -321,7 +346,22 @@ nchoosek(n, k)
    oa.min3(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4))
    best3 <- oa.min3(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), rela=TRUE)
    oa.min34(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4))
-   oa.min34(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), min3=best3, rela=TRUE)
+   oa.min34(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), min3=best3)
+   
+   ## generalized resolution according to Groemping 2011, manually
+   best3GR <- oa.min3(L36.2.11.3.12, c(rep(2,3),rep(3,3)), rela=TRUE, crit="worst")
+      ## optimum GR is 3.59
+   ## subsequent optimization w.r.t. rA3
+   best3reltot.GR <- oa.min3(L36.2.11.3.12, c(rep(2,3),rep(3,3)), rela=TRUE, 
+           variants=best3GR$column.variants)
+      ## optimum rA3 is 0.5069
+   ## (note: different from first optimizing rA3 (0.3611) and then GR (3.5))
+   ## remaining nine designs: optimize RPFTs
+   L36 <- oa.design(L36.2.11.3.12, randomize=FALSE)
+   lapply(1:9, function(obj) P3.3(L36[,best3reltot.GR$column.variants[obj,]]))
+      ## all identical
+   oa.min34(L36, nlevels=c(rep(2,3),rep(3,3)), min3=best3reltot.GR)
+      ## still all identical
    }
 
    ## select among column variants with projection frequencies 
