@@ -1,4 +1,4 @@
-oa.min34 <- function (ID, nlevels, min3 = NULL, all = FALSE, rela = FALSE) 
+oa.min34 <- function (ID, nlevels, variants=NULL, min3 = NULL, all = FALSE, rela = FALSE) 
 {
     ## retrieve child array or array identified by character string
           ## gsub for case where ID is character string
@@ -12,7 +12,7 @@ oa.min34 <- function (ID, nlevels, min3 = NULL, all = FALSE, rela = FALSE)
                 ")")))
     }
     if (is.null(min3)) 
-        min3 <- oa.min3(ID, nlevels, all = TRUE, rela = rela)
+        min3 <- oa.min3(ID, nlevels, all = TRUE, rela = rela, variants=variants)
     if (!is.list(min3)) 
         stop("min3 must be a list")
     if (!all(c("GWP3", "column.variants", "complete") %in% names(min3))) {

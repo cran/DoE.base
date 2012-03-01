@@ -65,7 +65,8 @@ oa
         a string that defines the degree of optimization requested 
         in terms of column allocation (cf. section \dQuote{Details}): 
         choices are \code{"order"}, \code{"min3"}, \code{"min34"}, 
-        \code{"min3.rela"}, \code{"min34.rela"}, or \code{"minRelProjAberr"}.\cr
+        \code{"min3.rela"}, \code{"min34.rela"}, \code{"minRPFT"} 
+        or \code{"minRelProjAberr"}.\cr
         For resource reasons, the default is \code{"order"}, but smaller designs 
         can sometimes be substantially improved with other choices.
         Cf. the \dQuote{Details} section for the 
@@ -143,48 +144,54 @@ oa
    
    With version 0.9-18 of the package, 
    the possibility for an automatic allocation of columns for improved design 
-   performance has been implemented. This is not switched on per default because of performance reasons. 
-   However, the package always issues a warning to remind users that an automatic unoptimized design 
+   performance was implemented. With version 0.23, this approach has been sped 
+   up and extended to properly cover relative projection aberration according to 
+   Groemping (2011) with and without step (b) (see below) (the previous choice 
+   \code{"maxGR.min34"} was modified and renamed to \code{"minRelProjAberr"}).\cr
+   Because of performance reasons, and because of a lack of a clear best default, 
+   optimum column allocation is not switched on per default. 
+   However, with the default column order from left to right, 
+   the package always issues a warning to remind users that an automatic unoptimized design 
    can be quite far from ideal. 
    If optimization is activated, the first step is selection of an array, 
    either explicitly by the user (option \code{ID}) or automatically (unoptimized) 
-   according to the required combination of factors. 
-   If option \code{columns="min3"} is chosen, 
-   the function tries to allocate the experimental 
-   factors to columns of the selected array such that aliasing between main effects and 2-factor 
+   according to the required combination of factors. Within that array, the following 
+   choices for the \code{column} option are on offer:\cr
+\describe{
+   \item{"order"}{the default choice; allocates factors from left to right, which 
+   is what most software does (but what is not necessarily good, see also the example section)} 
+   \item{\code{"min3"}}{aliasing between main effects and 2-factor 
    interactions is kept to a minimal degree, 
-   minimizing the number of generalized words of length 3 according to Xu and Wu (2001). 
-   If option \code{columns="min3.rela"} is chosen, the same approach is taken, but with 
-   \emph{relative} number of generalized words according to Groemping (2011).
-   The default \code{columns="order"} 
-   allocates factors from left to right (option \code{columns="order"}), which 
-   is what most software does (but what is not necessarily good). 
-   If only very few columns of an array are used, it may be useful to 
-   specify the most demanding optimization (which may sometimes take very long) 
-   with option \code{columns="min34"}, 
-   which requests that the number of words of generalized length 4 is also minimized (e.g. useful 
-   if there are several designs without any generalized words of length 3).
-   Again, if option \code{columns="min34.rela"} is chosen, the same approach is taken, but with 
-   \emph{relative} number of generalized words according to Groemping (2011).
-   Finally, if option \code{columns="minRelProjAberr"} is chosen, minimum relative 
-   projection aberration according to Groemping (2011) is applied ((a): maximize generalized 
-   resolution, (b): minimize total relative number of shortest words, (c) rank designs 
+   minimizing the number of generalized words of length 3 according to Xu and Wu (2001)} 
+   \item{"min3.rela"}{the same approach is taken, but with 
+   \emph{relative} number of generalized words according to Groemping (2011)}
+   \item{"min34"}{may be useful, if only very few columns of an array are used; 
+   beware the time demand; this requests 
+   that the number of words of generalized length 4 is also minimized.}
+   \item{"min34.rela"}{again takes the same approach, but with 
+   \emph{relative} number of generalized words according to Groemping (2011)}
+   \item{"minRPFT"}{minimizes the relative projection frequency table, applying the 
+   approach according to Groemping (2011) without step (b) (see next entry).}
+   \item{"minRelProjAberr"}{applies minimum relative projection aberration 
+   according to Groemping (2011) 
+   ((a): maximize generalized resolution, 
+   (b): minimize total relative number of shortest words, (c) rank designs 
    according to relative projection frequency table (obtainable with P3.3 or P4.4, depending on resolution) 
-   and (d) resolve ties by looking at absolute number of length 4 words in case of resolution III).
+   and (d) resolve ties by looking at absolute number of length 4 words in case of resolution III).}
+}
 
-   
    WARNING: Usually, it is recommended to investigate the properties of a design automatically 
    created by function \code{oa.design} before starting experimentation. 
    While all designs can estimate main effects \emph{in the absence of interactions}, 
    the presence of interactions may render some designs useless or even dangerous. 
    Deliberate choice of columns different from the default may improve a design 
-   (an example for this will be added shortly)!
+   (see example section)!
    
    Mathematical comment on the expansion example: 
    There are 720 different ways to expand the unique \code{L18.3.6.6.1} 
    into an \code{L18.2.1.3.7}, depending on which row of the replacement design 
    \code{nest.des} is assigned to which level of the 6 level factor. 
-   According to Eric Schoen (personcal communication), all the resulting children 
+   According to Eric Schoen (personal communication), all the resulting children 
    are isomorphic to each other and are also isomorphic to the Taguchi L18. 
    (This statement holds for qualitatitve factors only; there are 
    more different possibilities for arrays for quantitative 
@@ -195,14 +202,6 @@ oa
    child to the Taguchi \code{L18}: \code{L18} is reproduced by 
    assigning the first row of \code{nest.des} to level 1 etc., 
    except for a swap of columns \code{G} and \code{H}. 
-   
-   Schoen (2009) identified three different isomorphism classes of 
-   orthogonal arrays for one 2 level factor and seven 3 level factors. 
-   Note that Schoen classifies the isomorphism class of the Taguchi \code{L18} as worst among the 
-   three classes, based on the fact that it has more subsets of three factors with bad 
-   number of generalized three letter words than the other classes (\code{\link{P3.3}} pattern).
-   On the good side, the Taguchi array class also has the most orthogonal subsets of three factors. 
-   In most cases, the difference will not be practically relevant.
 }
 \value{\code{oa.design} returns a data frame of S3 class \code{\link{design}} 
     with attributes attached. 

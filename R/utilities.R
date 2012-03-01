@@ -232,3 +232,51 @@ invperm <- function (perm)
 {
     sort(perm, index.return = TRUE)$ix
 }
+
+PFTs.from.variants <- function(array, variants, R=3, rela=TRUE){
+  ## function to calculate a list of (relative) projection frequency tables from 
+  ##    an array and a matrix of column numbers 
+  
+  ## array is an orthogonal array
+  ## variants is a matrix the rows of which contain distinct column numbers
+  ##    pertaining to array
+  ## R is the resolution of the design (3 or 4)
+  if (max(variants)>ncol(array)) stop("invalid variants for array")
+  if (R==3) PFTs <- lapply(1:nrow(variants), function(obj) P3.3(array[,variants[obj,]], rela=rela))
+  else PFTs <- lapply(1:nrow(variants), function(obj) P4.4(array[,variants[obj,]], rela=rela))
+  PFTs
+}
+
+matrix.fromPFTs <- function(PFTs){
+   ## function to bring a list of (R)PFTs with possibly different entries into matrix form
+   ## for easy comparison
+    zeilen <- sort(unique(unlist(lapply(PFTs, function(obj) obj[,1]))))
+    spalten <- 1:length(PFTs)
+    pfts <- matrix(0, nrow=length(zeilen), ncol=length(PFTs), dimnames=list(zeilen, spalten))
+    for (i in 1:length(PFTs))
+       pfts[as.character(PFTs[[i]][,1]),i] <- PFTs[[i]][,2]
+    pfts
+   }
+
+rankPFT <- function(pfts){
+   ## input is an output object of matrix.from.PFTs
+   hilf <- t(pfts[nrow(pfts):1,])
+   invperm(ord(hilf))
+}
+
+bestPFT <- function(pfts){
+   ## input is an output object of matrix.from.PFTs
+   hilf <- t(pfts[nrow(pfts):1,])
+   resort <- ord(hilf)
+   hilf <- hilf[resort,,drop=FALSE]
+   best <- TRUE
+   zeile <- 1
+   hb <- hilf[1,]
+   nbest <- 1
+   while (best & zeile < nrow(hilf)){
+        zeile <- zeile + 1
+            if (all(hilf[zeile,]==hb)) nbest <- zeile
+            else best <- FALSE
+                }
+   invperm(resort) <= nbest
+}

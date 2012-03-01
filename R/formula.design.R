@@ -3,8 +3,6 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
       ## open: aggregation of parameter designs
       ###### implement with function aggregate.design
       
-      ### why does variant with ncenter not work ?
-      
       
       ## error checks
       xnam <- deparse(substitute(x))
@@ -156,6 +154,11 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
       if (is.null(degree)) degree <- 2
 
       factor.names <- di$factor.names
+      ## remove error effects from the formula for pb designs 
+      ## for designs from package version 1.3 onwards
+      if (length(grep("pb",type))>0){
+          if (!is.null(di$ndummies)) factor.names <- factor.names[1:(di$nfactors-di$ndummies)]
+      }
       
       block.name <- di$block.name
       if (!(is.null(block.name))){

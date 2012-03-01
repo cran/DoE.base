@@ -9,7 +9,14 @@ iscube <- function (design, ...)
     if (!(length(grep("center", di$type)) > 0 | length(grep("ccd", di$type)) > 0))
         stop("this function requires a design with center points or a central composite design")
     ## determine center point positions
-    hilf <- run.order(design)$run.no.in.std.order
+    ## modification Jan 2012 for making new function work on old design versions
+    hilf <- as.character(run.order(design)$run.no.in.std.order)
+    hilf2 <- rownames(design)
+    ## handle old and new ccd designs (old ccd designs: row names are correct, 
+    ##        run.order contains different row names)
+    ## old ccd designs can only be handled in case of no replications
+    if (isTRUE(all.equal(sort(hilf),sort(hilf2)))) 
+      if (!isTRUE(all.equal(hilf, hilf2))) hilf <- hilf2
     aus <- hilf == "0" | (sapply(hilf, function (obj) length(grep("C", obj)) > 0) & 
           as.numeric(sapply(hilf, function(obj) substr(obj,4,99))) > di$ncube) |
           sapply(hilf, function (obj) length(grep("S", obj)) > 0)

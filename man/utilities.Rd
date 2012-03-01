@@ -4,10 +4,15 @@
 \alias{des.recode}
 \alias{Letters}
 \alias{printBy}
+\alias{gen.fun}
 \alias{generators}
 \alias{generators.default}
 \alias{generators.design}
 \alias{generators.catlg}
+\alias{PFTs.from.variants}
+\alias{matrix.fromPFTs}
+\alias{rankPFT}
+\alias{bestPFT}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Utility functions for DoE packages, not intended for direct use }
 \description{
@@ -19,10 +24,15 @@ make.formulas(orignames, factor.names)
 des.recode(var, recodes, as.factor.result, char) 
 printBy(data, byvars, ...)
 Letters
+gen.fun(obj, num = FALSE)
 generators(design, ...)
 \method{generators}{design}(design, ...)
 \method{generators}{catlg}(design, ...)
 \method{generators}{character}(design, select.catlg = catlg, ...)
+PFTs.from.variants(array, variants, R=3, rela=TRUE)
+matrix.fromPFTs(PFTs)
+rankPFT(pfts)
+bestPFT(pfts)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,12 +49,23 @@ generators(design, ...)
   \item{byvars}{ character vector of variable names; 
         variables named here determine the groups; only adjacent observations are considered part of a group, i.e. 
         if data are not ordered by the \code{byvars}, several separate occurrences of the same group may occur}
+  \item{obj}{ an entry of a class \code{catlg} object}
+  \item{num}{ logical; if \code{TRUE}, Yates matrix column numbers are output, otherwise human-friendly generators}
   \item{design}{FrF2 design given as catalogue entry, design itself or character string; 
         function generators provides the generating contrasts for additional factors for these designs.
        }
   \item{select.catlg}{the catalogue in which to look for the design (should be of class \code{catlg})
        }
   \item{\dots}{ further arguments to function \code{print} or \code{generators} }
+  \item{array}{ orthogonal array (available in the workspace); must be matrix or data frame }
+  \item{variants}{ matrix the rows of which contain column numbers for \code{array} }
+  \item{R}{ resolution of \code{array} and also \code{array[variants,,drop=FALSE]} }
+  \item{rela}{ logical; relative PFTs (\code{TRUE}) or absolute PFTs (\code{FALSE}) }
+  \item{PFTs}{ list of (absolute or relative) projection frequency tables.\cr 
+        The list could have been produced with function \code{PFTs.from.variants}. }
+  \item{pfts}{ a matrix the columns of which contain the PFT entries for several designs, 
+        with row names indicating the (relative) number of words of a triple/quadruple.\cr
+        The matrix could have been obtained from function \code{matrix.fromPFTs}. }
 }
 \details{
    Most functions are not intended for direct use. 
@@ -66,11 +87,32 @@ generators(design, ...)
    suite (\pkg{DoE.base}, \pkg{FrF2}, \pkg{DoE.wrapper}, \pkg{RcmdrPlugin.DoE}), whenever 
    one of them is updated.
    
-
+   This paragraph describes internal functions: Function \code{PFTs.from.variants} 
+   can be used to determine a list of (relative) 
+   projection frequency tables (cf. Groemping 2011) for comparing several column 
+   selections from the same array. Function \code{matrix.fromPFTs} brings 
+   this list into matrix form, functions \code{rankPFT} and \code{bestPFT} 
+   allow ranking or picking best selections.
 }
-\value{The functions are not intended for direct use.
+\value{Most functions are not intended for direct use.
+
+The \code{generators} methods output a list of human-readable character string 
+vectors with the generators of catalogue entries or a design. 
+
+Function \code{PFTs.from.variants} outputs a list of (relative) projection 
+frequency tables (each entry is produced with function \code{P3.3} or \code{P4.4}). 
+Function \code{matrix.fromPFTs} outputs a matrix (reshaped from such a list, filling 
+missing entries with 0 counts for some designs, if required), with columns for 
+the different selections and rows for different (relative) numbers of generalized words. 
+Function \code{rankPFTs} outputs a ranking vector, with 1 for the best design 
+(ties are kept in the original order). Function \code{bestPFTs} outputs a logical vector, 
+with entry \code{TRUE} for all best designs (identical best (R)PFTs).
 }
 \references{ 
+   Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays. 
+      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
+      Department II, Beuth University of Applied Sciences, Berlin.
+      
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
 }
 \author{ Ulrike Groemping }
@@ -88,6 +130,14 @@ generators(FrF2(16,7))
 generators(FrF2(16,5,blocks=4,alias.block.2fi=TRUE))
 generators(FrF2(16,5,WPs=4,nfac.WP=2))
 }
+## column selections from L18 with one 2-level and six 3-level factors
+v <- rbind(1:7, c(1:6,8), c(1:5,7:8), c(1:4,6:8), c(1:3,5:8), c(1:2,4:8), c(1,3:8))
+## RPFTs
+RPFTs <- DoE.base:::PFTs.from.variants(L18, v, rela=TRUE)
+rpfts <- DoE.base:::matrix.fromPFTs(RPFTs)
+rpfts
+DoE.base:::rankPFT(rpfts)
+DoE.base:::bestPFT(rpfts)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

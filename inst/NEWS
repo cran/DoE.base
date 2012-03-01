@@ -3,6 +3,38 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+01/03/2011, Version 0.23
+- modified P3.3 and P4.4 to be faster and return more information 
+  (overall quality criteria are returned as attributes)
+- modified formula.design to automatically remove error dummy factors 
+  for pb type designs (better comfort in function lm.design
+  for designs created with FrF2 version 1.3 and beyond)
+- modified function oa.min3 to be faster and slightly more flexible:
+  added distinction between total and worst case perspective (new crit option)
+- added variants option to functions oa.min3, oa.maxGR and oa.min34, 
+  in order to be able to incorporate restrictions from previous 
+  filtering by other criteria
+- modified functions oa.min34, oa.max3 and oa.max4 to be faster
+- modified function oa.maxGR34 to include optimization of the RPFTs, 
+  and renamed the function to oa.minRelProjAberr 
+- made functions oa.min3, oa.min34, oa.max3, oa.max4, oa.maxGR work with 
+  factorial designs with levels different from 1, 2, 3, ...
+- added new internal functions PFTs.from.variants, matrix.fromPFTs, rankPFTs, 
+  bestPFT for supporting (R)PFT-based ranking and optimization of designs
+  (these may become external functions later)
+ Bug fixes:
+ - For version 0.22-8 of package \pkg{DoE.base}, function \code{iscube} 
+   returned a wrong result without warning, 
+   when applied to an old version CCD design 
+   (before DoE.wrapper, version 0.8-6 of Nov 15 2011).
+ - GR ignored the digits argument in the output number (but not in interim calculations, 
+   no more than digits digits were valid).
+ - removed element plan from sysdata.rda (created issues whenever a user named 
+   a design plan, because the intrinsic plan of the package would surprisingly 
+   sometimes supersede the users design)
+ - With only two factors with even number of levels, blocking into two blocks was not possible, 
+   because the respective row did not exist in block.catlg.
+
 15/11/2011, Version 0.22-8
 - allow picking cube only runs from central composite
    - moved function iscube from FrF2 to DoE.base
@@ -20,7 +52,6 @@ Suggestions and bug reports are very welcome.
   the add.response function); this has been fixed by making the handling of desnum 
   more lenient; desnum is currently not really used for anything; if it would be, 
   this would have to be revisited.
-
 
 07/11/2011, Version 0.22-6
 - oa.design now uses message command rather than cat() for conveying the message 
