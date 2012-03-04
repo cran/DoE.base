@@ -3,6 +3,12 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+04/03/2011, Version 0.23-1
+- Functions formula.design and lm.design gained an argument use.dummies for use in 
+  function DanielPlot (package FrF2) for including error dummies in pb designs
+  (they used to be always included; the new 0.23 convenience feature of excluding 
+  them for linear models wrongly excluded them also for Daniel plots).
+
 01/03/2011, Version 0.23
 - modified P3.3 and P4.4 to be faster and return more information 
   (overall quality criteria are returned as attributes)

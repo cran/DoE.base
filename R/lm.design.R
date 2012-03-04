@@ -6,7 +6,7 @@ UseMethod("lm")
 lm.default <- stats::lm
 
 lm.design <- function (formula, ..., response = NULL, degree = NULL, FUN = mean, 
-    use.center=NULL, use.star=NULL){
+    use.center=NULL, use.star=NULL, use.dummies=FALSE){
     if (!"design" %in% class(formula)) 
         stop("lm.design works on class design objects only")
     
@@ -17,7 +17,7 @@ lm.design <- function (formula, ..., response = NULL, degree = NULL, FUN = mean,
     if (is.null(use.star)) if (di$type=="ccd") use.star <- TRUE else use.star <- FALSE
 
     fo <- formula(formula, ..., response = response, degree = degree, 
-        FUN = deparse(substitute(FUN)), use.center=use.center, use.star=use.star)
+        FUN = deparse(substitute(FUN)), use.center=use.center, use.star=use.star, use.dummies=use.dummies)
     if (di$repeat.only | (length(grep("param", di$type)) > 0 & 
         length(grep("wide", di$type)) == 0) | (length(grep("center", di$type)) > 0 & !use.center & !use.star)) 
         aus <- lm(fo, data = model.frame(fo, data = NULL), ...)

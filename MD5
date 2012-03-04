@@ -1,4 +1,4 @@
-39b47565e1176dbe5020bacb3516d0e3 *DESCRIPTION
+be7ba4daf885bc9a6bce3679ee1ab680 *DESCRIPTION
 0702f36b93fed7adb863103deb972a9e *DoE.base-Ex.R
 e1b64a61bb21f02384c484ed1785968e *LICENSE
 7209c4455767c1be868851de32c17504 *NAMESPACE
@@ -21,7 +21,7 @@ da9f70efe91646952cbd96daec8e06d9 *R/factorize.R
 b93bd2855dfd770b3d8dc90ca5b30cdc *R/fix.R
 0e700a29eb0602e74d1d1a277164e990 *R/fix.default.R
 c77c02e589266f4f2b0e1d32d53bb898 *R/fix.design.R
-eb802b0569d96e6e8c60d2f007a06fd4 *R/formula.design.R
+08f03ea81109d9ee13ae7ea9184329c8 *R/formula.design.R
 a7f4b45f5c779f77949d960f984feaf4 *R/html.data.frame.R
 4aa6b02ecc1c9f6198a5e8f2c585367e *R/interleave.R
 6c14a6d65c4780267dd1ca8b993107d2 *R/iscube.R
@@ -29,7 +29,7 @@ a7f4b45f5c779f77949d960f984feaf4 *R/html.data.frame.R
 d58897efbc468834e4bb8abefb8535e5 *R/length3.R
 84fffc9dfb8e7916b1582f7a13f4eae3 *R/length4.R
 80911de82f0c1779e14255257520dcb6 *R/length5.R
-7dacadf0ede3e8ec95061c704c643a06 *R/lm.design.R
+a88dff9be1b4dbc0711c55b2cf9b0a03 *R/lm.design.R
 f71fc7e4c8799ed485e20d3b390c4c19 *R/nchoosek.R
 2d7528e6c10938b667fc7bd1e7263184 *R/oa.design.R
 8fd350619d08bc374232fcbc056b3893 *R/oa.maxGR.R
@@ -46,7 +46,7 @@ a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 b788fdec93e0bb56c9a22c795877061d *R/sysdata.rda
 cd74158992d073c66b20c81e931f5f28 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-4ca38bf82e425a451aa3baf641704e4a *inst/NEWS
+a7e1eb79a63bb109170700fb858f6b3b *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
 82aa74686c4e646de00cea3eacc9d8bd *man/add.response.Rd
@@ -60,11 +60,11 @@ cd74158992d073c66b20c81e931f5f28 *R/utilities.R
 b1ef8e7b07fb4eb2f1bc9954e097dfaa *man/fac.design.Rd
 6d6f3bde913eac2acc571b9f00f874fd *man/factorize.Rd
 112286ca08c6e96461167441f8eb31f8 *man/fix.design.Rd
-b92af9a680ad0cb5caa6d141b6692ee7 *man/formula.design.Rd
+8bcc6198ba871530012f31b9dec0a9e8 *man/formula.design.Rd
 c0aff77344b3426f5c61a021a1ff9731 *man/genChild.Rd
 dcd7c8e444e479e0de5df05e2586fd90 *man/generalized.word.length.Rd
 6d05a60b88b300df7ff0789be5cb988d *man/iscube.Rd
-f7acb6416031b5200505fcdaeaec0f1d *man/lm.design.Rd
+75ccd53f9fffe43a392697b59d90fb6b *man/lm.design.Rd
 cce95c7981763b6e5e76d3f8472091da *man/oa.design.Rd
 066f2c5180bd5074dc4e73acd3e5b609 *man/oacat.Rd
 3f15077d8eea3c76a73f2ba1ff8c69fa *man/param.design.Rd

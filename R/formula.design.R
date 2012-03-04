@@ -1,4 +1,4 @@
-formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use.center=NULL, use.star=NULL){
+formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use.center=NULL, use.star=NULL, use.dummies=FALSE){
       ## open: aggregation of repeat.only designs
       ## open: aggregation of parameter designs
       ###### implement with function aggregate.design
@@ -157,7 +157,7 @@ formula.design <- function(x, ..., response = NULL, degree = NULL, FUN=NULL, use
       ## remove error effects from the formula for pb designs 
       ## for designs from package version 1.3 onwards
       if (length(grep("pb",type))>0){
-          if (!is.null(di$ndummies)) factor.names <- factor.names[1:(di$nfactors-di$ndummies)]
+          if (!(is.null(di$ndummies) | use.dummies)) factor.names <- factor.names[1:(di$nfactors-di$ndummies)]
       }
       
       block.name <- di$block.name

@@ -12,7 +12,7 @@ nature.
 }
 \usage{
 \method{formula}{design}(x, ..., response=NULL, degree=NULL, FUN=NULL, 
-      use.center=NULL, use.star=NULL)
+      use.center=NULL, use.star=NULL, use.dummies=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,6 +39,9 @@ nature.
         }
   \item{use.star}{ \code{NULL} or logical indicating whether the star portion of a CCD design 
         is to be used in the analysis (ignored for all other types of designs). 
+        }
+  \item{use.dummies}{ logical indicating whether the error dummies of a Plackett Burman design 
+        are to be used in the formula (ignored for all other types of designs). 
         }
 }
 \details{
