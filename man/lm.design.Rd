@@ -24,7 +24,7 @@ lm(formula, ...)
     model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, 
     contrasts = NULL, offset, ...)
 \method{lm}{design}(formula, ..., response=NULL, degree=NULL, FUN=mean, 
-    use.center=NULL, use.star=NULL)
+    use.center=NULL, use.star=NULL, use.dummies=FALSE)
 aov(formula, ...)
 \method{aov}{default}(formula, data = NULL, projections = FALSE, qr = TRUE,
     contrasts = NULL, ...)
@@ -81,6 +81,9 @@ summary.aov.design
         is to be used in the analysis (ignored for all other types of designs). \cr
         The default TRUE analyses the complete design. Specifying FALSE permits interim analyses of 
         the cube portion of a central composite design.
+        }
+  \item{use.dummies}{ logical indicating whether the error dummies of a Plackett Burman design 
+        are to be used in the formula (ignored for all other types of designs). 
         }
   \item{projections}{ logical indicating whether the projections should be returned;
         for orthogonal arrays, these are helpful, as they provide the estimated 
