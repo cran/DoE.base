@@ -66,13 +66,13 @@ generators <- function(design, ...){
    UseMethod("generators")
 }
 generators.design <- function(design, ...){
-    ### !!!make sure that all functions use the correct catlg (from catlg.name entry)
-
     ## extract generating contrasts for all FrF2 designs
     ## special care is needed for splitplot, hard and blocked designs
     ## and also estimable
     aus <- NULL
     di <- design.info(design)
+    
+    ### make sure that all functions use the correct catlg (from catlg.name entry)
     catlg.name <- di$catlg.name
     if (is.null(catlg.name)) catlg.name <- "catlg"
     if (!exists(catlg.name)) {
@@ -82,10 +82,11 @@ generators.design <- function(design, ...){
         }
     else catlg <- get(catlg.name)   ## within this function, default catlg to the current catalogue
     if (!"catlg" %in% class(catlg)) stop("alias information can not be provided, \nbecause ", catlg.name, " is not a valid design catalogue")
-    k <- round(log2(di$nruns))
+    
     if (length(grep("FrF2", di$type)) == 0) 
           stop("generators are only determined for regular fractional factorial 2-level designs.")
     else{
+        k <- round(log2(di$nruns))
         ## prevent execution of function for blocked or splitplot designs generated 
         ## with versions of FrF2 before 1.1
         neuver <- FALSE
@@ -93,20 +94,23 @@ generators.design <- function(design, ...){
             if (compareVersion(di$FrF2.version, "1.1") >= 0) neuver <- TRUE
         if ((length(grep("splitplot",di$type)) > 0 | length(grep("blocked",di$type))>0) & !neuver) 
               stop("generators cannot be extracted from blocked or splitplot designs created with FrF2 versions before 1.1.")
+  #      if (length(grep("blocked",di$type))>0 & nfac.catlg(get(di$catlg)[di$base.design]) > di$nfactors) 
+  #            stop("generators cannot be extracted from blocked designs created with blockpick.big or with user-specified individual blocking factors")
         if (length(grep("param",di$type)) > 0 | length(grep("folded",di$type)) > 0)
               stop("generators cannot be calculated for folded or parameter designs.")
         if (!is.null(di$catlg.entry)){
+             ## catalogue entries for block or split-plot designs are in base.design
              gen <- di$catlg.entry[[1]]$gen
              if(di$nfactors <= 50)
              aus <- list("generators"=paste(Letters[(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
                       di$catlg.entry[[1]]$nfac], 
                        unlist(names(Yates)[gen]),sep="="))
-             #else aus <- paste(paste("F",(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
-             #         di$catlg.entry[[1]]$nfac,sep=""), sapply(Yates[gen], function(obj2) paste(paste("F", obj2, sep=""),collapse=":")),
-             #         sep="=")
              else aus <- list("generators"=paste(paste("F",(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
                       di$catlg.entry[[1]]$nfac,sep=""), unlist(names(Yates)[gen]),
                       sep="="))
+             #else aus <- paste(paste("F",(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
+             #         di$catlg.entry[[1]]$nfac,sep=""), sapply(Yates[gen], function(obj2) paste(paste("F", obj2, sep=""),collapse=":")),
+             #         sep="=")
           }
         else{ if (!is.null(di$generators))
                aus <- list("generators"=di$generators)
@@ -121,10 +125,11 @@ generators.design <- function(design, ...){
             }
         if (!is.null(di$base.design)){ 
                ### can happen for blocked (both versions) and splitplot
-               ### can be charater string starting with "generator columns:"
+               ### can be character string starting with "generator columns:"
                ###   or a design name from catlg (the latter is resolved with catlg loaded only
                
                ### complications arise from blockpick.big (because of additional block generators)
+               ###   and from block factors specified individually
                ### and from splitplot because of generated columns potentially moving up to the front
                ### (depending on resolution of whole plot portion of the design)
                hilf.name <- character(0)
@@ -138,40 +143,62 @@ generators.design <- function(design, ...){
                        hilf.name <- di$base.design
                        di$base.design <- catlg[[di$base.design]]$gen
                     }
-                    else return("For generator information, you need to load package FrF2.")
+                    else stop("For generator information, you need to load the catalogue ", catlg.name, ".")
                   }
                }
                ## Now di$base.design is numeric vector of column numbers
-               
                if (is.null(di$map)) di$map <- 1:k
                if (is.null(di$orig.fac.order)) di$orig.fac.order <- 1:di$nfactors
-               mLetters <- Letters[invperm(di$orig.fac.order)]
-               di$base.design <- Yates[di$base.design]
-               di$base.design <- lapply(di$base.design, function(obj) sort(invperm(di$map)[obj]))
-               ### for blockpick.big - generated blocked designs:
+               mLetters <- Letters[invperm(di$orig.fac.order)]  
+                  ## letters that only refer to experimental factors
+                  ## appropriately re-arranged for split-plot designs
+                   di$base.design <- Yates[di$base.design]
+                   di$base.design <- lapply(di$base.design, function(obj) sort(invperm(di$map)[obj]))
+               if (!length(di$base.design) + k > di$nfactors){
+                   ## no extra block factors apart from experimental factors
+                   di$base.design <- paste(mLetters[(k+1):(di$nfactors)],
+                                              sapply(di$base.design, function(obj) paste(sort(mLetters[obj]),collapse="")),sep="=")
+               }
                k.block.add <- 0
-                  if (length(di$base.design) > di$nfactors-k) 
-                         k.block.add <- round(log2(di$nblocks))
-                  if (k.block.add==0)
-                  di$base.design <- paste(mLetters[(k+1):(di$nfactors)],
-                                          sapply(di$base.design, function(obj) paste(sort(mLetters[obj]),collapse="")),sep="=")
-                  else {## k.block.add > 0
+              if (length(di$base.design) + k > di$nfactors){
+               #    di$base.design <- paste(Letters[(k+1):(di$nfactors)],
+               #                               sapply(di$base.design, function(obj) paste(sort(Letters[obj]),collapse="")),sep="=")
+               ### for blockpick.big - generated blocked designs and added factors for blocking:
+               ### returned wrong results for blockpick.big and did not work for added factors for blocking 
+               ###      before version 0.23-2
+                         k.block <- round(log2(di$nblocks)) 
+                         k.block.add <- length(di$base.design) + k - di$nfactors
+                  ## k.block.add > 0, but potentially < k.block
+                       ## base factors as generators or not ???
                        if (!identical(names(di$base.design),names(Yates[di$block.gen]))) 
                           di$base.design <- paste(Letters[(k-k.block.add+1):(di$nfactors)],
                                           sapply(di$base.design, function(obj) 
                                           paste(c(paste("b",1:k.block.add,sep=""),Letters)[obj],collapse="")),sep="=")
-                          else di$base.design <- "full factorial"}
+                          else di$base.design <- "full factorial"
+              }
                if (!is.null(di$block.gen)){ 
                     hilf <- di$block.gen
-                    if (k.block.add > 0) hilf <- paste(paste("b",1:k.block.add,sep=""), names(Yates[hilf]),sep="=")
+                    if (k.block.add > 0) {
+                         hilf <- paste("block generators", paste(paste("b",1:k.block.add,sep=""), collapse=" ")) 
+                         if (k.block > k.block.add) hilf <- paste(hilf, names(Yates)[di$block.gen[-(1:k.block.add)]])
+                         hilf <- rbind(hilf, 
+                                       paste("from Yates matrix columns", paste(di$block.gen, collapse=" ")), 
+                                       paste("of base design", hilf.name, "in catalogue", di$catlg))
+                         rownames(hilf) <- rep("",3)
+                         colnames(hilf) <- ""
+                         if (!is.null(di$map)){
+                             if (!identical(di$map, 1:k)){
+                             hilf <- rbind(hilf, paste("base factors remapped as", paste(di$map, collapse=" ")))
+                             rownames(hilf) <- rep("", 4) }
+                             }
+                         }
                      else{
                       if (is.list(hilf)) 
-                       hilf <- sapply(hilf, function(obj) which(names(Yates)==paste(Letters[sort(obj)],collapse="")))
+                       hilf <- names(Yates)[sapply(hilf, function(obj) which(names(Yates)==paste(Letters[sort(obj)],collapse="")))]
+                       else hilf <- names(Yates)[hilf]
                       }
-               if (k.block.add > 0) aus <- c(list(di$base.design), list(hilf))
-                   else aus <- c(list(di$base.design),
-                      list(names(Yates)[hilf]))
-                  names(aus) <- c(paste("generators for design itself"),
+                       aus <- c(list(di$base.design), list(hilf))
+                      names(aus) <- c(paste("generators for design itself"),
                           "block generators")
                       }
                else {aus <- list(di$base.design)
@@ -180,8 +207,6 @@ generators.design <- function(design, ...){
               }
         }  
     }
-    #if (!is.null(di$map)) 
-    #    aus <- append(aus, remap=di$map)
     aus
 }
 
