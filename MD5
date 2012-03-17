@@ -1,4 +1,4 @@
-be7ba4daf885bc9a6bce3679ee1ab680 *DESCRIPTION
+2c3456482272d78dcbd868ab429f7a76 *DESCRIPTION
 0702f36b93fed7adb863103deb972a9e *DoE.base-Ex.R
 e1b64a61bb21f02384c484ed1785968e *LICENSE
 7209c4455767c1be868851de32c17504 *NAMESPACE
@@ -44,9 +44,9 @@ da5428355c791a7d118deb5c0e93de3a *R/reptolong.R
 a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 36660ed289e14b4740892390c6ea53d0 *R/show.oas.R
 b788fdec93e0bb56c9a22c795877061d *R/sysdata.rda
-cd74158992d073c66b20c81e931f5f28 *R/utilities.R
+c57ef9df6aafa9e98e8828942d6359c1 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-a7e1eb79a63bb109170700fb858f6b3b *inst/NEWS
+b0995409114ca9177c787a3314e75740 *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
 82aa74686c4e646de00cea3eacc9d8bd *man/add.response.Rd
