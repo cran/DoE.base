@@ -74,7 +74,8 @@ ord(matrix, decreasing=FALSE)
     Items of class \code{design} are data frames with attributes. They are generated 
     by various functions that create experimental designs (cf. see also section), and 
     by various utility functions for designs like 
-    the above extractor function for class \code{design} or \code{\link{fix.design}}.
+    the above extractor function for class \code{design} or 
+    \code{\link[RcmdrPlugin.DoE:fix]{fix.design}}.
     
     The data frame itself always contains the design in uncoded form. For many 
     design generation functions, these are factors. For designs for quantitative factors 

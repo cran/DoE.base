@@ -25,7 +25,12 @@ P4.4 <- function (ID, digits = 4, rela = FALSE)
     if (!ncol(ID) >= 4)
         return(NULL)
     hilf <- length4(ID, J=TRUE)
-    hilf <- sapply(split(hilf, names(hilf)), function(obj) sum(obj^2))
+    fhilf <- factor(names(hilf), levels=unique(names(hilf))) ## bug fix 11 Feb 2013
+                       ## hilf was in unexpected order before, 
+                       ## yielding wrong calculations for rela in designs 
+                       ## with many columns due to character instead of 
+                       ## numeric sorting
+    hilf <- sapply(split(hilf, fhilf), function(obj) sum(obj^2))
     if (rela) {
         waehl <- nchoosek(ncol(ID), 4)
         nlevels <- sapply(ID, function(obj) length(unique(obj)))

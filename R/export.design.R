@@ -14,7 +14,8 @@ export.design <- function(design, response.names=NULL, path=".", filename=NULL,
           if (is.null(filename)) stop("If design is calculated on the fly, filename must be given") 
           design <- eval(parse(text=desname)) ## calculate once and for all
           desname <- filename                 ## storage name  
-          assign(desname, design, envir=.GlobalEnv)
+          ## assign(desname, design, envir=.GlobalEnv)
+          assign(desname, design)
           }
      if (is.null(filename)) filename <- desname
 #          stop("design must refer to a stored object of class design and cannot be created on the fly")
