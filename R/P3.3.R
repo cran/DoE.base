@@ -24,7 +24,12 @@ P3.3 <- function (ID, digits = 4, rela = FALSE){
     if (!ncol(ID) >= 3)
         return(NULL)
     hilf <- length3(ID, J=TRUE)
-    hilf <- sapply(split(hilf, names(hilf)), function(obj) sum(obj^2))
+    fhilf <- factor(names(hilf), levels=unique(names(hilf))) ## bug fix 11 Feb 2013
+                       ## hilf was in unexpected order before, 
+                       ## yielding wrong calculations for rela in designs 
+                       ## with many columns due to character instead of 
+                       ## numeric sorting
+    hilf <- sapply(split(hilf, fhilf), function(obj) sum(obj^2))
     if (rela) {
        # divisors are created from nlevels by relative numbers
         waehl <- nchoosek(ncol(ID), 3)

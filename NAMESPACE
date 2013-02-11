@@ -8,7 +8,7 @@
             "export.design","add.response", "qua.design", "cross.design",
             "plot.design","lm","lm.default","lm.design",
             "aov","aov.default","aov.design","showData",
-            "param.design","paramtowide", "undesign", "redesign", "fix", "change.contr",
+            "param.design","paramtowide", "undesign", "redesign", "change.contr",
             "reptowide", "reptolong", "L18", "L36", "L54", "oacat","Yates3",
             "block.catlg3",
             "des.recode","contr.FrF2",
@@ -88,8 +88,6 @@
             "L256.2.19","L2048.2.63")
             
             S3method("[",design)
-            S3method("fix",design)
-            S3method("fix",default)
             S3method("formula",design)
             S3method("print",design)
             S3method("print",lm.design)

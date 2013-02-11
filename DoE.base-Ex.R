@@ -380,33 +380,6 @@ factorize(undesign(fac.design(nlevels=c(2,2,3,3,6))))
 
 
 cleanEx()
-nameEx("fix.design")
-### * fix.design
-
-flush(stderr()); flush(stdout())
-
-### Name: fix.design
-### Title: Function to preserve class design when editing a design
-### Aliases: fix fix.design fix.default
-### Keywords: array design
-
-### ** Examples
-
-   ## Not run: 
-##D    plan <- oa.design(L18)
-##D    fix(plan)
-##D     ## manually add some numeric data for the response
-##D    response.names(plan)
-##D    fix(plan, prompt=TRUE)
-##D     ## manually add at least two numeric response columns
-##D     ## select from menu which ones are to be responses
-##D    response.names(plan)
-##D    
-## End(Not run)
-
-
-
-cleanEx()
 nameEx("formula.design")
 ### * formula.design
 
