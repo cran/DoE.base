@@ -1,8 +1,8 @@
 
-R version 2.14.0 (2011-10-31)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R Under development (unstable) (2013-01-22 r61734) -- "Unsuffered Consequences"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: i386-pc-mingw32/i386 (32-bit)
+Platform: i386-w64-mingw32/i386 (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -20,7 +20,6 @@ Type 'q()' to quit R.
 > require(DoE.base)
 Loading required package: DoE.base
 Loading required package: relimp
-Loading Tcl/Tk interface ... done
 Loading required package: tcltk
 Loading required package: vcd
 Loading required package: MASS
@@ -30,25 +29,17 @@ Loading required package: conf.design
 
 Attaching package: 'DoE.base'
 
-The following object(s) are masked from 'package:conf.design':
-
-    factorize.factor
-
-The following object(s) are masked from 'package:relimp':
+The following object is masked from 'package:relimp':
 
     showData
 
-The following object(s) are masked from 'package:stats':
+The following object is masked from 'package:stats':
 
     aov, lm
 
-The following object(s) are masked from 'package:graphics':
+The following object is masked from 'package:graphics':
 
     plot.design
-
-The following object(s) are masked from 'package:utils':
-
-    fix
 
 > 
 > P3.3(oa.design(L18, nlevels=c(2,3,3,3),columns="order"), rela=TRUE)
@@ -310,3 +301,6 @@ attr(,"A3")
 > #P3.3(oa.design(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), columns="minRPFT"), rela=TRUE)
 > #P3.3(oa.design(L32.2.10.4.7, nlevels=c(2,2,2,4,4,4,4,4), columns="minRelProjAberr"), rela=TRUE)
 > 
+> proc.time()
+   user  system elapsed 
+   1.87    0.12    1.99 

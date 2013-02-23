@@ -1,7 +1,7 @@
-     import(stats)
-     export("oa.design", "fac.design", "factorize.design", "factorize.data.frame", 
-            "factorize.factor", "desnum", "run.order", "design.info", 
-            "origin","factor.names","response.names","col.remove",
+     import(stats,conf.design)
+     export("oa.design", "fac.design", "desnum", "run.order", "design.info", 
+            "origin","factor.names","getblock","rerandomize.design",
+            "response.names","col.remove",
             "desnum<-", "run.order<-", "design.info<-",
             "factor.names<-","response.names<-","ord", "SN",
             "Letters","make.formulas","make.generators",
@@ -109,7 +109,6 @@
             S3method("generators",design)
             S3method("generators",catlg)
             S3method("generators",character)
-        # does not work, because conf.design does not have a namespace
-        #    S3method("factorize",design)
-        #    S3method("factorize",factor)
-        #    S3method("factorize",data.frame)
+            S3method("factorize",design)
+            S3method("factorize",factor)
+            S3method("factorize",data.frame)

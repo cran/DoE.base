@@ -179,6 +179,9 @@ generators.design <- function(design, ...){
                if (!is.null(di$block.gen)){ 
                     hilf <- di$block.gen
                     if (k.block.add > 0) {
+                        ## special treatment of blocked full factorials
+                        if (k == di$nfactors) return(list("generators for design itself"=di$base.design, "block generators"=names(Yates[hilf])))
+                        ## other blocked designs
                          hilf <- paste("block generators", paste(paste("b",1:k.block.add,sep=""), collapse=" ")) 
                          if (k.block > k.block.add) hilf <- paste(hilf, names(Yates)[di$block.gen[-(1:k.block.add)]])
                          hilf <- rbind(hilf, 

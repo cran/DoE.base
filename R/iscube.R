@@ -15,9 +15,13 @@ iscube <- function (design, ...)
     ## handle old and new ccd designs (old ccd designs: row names are correct, 
     ##        run.order contains different row names)
     ## old ccd designs can only be handled in case of no replications
+## new ccd designs (since 1.6-5): run.order is correct
     if (isTRUE(all.equal(sort(hilf),sort(hilf2)))) 
       if (!isTRUE(all.equal(hilf, hilf2))) hilf <- hilf2
-    aus <- hilf == "0" | (sapply(hilf, function (obj) length(grep("C", obj)) > 0) & 
+    ## versions up ro FrF2 1.6-4 had run.no.in.std.order=0 for all center points
+    ##    for later versions, the 0 may be accompanied by block or replication info
+    aus <- (hilf == "0" | sapply(hilf, function(obj) unlist(strsplit(obj,".",fixed=TRUE))[1])=="0") | 
+        (sapply(hilf, function (obj) length(grep("C", obj)) > 0) & 
           as.numeric(sapply(hilf, function(obj) substr(obj,4,99))) > di$ncube) |
           sapply(hilf, function (obj) length(grep("S", obj)) > 0)
     if (!sum(!aus) == di$ncube * di$replications[1]) {
@@ -41,7 +45,7 @@ isstar <- function (design, ...)
     if (!length(grep("ccd", di$type)) > 0)
         stop("this function requires a central composite design")
     ## determine star point positions
-    hilf <- run.order(design)$run.no.in.std.order
+    hilf <- as.character(run.order(design)$run.no.in.std.order)
     sapply(hilf, function (obj) length(grep("S", obj)) > 0) 
 }
 

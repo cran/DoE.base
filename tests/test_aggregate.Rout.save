@@ -1,8 +1,8 @@
 
-R version 2.14.0 (2011-10-31)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R Under development (unstable) (2013-01-22 r61734) -- "Unsuffered Consequences"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: i386-pc-mingw32/i386 (32-bit)
+Platform: i386-w64-mingw32/i386 (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -19,7 +19,6 @@ Type 'q()' to quit R.
 > require(DoE.base)
 Loading required package: DoE.base
 Loading required package: relimp
-Loading Tcl/Tk interface ... done
 Loading required package: tcltk
 Loading required package: vcd
 Loading required package: MASS
@@ -29,25 +28,17 @@ Loading required package: conf.design
 
 Attaching package: 'DoE.base'
 
-The following object(s) are masked from 'package:conf.design':
-
-    factorize.factor
-
-The following object(s) are masked from 'package:relimp':
+The following object is masked from 'package:relimp':
 
     showData
 
-The following object(s) are masked from 'package:stats':
+The following object is masked from 'package:stats':
 
     aov, lm
 
-The following object(s) are masked from 'package:graphics':
+The following object is masked from 'package:graphics':
 
     plot.design
-
-The following object(s) are masked from 'package:utils':
-
-    fix
 
 > set.seed(9890)
 > plan <- oa.design(nlevels=c(2,6,2), replications=2, repeat.only=TRUE)
@@ -276,3 +267,6 @@ NOTE: columns run.no and run.no.std.rp are annotation, not part of the data fram
 class=design, type= crossed 
 NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
 > 
+> proc.time()
+   user  system elapsed 
+   0.46    0.17    0.67 
