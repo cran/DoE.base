@@ -97,11 +97,11 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
         if (!is.numeric(bbreps)) stop("bbreps must be an integer number.")
         if (!is.numeric(wbreps)) stop("wbreps must be an integer number.")
         ## pre-process needs for numbers of blocks and numbers of levels
-        need.gen <- factorize.default(blocks)
+        need.gen <- conf.design:::factorize.default(blocks)
         ung <- unique(need.gen)   
         ## levels of pseudofactors,
         ## a list element for each factor
-        hilfl <- factorize.default(nlevels)
+        hilfl <- conf.design:::factorize.default(nlevels)
         names(hilfl) <- names(factor.names)
         ## numbers of pseudofactors for each factor
         lengths <- sapply(hilfl, length)

@@ -1,8 +1,8 @@
 
-R version 2.14.0 (2011-10-31)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R Under development (unstable) (2013-01-22 r61734) -- "Unsuffered Consequences"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: i386-pc-mingw32/i386 (32-bit)
+Platform: i386-w64-mingw32/i386 (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -19,7 +19,6 @@ Type 'q()' to quit R.
 > require("DoE.base")
 Loading required package: DoE.base
 Loading required package: relimp
-Loading Tcl/Tk interface ... done
 Loading required package: tcltk
 Loading required package: vcd
 Loading required package: MASS
@@ -29,25 +28,17 @@ Loading required package: conf.design
 
 Attaching package: 'DoE.base'
 
-The following object(s) are masked from 'package:conf.design':
-
-    factorize.factor
-
-The following object(s) are masked from 'package:relimp':
+The following object is masked from 'package:relimp':
 
     showData
 
-The following object(s) are masked from 'package:stats':
+The following object is masked from 'package:stats':
 
     aov, lm
 
-The following object(s) are masked from 'package:graphics':
+The following object is masked from 'package:graphics':
 
     plot.design
-
-The following object(s) are masked from 'package:utils':
-
-    fix
 
 > ### test programs for crossing designs
 > ### and parameter designs
@@ -658,8 +649,8 @@ cross.design(oa12, oa4, oa4rep, randomize = FALSE)
 
 Experimental design of type  crossed 
 192  runs
-
 each run independently conducted  3  times
+
 Factor settings (scale ends):
   first second third D E F G H J
 1     1      1     1 1 1 1 1 1 1
@@ -1271,8 +1262,8 @@ cross.design(oa12, oa4rep, oa4, randomize = FALSE)
 
 Experimental design of type  crossed 
 192  runs
-
 each run independently conducted  3  times
+
 Factor settings (scale ends):
   first second third G H J D E F
 1     1      1     1 1 1 1 1 1 1
@@ -2247,8 +2238,8 @@ cross.design(oa12, oa4, oa4reprepeat.only, randomize = FALSE)
 
 Experimental design of type  crossed 
 192  runs
-
 3  measurements per run (not proper replications)
+
 Factor settings (scale ends):
   first second third D E F K L M
 1     1      1     1 1 1 1 1 1 1
@@ -2427,8 +2418,8 @@ cross.design(oa4rep, oa4reprepeat.only, randomize = FALSE)
 
 Experimental design of type  crossed 
 16  runs
-
 9  measurements per run (not proper replications)
+
 Factor settings (scale ends):
   G H J K L M
 1 1 1 1 1 1 1
@@ -2667,3 +2658,6 @@ Outer array:
 3 2 1 2
 4 2 2 1
 > 
+> proc.time()
+   user  system elapsed 
+   0.54    0.18    0.74 

@@ -3,6 +3,22 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+23/02/2013, Version 0.23-4
+- modified function generators.design to provide more easily understandable output 
+  for blocked full factorial designs
+- added a function getblock that allows extracting block factor information 
+  in ways usable by R functions outside the package, e.g. functions from package nlme
+- added a function rerandomize.design for randomization after design creation;
+  different from the randomization option in package functions, this function 
+  does not block the randomization of replications; hence, users have a choice 
+  whether they do or do not want a blocked randomization of replications.
+- slightly modified the output of function summary.design for blocked designs 
+  (moved a line of white space)
+- modified functions iscube and isstar to work with the new run.order attribute as of package 
+  FrF2 version 1.6-5
+- modified function factorize.factor to conform to the latest version of package 
+  conf.design, where function factorize.default is no longer exported
+
 11/02/2013, Version 0.23-3
 - Bug fix to functions P3.3 and P4.4: For rela=TRUE, these calculated wrong 
   results for designs with more than 9 columns, due to a character instead of 

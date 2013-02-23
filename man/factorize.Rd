@@ -7,7 +7,7 @@
 Factorize integer numbers and factors
 }
 \description{
-Generic and methods to factorize integer numbers into primes or factors 
+Methods to factorize integer numbers into primes or factors 
 into pseudo factors with integer numbers of levels
 }
 \usage{

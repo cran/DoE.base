@@ -10,7 +10,7 @@ factorize.factor <- function (x, name = deparse(substitute(x)), extension = lett
     ##       but integer vector (in case of drop) or integer matrix
     ##     (function design did not work,
     ##      class design is not helpful)
-    llev <- factorize.default(length(levels(x)))
+    llev <- conf.design:::factorize.default(length(levels(x)))
     if (length(llev) == 1)
         return(if (drop) as.integer(x)-1 else {
             nm <- name

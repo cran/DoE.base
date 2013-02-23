@@ -165,7 +165,7 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
            cat("\n")}
        }
        cat("Experimental design of type ", di$type,"\n")
-       cat(di$nruns, " runs\n\n")
+       cat(di$nruns, " runs\n")
 ## handle blocks from ccd differently
 ## report varying block sizes, if applicable
    blocks <- di$nblocks
@@ -209,6 +209,9 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
          cat(di$replications, " measurements per run (not proper replications)\n")
       else
          cat("each run independently conducted ", di$replications, " times\n")
+    
+## add white space
+    cat("\n")
 
 #   nlevels <- di$nlevels
 #   if (is.null(nlevels))
