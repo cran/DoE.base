@@ -1,4 +1,4 @@
-P4.4 <- function (ID, digits = 4, rela = FALSE)
+P4.4 <- function (ID, digits = 4, rela = FALSE, detailed=FALSE)
 {
     ## function to calculate pattern of numbers of generalized length 4 words
     ## for projections into four factors
@@ -44,11 +44,16 @@ P4.4 <- function (ID, digits = 4, rela = FALSE)
     if (rela) colnames(aus) <- c("length4.rela", "frequency")
     rownames(aus) <- rep("", nrow(aus))
     ## attaching attributes
-    if (!rela) attr(aus, "A4") <- sum(hilf)
+    if (!rela) {
+       attr(aus, "A4") <- A4 <- sum(hilf)
+       if (detailed & A4 > 0) attr(aus, "detail") <- round(hilf, digits)
+    }
     else {
-      attr(aus, "rA4") <- sum(hilf/div)
-      attr(aus, "GR") <- round(4+1-sqrt(max(hilf/div)),2)
+      attr(aus, "rA4") <- rA4 <- sum(hilf/div)
+      if (rA4 > 0) attr(aus, "GR") <- round(4+1-sqrt(max(hilf/div)), digits)
+        else attr(aus, "GR") <- ">=5"
       attr(aus, "A4") <- sum(hilf)
+       if (detailed & rA4 > 0) attr(aus, "detail") <- round(hilf/div, digits)
       }
     aus
 }

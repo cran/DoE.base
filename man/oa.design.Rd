@@ -251,13 +251,15 @@ oa
 \seealso{ See Also \code{\link[FrF2]{FrF2}}, \code{\link{fac.design}}, \code{\link[FrF2]{pb}} }
 \examples{
   ## smallest available array for 6 factors with 3 levels each
-  oa.design(nfactors=6,nlevels=3)
+  oa.design(nfactors=6, nlevels=3)
   ## level combination for which only a full factorial is (currently) found
   oa.design(nlevels=c(4,3,3,2))
   ## array requested via factor.names
-  oa.design(factor.names=list(one=c("a","b","c"), two=c(125,275), three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
-  ## array requested via character factor.names and nlevels (with a little German lesson for one two three four five)
-  oa.design(factor.names=c("eins","zwei","drei","vier","fuenf"),nlevels=c(2,2,2,3,7))
+  oa.design(factor.names=list(one=c("a","b","c"), two=c(125,275), 
+     three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
+  ## array requested via character factor.names and nlevels 
+    ## (with a little German lesson for one two three four five)
+  oa.design(factor.names=c("eins","zwei","drei","vier","fuenf"), nlevels=c(2,2,2,3,7))
   ## array requested via explicit name, Taguchi L18
   oa.design(ID=L18)
   ## array requested via explicit name, with column selection

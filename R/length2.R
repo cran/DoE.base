@@ -1,5 +1,5 @@
 lengths <- function(design, with.blocks=FALSE, J=FALSE)
-   c("2"=length2(design, with.blocks=with.blocks, J=J), 
+  c("2"=length2(design, with.blocks=with.blocks, J=J), 
      "3"=length3(design, with.blocks=with.blocks, J=J),
      "4"=length4(design, with.blocks=with.blocks, J=J),
      "5"=length5(design, with.blocks=with.blocks, J=J))

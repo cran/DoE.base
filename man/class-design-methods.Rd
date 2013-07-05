@@ -2,73 +2,21 @@
 \alias{[.design}
 \alias{aggregate.design}
 \alias{print.design}
-\alias{showData}
-\alias{showData.default}
-\alias{showData.design}
 \alias{summary.design}
-\alias{plot.design}
 \alias{class-design-methods}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Methods for class design objects}
 \description{
-  Methods for subsetting, printing, summarizing and plotting class 
-  design objects
+  Methods for subsetting, aggregating, printing and summarizing class 
+  design objects. The formula, lm and plot methods are subject of a separate help page.
 }
 \usage{
 \method{[}{design}(x, i, j, drop.attr = TRUE, drop = FALSE)
 \method{print}{design}(x, show.order=NULL, group.print=TRUE, std.order=FALSE, ...)
-showData(dataframe,colname.bgcolor = "grey50", 
-       rowname.bgcolor = "grey50", 
-       body.bgcolor = "white", 
-       colname.textcolor = "white", 
-       rowname.textcolor = "white", 
-       body.textcolor = "black",
-       font = "Courier 12", 
-       maxheight = 30, 
-       maxwidth = 80, 
-       title = NULL,
-       rowname.bar = "left",
-       colname.bar = "top",
-       rownumbers = FALSE, 
-       placement = "-20-40",
-       suppress.X11.warnings = TRUE)
-\method{showData}{default}(dataframe, 
-       colname.bgcolor = "grey50", 
-       rowname.bgcolor = "grey50", 
-       body.bgcolor = "white", 
-       colname.textcolor = "white", 
-       rowname.textcolor = "white", 
-       body.textcolor = "black",
-       font = "Courier 12", 
-       maxheight = 30, 
-       maxwidth = 80, 
-       title = NULL,
-       rowname.bar = "left",
-       colname.bar = "top",
-       rownumbers = FALSE, 
-       placement = "-20-40",
-       suppress.X11.warnings = TRUE)
-\method{showData}{design}(dataframe,
-       colname.bgcolor = "grey50", 
-       rowname.bgcolor = "grey50", 
-       body.bgcolor = "white", 
-       colname.textcolor = "white", 
-       rowname.textcolor = "white", 
-       body.textcolor = "black",
-       font = "Courier 12", 
-       maxheight = 30, 
-       maxwidth = 80, 
-       title = NULL,
-       rowname.bar = "left",
-       colname.bar = "top",
-       rownumbers = FALSE, 
-       placement = "-20-40",
-       suppress.X11.warnings = TRUE)
 \method{summary}{design}(object, brief = NULL, quote = FALSE, ...)
 \method{aggregate}{design}(x, ..., 
     by = NULL, response = NULL, FUN = "mean", postfix = NULL, replace = TRUE)
-\method{plot}{design}(x, y=NULL, select=NULL, ...)
 }
 \arguments{
   \item{x}{ data frame of S3 class \code{\link{design}} }
@@ -89,10 +37,7 @@ showData(dataframe,colname.bgcolor = "grey50",
         if \code{TRUE}, the design is printed in standard order rather 
         than in the randomized order.}
   \item{\dots}{ further arguments to functions \code{\link{print}}, \code{\link{summary}}, \code{\link{aggregate}}, 
-        \code{\link{contrasts}},  or in case of plotting, 
-        \code{\link{plot}}, \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics  }
-  \item{dataframe}{data frame; if of S3 class \code{design}, the method for \code{design} is used, 
-       otherwise the default method}
+        \code{\link{contrasts}} }
   \item{object}{ data frame of S3 class \code{design}, like argument \code{design} }
   \item{brief}{ \code{NULL} or logical; \code{TRUE} requests a printout of the 
        design at the end of the \code{summary} output, \code{FALSE} suppresses such a printout. 
@@ -117,38 +62,12 @@ showData(dataframe,colname.bgcolor = "grey50",
        WARNING: If custom variables other than aggregation variables are added to wide format designs, 
        it is recommended to use variables names that are not likely to be generated 
        by this function.}
-  \item{y}{ a character vector of names of numeric variables in \code{x} to be plotted as responses, 
-      or a numeric response vector, or a numeric matrix containing response columns, 
-      or a data frame of numeric response variables (the latter would not work when directly 
-      using function \code{\link[graphics]{plot.design}} from package graphics)}
-  \item{select}{ a vector of integers with position numbers of experimental factors, 
-      a character vector of factor letters, or a character vector of factor names 
-      for factors to be selected for plotting; \cr
-      \code{select} has been added in order to obtain manageable plot sizes. For example, 
-      mosaic plots are most easily readible for up to three or at most four factors. 
-      Main effects plots with too many factors may also be hard to read because of overlapping 
-      labeling.\cr
-      \code{select} can also be used for bringing the factors into a desirable order. }
-   \item{colname.bgcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{rowname.bgcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{body.bgcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{colname.textcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{rowname.textcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{body.textcolor}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{font}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{maxheight}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{maxwidth}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{title}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{rowname.bar}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{colname.bar}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{rownumbers}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{placement}{as documented in \pkg{\link[relimp:showData]{relimp}}}
-      \item{suppress.X11.warnings}{as documented in \pkg{\link[relimp:showData]{relimp}}}
   }
 \details{
-    Items of class \code{\link{design}} are data frames with attributes, 
-    that have been created for conducting experiments. Apart from the methods 
-    documented here, a separate file documents the method \code{\link{formula.design}}.
+    Items of class \code{\link{design}} are data frames with attributes,
+    that have been created for conducting experiments. Apart from the methods
+    documented here, separate files document the methods \code{\link{formula.design}}
+    and \code{\link{plot.design}}.
     
     The extractor method subsets the design, taking care of the attributes accordingly (cf. the value section). 
     Subsetting can also handle replication in a limited way, although this is not first 
@@ -165,40 +84,12 @@ showData(dataframe,colname.bgcolor = "grey50",
     some further development may still be expected. If a standard data frame summary 
     is desired, explicitly use function \code{summary.data.frame} instead of \code{summary}.
     
-    The default method for \code{showData} is the function from package \pkg{\link[relimp:showData]{relimp}}, 
-    which is also used in R-Commander for viewing data sets. The method for class \code{design} objects 
-    is needed for successfully using the view button of \code{design} dataframes in R-commander. 
-    They are undesigned before viewing. However, it is preferrable to inspect a printout from function 
-    \code{print.design} which provides additional information. 
-    This can also be done in the R-Commander using the \code{Design} menu in package \code{RcmdrPlugin.DoE} 
-    (to be available soon).  
-    
     The method for \code{aggregate} provides aggregation utilities for wide format designs and 
     links back to the method for data frames for designs that are not of wide format. 
     If a wide format design is to be treated with the \code{aggregate} method for data frames, 
     \code{\link[stats:aggregate]{aggregate.data.frame}} must be used explicitly. 
     This method calculates a mean, standard deviation or SN ratio from the individual responses 
-    (which can be repeated measurements or outer array runs from a Taguchi parameter design).
-    
-    The method for \code{plot} calls the method available in package graphics 
-    (see \code{\link[graphics]{plot.design}}) wherever this makes sense (\code{x} not of class \code{design}, 
-    \code{x} of class \code{design} but not following the class \code{\link{design}} structure 
-    defined in package \pkg{DoE.base}, 
-    and \code{x} a design with all factors being R-factors and at least one response available). 
-    
-    Function \code{\link[graphics]{plot.design}} from package \pkg{graphics} is not 
-    an adequate choice for designs without responses or designs with experimental factors 
-    that are not R-factors. \cr
-    For designs with all factors being R-factors and no response defined (e.g. a freshly-created 
-    design from function \code{link{oa.design}}), function \code{plot.design} creates a mosaic plot of 
-    the frequency table of the design, which may be quite useful to understand the structure 
-    for designs with relatively few factors (cf. example below; function \code{plot.design} calls 
-    function \code{\link[vcd]{mosaic}} for this purpose).\cr
-    For designs with at least one experimental factor that is not an R-factor, function 
-    \code{plot.design} calls function \code{\link[graphics:plot.dataframe]{plot.data.frame}} in order 
-    to create a scatter plot matrix.\cr 
-    Currently, there is no good method for plotting designs with mixed qualitative 
-    and quantitative factors.
+    (which can be repeated measurements or outer array runs from a Taguchi parameter design).  
 }
 \value{
     \item{extractor}{The extractor function returns a class design object with modified attributes 
@@ -223,7 +114,7 @@ showData(dataframe,colname.bgcolor = "grey50",
         \item{orig.design.info}{ which contains the original \code{design.info} attribute.}
         }}
     
-    The \code{print}, \code{summary} and \code{plot} methods are called for their side effects and return \code{NULL}.
+    The \code{print} and \code{summary} methods are called for their side effects and return \code{NULL}.
     
     The method for \code{aggregate} returns the input wide format design with one or more 
     additional response columns and the \code{response.names} element of the 
@@ -234,10 +125,13 @@ Some changes to input and output structures may still occur.}
 
 \author{ Ulrike Groemping }
 \seealso{ See also the following functions known to produce objects of class 
-    \code{design}: \code{FrF2}, \code{pb}, \code{\link{fac.design}}, \code{\link{oa.design}},
-    and function \code{\link[graphics]{plot.design}} from package graphics; 
-    a method for function \code{\link[stats]{lm}} is described in the separate help file 
-    \code{\link{lm.design}}.}
+    \code{design}: \code{FrF2}, \code{pb}, \code{\link{fac.design}}, \code{\link{oa.design}}.\cr
+    See also the following further methods for class \code{design} objects: 
+    \code{\link{formula.design}}, \code{\link{lm.design}}, \code{\link{plot.design}}.\cr
+    Function \code{\link[graphics]{plot.design}} from package graphics works on 
+    data frames with R factors as explanatory variables, if a numeric response is available; 
+    this function is invoked by method \code{\link{plot.design}} from this package, 
+    where appropriate.}
 \examples{
 oa12 <- oa.design(nlevels=c(2,2,6))
 #### Examples for extractor function
@@ -257,30 +151,6 @@ oa12 <- oa.design(nlevels=c(2,2,6))
   str(rbind(oa12[1:2,],oa12[3:12]))
   ## keeping all non-design-related attributes like the contrasts
   str(undesign(oa12))
-
-#### Examples for plotting designs
-  ## plotting a design without response (uses function mosaic from package vcd)
-  plot(oa12)
-  ## equivalent to mosaic(~A+B+C, oa12)
-  ## alternative order:
-  mosaic(~C+A+B, oa12)
-  ## using the select function: the plots show that the projection for factors 
-  ## C, D and E (columns 3, 14 and 15 of the array) is a full factorial, 
-  ## while A, D and E does (columns 1, 14, and 15 of the array) do not occur in 
-  ## all combinations
-  plot(oa.design(L24.2.13.3.1.4.1,nlevels=c(2,2,2,3,4)),select=c("E","D","A"))
-  plot(oa.design(L24.2.13.3.1.4.1,nlevels=c(2,2,2,3,4)),select=c("E","D","C"))
-  
-  ## plotting a design with response
-  y=rnorm(12)
-  plot(oa12, y)
-  ## plot design with a response included
-  oa12.r <- add.response(oa12,y)
-  plot(oa12.r)
-  ## plotting a numeric design (with or without response, 
-  ##   does not make statistical sense here, for demo only)
-  noa12 <- qua.design(oa12, quantitative="all")
-  plot(noa12, y, main="Scatter Plot Matrix")
 
 #### Examples print and summary
   ## rename factors and relabel levels of first two factors
