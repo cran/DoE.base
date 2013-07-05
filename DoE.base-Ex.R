@@ -4,7 +4,26 @@ options(warn = 1)
 options(pager = "console")
 library('DoE.base')
 
-assign(".oldSearch", search(), pos = 'CheckExEnv')
+base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+cleanEx()
+nameEx("GWLP")
+### * GWLP
+
+flush(stderr()); flush(stdout())
+
+### Name: GWLP
+### Title: Functions for fast calculation of GWLP
+### Aliases: GWLP GWLP.design GWLP.default levels.no ham Kraw Choose
+###   distDistmix levelmix Bprime dualDistmix
+### Keywords: array design internal
+
+### ** Examples
+
+GWLP(L18)
+GWLP(L18, attrib.out=TRUE)
+
+
+
 cleanEx()
 nameEx("SN")
 ### * SN
@@ -74,8 +93,7 @@ flush(stderr()); flush(stdout())
 ### Name: Methods for class design objects
 ### Title: Methods for class design objects
 ### Aliases: [.design aggregate.design print.design showData
-###   showData.default showData.design summary.design plot.design
-###   class-design-methods
+###   showData.default showData.design summary.design class-design-methods
 ### Keywords: array design
 
 ### ** Examples
@@ -98,30 +116,6 @@ oa12 <- oa.design(nlevels=c(2,2,6))
   str(rbind(oa12[1:2,],oa12[3:12]))
   ## keeping all non-design-related attributes like the contrasts
   str(undesign(oa12))
-
-#### Examples for plotting designs
-  ## plotting a design without response (uses function mosaic from package vcd)
-  plot(oa12)
-  ## equivalent to mosaic(~A+B+C, oa12)
-  ## alternative order:
-  mosaic(~C+A+B, oa12)
-  ## using the select function: the plots show that the projection for factors 
-  ## C, D and E (columns 3, 14 and 15 of the array) is a full factorial, 
-  ## while A, D and E does (columns 1, 14, and 15 of the array) do not occur in 
-  ## all combinations
-  plot(oa.design(L24.2.13.3.1.4.1,nlevels=c(2,2,2,3,4)),select=c("E","D","A"))
-  plot(oa.design(L24.2.13.3.1.4.1,nlevels=c(2,2,2,3,4)),select=c("E","D","C"))
-  
-  ## plotting a design with response
-  y=rnorm(12)
-  plot(oa12, y)
-  ## plot design with a response included
-  oa12.r <- add.response(oa12,y)
-  plot(oa12.r)
-  ## plotting a numeric design (with or without response, 
-  ##   does not make statistical sense here, for demo only)
-  noa12 <- qua.design(oa12, quantitative="all")
-  plot(noa12, y, main="Scatter Plot Matrix")
 
 #### Examples print and summary
   ## rename factors and relabel levels of first two factors
@@ -418,7 +412,8 @@ flush(stderr()); flush(stdout())
 ###   projection frequencies or optimizing column selection within an array
 ### Aliases: generalized.word.length length2 length3 length4 length5
 ###   lengths contr.XuWu P3.3 P4.4 GR oa.min3 oa.min34 oa.max3 oa.max4
-###   oa.maxGR oa.minRelProjAberr nchoosek
+###   oa.maxGR oa.minRelProjAberr nchoosek tupleSel tupleSel.design
+###   tupleSel.default
 ### Keywords: design array
 
 ### ** Examples
@@ -817,6 +812,61 @@ ex.inner.outer
 
 
 cleanEx()
+nameEx("plot.design")
+### * plot.design
+
+flush(stderr()); flush(stdout())
+
+### Name: Plotting class design objects
+### Title: Plotting class design objects
+### Aliases: plot.design
+### Keywords: array design
+
+### ** Examples
+
+#### Examples for plotting designs
+oa12 <- oa.design(nlevels=c(2,2,6))
+  ## plotting a design without response (uses function mosaic from package vcd)
+  plot(oa12)
+  ## equivalent to mosaic(~A+B+C, oa12)
+  ## alternative order:
+  mosaic(~C+A+B, oa12)
+  ## using the select function: the plots show that the projection for factors
+  ## C, D and E (columns 3, 14 and 15 of the array) is a full factorial,
+  ## while A, D and E (columns 1, 14, and 15 of the array) do not occur in
+  ## all combinations
+  plan <- oa.design(L24.2.13.3.1.4.1,nlevels=c(2,2,2,3,4))
+  plot(plan, select=c("E","D","A"))
+  plot(plan, select=c("E","D","C"))
+  ## Not run: 
+##D   plot(plan, select="all3")
+##D   plot(plan, select=list(c(1,3,4,5), "all3"))
+##D   ## use the specialist version of option sub
+##D   plot(plan, select=list(c(1,3,4,5), "all3"), sub="A")
+##D   ## create a file with mosaic plots of all 3-factor projections
+##D   pdf(file="exampleplots.pdf")
+##D   plot(plan, select="all3", main="Design from L24.2.13.3.1.4.1 in default column order)")
+##D   plot(plan, select="worst", selprop=0.3, sub="A")
+##D   dev.off()
+##D   ## the file exampleplots.pdf is now available within the current working
+##D   ## directory
+##D   
+## End(Not run)
+
+  ## plotting a design with response
+  y=rnorm(12)
+  plot(oa12, y)
+  ## plot design with a response included
+  oa12.r <- add.response(oa12,y)
+  plot(oa12.r)
+  ## plotting a numeric design (with or without response,
+  ##   does not make statistical sense here, for demo only)
+  noa12 <- qua.design(oa12, quantitative="all")
+  plot(noa12, y, main="Scatter Plot Matrix")
+
+
+
+cleanEx()
 nameEx("qua.design")
 ### * qua.design
 
@@ -974,7 +1024,8 @@ DoE.base:::bestPFT(rpfts)
 
 ### * <FOOTER>
 ###
-cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
+options(digits = 7L)
+base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
 grDevices::dev.off()
 ###
 ### Local variables: ***

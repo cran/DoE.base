@@ -1,12 +1,15 @@
 Package: DoE.base
 Title: Full factorials, orthogonal arrays and base utilities for DoE
         packages
-Version: 0.23-4
-Depends: R(>= 2.10.0), stats, relimp, utils, graphics, tcltk, vcd,
-        conf.design
-Date: 2013-02-23
-Author: Ulrike Groemping, with contributions by Boyko Amarov
-Maintainer: Ulrike Groemping <groemping@bht-berlin.de>
+Version: 0.24
+Depends: R(>= 2.10.0), grid, conf.design
+Imports: stats, utils, graphics, vcd, combinat
+Suggests: vcd
+Date: 2013-07-05
+Authors@R: c(person("Ulrike", "Groemping", role = c("aut", "cre"),
+        email = "groemping@beuth-hochschule.de"), person("Boyko",
+        "Amarov", role = "ctb"), person("Hongquan", "Xu", role =
+        "ctb"))
 Description: This package creates full factorial experimental designs
         and designs based on orthogonal arrays for (industrial)
         experiments. Additionally, it provides some utility functions
@@ -17,7 +20,10 @@ LazyData: yes
 Encoding: latin1
 URL: http://prof.beuth-hochschule.de/groemping/DoE/,
         http://prof.beuth-hochschule.de/groemping/
-Packaged: 2013-02-23 21:31:40 UTC; Grömping
+Packaged: 2013-07-05 10:07:09 UTC; Grömping
+Author: Ulrike Groemping [aut, cre], Boyko Amarov [ctb], Hongquan Xu
+        [ctb]
+Maintainer: Ulrike Groemping <groemping@beuth-hochschule.de>
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2013-02-23 22:40:34
+Date/Publication: 2013-07-05 12:23:23

@@ -1,4 +1,6 @@
-     import(stats,conf.design)
+     import(conf.design, stats, utils, graphics)
+     importFrom(vcd, mosaic)
+     importFrom(combinat, xsimplex)
      export("oa.design", "fac.design", "desnum", "run.order", "design.info", 
             "origin","factor.names","getblock","rerandomize.design",
             "response.names","col.remove",
@@ -7,7 +9,7 @@
             "Letters","make.formulas","make.generators",
             "export.design","add.response", "qua.design", "cross.design",
             "plot.design","lm","lm.default","lm.design",
-            "aov","aov.default","aov.design","showData",
+            "aov","aov.default","aov.design",
             "param.design","paramtowide", "undesign", "redesign", "change.contr",
             "reptowide", "reptolong", "L18", "L36", "L54", "oacat","Yates3",
             "block.catlg3",
@@ -15,7 +17,7 @@
             "lengths","length2","length3","length4","length5","contr.XuWu",
             "P3.3","P4.4","GR","oa.min3","oa.min34","oa.max3","oa.max4","oa.maxGR",
             "oa.minRelProjAberr","iscube","isstar","pickcube",
-            "show.oas","generators",
+            "GWLP","tupleSel","show.oas","generators",
             "L4.2.3","L8.2.4.4.1","L9.3.4","L12.2.11","L12.2.2.6.1",
             "L12.2.4.3.1","L16.2.8.8.1","L16.4.5","L18.3.6.6.1",
             "L20.2.19","L20.2.2.10.1","L20.2.8.5.1","L24.2.11.4.1.6.1",
@@ -95,8 +97,6 @@
             S3method("print",summary.lm.design)
             S3method("print",aov.design)
             S3method("print",summary.aov.design)
-            S3method("showData",default)
-            S3method("showData",design)
             S3method("summary",design)
             S3method("summary",lm.design)
             S3method("summary",aov.design)
@@ -112,3 +112,7 @@
             S3method("factorize",design)
             S3method("factorize",factor)
             S3method("factorize",data.frame)
+            S3method("GWLP",default)
+            S3method("GWLP",design)
+            S3method("tupleSel",default)
+            S3method("tupleSel",design)

@@ -22,6 +22,11 @@ GR <- function(ID, digits=2){
           }}
        }
     RPFT <- NULL
-    if (GR<5) RPFT <- hilf
-    list(GR=round(GR + 1-sqrt(max(hilf[,1])),digits), RPFT=RPFT)
+    if (GR < ncol(ID) + 1){ 
+      RPFT <- hilf
+      GR <- round(GR + 1-sqrt(max(hilf[,1])),digits)
+      if (GR==6) GR <- 5 ## maximum set to 5, as more has not been checked
+      }
+    else GR <- Inf
+    list(GR=GR, RPFT=RPFT)
 }

@@ -3,6 +3,29 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+05/07/2013, Version 0.24
+- removed dependencies on packages tcltk and relimp, by removing 
+  functions fix and showData (these were moved to package RcmdrPlugin.DoE, 
+  which was possible because Rcmdr plugins can now have namespaces)
+- moved package dependencies from "Depends" to "Imports", where possible
+- replaced the Author and Maintainer field in Description by Authors@R
+- added a fast way to obtain word length patterns, based on code provided 
+  by Hongquan Xu  
+- added a convenience feature for looking at a series of several mosaic plots 
+  for a design
+- added automated sub titles with design properties for mosaic plots 
+  (interesting for experts only)
+- created a separate documentation file for the plot.design method
+- modified function GR to return Inf for unconfounded three- and four-factor designs, 
+  and to also return RPFT=NULL for unconfounded 3-factor designs
+- modified attribute GR of output of function P3.3 to ">=4" for designs with zero length 
+  three words, and P4.4 to ">=5" for designs with zero length four words
+- new function tupleSel automatically selects worst-case tuples from a factorial 
+  design, with the goal of helping the user inspect the sore spots of a design
+- added an option "detailed" to functions P3.3 and P4.4 that is used by 
+  the new function tupleSel
+- fixed a few documentation bugs for class design methods
+
 23/02/2013, Version 0.23-4
 - modified function generators.design to provide more easily understandable output 
   for blocked full factorial designs

@@ -81,7 +81,7 @@ For designs with repeated measurements (\code{repeat.only} and parameter designs
 the default is to analyse aggregated responses. For more detail, 
 see the documentation of \code{\link{lm.design}}. 
 
-For optimal designs (not implemented yet), the formula will be the model formula 
+For optimal designs, the formula is the model formula 
 used in optimizing the design.
 }
 

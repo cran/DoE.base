@@ -1,4 +1,4 @@
-P3.3 <- function (ID, digits = 4, rela = FALSE){
+P3.3 <- function (ID, digits = 4, rela = FALSE, detailed=FALSE){
     ## function to calculate pattern of numbers of generalized length 3 words
     ## for projections into three factors
     if (!is.logical(rela))
@@ -44,11 +44,16 @@ P3.3 <- function (ID, digits = 4, rela = FALSE){
     if (rela) colnames(aus) <- c("length3.rela", "frequency")
     rownames(aus) <- rep("", nrow(aus))
     ## attaching attributes
-    if (!rela) attr(aus, "A3") <- sum(hilf)
+    if (!rela) {
+       attr(aus, "A3") <- A3 <- sum(hilf)
+       if (detailed & A3 > 0) attr(aus, "detail") <- round(hilf, digits)
+       }
     else {
-      attr(aus, "rA3") <- sum(hilf/div)
-      attr(aus, "GR") <- round(3+1-sqrt(max(hilf/div)),2)
+      attr(aus, "rA3") <- rA3 <- sum(hilf/div)
+      if (rA3 > 0) attr(aus, "GR") <- round(3+1-sqrt(max(hilf/div)), digits)
+          else attr(aus, "GR") <- ">=4"
       attr(aus, "A3") <- sum(hilf)
+      if (detailed & rA3 > 0) attr(aus, "detail") <- round(hilf/div, digits)
     }
     aus
 }

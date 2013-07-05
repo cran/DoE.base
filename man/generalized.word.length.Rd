@@ -16,6 +16,9 @@
 \alias{oa.maxGR}
 \alias{oa.minRelProjAberr}
 \alias{nchoosek}
+\alias{tupleSel}
+\alias{tupleSel.design}
+\alias{tupleSel.default}
 \title{
 Functions for calculating the generalized word length pattern,
 projection frequencies or optimizing column selection within an array
@@ -41,10 +44,14 @@ oa.max3(ID, nlevels, rela = FALSE)
 oa.max4(ID, nlevels, rela = FALSE)
 oa.maxGR(ID, nlevels, variants = NULL)
 oa.minRelProjAberr(ID, nlevels, maxGR = NULL)
-P3.3(ID, digits = 4, rela=FALSE)
-P4.4(ID, digits = 4, rela=FALSE)
+P3.3(ID, digits = 4, rela=FALSE, detailed=FALSE)
+P4.4(ID, digits = 4, rela=FALSE, detailed=FALSE)
 GR(ID, digits=2)
 nchoosek(n, k)
+tupleSel(design, type="complete", selprop=0.25, ...)
+\method{tupleSel}{design}(design, type="complete", selprop=0.25, ...)
+\method{tupleSel}{default}(design, type="complete", selprop=0.25, ...)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -107,7 +114,21 @@ nchoosek(n, k)
   \item{maxGR}{the outcome of a call to \code{oa.min3} with \code{crit="worst"} and \code{rela=TRUE} 
        (or the outcome of a call to \code{oa.maxGR}), which is to be used for a call to \code{oa.minRelProjAberr}}
   \item{digits}{number of decimal points to which to round the result}
+  \item{detailed}{logical indicating whether the vector of all (relative) tuple word lengths 
+       is to become an attribute of the output object (attribute \code{detail}); \cr
+       intended for supporting other functions (can be a very long vector!)
+       }
   \item{k}{number of elements to be chosen, integer from 0 to n}
+  \item{type}{character string with type of worst case to consider;\cr 
+       \code{"complete"}, \code{"worst"} and \code{"worst.rel"} are available.\cr
+       For a resolution R design, tuples of R factors are considered (works for R=3 and R=4 only).
+       \code{"complete"} selects all tuples with complete aliasing of at least one factor, 
+       \code{"worst"} selects all tuples whose number of words is larger than the \code{1-selprop} 
+       quantile of the word length distribution of R-tuples, and \code{"worst.rel"} does the same 
+       with relative words (i.e. increases the weight for tuples whose minimum number of levels 
+       is small)}
+  \item{selprop}{(approximate) proportion of worst case tuples to be selected (see \code{type})}
+  \item{\dots}{further arguments, currently not used}
 }
 \details{
    These functions work for factors only and are not intended for quantitative variables. 
@@ -212,6 +233,12 @@ nchoosek(n, k)
    Occasionally, it may also be useful, 
    if there are severe restrictions on possible combinations. 
    (\code{oa.max4} should only be used for resolution IV designs.)
+   
+   Function \code{tupleSel} selects worst case tuples of R factors for resolution R designs. 
+   Depending on the type requested, all completely aliased tuples are selected, 
+   or the worst case tuples that exceed the \code{1-selprop} quantile of the numbers 
+   of absolute or relative words are selected. 
+   
 }
 \value{
    The functions \code{length3} and \code{length4} (currently) per default 
@@ -251,10 +278,17 @@ nchoosek(n, k)
    number between 3 and 5) and \code{RPFT} (the relative projection frequency table). 
    \code{GR} values smaller than 5 are exact, while the number five 
    stands for \dQuote{at least 5}. The resolution itself is the integer portion of \code{GR}.
-   The \code{RPFT} element is \code{NULL} for \code{GR=5}. 
+   The \code{RPFT} element is the relative projection frequency table for 4-factor projections 
+   for \code{GR=5}. For unconfounded three- and four-column designs, \code{GR} takes the 
+   value \code{Inf} (used to be 5 for package versions up to 0.23-4).
 
    The function \code{nchoosek} returns a matrix with k rows and \code{choose(n, k)} columns, 
    each of which contains a different subset of k elements.
+   
+   The function \code{tupleSel} returns a sorted list of worst case tuples, 
+   beginning with the worst case. In case of types \code{"worst"} or \code{"worst.rel"}, 
+   attributes provide the (relative) projection frequency tables and the sorted 
+   vector of the worst case projection values corresponding to the listed tuples.
 }
 \references{
    Ai, M.-Y. and Zhang, R.-C. (2004). Projection justification of generalized minimum
@@ -273,7 +307,10 @@ nchoosek(n, k)
       280--292.
    }
 \author{ Ulrike Groemping }
-\note{Function \code{nchoosek} has been taken from \pkg{Bioconductor} package \pkg{vsn}.}
+\note{Function \code{nchoosek} has been taken from \pkg{Bioconductor} package \pkg{vsn}.\cr
+Function \code{GWLP} is much faster (but also more inaccurate) than function \code{lengths} 
+and may be a better choice for designs with many factors.}
+\seealso{ See Also \code{\link{GWLP}} }
 
 \section{Warning }{The functions have been checked on the types of designs for which 
    they are intended (especially orthogonal arrays produced with oa.design) and 
