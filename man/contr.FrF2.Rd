@@ -5,12 +5,14 @@
   Contrasts for orthogonal Fractional Factorial 2-level designs 
 }
 \usage{
-   contr.FrF2(n)
+   contr.FrF2(n, contrasts=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{n}{ power of 2; number of levels of the factor for which contrasts are 
     to be generated}
+  \item{contrasts}{must always be \code{TRUE}; option needed for 
+      function \code{model.matrix} to work properly}
 }
 \details{
   This function mainly supports \code{-1/+1} contrasts for 2-level factors.

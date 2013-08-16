@@ -92,8 +92,8 @@ flush(stderr()); flush(stdout())
 
 ### Name: Methods for class design objects
 ### Title: Methods for class design objects
-### Aliases: [.design aggregate.design print.design showData
-###   showData.default showData.design summary.design class-design-methods
+### Aliases: [.design aggregate.design print.design summary.design
+###   class-design-methods
 ### Keywords: array design
 
 ### ** Examples
@@ -304,8 +304,10 @@ flush(stderr()); flush(stdout())
   ## only specify level combination 
   fac.design(nlevels=c(4,3,3,2))
   ## design requested via factor.names
-  fac.design(factor.names=list(one=c("a","b","c"), two=c(125,275), three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
-  ## design requested via character factor.names and nlevels (with a little German lesson for one two three)
+  fac.design(factor.names=list(one=c("a","b","c"), two=c(125,275), 
+     three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
+  ## design requested via character factor.names and nlevels 
+  ##    (with a little German lesson for one two three)
   fac.design(factor.names=c("eins","zwei","drei"),nlevels=c(2,3,2))
   
   ### blocking designs
@@ -558,6 +560,29 @@ flush(stderr()); flush(stdout())
 
 
 cleanEx()
+nameEx("halfnormal")
+### * halfnormal
+
+flush(stderr()); flush(stdout())
+
+### Name: halfnormal
+### Title: Creation of half normal effects plots and numeric methods for
+###   significance assessment
+### Aliases: halfnormal halfnormal.default halfnormal.lm halfnormal.design
+###   null.check orth.check ME.Lenth CME.LW98 CME.EM08
+### Keywords: design array
+
+### ** Examples
+
+## the default method
+halfnormal(rnorm(15), labs=paste("b",1:15,sep=""))
+
+## the design method
+halfnormal(add.response(oa.design(L12.2.11),rnorm(12)))
+
+
+
+cleanEx()
 nameEx("iscube")
 ### * iscube
 
@@ -653,13 +678,15 @@ flush(stderr()); flush(stdout())
 ### ** Examples
 
   ## smallest available array for 6 factors with 3 levels each
-  oa.design(nfactors=6,nlevels=3)
+  oa.design(nfactors=6, nlevels=3)
   ## level combination for which only a full factorial is (currently) found
   oa.design(nlevels=c(4,3,3,2))
   ## array requested via factor.names
-  oa.design(factor.names=list(one=c("a","b","c"), two=c(125,275), three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
-  ## array requested via character factor.names and nlevels (with a little German lesson for one two three four five)
-  oa.design(factor.names=c("eins","zwei","drei","vier","fuenf"),nlevels=c(2,2,2,3,7))
+  oa.design(factor.names=list(one=c("a","b","c"), two=c(125,275), 
+     three=c("old","new"), four=c(-1,1), five=c("min","medium","max")))
+  ## array requested via character factor.names and nlevels 
+    ## (with a little German lesson for one two three four five)
+  oa.design(factor.names=c("eins","zwei","drei","vier","fuenf"), nlevels=c(2,2,2,3,7))
   ## array requested via explicit name, Taguchi L18
   oa.design(ID=L18)
   ## array requested via explicit name, with column selection
@@ -829,8 +856,8 @@ oa12 <- oa.design(nlevels=c(2,2,6))
   ## plotting a design without response (uses function mosaic from package vcd)
   plot(oa12)
   ## equivalent to mosaic(~A+B+C, oa12)
-  ## alternative order:
-  mosaic(~C+A+B, oa12)
+  ## alternative order: mosaic(~C+A+B, oa12)
+  plot(oa12, select=c(3,1,2))
   ## using the select function: the plots show that the projection for factors
   ## C, D and E (columns 3, 14 and 15 of the array) is a full factorial,
   ## while A, D and E (columns 1, 14, and 15 of the array) do not occur in

@@ -1,10 +1,12 @@
 plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
       xnam <- deparse(substitute(x))
-      if (!"design" %in% class(x))
-         graphics:::plot.design(x, y, ...)
+      if (!"design" %in% class(x)){
+         class(x) <- c("design", class(x)) 
+         graphics::plot(x, y, ...)
+         }
       else{## do the right thing for class design from package conf.design
          if (is.null(design.info(x)))
-             graphics:::plot.design(x, y,...)
+             graphics::plot(x, y,...)
          else{
              ## now designs generated with suite DoE.base etc.
              di <- design.info(x)
@@ -123,7 +125,7 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
                   if (is.data.frame(y)) y <- as.matrix(y)
                   if (!is.numeric(y)) stop("columns in y must be numeric")
                   
-                   graphics:::plot.design(x[,c(select)], y, ...)
+                   graphics::plot(x[,c(select)], y, ...)
                    }
              if (table){
                   ## process metric requests with special character strings 
