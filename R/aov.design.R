@@ -54,11 +54,9 @@ print.summary.aov.design <- function(x, ...){
     cat("Number of observations used:", sum(x[[1]]$Df) + 1,"\n")
     cat("Formula:\n")
     print(attr(x, "formula"))
-    #fop <- formula(x)
-    #attributes(fop) <- NULL 
-    #print(fop)
     
-        stats:::print.summary.aov(x, ...)
+    ## printing x with the summary.aov method
+    NextMethod(x, ...)   
 
     if (!is.null(attr(x, "WholePlotEffects"))){
        cat("WARNING: This is a split plot design, whole plot effects may have larger variance!\n")
@@ -73,7 +71,8 @@ print.aov.design <-function(x, ...){
     fop <- formula(x)
     attributes(fop) <- NULL 
     print(fop)
-    stats:::print.lm(x, ...)
+    ## printing x with the aov method
+    NextMethod(x, ...)   
 
     if (!is.null(x$WholePlotEffects)){
        cat("WARNING: This is a split plot design, whole plot effects may have larger variance!\n")

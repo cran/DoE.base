@@ -1,5 +1,9 @@
-contr.FrF2 <- function (n) 
+contr.FrF2 <- function (n, contrasts=TRUE) 
 {
+    ## the contrasts option does not do anything but is needed for model.matrix
+    ## to work on objects of this type
+    if (!contrasts) stop("contr.FrF2 not defined for contrasts=FALSE")
+
     ## CAUTION: for more than 4 levels, levels need to be in correct order
     ## for the FrF2 structure to hold!
     if (length(n) <= 1) {

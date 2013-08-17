@@ -3,6 +3,22 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+16/08/2013, Version 0.25
+- added function halfnormal (generic with methods for classes lm and design) 
+  for more general half normal plots than in function DanielPlot of package FrF2
+  (mixed level designs, violations of orthogonality and partial aliasing 
+  possible, e.g. by a missing response measurement)
+- added simulated critical values for Lenth's method (crit.ME and crit.SME)
+- added functions for the significance assessment methods by 
+  Lenth (ME.Lenth), Larntz and Whitcomb 1998 (CME.LW98) and Edwards and Mee 2008 
+  (CME.EM08)
+- added function contr.XuWuPoly, removed option sparse from function contr.XuWu, 
+  made option contrasts non-functional for contr.XuWu, and added a (non-functional) 
+  option contrasts to contr.FrF2, because model.matrix apparently throws an error
+  if that option is not available
+- fixed issues with DESCRIPTION and NAMESPACE according to new rules
+- removed ":::" access to functions from other packages, where possible
+
 05/07/2013, Version 0.24
 - removed dependencies on packages tcltk and relimp, by removing 
   functions fix and showData (these were moved to package RcmdrPlugin.DoE, 

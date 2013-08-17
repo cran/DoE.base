@@ -6,6 +6,7 @@
 \alias{length5}
 \alias{lengths}
 \alias{contr.XuWu}
+\alias{contr.XuWuPoly}
 \alias{P3.3}
 \alias{P4.4}
 \alias{GR}
@@ -37,7 +38,8 @@ length3(design, with.blocks = FALSE, J = FALSE, rela = FALSE)
 length4(design, with.blocks = FALSE, separate = FALSE, J = FALSE, rela = FALSE)
 length5(design, with.blocks = FALSE, J = FALSE, rela = FALSE)
 lengths(design, with.blocks = FALSE, J = FALSE)
-contr.XuWu(n, contrasts = TRUE, sparse = FALSE)
+contr.XuWu(n, contrasts=TRUE)
+contr.XuWuPoly(n, contrasts=TRUE)
 oa.min3(ID, nlevels, all, rela = FALSE, variants = NULL, crit = "total")
 oa.min34(ID, nlevels, variants = NULL, min3=NULL, all = FALSE, rela = FALSE)
 oa.max3(ID, nlevels, rela = FALSE)
@@ -94,10 +96,11 @@ tupleSel(design, type="complete", selprop=0.25, ...)
       is currently experimental and may be removed again if it does not prove useful.\cr
       \code{separate} cannot be \code{TRUE} simultaneously with \code{J}.}
   \item{n}{integer; \cr
-      for function \code{contr.XuWu}: number of levels of the factor for which to determine contrasts\cr
+      for functions \code{contr.XuWu} and \code{contr.XuWuPoly}: 
+      number of levels of the factor for which to determine contrasts\cr
       for function \code{nchoosek}: number of elements to choose from}
-  \item{contrasts}{output a contrast matrix ?}
-  \item{sparse}{return a sparse contrast matrix ?}
+  \item{contrasts}{must always be \code{TRUE}; option needed for 
+      function \code{model.matrix} to work properly}
   \item{ID}{an orthogonal array, either a matrix or a data frame; need not be of class \code{oa}; 
       can also be a character string containing the name of an array listed in data frame \code{\link{oacat}}}
   \item{nlevels}{a vector of requested level informations (vector with an entry for each factor)}
@@ -141,8 +144,10 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    before explaining the details for the functions: Assume a design with qualitative 
    factors, for which all factors are coded with specially normalized Helmert \code{\link{contrasts}} 
    (which orthogonalizes the model matrix columns to the intercept column). 
-   Function \code{contr.XuWu} provides such contrasts, normalized according to the 
-   prescription by Xu and Wu (2001) which implies that all model matrix columns 
+   Functions \code{contr.XuWu} and \code{contr.XuWuPoly} provide such contrasts 
+   based on Helmert contrasts or orthogonal polynomial contrasts, 
+   normalized according to the prescription by Xu and Wu (2001) 
+   which implies that all model matrix columns 
    have Euclidean norm \code{sqrt(n)}, provided that each 
    individual factor is balanced.\cr 
    Then, the number of generalized words of length 3 is determined by taking the sum 

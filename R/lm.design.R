@@ -57,7 +57,8 @@ print.summary.lm.design <- function(x, ...){
     attributes(fop) <- NULL 
     print(fop)
     
-        stats:::print.summary.lm(x, ...)
+    ## printing x with the summary.lm method
+    NextMethod(x, ...)
         
     if (!is.null(x$WholePlotEffects)){
        cat("WARNING: This is a split plot design, whole plot effects may have larger variance!\n")
@@ -73,7 +74,11 @@ print.lm.design <-function(x, ...){
     fop <- formula(x)
     attributes(fop) <- NULL 
     print(fop)
-    stats:::print.lm(x, ...)
+    
+    ## printing x with the lm method
+    NextMethod(x, ...)
+    
+    stats::print.lm(x, ...)
     if (!is.null(x$WholePlotEffects)){
        cat("WARNING: This is a split plot design, whole plot effects may have larger variance!\n")
        cat("         p-values for whole plot effects may be misleadingly low!\n")
@@ -82,4 +87,7 @@ print.lm.design <-function(x, ...){
        }
 }
 
-coef.lm.design <- stats:::coef.aov
+coef.lm.design <- function(object, ...){
+   class(object) <- c("aov", class(object))
+   stats::coef(object, ...)
+   }
