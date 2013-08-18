@@ -3,6 +3,10 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+18/08/2013, Version 0.25-1
+- bugfix: print.lm.design printed the linear model twice because of a left-over 
+  stats::print.lm
+
 16/08/2013, Version 0.25
 - added function halfnormal (generic with methods for classes lm and design) 
   for more general half normal plots than in function DanielPlot of package FrF2

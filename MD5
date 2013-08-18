@@ -1,5 +1,5 @@
-b7ffbb20b1bd0c326f85f49104a38fc9 *DESCRIPTION
-11c0b95dec3343d385707bfef1ac2182 *DoE.base-Ex.R
+47401315523117834329fdd77824ffc6 *DESCRIPTION
+2bf0c98f0dbd0de059da0ba66f95f7e9 *DoE.base-Ex.R
 b597dcf92cae5051d343a6adf14a353f *NAMESPACE
 c2688372220c5393e3310b62109892b3 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -29,7 +29,7 @@ bd816a487b84941674b95d8d7bc078d2 *R/length2.R
 d58897efbc468834e4bb8abefb8535e5 *R/length3.R
 84fffc9dfb8e7916b1582f7a13f4eae3 *R/length4.R
 80911de82f0c1779e14255257520dcb6 *R/length5.R
-c4dd655b66d3a582a5d42dc6431be02e *R/lm.design.R
+9723580fb2e1ac48d38aecc188325a9f *R/lm.design.R
 f71fc7e4c8799ed485e20d3b390c4c19 *R/nchoosek.R
 60db0f8cb29f9d7f7e3e298a328700d0 *R/newP3.3.R
 b4908b98b168912201c2630b623b41f6 *R/newP4.4.R
@@ -50,7 +50,7 @@ da19ac323c1bafcc8028ec511a914a19 *R/sysdata.rda
 a0b734a0633b54e0f65d9dbccee26d7c *R/tupleSel.R
 c9937059b27a83b7d97c562f998c2a93 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-11ccaa7175b7596db2f99ecc0e6266b2 *inst/NEWS
+a910980bb63320a80037b0ecb87eb33c *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 f527ccd5e399f3063bb9fda111fb5d76 *man/GWLP.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
