@@ -99,9 +99,9 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
   if (!large.omit >= 0) stop("large.omit must be non-negative")
   if (!large.omit%%1==0) stop("large.omit must be an integer")
   if (!is.null(scl)){
-  if (!is.numeric(scl)) stop("scl must be numeric")
-  if (!length(scl)==1) stop("scl must be a single number")
-  if (!scl>0) stop("scl must be positive")
+    if (!is.numeric(scl)) stop("scl must be numeric")
+    if (!length(scl)==1) stop("scl must be a single number")
+    if (!scl>0) stop("scl must be positive")
   }
   if (!method %in% c("Lenth","LW98","EM08")) stop("invalid method")
 
@@ -287,6 +287,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
        if (dflof==0) namsupp <- paste("e", 1:dfr, sep="")
        else namsupp <- paste("lof", 1:dflof, sep="")
     }
+    if (ncol(supp)==0) supp <- supp.pe
     colnames(supp) <- namsupp
     mm <- cbind(mm, supp)
   } 
@@ -340,7 +341,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
       }
       
       if (contr.center=="contr.poly")
-        hilf <- contr.poly(nce) * sqrt(N)
+        hilf <- contr.poly(nce) * sqrt(scl) ## changed August 19
       else 
         hilf <- contr.XuWu(nce) / sqrt(nce)  * sqrt(N/scl)
       extpts <- solve(crossprod(hilf),crossprod(hilf,external.pe))

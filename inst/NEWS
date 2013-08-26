@@ -3,6 +3,14 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+26/08/2013, Version 0.25-2
+- bugfix: manual choice of alpha values in halfnormal or ME.Lenth, CME.LW98 and CME.EM08
+  failed to produce the simulated critical values in many cases 
+  (because of small numerical deviations of seq(0.01,0.25,0.01) from 0.01,0.02,...,0.25)
+- bugfix: the case with automated replications without lack of fit did not work
+- bugfix: scl did not work correctly for external pure error points with polynomial 
+  contrasts 
+  
 18/08/2013, Version 0.25-1
 - bugfix: print.lm.design printed the linear model twice because of a left-over 
   stats::print.lm

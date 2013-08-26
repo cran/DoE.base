@@ -3,13 +3,14 @@ ME.Lenth <- function(b, simulated=TRUE, alpha=NULL){
     cj <- as.numeric(b[abs(b) < 2.5 * s0])
     PSE <- 1.5 * median(abs(cj))
     m <- length(b)
-      if (is.null(alpha)) alpha <- seq(0.25,0.01,by=-0.01)
+    alphas <- as.numeric(colnames(crit.ME))
+      if (is.null(alpha)) alpha <- alphas
       else{
          if (!is.numeric(alpha)) stop("alpha must be numeric")
          if (min(alpha)<0 || max(alpha)>1) stop("alpha must be between 0 and 1")
       }
       if (simulated){
-        if (length(setdiff(alpha, seq(0.01,0.25,0.01)))>0 || m<7 || m>143){
+        if (length(setdiff(alpha, alphas))>0 || m<7 || m>143){
         simulated <- FALSE
         message("simulated critical values not available for all requests, used conservative ones")
         }
@@ -37,13 +38,14 @@ CME.LW98 <- function(b, sterr, dfe, simulated=TRUE, alpha=NULL){
   d <- m/3
   wPSE <- d / (d + dfe)
   CPSE <- sqrt((1.5 * median(abs(cj)))^2*wPSE + (1-wPSE)*sterr^2)
-      if (is.null(alpha)) alpha <- seq(0.25,0.01,by=-0.01)
+    alphas <- as.numeric(colnames(crit.ME))
+      if (is.null(alpha)) alpha <- alphas
       else{
          if (!is.numeric(alpha)) stop("alpha must be numeric")
          if (min(alpha)<0 || max(alpha)>1) stop("alpha must be between 0 and 1")
       }
       if (simulated){
-        if (length(setdiff(alpha, seq(0.01,0.25,0.01)))>0 || m<7 || m>143){
+        if (length(setdiff(alpha, alphas))>0 || m<7 || m>143){
         simulated <- FALSE
         message("simulated critical values not available for all requests, used conservative ones")
         }
@@ -73,13 +75,14 @@ CME.EM08 <- function(b, sterr, dfe, simulated=TRUE, weight0=5, alpha=NULL){
   s0 <- sqrt(ws0*s0^2 + (1-ws0)*sterr^2)
   cj <- as.numeric(b[abs(b) < 2.5 * s0])
   CPSE <- sqrt((1.5 * median(abs(cj)))^2*wPSE + (1-wPSE)*sterr^2)
-      if (is.null(alpha)) alpha <- seq(0.25,0.01,by=-0.01)
+    alphas <- as.numeric(colnames(crit.ME))
+      if (is.null(alpha)) alpha <- alphas
       else{
          if (!is.numeric(alpha)) stop("alpha must be numeric")
          if (min(alpha)<0 || max(alpha)>1) stop("alpha must be between 0 and 1")
       }
       if (simulated){
-        if (length(setdiff(alpha, seq(0.01,0.25,0.01)))>0 || m<7 || m>143){
+        if (length(setdiff(alpha, alphas))>0 || m<7 || m>143){
         simulated <- FALSE
         message("simulated critical values not available for all requests, used conservative ones")
         }
