@@ -1,9 +1,8 @@
-47401315523117834329fdd77824ffc6 *DESCRIPTION
-2bf0c98f0dbd0de059da0ba66f95f7e9 *DoE.base-Ex.R
+c134f15bd8b860f630ac5cec2ce4aa59 *DESCRIPTION
 b597dcf92cae5051d343a6adf14a353f *NAMESPACE
 c2688372220c5393e3310b62109892b3 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
-d425da82dbf2413bf51ec7bd8a9c158f *R/ME.Lenth.R
+4002a5f6a78c22c4f286898da38a0400 *R/ME.Lenth.R
 8df215b0ad5d454968b7d94a9f877151 *R/P3.3.R
 e1d980e4a9b7d190d6e7f471f3d24f9b *R/P4.4.R
 6482b2e9c0587f5a850d0acf6358b96c *R/SN.R
@@ -21,7 +20,7 @@ d0362d5f0213e28bc38709b97f949837 *R/export.design.R
 22571b06ad93583d21164f935c7c38a7 *R/fastlengths.R
 08f03ea81109d9ee13ae7ea9184329c8 *R/formula.design.R
 8fa2a1ee9e50db90091eb479f8ba162f *R/getblock.r
-33ff3c36e36e62fea6b05c0e78e399ae *R/halfnormal.R
+83f286a1b876ea053db43b96aa65d9fe *R/halfnormal.R
 a7f4b45f5c779f77949d960f984feaf4 *R/html.data.frame.R
 4aa6b02ecc1c9f6198a5e8f2c585367e *R/interleave.R
 a0e72a34fe76c42f5591bf297ccb8eec *R/iscube.R
@@ -50,7 +49,7 @@ da19ac323c1bafcc8028ec511a914a19 *R/sysdata.rda
 a0b734a0633b54e0f65d9dbccee26d7c *R/tupleSel.R
 c9937059b27a83b7d97c562f998c2a93 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-a910980bb63320a80037b0ecb87eb33c *inst/NEWS
+d20fadd4b2e91a41138d90f444ff9b17 *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 f527ccd5e399f3063bb9fda111fb5d76 *man/GWLP.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
