@@ -1,4 +1,4 @@
-c134f15bd8b860f630ac5cec2ce4aa59 *DESCRIPTION
+caa071cac2292e84cef58ce84b4b5fc8 *DESCRIPTION
 b597dcf92cae5051d343a6adf14a353f *NAMESPACE
 c2688372220c5393e3310b62109892b3 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -38,18 +38,18 @@ b4908b98b168912201c2630b623b41f6 *R/newP4.4.R
 93c692b307d376c32b62fb1e04f77114 *R/oa.min34.R
 379ebfb934e9ae8f133f779fc4b218fb *R/param.design.R
 9b586127fa0512fd1aa1af7af0ca0b6e *R/paramtowide.R
-783ed30c90e7e363baff1b90c2cce5cc *R/plot.design.R
+18f85a91e4cd84c19f049b0aacbac4be *R/plot.design.R
 f65a466ed0e017e47884bb62f511ef28 *R/printandsummary.design.R
 fe8993ea865eff68a444ada5e0158e67 *R/qua.design.R
 da5428355c791a7d118deb5c0e93de3a *R/reptolong.R
 a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 f1d7f8716831836d917983538ca9df83 *R/rerandomize.R
 36660ed289e14b4740892390c6ea53d0 *R/show.oas.R
-da19ac323c1bafcc8028ec511a914a19 *R/sysdata.rda
+b17bc7b5704761da640ba11068d6b450 *R/sysdata.rda
 a0b734a0633b54e0f65d9dbccee26d7c *R/tupleSel.R
 c9937059b27a83b7d97c562f998c2a93 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-d20fadd4b2e91a41138d90f444ff9b17 *inst/NEWS
+432d83d6497ef390cfe11856ef43da20 *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 f527ccd5e399f3063bb9fda111fb5d76 *man/GWLP.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd

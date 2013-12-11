@@ -3,6 +3,10 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+11/12/2013, Version 0.25-3
+- bugfix: function plot.design from package graphics was not called as intended from 
+  within package DoE.base's function plot.design
+
 26/08/2013, Version 0.25-2
 - bugfix: manual choice of alpha values in halfnormal or ME.Lenth, CME.LW98 and CME.EM08
   failed to produce the simulated critical values in many cases 
