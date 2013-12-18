@@ -15,7 +15,9 @@ tupleSel.default <- function(design, type="complete", selprop=0.25, ...){
 
     if (dim==3) fn <- "P3.3" else fn <- "P4.4"
     rela <- (type %in% c("complete", "worst.rel"))
-    hilf.all <- eval(parse(text=paste(fn, "(design, rela=",rela,", detailed=TRUE)")))
+    parft <- type=="worst.parft"
+    parftdf <- type=="worst.parftdf"
+    hilf.all <- eval(parse(text=paste(fn, "(design, rela=",rela,", parft=",parft,", parftdf=",parftdf,", detailed=TRUE)")))
     hilf <- attr(hilf.all, "detail")
     attr(hilf.all, "detail") <- NULL
     if (type=="complete") pos <- which(hilf==1)
@@ -24,7 +26,10 @@ tupleSel.default <- function(design, type="complete", selprop=0.25, ...){
        pos <- pos[ord(data.frame(hilf[pos]), decreasing=TRUE)]
        }
     aus <- lapply(strsplit(names(hilf[pos]), ":"), as.numeric)
-    if (rela) attr(aus, "RPFT") <- hilf.all else attr(aus, "PFT") <- hilf.all
+    if (rela) attr(aus, "RPFT") <- hilf.all else 
+    if (parft) attr(aus, "PARFT") <- hilf.all else 
+    if (parftdf) attr(aus, "PARFTdf") <- hilf.all else 
+    attr(aus, "PFT") <- hilf.all
     attr(aus, "detail") <- hilf[pos]
     aus
 }
