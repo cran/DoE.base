@@ -10,6 +10,7 @@
 \alias{P3.3}
 \alias{P4.4}
 \alias{GR}
+\alias{GRind}
 \alias{oa.min3}
 \alias{oa.min34}
 \alias{oa.max3}
@@ -46,9 +47,10 @@ oa.max3(ID, nlevels, rela = FALSE)
 oa.max4(ID, nlevels, rela = FALSE)
 oa.maxGR(ID, nlevels, variants = NULL)
 oa.minRelProjAberr(ID, nlevels, maxGR = NULL)
-P3.3(ID, digits = 4, rela=FALSE, detailed=FALSE)
-P4.4(ID, digits = 4, rela=FALSE, detailed=FALSE)
+P3.3(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
+P4.4(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
 GR(ID, digits=2)
+GRind(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE)
 nchoosek(n, k)
 tupleSel(design, type="complete", selprop=0.25, ...)
 \method{tupleSel}{design}(design, type="complete", selprop=0.25, ...)
@@ -85,7 +87,8 @@ tupleSel(design, type="complete", selprop=0.25, ...)
        i.e. \code{length3} or \code{P3.3} for resolution III designs, 
        \code{length4} or \code{P4.4} for resolution IV designs, or \code{length5} 
        for resolution V designs.\cr
-       \code{rela} cannot be \code{TRUE} simultaneously with \code{J} or \code{separate}.
+       \code{rela} cannot be \code{TRUE} simultaneously with \code{parft}, \code{parftdf}, 
+       \code{J} or \code{separate}.
        }
   \item{separate}{a logical, indicating whether or not separate (and overlapping) 
       sums are requested for each two-factor interaction; 
@@ -117,9 +120,38 @@ tupleSel(design, type="complete", selprop=0.25, ...)
   \item{maxGR}{the outcome of a call to \code{oa.min3} with \code{crit="worst"} and \code{rela=TRUE} 
        (or the outcome of a call to \code{oa.maxGR}), which is to be used for a call to \code{oa.minRelProjAberr}}
   \item{digits}{number of decimal points to which to round the result}
+  \item{parft}{logical indicating whether to tabulate projection averaged $R^2$ 
+       values (see Groemping 2013) instead of word lengths;
+       if \code{TRUE}, the table shows projection averaged $R^2$ values as 
+       detailed in Groemping (2013).\cr
+       \code{parft=TRUE} is only permitted for the shortest possible word length, 
+       i.e. \code{length3} or \code{P3.3} for resolution III designs, 
+       \code{length4} or \code{P4.4} for resolution IV designs.\cr
+       \code{parft} cannot be \code{TRUE} simultaneously with \code{rela} or \code{parftdf}.
+       }
+  \item{parftdf}{logical indicating whether to tabulate averaged $R^2$ 
+       values, where averaging is over individual degrees of freedom; this variant 
+       is not explicitly described in Groemping (2013) and usually yields very similar 
+       results as \code{parft}, except for some situations where there are factors 
+       with very unequal numbers of levels (e.g. 2-level and 8-level factors).\cr
+       \code{parftdf=TRUE} is only permitted for the shortest possible word length, 
+       i.e. \code{length3} or \code{P3.3} for resolution III designs, 
+       \code{length4} or \code{P4.4} for resolution IV designs.\cr
+       \code{parftdf} cannot be \code{TRUE} simultaneously with \code{rela} or \code{parft}.
+       }
   \item{detailed}{logical indicating whether the vector of all (relative) tuple word lengths 
        is to become an attribute of the output object (attribute \code{detail}); \cr
        intended for supporting other functions (can be a very long vector!)
+       }
+  \item{arft}{logical indicating whether or not the average $R^2$ frequency table 
+       (ARFT, see Grömping 2013) is to be returned
+       }
+  \item{scft}{logical indicating whether the squared canonical correlation frequency 
+       table (SCFT, see Grömping 2013) is to be returned
+       }
+  \item{cancors}{logical indicating whether individual canonical correlations 
+       are to be returned (see Groemping 2013). These will not be needed 
+       for normal use of the package. 
        }
   \item{k}{number of elements to be chosen, integer from 0 to n}
   \item{type}{character string with type of worst case to consider;\cr 
@@ -127,9 +159,10 @@ tupleSel(design, type="complete", selprop=0.25, ...)
        For a resolution R design, tuples of R factors are considered (works for R=3 and R=4 only).
        \code{"complete"} selects all tuples with complete aliasing of at least one factor, 
        \code{"worst"} selects all tuples whose number of words is larger than the \code{1-selprop} 
-       quantile of the word length distribution of R-tuples, and \code{"worst.rel"} does the same 
+       quantile of the word length distribution of R-tuples, \code{"worst.rel"} does the same 
        with relative words (i.e. increases the weight for tuples whose minimum number of levels 
-       is small)}
+       is small), \code{"worst.parft"} and \code{"worst.parftdf"} do the same with the 
+       different versions of projection average $R^2$ values.}
   \item{selprop}{(approximate) proportion of worst case tuples to be selected (see \code{type})}
   \item{\dots}{further arguments, currently not used}
 }
@@ -287,6 +320,20 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    for \code{GR=5}. For unconfounded three- and four-column designs, \code{GR} takes the 
    value \code{Inf} (used to be 5 for package versions up to 0.23-4).
 
+   Function \code{GRind} returns a list with elements \cr
+   \code{GRs} (the two versions of 
+   generalized resolution described in Groemping and Xu 2013), \cr
+   the matrix \code{GR.i} with rows GRtot.i and GRind.i for the 
+   factor wise generalized resolutions (also in Groemping and Xu 2013), \cr
+   and optionally \cr
+   the ARFT (Groemping 2013), \cr
+   the SCFT (Groemping 2013), \cr
+   and/or the canonical correlations.\cr 
+   The latter are held in an \cr
+   nfac x choose(nfac-1, R-1) x max(nlev)-1 array \cr
+   and are supplemented with 0es, 
+   if there are fewer of them than the respective dfi.
+
    The function \code{nchoosek} returns a matrix with k rows and \code{choose(n, k)} columns, 
    each of which contains a different subset of k elements.
    
@@ -301,9 +348,23 @@ tupleSel(design, type="complete", selprop=0.25, ...)
       \emph{Metrika} \bold{60}, 279--285.
       
    Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays. 
-      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
+      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} 
+      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
       Department II, Beuth University of Applied Sciences, Berlin.
       
+   Groemping, U. (2013). Frequency tables for the coding invariant ranking of 
+      orthogonal arrays. Report 2/2013, \emph{Reports in Mathematics, Physics and Chemistry} 
+      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
+      Department II, Beuth University of Applied Sciences, Berlin.
+      
+   Groemping, U. and Xu, H. (2013). Generalized resolution for orthogonal arrays. 
+      Report 1/2013, \emph{Reports in Mathematics, Physics and Chemistry} 
+      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
+      Department II, Beuth University of Applied Sciences, Berlin.
+      Revised version (
+      \url{http://www.e-publications.org/ims/submission/AOS/user/submissionFile/16494?confirm=1bc4f751}) 
+      accepted for \emph{Annals of Statistics})
+
    Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
       fractional factorial designs. \emph{Annals of Statistics} \bold{29}, 1066--1077.
       
@@ -368,6 +429,13 @@ and may be a better choice for designs with many factors.}
    ## generalized resolution differs as well (resolution is III in both cases)
    GR(oa24.bad)
    GR(oa24.good)
+   
+   ## and analogously also GRind and ARFT and SCFT
+   GRind(oa24.bad)
+   GRind(oa24.good)
+
+   ## GR and GRind can be different   
+   GRind(L18[, c(1:4,6:8)], arft=FALSE, scft=FALSE)
 
    ## choices for columns can be explored with functions oa.min3, oa.min34 or oa.max3
    oa.min3(L24.2.13.3.1.4.1, nlevels=c(2,2,3,4))

@@ -42,7 +42,8 @@
       or a list with a single factor position number as the first and one of the above special 
       character strings as the second element for requesting all tuples that include 
       the specified single factor,\cr
-      or any of the character strings \code{"complete"}, \code{"worst"}, \code{"worst.rel"} 
+      or any of the character strings \code{"complete"}, \code{"worst"}, \code{"worst.rel"}, 
+      \code{"worst.parft"} or \code{"worst.parftdf"}  
       for automatic selection of the projections with the worst confounding to be plotted 
       (see Details section)
       }
@@ -58,7 +59,8 @@
       device is interactive) and \code{FALSE} otherwise}
   \item{\dots}{ further arguments to functions \code{\link{plot}},
       \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics;\cr
-      For experts, option \code{sub} with the special settings \code{"GR"}, \code{"A"} or \code{"rA"}, 
+      For experts, option \code{sub} with the special settings \code{"GR"}, \code{"A"},\code{"rA"}, 
+      \code{"sumPARFT"} or \code{"sumPARFTdf"} 
       can be used to create sub titles that display the generalized resolution, 
       absolute or relative word lengths (see \code{\link{generalized.word.length}}). 
       All other specifications for \code{sub} should work as expected.}
@@ -91,7 +93,8 @@
 
     If option \code{select} is set to \code{"all2"}, \code{"all3"} or \code{"all4"},
     or a list with a numeric vector as its first element and one of these as the second element, 
-    or with \code{select} as any of \code{"complete"}, \code{"worst"} or \code{"worst.rel"},
+    or with \code{select} as any of \code{"complete"}, \code{"worst"}, \code{"worst.rel"},
+    \code{"worst.parft"} or \code{"worst.parftdf"},
     response variables are ignored, and mosaic plots are created.\cr 
     These requests usually ask for several plots; note that the plots are
     created one after the other; with an interactive graphics device, the default is that they overwrite each other
@@ -106,15 +109,21 @@
     Note that \code{"all2"}
     is interesting for non-orthogonal designs only, e.g. ones created by function \code{Dopt.design}.\cr
     
-    If option \code{select} is set to \code{"complete"}, \code{"worst"} or \code{"worst.rel"}, 
-    the worst case tuples to be displayed are selected by function \code{\link{tupleSel}}.
-    
+    If option \code{select} is set to \code{"complete"}, \code{"worst"} \code{"worst.rel"},
+    \code{"worst.parft"} or \code{"worst.parftdf"},
+    the worst case tuples to be displayed are selected by function \code{\link{tupleSel}}.    
 }
 \value{
     The \code{plot} method is called for its side effects and returns \code{NULL}.
 }
 \note{ The package is currently subject to intensive development; most key functionality is now included.
 Some changes to input and output structures may still occur.}
+
+\references{
+Groemping, U (2014) Mosaic plots are useful for visualizing low order projections 
+    of factorial designs. To appear in \emph{The American Statistician}
+    \url{http://www.tandfonline.com/action/showAxaArticles?journalCode=utas20}.
+}
 
 \author{ Ulrike Groemping }
 \seealso{ See also the following functions known to produce objects of class

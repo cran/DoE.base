@@ -48,7 +48,7 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
                 select <- names(di$factor.names)[select]
              }
              if (is.character(select)){
-                if (select[1] %in% c("all2","all3","all4","complete","worst","worst.rel")){
+                if (select[1] %in% c("all2","all3","all4","complete","worst","worst.rel","worst.parft","worst.parftdf")){
                   if (select[1] %in% c("all2","all3","all4")){
                     ## all triples or quadruples from all factors
                     ov <- TRUE
@@ -132,8 +132,7 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
                   ## from option sub
                   dots <- list(...)
                   if ("sub" %in% names(dots)){
-                          if (dots[["sub"]] %in% c("GR","A", "rA", "nA")){
-                             ## nA so far for internal use only, undocumented
+                          if (dots[["sub"]] %in% c("GR","A", "rA", "sumPARFT", "sumPARFTdf")){
                           typ <- dots[["sub"]]
                           digits=4
                           if (typ=="GR") dots[["sub"]] <- paste("GR =",round(GR(x[,select])$GR, digits))
@@ -157,16 +156,31 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
                                      else
                                      dots[["sub"]] <- paste("rA3 = ", round(l3, digits), ", A4 = ", round(length4(x[,select]), digits), sep="")
                                  }
+                                 if (typ=="sumPARFT"){
+                                     l3 <- length3(x[,select])
+                                     if (l3==0) dots[["sub"]] <- paste("sum(PARFT4) = ", round(attr(P4.4(x[,select],parft=TRUE),"sumPARFT4"),digits), sep="")
+                                     else
+                                     dots[["sub"]] <- paste("sum(PARFT3) = ", round(attr(P3.3(x[,select],parft=TRUE),"sumPARFT3"),digits), sep="")
+                                 }
+                                 if (typ=="sumPARFTdf"){
+                                     l3 <- length3(x[,select])
+                                     if (l3==0) dots[["sub"]] <- paste("sum(PARFTdf4) = ", round(attr(P4.4(x[,select],parftdf=TRUE),"sumPARFTdf4"),digits), sep="")
+                                     else
+                                     dots[["sub"]] <- paste("sum(PARFTdf3) = ", round(attr(P3.3(x[,select],parftdf=TRUE),"sumPARFTdf3"),digits), sep="")
+                                 }
                                  }
                               if (l.s==3){ 
                                  if (typ=="A") dots[["sub"]] <- paste("A3 =", round(length3(x[,select]), digits))
                                  if (typ=="rA") dots[["sub"]] <- paste("rA3 =", round(length3(x[,select], rela=TRUE), digits))
-                                 if (typ=="nA") dots[["sub"]] <- paste("newA3 =", round(attr(newP3.3(x[,select],new=TRUE),"newA3"),digits))
+                                 if (typ=="sumPARFT") 
+                                    dots[["sub"]] <- paste("sum(PARFT3) = ", round(attr(P3.3(x[,select],parft=TRUE),"sumPARFT3"),digits), sep="")
+                                 if (typ=="sumPARFTdf")
+                                     dots[["sub"]] <- paste("sum(PARFTdf3) = ", round(attr(P3.3(x[,select],parftdf=TRUE),"sumPARFTdf3"),digits), sep="")
                                  }
                               if (l.s==2){ 
                                  if (typ=="A") dots[["sub"]] <- paste("A2 =", round(length2(x[,select]),digits))
                                  else{ dots[["sub"]] <- ""
-                                 message("Relative words of length 2 have not been implemented.")}
+                                 message("Relative words or projection average R^2s of length 2 have not been implemented.")}
                                  }
                           }
                       }

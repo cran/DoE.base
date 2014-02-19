@@ -99,6 +99,9 @@ bestPFT(pfts)
 The \code{generators} methods output a list of human-readable character string 
 vectors with the generators of catalogue entries or a design. 
 
+The following functions have not yet been adapted to also handle the more 
+attractive new metrics calculated with functions \code{P3.3}, \code{P4.4} and 
+\code{GRind}.
 Function \code{PFTs.from.variants} outputs a list of (relative) projection 
 frequency tables (each entry is produced with function \code{P3.3} or \code{P4.4}). 
 Function \code{matrix.fromPFTs} outputs a matrix (reshaped from such a list, filling 
@@ -107,6 +110,7 @@ the different selections and rows for different (relative) numbers of generalize
 Function \code{rankPFTs} outputs a ranking vector, with 1 for the best design 
 (ties are kept in the original order). Function \code{bestPFTs} outputs a logical vector, 
 with entry \code{TRUE} for all best designs (identical best (R)PFTs).
+
 }
 \references{ 
    Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays. 
