@@ -4,6 +4,11 @@ This package is under development.
 Suggestions and bug reports are very welcome. 
 
 
+09/04/2014, Version 0.26-1
+- bugfix: in some situations, function summary.design erroneously 
+  reported no aliasing for FrF2 designs generated with the option 
+  alias.info=3
+
 19/02/2014, Version 0.26
 - implemented advanced quality criteria for orthogonal arrays 
   according to Grömping and Xu 2013 and Grömping (2013) in functions 

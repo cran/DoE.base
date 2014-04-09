@@ -231,24 +231,31 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
              !(length(grep("param",di$type)) > 0 | length(grep("folded", di$type))>0) )
           print(generators(object), quote=quote, ...)
           
-          
-      if (all(sapply(di$aliased, "length") >= 1) & length(di$aliased) > 1){
-         ## more than only the legend entry, no NULL
-         cat("\nAlias structure:\n")
-         print(di$aliased[-1], quote=quote, ...)}
-         else {
-         if (length(di$aliased$main)==0 & length(di$aliased$fi2) > 1){
-             cat("\nAlias structure:\n")
-             print(di$aliased[3], quote=quote, ...)
-          }
-         else {
-         if (length(di$aliased$main) > 1 & length(di$aliased$fi2) == 0){
-             cat("\nAlias structure:\n")
-             print(di$aliased[2], quote=quote, ...)
-          }
-         else cat("\nno aliasing of main effects or 2fis among experimental factors\n", fill=TRUE)
-         }
-         }
+
+      ## only the legend entry          
+      if (length(di$aliased) == 1)
+         cat("\nno aliasing of main effects or 2fis among experimental factors\n", fill=TRUE)
+      else{
+        ## several entries but no aliasing
+        if (all(sapply(di$aliased[-1], "length")==0))
+           cat("\nno aliasing of main effects or 2fis among experimental factors\n", fill=TRUE)
+           else{
+             ## relevant alias entries              
+              if (all(sapply(di$aliased, "length") >= 1) && length(di$aliased) > 1){
+                 ## more than only the legend entry, no NULL
+                 cat("\nAlias structure:\n")
+                 print(di$aliased[-1], quote=quote, ...)}
+                 else {
+                     cat("\nAlias structure:\n")
+                 if (length(di$aliased$main) > 0) 
+                     print(di$aliased[2], quote=quote, ...)
+                 if (length(di$aliased$fi2) > 0) 
+                     print(di$aliased[3], quote=quote, ...)
+                 if (length(di$aliased$fi3) > 0)
+                     print(di$aliased[4], quote=quote, ...)
+                      }
+                 }
+             }
       if (di$type=="FrF2.blocked"){
         if (length(di$aliased.with.blocks) > 0){ 
            cat("Aliased with block main effects:\n")
