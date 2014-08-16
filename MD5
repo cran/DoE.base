@@ -1,9 +1,9 @@
-73f81413f86a24d5f90ab1d38809ac60 *DESCRIPTION
-6dd306a3a048a01d8c5da5f27beac2b2 *NAMESPACE
+ab3dde7039a122419a621f05d8aac0a2 *DESCRIPTION
+46c731613a2b99e0be793a1a6a13b7f2 *NAMESPACE
 c2688372220c5393e3310b62109892b3 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
 8aa336c00bfeec43a79f92f12144cb9c *R/GRind.R
-4002a5f6a78c22c4f286898da38a0400 *R/ME.Lenth.R
+39a89d53a39ab4a7982824fccad000ba *R/ME.Lenth.R
 02b06017b7eb7d9d4ba4f607cd92137c *R/P3.3.R
 e9a717299f5935ee71b70bacff9bb9c7 *R/P4.4.R
 6482b2e9c0587f5a850d0acf6358b96c *R/SN.R
@@ -21,7 +21,7 @@ d0362d5f0213e28bc38709b97f949837 *R/export.design.R
 22571b06ad93583d21164f935c7c38a7 *R/fastlengths.R
 08f03ea81109d9ee13ae7ea9184329c8 *R/formula.design.R
 8fa2a1ee9e50db90091eb479f8ba162f *R/getblock.r
-83f286a1b876ea053db43b96aa65d9fe *R/halfnormal.R
+453f5464ac4c781b26efc24deecd26e7 *R/halfnormal.R
 a7f4b45f5c779f77949d960f984feaf4 *R/html.data.frame.R
 4aa6b02ecc1c9f6198a5e8f2c585367e *R/interleave.R
 a0e72a34fe76c42f5591bf297ccb8eec *R/iscube.R
@@ -44,11 +44,11 @@ da5428355c791a7d118deb5c0e93de3a *R/reptolong.R
 a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 f1d7f8716831836d917983538ca9df83 *R/rerandomize.R
 36660ed289e14b4740892390c6ea53d0 *R/show.oas.R
-b17bc7b5704761da640ba11068d6b450 *R/sysdata.rda
+edc565328d72eda71ea06c599da5e05d *R/sysdata.rda
 36e7ad053cf76b5b05b57e87894aacf1 *R/tupleSel.R
 c9937059b27a83b7d97c562f998c2a93 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-b497a298ca66a9f578ee934988df3d83 *inst/NEWS
+6d4caaf7a7f6ff0d72e8d70479ed9626 *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 f527ccd5e399f3063bb9fda111fb5d76 *man/GWLP.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
@@ -66,7 +66,7 @@ d538629dd8b2d24c65a6219e8b4da0fa *man/factorize.Rd
 c0aff77344b3426f5c61a021a1ff9731 *man/genChild.Rd
 5c7f9146d7081c01188b84e95329d6af *man/generalized.word.length.Rd
 e67f2abf52084252bf95d7f919df31a3 *man/getblock.Rd
-d3ff5f18770b463669a8c6697f446b04 *man/halfnormal.Rd
+e369d921ba4f5be55a69b95d4ab952b5 *man/halfnormal.Rd
 6d05a60b88b300df7ff0789be5cb988d *man/iscube.Rd
 75ccd53f9fffe43a392697b59d90fb6b *man/lm.design.Rd
 553a880633ceb1582bdf8e82c615758e *man/oa.design.Rd

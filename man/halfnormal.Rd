@@ -18,19 +18,23 @@ Generic function and methods for creating half normal effects plots
 }
 \usage{
 halfnormal(x, ...)
-\method{halfnormal}{default}(x, labs, codes = NULL, pch = 1, 
+\method{halfnormal}{default}(x, labs=names(x), codes = NULL, pch = 1, 
    alpha = 0.05, xlab = "absolute effects", large.omit = 0, plot=TRUE, 
    crit=NULL, ...)
 \method{halfnormal}{lm}(x, labs = NULL, code = FALSE, pch = NULL, 
-   alpha = 0.05, xlab = "absolute effects", large.omit = 0, plot=TRUE, 
+   alpha = 0.05, xlab = "absolute coefficients", large.omit = 0, plot=TRUE, 
    keep.colons = !code, ME.partial = FALSE, 
    external.pe = NULL, external.center = FALSE, contr.center = "contr.poly", 
-   pch.set = c(1, 16, 8), scl = NULL, method="Lenth", ...)
+   pch.set = c(1, 16, 8), scl = NULL, method="Lenth", 
+   legend=code, err.points=TRUE, err.line=TRUE, linecol="darkgray", linelwd=2, 
+   ...)
 \method{halfnormal}{design}(x, labs = NULL, code = FALSE, pch = NULL, 
-   alpha = 0.05, xlab = "absolute effects", large.omit = 0, plot=TRUE, 
+   alpha = 0.05, xlab = "absolute coefficients", large.omit = 0, plot=TRUE, 
    keep.colons = !code, ME.partial = FALSE, 
    external.pe = NULL, external.center = FALSE, contr.center = "contr.poly", 
-   pch.set = c(1, 16, 8), scl = NULL, method="Lenth", ...)
+   pch.set = c(1, 16, 8), scl = NULL, method="Lenth", 
+   legend=code, err.points=TRUE, err.line=TRUE, linecol="darkgray", linelwd=2, 
+   ...)
 
 ME.Lenth(b, simulated=TRUE, alpha=NULL)
 CME.LW98(b, sterr, dfe, simulated=TRUE, alpha=NULL)
@@ -40,8 +44,9 @@ CME.EM08(b, sterr, dfe, simulated=TRUE, weight0=5, alpha=NULL)
 \arguments{
   \item{x}{a numeric vector of effects, a linear model from experimental data, 
      or an experimental design of class \code{design}}
-  \item{labs}{effect labels; required for the default method; for classes \code{design} 
-     or \code{lm}: taken from the linear model}
+  \item{labs}{effect labels;\cr 
+     default labels: for the default method, names of the vector x, or \code{b1}, \code{b2}, ... for 
+     unnamed vectors; for classes \code{design} or \code{lm} taken from the linear model}
   \item{codes}{a vector with a code for each effect; the default \code{NULL} 
      uses the \code{labs} values}
   \item{code}{a logical; \code{TRUE} implies that factor letters 
@@ -52,7 +57,9 @@ CME.EM08(b, sterr, dfe, simulated=TRUE, weight0=5, alpha=NULL)
     in the default method, a single number (default 1) implies that the given 
     plotting symbol is used for for all points;\cr 
     for the other methods, the default \code{NULL} or a single number 
-    implies that pch.set is employed for lack of fit or pure error contrast points}
+    implies that pch.set is employed for lack of fit or pure error contrast points;\cr
+		for the non-default methods, a vector-valued \code{pch} will only rarely be useful 
+		(see Details section)}
   \item{alpha}{number between 0 and 1: the significance level for labelling effects;\cr 
     for functions \code{ME.Lenth}, \code{CME.LW98} and \code{CME.EM08}, 
     \code{alpha} can also be \code{NULL} or a numeric vector; 
@@ -89,7 +96,20 @@ CME.EM08(b, sterr, dfe, simulated=TRUE, weight0=5, alpha=NULL)
     apply the methods proposed by Larntz and Whitcomb (1998) or 
     Edwards and Mee (2008) with weight0=5; if there is no pure error, 
     method \code{"Lenth"} is always used, with a warning}
-  \item{\dots}{further options to be handed to the \code{plot} function}
+  \item{legend}{squared column length to which the model matrix is normalized; 
+    default: number of experimental runs}
+  \item{err.points}{logical, default \code{TRUE}; determines, whether pure error 
+    points are added to the plot (lack-of-fit points are always added)}
+  \item{err.line}{logical, default \code{TRUE}; determines, whether null line 
+    is added to the plot}
+  \item{linecol}{specifies the color for the null line, if applicable}
+  \item{linelwd}{specifies the width of the null line, if applicable}
+  \item{\dots}{further options to be handed to the \code{plot} function;\cr
+      among these, 
+      if options \code{col} and/or \code{cex} have an element for each effect, 
+      these are used in the expected order (first color refers to first element 
+      of x and so forth); this change was introduced in version 0.26-2 and 
+      causes an appropriate reordering in the actual plot function.}
   \item{b}{vector of coefficients}
   \item{simulated}{logical; if \code{FALSE}, the original critical values from 
    Lenth 1989 are used, otherwise the methods use stored simulated values from a million 
@@ -107,7 +127,9 @@ Function \code{halfnormal} creates half normal effects plots with automatic
 effect labelling according to significance. It also prints the significant 
 effects and creates an output object that contains only the vector if signifcant 
 effects (for the default method) or in addition several further components (see 
-section "Value"). 
+section "Value"). Note: The methods for linear models and experimental designs plot 
+absolute coefficients from a linear model (i.e. in case of 2-level factors with 
+the usual -1/+1 coding, half of the absolute effects).
 
 The methods for linear models and experimental designs allow to automatically 
 create lack of fit and pure error contrasts to also be included in the plot, 
@@ -121,11 +143,29 @@ different effect orders. Per default, main effects are required to be
 orthogonal; this can be changed via option \code{ME.partial}.
 
 The functions \code{ME.Lenth}, \code{CME.LW98} and \code{CME.EM08} yield standard 
-error estimates and critical values for alpha in 0.01, 0.02, ..., 0.25. They are 
-use simulated critical values from a large number of simulations (1000000), 
-if the number of effects is in 7 to 143. 
-Outside of these situations, the half-normal plotting routines 
-will use the conservative approximations from Lenth (1989).
+error estimates and critical values. For alpha in 0.01, 0.02, ..., 0.25, 
+function \code{ME.Lenth} uses simulated critical values from a large number of 
+simulations (1000000), if the number of effects is in 7 to 143. 
+Functions \code{CME.LW98} and \code{CME.EM08} currently simulate critical values 
+from 10000 simulation runs on the fly.
+If no simulated values are available or simulation has been switched off, 
+the half-normal plotting routines will use the conservative t-values proposed by 
+Lenth (1989) (\code{ME.Lenth}) or Larntz and Whitcomb (\code{CME.LW98} and \code{CME.EM08}).
+
+Vector valued entries for \code{pch}, \code{col} and \code{cex} are handled 
+very specifically for the class \code{lm} and class \code{design} methods: 
+They make the most sense if the model is already saturated: 
+If no pure error effects have been automatically calculated, effects whose \code{pch} 
+is identical to the third element of \code{pch.set} will be treated as pure error effects; 
+this allows to manually code these effects.\cr
+Generally, vector-valued \code{pch} (and \code{col} and \code{cex}) must have as 
+many elements as the final coefficients vector after augmenting the coefficients;
+the coefficient vector carries first the experimental coefficients, then the automatically 
+calculated lack-of-fit coefficients, then the automatically calculated pure error 
+coefficients, then lack-of fit coefficients from external replications, 
+and finally the pure error coefficients from external replications. Even for 
+\code{err.points=FALSE}, entries for all these elements are needed. The value for 
+\code{pch} determines, which coefficients are considered pure error.
 }
 \value{
 The default method for \code{halfnormal} visibly returns a character vector of significant 
@@ -181,6 +221,12 @@ the length of alpha (default: 25 critical values for alphas from 0.25 to 0.01).
 }
 \author{
 Ulrike Groemping, Beuth University of Applied Sciences, Berlin}
+
+\note{If someone worked out how to modify symbol colors (option \code{col})
+      and/or sizes (option \code{cex}) for a version before 0.26-2, 
+      version 0.26-2 will mess up the order of the symbol colors and/or sizes. 
+      The benefit: colors and symbol sizes can now be specified in the natural 
+      order, see description of the \dots argument.}
 
 \seealso{See also \code{\link[FrF2]{DanielPlot}} for (half) normal plots 
     of 2-level fractional factorial designs without partial aliasing 

@@ -1,10 +1,10 @@
 Package: DoE.base
 Title: Full factorials, orthogonal arrays and base utilities for DoE
         packages
-Version: 0.26-1
+Version: 0.26-2
 Depends: R(>= 2.10.0), grid, conf.design
 Imports: stats, utils, graphics, vcd, combinat, MASS
-Date: 2014-04-09
+Date: 2014-08-16
 Authors@R: c(person("Ulrike", "Groemping", role = c("aut", "cre"), email =
         "groemping@beuth-hochschule.de"), person("Boyko", "Amarov", role = "ctb"),
         person("Hongquan", "Xu", role = "ctb"))
@@ -15,11 +15,11 @@ LazyData: yes
 Encoding: latin1
 URL: http://prof.beuth-hochschule.de/groemping/DoE/,
         http://prof.beuth-hochschule.de/groemping/
-Packaged: 2014-04-09 10:01:44 UTC; Grömping
+Packaged: 2014-08-16 06:43:00 UTC; groemping
 Author: Ulrike Groemping [aut, cre],
   Boyko Amarov [ctb],
   Hongquan Xu [ctb]
 Maintainer: Ulrike Groemping <groemping@beuth-hochschule.de>
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-04-09 12:42:46
+Date/Publication: 2014-08-16 09:55:43

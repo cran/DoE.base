@@ -4,6 +4,39 @@ This package is under development.
 Suggestions and bug reports are very welcome. 
 
 
+16/08/2014, Version 0.26-2
+- bugfix: the xlab option did not work for lm or design objects 
+  in function halfnormal
+- bugfix: the (non-default) use of conservative critical values 
+  used too conservative df for functions CME.LW98 and CME.EM08, 
+  the default use of simulated critical values was OK for the standard use 
+  case of small dfe but also too conservative for large dfe;
+  the conservative t-values have been modified to match the Larntz and Whitcomb 
+  specification (and might thus be slightly off for the Edwards and Mee method, 
+  the simulated critical values have been adapted to adequate behavior under 
+  all dfe settings; currently, these are simulated (1000 runs) on the fly; 
+  it is planned for the future to provide pre-calculate ones from many 
+  simulation runs for the most important situations
+- bugfix: halfnormal.lm did not handle pch vectors correctly
+- improvements to function halfnormal: 
+  - the default x label "absolute effects" was changed to the more 
+    accurate "absolute coefficients" for lm and design classes
+  - the function can now take pointwise cex and col arguments 
+    in the expected order
+  - the labs argument has gained a default, 
+    in order to make quick assessments easier
+  - for class design and class lm objects, 
+    there are new e.points and e.line arguments that both default to TRUE. 
+    These allow switching off the pure error points and/or adding 
+    a null line (with slope 1/std.err). 
+    The previous behavior of the function (points, no line) can be obtained by 
+    setting e.line to FALSE. 
+  - added a default title that shows the response name, the test method (if applicable) 
+    and the significance level
+  - changed the output from function halfnormal.default to invisible, 
+    as the visible output was often annoying rather than helpful.
+- added an imports entry to the NAMESPACE file for package grid
+
 09/04/2014, Version 0.26-1
 - bugfix: in some situations, function summary.design erroneously 
   reported no aliasing for FrF2 designs generated with the option 

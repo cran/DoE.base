@@ -1,4 +1,4 @@
-     import(conf.design, stats, utils, graphics)
+     import(conf.design, stats, utils, graphics, grid)
      importFrom(vcd, mosaic)
      importFrom(MASS, ginv)
      importFrom(combinat, xsimplex)

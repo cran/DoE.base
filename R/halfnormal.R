@@ -23,10 +23,14 @@ halfnormal <- function(x, ...){
     UseMethod("halfnormal")
     }
 
-halfnormal.default <- function(x, labs, codes=NULL, pch=1, alpha=0.05, 
+halfnormal.default <- function(x, labs=names(x), codes=NULL, pch=1, alpha=0.05, 
                        xlab="absolute effects", large.omit=0, plot=TRUE, 
                        crit=NULL, ...){
   ## function returns codes of significant effects
+
+  ## added August 15 2014
+  xnam <- deparse(substitute(x))
+  if (is.null(labs)) labs <- paste("b", length(x), sep="")
   effects <- abs(x)
   if (is.null(codes)) codes <- labs
   labord <- order(effects)
@@ -36,6 +40,12 @@ halfnormal.default <- function(x, labs, codes=NULL, pch=1, alpha=0.05,
   codes <- codes[labord][1:(n-large.omit)]
   effects <- effects[1:(n-large.omit)]
   n <- n - large.omit
+  ## added August 11 2014
+  dots <- list(...)
+  cols <- dots$col
+  cexs <- dots$cex
+  titel <- dots$main
+  ##
   if (!identical(codes, labs)){ 
     haupteff <- setdiff(1:length(labs), grep(":", labs)) 
     legende <- paste(codes[haupteff], labs[haupteff], sep="=",collapse=", ")
@@ -45,6 +55,26 @@ halfnormal.default <- function(x, labs, codes=NULL, pch=1, alpha=0.05,
     if (length(pch)<n) stop("pch must have length 1 or length n")
     pch <- pch[labord]
   }
+  ## added August 11 2014
+  if (length(cols) > 1){ 
+    if (length(cols)<n) warning("col does not have length 1 or length n")
+        cols <- cols[labord]
+        dots$col <- cols
+  }
+  ##
+  ## added August 11 2014
+  if (length(cexs) > 1) {
+    if (length(cexs)<n) warning("cex does not have length 1 or length n")
+    cexs <- cexs[labord]
+    dots$cex <- cexs
+  }
+  ## added August 1 5 2014
+  if (is.null(titel)){
+     titel <- bquote(paste("Plot for ", paste(xnam), ", \U03B1 = ", .(alpha), sep=""))
+     dots$main <- titel
+  }  
+
+  ##
   ui <- qnorm(0.5+ppoints(n, a=1/2)/2)    ## modified August 14 2013
   codes <- paste(rep("  ",n), codes, sep="")
   
@@ -52,23 +82,50 @@ halfnormal.default <- function(x, labs, codes=NULL, pch=1, alpha=0.05,
     
   nlab <- sum(effects > crit)
   if (plot){
-  plot(effects, ui, ylab = "Half-normal scores", xlab = xlab, sub=legende, pch=pch, ...)
+  ### modified so that custom colors and sizes are possible 11 August 2014
+  plotfun <- function(...)
+  plot(effects, ui, ylab = "Half-normal scores", xlab = xlab, sub=legende, 
+     pch=pch, ...)
+  do.call(plotfun, dots)
   
   if (nlab > 0)
   text(effects[(n - nlab + 1):n], ui[(n - nlab + 1):n], 
        codes[(n - nlab + 1):n], adj=0, xpd=NA)
   }
   if (nlab > 0) aus <- labs[(n - nlab + 1):n] else aus <- character(0)
-  aus
+  invisible(aus)
 }
 
-halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL, 
-            alpha=0.05, xlab="absolute effects", 
+halfnormal.design <- function(x, labs=NULL, code=FALSE, pch=NULL, 
+            alpha=0.05, xlab="absolute coefficients", 
             large.omit = 0, plot=TRUE,
             keep.colons=!code, ME.partial=FALSE, 
             external.pe=NULL, external.center=FALSE, 
             contr.center="contr.poly", pch.set=c(1,16,8), 
-            scl=NULL, method="Lenth", ...){
+            scl=NULL, method="Lenth", legend=code, 
+            err.points=TRUE, err.line=TRUE, 
+            linecol="darkgray", linelwd=2, ...){
+
+ if (!"design" %in% class(x)) stop("x must be of class design")
+ 
+ halfnormal(lm(x, use.center=TRUE), labs=labs,code=code, pch=pch, alpha=alpha, xlab=xlab,
+    large.omit=large.omit, plot=plot, keep.colons=keep.colons, ME.partial=ME.partial,
+    external.pe=external.pe, external.center=external.center,
+    contr.center=contr.center, pch.set=pch.set, scl=scl, method=method, 
+    legend=legend, err.points=err.points, err.line=err.line, 
+    linecol=linecol, linelwd=linelwd, ...)
+}
+
+
+halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL, 
+            alpha=0.05, xlab="absolute coefficients", 
+            large.omit = 0, plot=TRUE,
+            keep.colons=!code, ME.partial=FALSE, 
+            external.pe=NULL, external.center=FALSE, 
+            contr.center="contr.poly", pch.set=c(1,16,8), 
+            scl=NULL, method="Lenth", 
+            legend=code, err.points=TRUE, err.line=TRUE, 
+            linecol="darkgray", linelwd=2, ...){
   ## function for plotting effects from linear model
   ## on half-normal effects plot
   ## ME.partial=FALSE (TRUE restricts to main effects and intercept)
@@ -84,8 +141,15 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
   ## large.omit allows to zoom in on smaller effects
   ## scl gives the desired squared column length (default: overall run number N)
   ## method can be "Lenth", "LW98" or "EM08"
+  ## err.points indicates whether or not to draw error points
+  ## err.line indicates whether or not to draw a line with slope 1/std.err.est.
+  ## err.points and err.line are exclusive of each other
+  ## linecol sets the color of the null line
+  ## linelwd the width
   
   linmod <- x
+  xnam <- names(linmod$model)[[1]]
+  
   if (!"lm" %in% class(linmod)) stop("x must be a linear model object")
   
   if (!length(pch.set)==3) stop("pch.set must have 3 elements")
@@ -93,7 +157,11 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
   if (!all(pch.set%%1==0)) stop("pch.set must be integer-valued")
   if (!is.logical(keep.colons)) stop("keep.colons must be logical")
   if (!is.logical(external.center)) stop("external.center must be logical")
-  if (is.null(external.pe)) if (external.center) stop("external.center must not be TRUE without external.pe specified")
+  if (!is.logical(legend)) stop("legend must be logical")
+  if (!is.logical(err.points)) stop("err.points must be logical")
+  if (!is.logical(err.line)) stop("err.line must be logical")
+  if (is.null(external.pe)) if (external.center) 
+          stop("external.center must not be TRUE without external.pe specified")
   if (!contr.center %in% c("contr.poly", "contr.helmert")) stop("invalid contr.center")
   if (!is.numeric(large.omit)) stop("large.omit must be a number")
   if (!large.omit >= 0) stop("large.omit must be non-negative")
@@ -109,6 +177,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
   orth.supp <- FALSE  ## are additional columns needed for saturating the array?
   p <- linmod$rank
   mm <- model.matrix(linmod)
+
   ## preparation for separating lack of fit and pure error effects
   pats <- apply(mm, 1, function(obj) paste(obj, collapse=":"))
   pats <- as.factor(pats)
@@ -333,6 +402,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
       break
     }
     else{
+      ## adjustments to dflof and dfr are made further down in the code
       nce <- length(external.pe)
       if (external.center){
         nonlinear <- (mean(external.pe) - mean(resp))*sqrt(nce/(N+nce))*sqrt(N/scl)
@@ -341,7 +411,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
       }
       
       if (contr.center=="contr.poly")
-        hilf <- contr.poly(nce) * sqrt(scl) ## changed August 19
+        hilf <- contr.poly(nce) * sqrt(scl) ## changed August 19 2013
       else 
         hilf <- contr.XuWu(nce) / sqrt(nce)  * sqrt(N/scl)
       extpts <- solve(crossprod(hilf),crossprod(hilf,external.pe))
@@ -351,43 +421,84 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
     }
     names(coeff) <- labs
   }
-  
-  ## automate error point symbol labeling
-  if (is.null(pch) || length(pch==1)){
-    if (is.null(pch)) pch <- pch.set[1]
-    adderr <- dfr - dflof
-    addnonlin <- dflof
+
+    ## prepare error point labeling and null line
+    adderr <- dfr - dflof   ## pure error from the model
+    addnonlin <- dflof      ## added lof from the model
     if (nce > 0) {
-      adderr <- adderr + nce - 1
-      if (external.center) addnonlin <- addnonlin + 1  ## prepare for external center point plus other augmentation
-                                                       ## not yet functional 
+      adderr <- adderr + nce - 1   ## increase by external point contributions
+      if (external.center) addnonlin <- addnonlin + 1  
+            ## increase by external center point nonlinearity check
     }
+
+  ## automate error point symbol labeling
+  if (is.null(pch) || length(pch)==1){
+    if (is.null(pch)) pch <- pch.set[1]
     if (external.center)
-      pch <- c(rep(pch, p - 1), rep(pch.set[2], addnonlin-1), rep(pch.set[3], adderr-nce+1), pch.set[2], rep(pch.set[3], nce-1))   
+      pch <- c(rep(pch, p - 1), rep(pch.set[2], addnonlin-1), rep(pch.set[3], adderr-nce+1), 
+               pch.set[2], rep(pch.set[3], nce-1))   
     else
       pch <- c(rep(pch, p - 1), rep(pch.set[2], addnonlin), rep(pch.set[3], adderr))
   }
-  
+
   crit <- NULL
   ## obtain standard error, dfe and critical value for the other methods
-  if (method %in% c("LW98","EM08")){ 
+  ## and the error line
+  if (method %in% c("LW98","EM08") || err.line || !err.points){ 
      errpos <- pch==pch.set[3]
-     if (sum(errpos)==0)
-        warning("no pure error degrees of freedom, method choice was invalid")
+     otherpos <- !errpos
+     if (sum(errpos)==0){
+        if (method %in% c("LW98","EM08")){
+          warning("no pure error degrees of freedom, method choice was invalid, changed to Lenth")
+          method <- "Lenth"
+        }
+        if (err.line){
+          warning("no pure error degrees of freedom, null line not drawn")
+          err.line <- FALSE
+        }
+        }
      else{
-     sterr <- sqrt(sum(coeff[errpos]^2)/adderr)
-     if (method=="LW98")
-        crit <- CME.LW98(coeff[!errpos], sterr, adderr)
-     if (method=="EM08")
-        crit <- CME.EM08(coeff[!errpos], sterr, adderr)
-     if (as.character(alpha) %in% names(crit$CME)) crit <- crit$CME[as.character(alpha)]
-     else crit <- qt(1-alpha/2, sum(!errpos)/3)*crit$CPSE
+	        if (!adderr == sum(errpos)) {
+          ## this occurs when manually coding pure error
+          ## almost exclusively for expert use!
+          warning("pure error points determined from pch")
+          adderr <- sum(errpos)
+          }
+       sterr <- sqrt(sum(coeff[errpos]^2)/adderr)
+       if (method %in% c("LW98","EM08")){
+         if (method=="LW98")
+            crit <- CME.LW98(coeff[!errpos], sterr, adderr)
+         if (method=="EM08")
+            crit <- CME.EM08(coeff[!errpos], sterr, adderr)
+         if (as.character(alpha) %in% names(crit$CME)) crit <- crit$CME[as.character(alpha)]
+         else crit <- qt(1-alpha/2, sum(!errpos)/3 + sum(errpos))*crit$CPSE
+       }
      }
    }
+
+  ## added August 1 5 2014
+  ## default title
+  dots <- list(...)
+  titel <- dots$main
+  if (is.null(titel)){
+     titel <- bquote(paste("Plot for ", paste(xnam), ", method = ", .(method), 
+     ", \U03B1 = ", .(alpha), sep=""))
+     dots$main <- titel
+  }  
+
+  plot.fun.errpt <- function(...) halfnormal(coeff, labs=labs, codes=labs, 
+       pch=pch, alpha=alpha, xlab=xlab, large.omit=large.omit, plot=plot, crit=crit, 
+       ...)
+  plot.fun.noerrpt <- function(...) halfnormal(coeff[otherpos], labs=labs[otherpos], 
+       codes=labs, pch=pch[otherpos], alpha=alpha, 
+       xlab=xlab, large.omit=large.omit, plot=plot, crit=crit, 
+       ...)
+  if (err.points) signif <- do.call("plot.fun.errpt", dots)
+  else signif <- do.call("plot.fun.noerrpt", dots) 
   
-  signif <- halfnormal(coeff, labs=labs, codes=labs, pch=pch, alpha=alpha, large.omit=large.omit, crit=crit, ...)
   ## add legend
-  if (code) mtext(side = 1, line = par("mar")[1]-1, texto, cex = 1)
+  if (code && legend) mtext(side = 1, line = par("mar")[1]-1, texto, cex = 1)
+  if (err.line) abline(a=0, b=1/sterr, col=linecol, lwd=linelwd)
 
   projected <- sapply(projectout, function(obj) length(obj)>0)
   projected <- names(projected)[projected]
@@ -416,21 +527,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
     cat("significant effects:\n")
     print(signif)
     }
-  invisible(list(coef=coeff, mm=mm, mod.effs=mod.effs, res=projectout[projected], LCs=prcnew[projected], alpha=alpha, method=method, signif=signif, pchs=pch))
+  invisible(list(coef=coeff, mm=mm, mod.effs=mod.effs, res=projectout[projected], 
+  LCs=prcnew[projected], alpha=alpha, method=method, signif=signif, pchs=pch))
 }
 
-halfnormal.design <- function(x, labs=NULL, code=FALSE, pch=NULL, 
-            alpha=0.05, xlab="absolute effects", 
-            large.omit = 0, plot=TRUE,
-            keep.colons=!code, ME.partial=FALSE, 
-            external.pe=NULL, external.center=FALSE, 
-            contr.center="contr.poly", pch.set=c(1,16,8), 
-            scl=NULL, method="Lenth", ...){
-
- if (!"design" %in% class(x)) stop("x must be of class design")
- 
- halfnormal(lm(x, use.center=TRUE), labs=labs,code=code, pch=pch, alpha=alpha, xlab=xlab,
-    large.omit=large.omit, plot=plot, keep.colons=keep.colons, ME.partial=ME.partial,
-    external.pe=external.pe, external.center=external.center,
-    contr.center=contr.center, pch.set=pch.set, scl=scl, method=method, ...)
-}
