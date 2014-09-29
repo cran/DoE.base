@@ -1,5 +1,5 @@
-ab3dde7039a122419a621f05d8aac0a2 *DESCRIPTION
-46c731613a2b99e0be793a1a6a13b7f2 *NAMESPACE
+ca4d2a1031a1cc3b9e9002140645e79c *DESCRIPTION
+95df501c992841d420d8481d32ec72b4 *NAMESPACE
 c2688372220c5393e3310b62109892b3 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
 8aa336c00bfeec43a79f92f12144cb9c *R/GRind.R
@@ -37,6 +37,7 @@ f71fc7e4c8799ed485e20d3b390c4c19 *R/nchoosek.R
 93c692b307d376c32b62fb1e04f77114 *R/oa.min34.R
 379ebfb934e9ae8f133f779fc4b218fb *R/param.design.R
 9b586127fa0512fd1aa1af7af0ca0b6e *R/paramtowide.R
+4c60314b2acd8855bd5191ab7030b62c *R/planor2design.r
 e0bd5ae5a88c4cd37fd7e5687ec4f5be *R/plot.design.R
 aed63c00dac20118e7ffbe7c4697921f *R/printandsummary.design.R
 fe8993ea865eff68a444ada5e0158e67 *R/qua.design.R
@@ -44,11 +45,11 @@ da5428355c791a7d118deb5c0e93de3a *R/reptolong.R
 a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
 f1d7f8716831836d917983538ca9df83 *R/rerandomize.R
 36660ed289e14b4740892390c6ea53d0 *R/show.oas.R
-edc565328d72eda71ea06c599da5e05d *R/sysdata.rda
+da19ac323c1bafcc8028ec511a914a19 *R/sysdata.rda
 36e7ad053cf76b5b05b57e87894aacf1 *R/tupleSel.R
 c9937059b27a83b7d97c562f998c2a93 *R/utilities.R
 1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-6d4caaf7a7f6ff0d72e8d70479ed9626 *inst/NEWS
+f9baa1256b02a9577fa3897e84801384 *inst/NEWS
 9b0b8a0c5a91c2dbff4f2836c17bb805 *man/DoE.base-package.Rd
 f527ccd5e399f3063bb9fda111fb5d76 *man/GWLP.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
@@ -66,12 +67,13 @@ d538629dd8b2d24c65a6219e8b4da0fa *man/factorize.Rd
 c0aff77344b3426f5c61a021a1ff9731 *man/genChild.Rd
 5c7f9146d7081c01188b84e95329d6af *man/generalized.word.length.Rd
 e67f2abf52084252bf95d7f919df31a3 *man/getblock.Rd
-e369d921ba4f5be55a69b95d4ab952b5 *man/halfnormal.Rd
+7740203db94900371233a419b1713f96 *man/halfnormal.Rd
 6d05a60b88b300df7ff0789be5cb988d *man/iscube.Rd
 75ccd53f9fffe43a392697b59d90fb6b *man/lm.design.Rd
 553a880633ceb1582bdf8e82c615758e *man/oa.design.Rd
 066f2c5180bd5074dc4e73acd3e5b609 *man/oacat.Rd
 3f15077d8eea3c76a73f2ba1ff8c69fa *man/param.design.Rd
+e2b4f8efcc70e54f3dcc8911ed3c87ec *man/planor2design.Rd
 5e973e09585f12028c09a4e2b4e846f8 *man/plot.design.Rd
 a784d2a7fd3d9e902ce3b43e4a26a4e4 *man/qua.design.Rd
 8d29d4e8f484a73e0006f82e238b4742 *man/represhape.Rd

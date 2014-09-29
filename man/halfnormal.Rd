@@ -243,10 +243,10 @@ ME.Lenth(b, alpha=0.12)
 ME.Lenth(rnorm(144), alpha=0.1)
 (mel <- ME.Lenth(b, alpha=0.1))
 ## assuming an external effect standard error based on 3df
-CME.EM08(b, 0.1, 3, alpha=0.1)    ## much smaller than Lenth, if external 
-                                  ## standard error much smaller than s0
-CME.EM08(b, mel$s0, 3, alpha=0.1) ## identical to Lenth, if the external 
-                                  ## standard error coincides with s0  
+\dontrun{CME.EM08(b, 0.1, 3, alpha=0.1)}    
+         ## does not run for saving CRAN check time 
+         ## much smaller than Lenth, if external 
+         ## standard error much smaller than s0 (see mel)
 
 ### Half normal plots
 ## the default method

@@ -4,6 +4,11 @@ This package is under development.
 Suggestions and bug reports are very welcome. 
 
 
+29/09/2014, Version 0.26-3
+- added functions planor2design and data2design for converting 
+  a planordesign, data.frame or matrix object to a class design object
+
+
 16/08/2014, Version 0.26-2
 - bugfix: the xlab option did not work for lm or design objects 
   in function halfnormal
