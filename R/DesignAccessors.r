@@ -225,11 +225,29 @@ factor.names <- function(design){
      if (!"design" %in% class(design)) stop("design.info is applicable for class design only.")
      else attr(design,"design.info")$factor.names
  }
-`factor.names<-` <- function(design, contr.modify=TRUE, value){
+
+fnmap <- function(design){
+  ## auxiliary function for function factor.names<-
+  ## function to map each factor level of the R factor 
+  ## to the respective position of the factor level 
+  ## in the factor.names element of the 
+  ## design.info attribute
+  fn <- factor.names(design)
+  nlevels <- sapply(fn, length)
+  nf <- length(fn)
+  facs <- sapply(design, is.factor)
+  maps <- mapply(function(obj) 1:obj, nlevels, SIMPLIFY=FALSE)
+  for (i in 1:nf) 
+      if (facs[i]) maps[[i]] <- sapply(levels(design[[i]]), function(obj) which(fn[[i]]==obj))
+  maps
+}
+
+`factor.names<-` <- function(design, contr.modify=TRUE, levordold=FALSE, value){
    di <- design.info(design)
    if (!(is.list(value) | is.character(value))) stop("value must be a list or a character vector")
    fnold <- factor.names(design)
    fnnold <- names(fnold)
+   fnmap <- fnmap(design)
 
    if (is.character(value)){ 
       if (!length(value)==length(fnold)) stop("value has the wrong length")
@@ -241,7 +259,7 @@ factor.names <- function(design){
    if (!length(unique(names(value)))==length(value)) 
       stop("factor names are not unique")
    
-   for (i in 1:length(value)) if (identical(value[[i]],"")) value[[i]] <- fnold[[i]]
+   for (i in 1:length(value)) if (identical(value[[i]],"")) value[[i]] <- fnold[[i]][fnmap[[i]]]
    
    if (!length(value)==length(fnold)) stop("value has wrong length")
    ## fac <- sapply(design, "is.factor")
@@ -264,7 +282,10 @@ factor.names <- function(design){
             if (is.factor(design[[fnnold[i]]])) {
                 #lev <- as.list(fnold[[i]])
                 #names(lev) <- value[[i]] 
-                levels(design[[fnnold[i]]]) <- value[[i]]
+                if (levordold)
+                  levels(design[[fnnold[i]]]) <- value[[i]]
+                else
+                  levels(design[[fnnold[i]]]) <- value[[i]][fnmap[[i]]]
                   }
  #           else design[[fnnold[i]]] <- 
  #                factor(design[[fnnold[i]]],levels=fnold[[i]],labels=value[[i]])

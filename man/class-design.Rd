@@ -32,7 +32,7 @@ run.order(design) <- value
 design.info(design)
 design.info(design) <- value
 factor.names(design)
-factor.names(design, contr.modify = TRUE) <- value
+factor.names(design, contr.modify = TRUE, levordold = FALSE) <- value
 response.names(design)
 response.names(design, remove=FALSE) <- value
 col.remove(design, colnames)
@@ -59,6 +59,12 @@ ord(matrix, decreasing=FALSE)
       get polynomial contrasts with scores identical to the factor levels, and factors with more than two 
       character levels get treatment contrasts; if FALSE, the contrasts remain unchanged from their previous state.\cr
       If solely the contrasts are to be changed, function \code{\link{change.contr}} is preferrable.}
+  \item{levordold}{logical to indicate whether the level ordering should follow the old function behavior;\cr
+      the new behavior (from version 0.27) is more plausible, in that the level ordering in the 
+      new \code{factor.names} corresponds to the \code{factor.names} entry of the \code{design.info} 
+      attribute; previously, the automatic level ordering of factor levels deviated from that order 
+      which even led to a changed level order when reassigning exactly the \code{factor.names} element 
+      of the \code{design.info} attribute}
   \item{remove}{logical to indicate whether responses not indicated in \code{value} are to be removed from 
       the design altogether. \cr
       If \code{TRUE}, the respective columns are deleted from the design. 

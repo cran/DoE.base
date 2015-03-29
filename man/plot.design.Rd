@@ -30,7 +30,7 @@
       factors; any response data will be ignored.\cr
       \code{select} can be\cr
       a list of numeric vectors (all of equal length) specifying the tuples to be plotted 
-      (a length one list (insted of the numeric vector itself) allows to plot a 
+      (a length one list (insted of the numeric vector itself) allows to plot 
       the design table as a mosaic plot instead of showing a main effects 
       plot, if the design has responses)\cr
       one of the special character strings \code{"all2"}, \code{"all3"} or \code{"all4"}
@@ -52,11 +52,12 @@
       is to be plotted (see Details section). The default is useful for small 
       designs only. For large designs, reduce this number !
       }  
-  \item{ask}{ a logical that is relevant only if \code{select} requests plots of
-      all pairs, triples or quadruples from a set of factors;
-      for the default setting \code{NULL}, \code{ask} is \code{TRUE}
-      if the current graphics device is interactive (or none is open but be the next to be opened 
-      device is interactive) and \code{FALSE} otherwise}
+  \item{ask}{ a logical; \cr
+      default behavior if \code{ask=NULL}: 
+      \code{ask} is set to \code{TRUE} if multiple plots are requested and 
+      the current graphics device is interactive 
+      (or none is open but be the next to be opened device is interactive) and 
+      \code{FALSE} otherwise}
   \item{\dots}{ further arguments to functions \code{\link{plot}},
       \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics;\cr
       For experts, option \code{sub} with the special settings \code{"GR"}, \code{"A"},\code{"rA"}, 

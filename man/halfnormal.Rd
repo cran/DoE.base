@@ -18,17 +18,18 @@ Generic function and methods for creating half normal effects plots
 }
 \usage{
 halfnormal(x, ...)
-\method{halfnormal}{default}(x, labs=names(x), codes = NULL, pch = 1, 
+\method{halfnormal}{default}(x, labs=names(x), codes = NULL, pch = 1, cex.text = 1,
    alpha = 0.05, xlab = "absolute effects", large.omit = 0, plot=TRUE, 
    crit=NULL, ...)
-\method{halfnormal}{lm}(x, labs = NULL, code = FALSE, pch = NULL, 
+\method{halfnormal}{lm}(x, labs = NULL, code = FALSE, pch = NULL, cex.text = 1, 
    alpha = 0.05, xlab = "absolute coefficients", large.omit = 0, plot=TRUE, 
    keep.colons = !code, ME.partial = FALSE, 
    external.pe = NULL, external.center = FALSE, contr.center = "contr.poly", 
    pch.set = c(1, 16, 8), scl = NULL, method="Lenth", 
    legend=code, err.points=TRUE, err.line=TRUE, linecol="darkgray", linelwd=2, 
    ...)
-\method{halfnormal}{design}(x, labs = NULL, code = FALSE, pch = NULL, 
+\method{halfnormal}{design}(x, response = NULL, labs = NULL, code = FALSE, pch = NULL, 
+   cex.text = 1, 
    alpha = 0.05, xlab = "absolute coefficients", large.omit = 0, plot=TRUE, 
    keep.colons = !code, ME.partial = FALSE, 
    external.pe = NULL, external.center = FALSE, contr.center = "contr.poly", 
@@ -60,6 +61,11 @@ CME.EM08(b, sterr, dfe, simulated=TRUE, weight0=5, alpha=NULL)
     implies that pch.set is employed for lack of fit or pure error contrast points;\cr
 		for the non-default methods, a vector-valued \code{pch} will only rarely be useful 
 		(see Details section)}
+  \item{cex.text}{factor to hand to \code{cex} argument for point labeling with 
+    function \code{text} and margin annotations with function \code{mtext}; 
+    for \code{mtext}, it is multiplied with \code{par("cex")}, in order to 
+    obtain the same size for point labels and the margin annotations.
+    }
   \item{alpha}{number between 0 and 1: the significance level for labelling effects;\cr 
     for functions \code{ME.Lenth}, \code{CME.LW98} and \code{CME.EM08}, 
     \code{alpha} can also be \code{NULL} or a numeric vector; 
@@ -101,9 +107,10 @@ CME.EM08(b, sterr, dfe, simulated=TRUE, weight0=5, alpha=NULL)
   \item{err.points}{logical, default \code{TRUE}; determines, whether pure error 
     points are added to the plot (lack-of-fit points are always added)}
   \item{err.line}{logical, default \code{TRUE}; determines, whether null line 
-    is added to the plot}
+    is added to the plot in case pure error points are available}
   \item{linecol}{specifies the color for the null line, if applicable}
   \item{linelwd}{specifies the width of the null line, if applicable}
+  \item{response}{response for which the plot is to be created}
   \item{\dots}{further options to be handed to the \code{plot} function;\cr
       among these, 
       if options \code{col} and/or \code{cex} have an element for each effect, 
@@ -172,20 +179,24 @@ The default method for \code{halfnormal} visibly returns a character vector of s
 effects only. The methods for linear models and experimental designs invisibly return lists 
 of nine elements:
 
-\code{coef} contains the estimated coefficients\cr
-\code{mm} contains the model matrix after adjustment to equally scaled independent effects\cr
-\code{mod.effs} the effects that are part of the model \cr
-\code{res} list that indicates the effects (named vector of position numbers) 
-   that were projected out from any particular model effect (element name) \cr
-\code{LCs} contains the coefficients of the linear combinations 
-   taken from the residuals after projecting out the effects listed in \code{res} 
-   from the original model matrix columns.\cr
-   Where \code{LCs} elements are \code{NULL}, the original effect completely 
-   disappeared because of complete confounding with previous effects.
-\code{alpha} contains the significance level\cr
-\code{method} contains the method of significance assessment\cr
-\code{signif} is a character vector of significant effects\cr
-\code{pchs} is a numeric vector of plot character identifiers\cr
+\tabular{ll}{
+\code{coef} \tab contains the estimated coefficients\cr
+\code{mm}   \tab contains the model matrix \cr
+            \tab after adjustment to equally scaled independent effects\cr
+\code{mod.effs} \tab the effects that are part of the model \cr
+\code{res}    \tab list that indicates the effects (named vector of position numbers)\cr 
+              \tab that were projected out from any particular model effect (element name) \cr
+\code{LCs}    \tab contains the coefficients of the linear combinations\cr 
+              \tab taken from the residuals after projecting out the effects\cr 
+              \tab listed in \code{res} from the original model matrix columns.\cr
+              \tab Where \code{LCs} elements are \code{NULL}, \cr
+              \tab the original effect completely disappeared \cr
+              \tab because of complete confounding with previous effects.\cr
+\code{alpha}  \tab contains the significance level\cr
+\code{method} \tab contains the method of significance assessment\cr
+\code{signif} \tab is a character vector of significant effects\cr
+\code{pchs}   \tab is a numeric vector of plot character identifiers\cr
+}
 
 The functions \code{ME.Lenth}, \code{CME.LW98} and \code{CME.EM08} each 
 return lists of length 4 with an estimate for s0, PSE, ME and SME for Lenth's 

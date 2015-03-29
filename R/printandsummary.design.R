@@ -20,7 +20,7 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
    }
    if (group.print)
    group.print <- di$type %in% c("full factorial.blocked", "FrF2.blocked", "FrF2.blockedcenter", 
-        "FrF2.splitplot", "FrF2.splitplot.folded", "Dopt.blocked", "Dopt.splitplot")
+        "FrF2.splitplot", "FrF2.splitplot.folded", "Dopt.blocked", "Dopt.splitplot", "oa.blocked", "pb.blocked")
          # | length(grep("param",di$type)) > 0
    if (is.null(show.order)) 
        show.order <- group.print | di$replications > 1 | di$type=="crossed" | length(grep("param",di$type)) > 0
@@ -29,7 +29,7 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
        print(cbind(run.order(x)[,2:3],x), ...)
        else{
           ## provisions for some Dopt types; not yet known whether all of them will exist 
-          if (di$type %in% c("full factorial.blocked", "FrF2.blocked", "FrF2.blockedcenter", "Dopt.blocked"))
+          if (di$type %in% c("full factorial.blocked", "FrF2.blocked", "FrF2.blockedcenter", "Dopt.blocked", "oa.blocked", "pb.blocked"))
              printBy(cbind(run.order(x)[,2:3],x), di$block.name,...)
           if (di$type %in% c("FrF2.splitplot", "FrF2.splitplot.folded","Dopt.splitplot"))
              printBy(cbind(run.order(x)[,2:3],x), names(di$factor.names)[1:di$nfac.WP], ...)

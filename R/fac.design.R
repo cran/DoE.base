@@ -5,7 +5,7 @@
 fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL, 
         replications=1, repeat.only = FALSE, randomize=TRUE, seed=NULL, 
         blocks=1, block.gen=NULL, block.name="Blocks", bbreps=replications, 
-        wbreps=1){
+        wbreps=1, block.old.behavior = FALSE){
         ## nlevels either length 1 (if all equal) or numeric vector of length nfactors, 
         ## factor.names analogous to FrF2 (character vector or named list of levels)
 
@@ -44,6 +44,8 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
            stop("replications must be an integer number.")
       if (identical(blocks,1) & !identical(wbreps,1)) 
            stop("wbreps must not differ from 1, if blocks = 1.")
+      if (identical(blocks,1) & !is.null(block.gen)) 
+           stop("block.gen must not be specified without specifiying the number of blocks.")
       if (bbreps > 1  & identical(blocks,1) & !replications > 1) 
         stop("Use replications, not bbreps, for specifying replications for unblocked designs.")
       ### check compatibilities of level number and factor number specifications
@@ -122,11 +124,12 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
             ## use table of catalogued block generators for 2 and 3 levels
             ##    if up to 8 factors with 2 level contributors or 5 factors with 3 level contributors
             if (2 %in% ung){
-                if (tab["2"] > 8) 
+                if (tab["2"] >= 8) 
                     stop("For this number of blocks, block.gen must be specified (see documentation)")
                 else {
                     k.block2 <- tab["2"]
                     k2 <- sum(sapply(hilfl, function(obj) 2 %in% obj))
+                    if (k2 > 8) stop("too many factors for 2-level related blocks with current method")
                     mult2 <- sapply(hilfl, function(obj) sum(2 == obj))
                     mult2 <- mult2[mult2>0]
                         if (k2 <= k.block2) 
@@ -134,11 +137,12 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                 }
             }
             if (3 %in% ung){
-                if (tab["3"] > 5 )
+                if (tab["3"] >= 5 )
                     stop("For this number of blocks, block.gen must be specified (see documentation)")
                 else {
                     k.block3 <- tab["3"]
                     k3 <- sum(sapply(hilfl, function(obj) 3 %in% obj))
+                    if (k3 > 5) stop("too many factors for 3-level related blocks with current method")
                     mult3 <- sapply(hilfl, function(obj) sum(3 == obj))
                     mult3 <- mult3[mult3>0]
                         if (k3 <= k.block3) 
@@ -180,14 +184,28 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                colnames(hilf3) <- pseudo.belongs
                for (i in 1:ncol(hilfmat)){
                    if (mult3[i]==1)
-                      hilf3[,intersect(which(pseudo.belongs==(colnames(hilfmat)[i])), which(collevs==3))] <- hilfmat[,i]
+                      hilf3[,intersect(which(pseudo.belongs==(colnames(hilfmat)[i])), 
+                          which(collevs==3))] <- hilfmat[,i]
                    else if (mult3[i]>1){
+                   ## ith factor has more than one 3-level pseudo factor
+                      
                       ## factors with multiple pseudo factors;
                       ## do not always use the same pseudo factor
                       ## no guarantee to be optimal in any way
                       hilfcols <- 
                           intersect(which(pseudo.belongs == colnames(hilfmat)[[i]]), which(collevs==3))
-                          hilf3[,hilfcols] <- matrix(hilfmat[,i],nrow=nrow(hilfmat),ncol=length(hilfcols))
+                      ### added with version 0.27
+                      hilfrows <- which(hilfmat[,i]>0)  ## rows with non-zero entries of hilfmat
+                      lr <- length(hilfrows)
+                      lc <- length(hilfcols)
+                      mal <- sapply(1:lr, function(obj) digitsBase(obj%%(3^lc), ndigits=lc, base=3))
+                      hilf3[hilfrows, hilfcols] <- matrix(hilfmat[hilfrows,i],nrow=lr,ncol=lc)
+# previous                hilf3[,hilfcols] <- matrix(hilfmat[,i],nrow=nrow(hilfmat),ncol=length(hilfcols))
+                      if (!block.old.behavior){
+                          ## cycle through different combinations of pseudo factors
+                          ## with more than one 3-level factors
+                          hilf3[hilfrows, hilfcols] <- hilf3[hilfrows,hilfcols]*t(mal)%%3
+                          }
                       }
                    }
                       block.gen <- rbind(hilf3, block.gen)
@@ -212,25 +230,48 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                    if (mult2[i]==1)
                       hilf2[,intersect(which(pseudo.belongs==(colnames(hilfmat)[i])), which(collevs==2))] <- hilfmat[,i]
                    else if (mult2[i]>1){
+                      ## ith factor has more than one 2-level pseudo factor
+                       
+                      ## changed with version 0.27:
                       ## factors with multiple pseudo factors;
-                      ## always use the same pseudo factor
-                      ## because otherwise there may be issues
-                      ##     with aliasing from different cancelling out behavior
+                      ## do not always use the same pseudo factor
+
+                          ## previously
+                          ## factors with multiple pseudo factors always used the same pseudo factor
+                          ## because of fears that otherwise there might be issues
+                          ##     with aliasing from different cancelling out behavior
                       hilfcols <- 
                           intersect(which(pseudo.belongs == colnames(hilfmat)[[i]]), which(collevs==2))
-                          hilf2[,hilfcols] <- matrix(hilfmat[,i], nrow=nrow(hilfmat), ncol=length(hilfcols))
-                      }
+                      hilfrows <- which(hilfmat[,i]>0)  ## rows with non-zero entries of hilfmat
+                                                        ## in ith column
+                      lr <- length(hilfrows)
+                      lc <- length(hilfcols)
+                      mal <- sapply(1:lr, function(obj) digitsBase(obj%%(2^lc), ndigits=lc))
+
+                      hilf2[hilfrows, hilfcols] <- matrix(hilfmat[hilfrows,i], nrow=lr, ncol=lc)
+                      # previous    hilf2[,hilfcols] <- matrix(hilfmat[,i], nrow=nrow(hilfmat), ncol=length(hilfcols))
                       
+                      if (!block.old.behavior){
+                          ## cycle through different single df contrasts for factors
+                          ## with more than one 2-level factors
+                          hilf2[hilfrows, hilfcols] <- hilf2[hilfrows,hilfcols]*t(mal)                          
+                          }
+                      }
                    }
                       block.gen <- rbind(hilf2, block.gen)
                    }
+              colnames(block.gen) <- pseudo.belongs 
              }
         else{
             ## specified block generators
             if (! is.numeric(block.gen)) 
                 stop("If given, block.gen must be a numeric matrix, or a numeric vector.")
-            if (!is.matrix(block.gen)) 
+            if (!is.matrix(block.gen)){
+                nn <- names(block.gen) 
                 block.gen <- matrix(block.gen, nrow=1)
+                if (!is.null(nn)) colnames(block.gen) <- nn
+                else colnames(block.gen) <- pseudo.belongs
+                }
             if (!nrow(block.gen)==length(need.gen))
                stop(nrow(block.gen)," block generators specified, ", length(need.gen), " would be needed")
             if (!ncol(block.gen)==length(collevs))
@@ -238,9 +279,8 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                   length(collevs), " would be needed")
                }
             
-            ## continue of checking
-            if (!nrow(block.gen)==length(need.gen)) 
-                 stop(nrow(block.gen)," block generators specified, ", length(need.gen), " would be needed")
+            ## continue of checking 
+
             ## identify relevant prime groups
             pg <- vector(mode="list", length=length(ung))
             for (i in 1:nrow(block.gen)){
@@ -275,7 +315,8 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
         }
       
       nruns <- prod(sapply(factor.names,"length"))
-      cat("creating full factorial with ", nruns, " runs ...\n")
+     ### changed cat to message with version 0.27
+      message("creating full factorial with ", nruns, " runs ...\n")
 
       design <- try(expand.grid(factor.names))
       if ("try-error" %in% class(design)) 

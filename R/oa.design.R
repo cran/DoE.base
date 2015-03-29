@@ -12,7 +12,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
            else paste("F", 1:nfactors, sep = "")} 
         else NULL, columns="order",  
         replications=1, repeat.only=FALSE,
-        randomize=TRUE, seed=NULL, min.residual.df=0){
+        randomize=TRUE, seed=NULL, min.residual.df=0, levordold=FALSE){
         ## ID identifies the design
         ## nruns, nfactors, factor.names self-explanatory
         ## nlevels is a numeric vector with the numbers of levels of the factors in the experiment
@@ -325,6 +325,16 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
               #       factor.names[[i]],sep="",collapse=";"),
               #       TRUE,FALSE)
               #    
+              if (levordold){
+              if (!is.numeric(factor.names[[i]])) 
+                  design[,i] <- des.recode.old(desorigcode[,i], paste(1:nlevels[i],"=",
+                     factor.names[[i]],sep="",collapse=";"),
+                     TRUE,TRUE)
+              else design[,i] <- des.recode.old(desorigcode[,i], paste(1:nlevels[i],"=",
+                     factor.names[[i]],sep="",collapse=";"),
+                     FALSE,FALSE)
+              }
+              else{
               if (!is.numeric(factor.names[[i]])) 
                   design[,i] <- des.recode(desorigcode[,i], paste(1:nlevels[i],"=",
                      factor.names[[i]],sep="",collapse=";"),
@@ -332,6 +342,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
               else design[,i] <- des.recode(desorigcode[,i], paste(1:nlevels[i],"=",
                      factor.names[[i]],sep="",collapse=";"),
                      FALSE,FALSE)
+              }
               if (!is.factor(design[,i]))
                  design[,i] <- factor(design[,i],levels=factor.names[[i]]) 
               if (nlevels[i]==2) contrasts(design[,i]) <- contr.FrF2(2)

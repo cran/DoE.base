@@ -13,7 +13,7 @@
             "aov","aov.default","aov.design",
             "param.design","paramtowide", "undesign", "redesign", "change.contr",
             "reptowide", "reptolong", "L18", "L36", "L54", "oacat","Yates3",
-            "block.catlg3",
+            "block.catlg3","VSGFS",
             "des.recode","contr.FrF2",
             "lengths","length2","length3","length4","length5","contr.XuWu","contr.XuWuPoly",
             "P3.3","P4.4","GR","GRind","oa.min3","oa.min34","oa.max3","oa.max4","oa.maxGR",
@@ -116,6 +116,9 @@
             S3method("factorize",data.frame)
             S3method("GWLP",default)
             S3method("GWLP",design)
+            S3method("lengths",default)
+            S3method("lengths",design)
+            S3method("lengths",matrix)
             S3method("halfnormal",default)
             S3method("halfnormal",design)
             S3method("halfnormal",lm)

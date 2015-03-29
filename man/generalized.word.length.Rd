@@ -5,6 +5,9 @@
 \alias{length4}
 \alias{length5}
 \alias{lengths}
+\alias{lengths.default}
+\alias{lengths.design}
+\alias{lengths.matrix}
 \alias{contr.XuWu}
 \alias{contr.XuWuPoly}
 \alias{P3.3}
@@ -38,7 +41,10 @@ length2(design, with.blocks = FALSE, J = FALSE)
 length3(design, with.blocks = FALSE, J = FALSE, rela = FALSE)
 length4(design, with.blocks = FALSE, separate = FALSE, J = FALSE, rela = FALSE)
 length5(design, with.blocks = FALSE, J = FALSE, rela = FALSE)
-lengths(design, with.blocks = FALSE, J = FALSE)
+lengths(design, ...)
+\method{lengths}{default}(design, ...)
+\method{lengths}{design}(design, ...)
+\method{lengths}{matrix}(design, ...)
 contr.XuWu(n, contrasts=TRUE)
 contr.XuWuPoly(n, contrasts=TRUE)
 oa.min3(ID, nlevels, all, rela = FALSE, variants = NULL, crit = "total")
@@ -50,7 +56,7 @@ oa.minRelProjAberr(ID, nlevels, maxGR = NULL)
 P3.3(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
 P4.4(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
 GR(ID, digits=2)
-GRind(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE)
+GRind(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE, with.blocks=FALSE)
 nchoosek(n, k)
 tupleSel(design, type="complete", selprop=0.25, ...)
 \method{tupleSel}{design}(design, type="complete", selprop=0.25, ...)
@@ -164,7 +170,9 @@ tupleSel(design, type="complete", selprop=0.25, ...)
        is small), \code{"worst.parft"} and \code{"worst.parftdf"} do the same with the 
        different versions of projection average $R^2$ values.}
   \item{selprop}{(approximate) proportion of worst case tuples to be selected (see \code{type})}
-  \item{\dots}{further arguments, currently not used}
+  \item{\dots}{further arguments; for the \code{design} method of function \code{lengths}, 
+        the defaults \code{with.blocks = FALSE, J = FALSE} can be changed here; 
+        for function \code{tupleSel}, \dots is currently not used}
 }
 \details{
    These functions work for factors only and are not intended for quantitative variables. 
@@ -196,12 +204,18 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    implying that they are exactly zero for resolution IV or resolution V fractional 
    factorial 2-level designs, respectively.
 
-   Function \code{lengths} 
-   calculates the generalized word length 
+   Function \code{lengths} calculates the generalized word length 
    pattern (numbers of generalized words of lengths 2, 3, 4 and 5 respectively), 
    functions \code{length2}, \code{length3}, \code{length4} and \code{length5} calculate 
-   each length separately. 
-   The most important ones are \code{length3} and \code{length4}; \code{length2}
+   each length separately. For designs with few rows and many columns, the newer 
+   function \code{\link{GWLP}} is much faster; therefore it will be a better choice 
+   than \code{lengths} for most applications. On the other hand, for designs with 
+   many rows, \code{lengths} can be much faster. Furthermore, \code{lengths} and 
+   the compoment functions \code{length2} to \code{length5} can calculate additional 
+   detail not available from \code{\link{GWLP}}.
+   
+   The most important component length functions are 
+   \code{length3} and \code{length4}; \code{length2}
    should yield zero for all orthogonal arrays, and \code{length5} will in most 
    cases not be of interest either. The number of shortest possible words, e.g. 
    length 4 for resolution IV designs, can be calculated in relative terms, if 
@@ -320,11 +334,12 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    for \code{GR=5}. For unconfounded three- and four-column designs, \code{GR} takes the 
    value \code{Inf} (used to be 5 for package versions up to 0.23-4).
 
-   Function \code{GRind} returns a list with elements \cr
+   Function \code{GRind} works on designs with resolution at least 3 and 
+   returns a list with elements \cr
    \code{GRs} (the two versions of 
-   generalized resolution described in Groemping and Xu 2013), \cr
+   generalized resolution described in Groemping and Xu 2014), \cr
    the matrix \code{GR.i} with rows GRtot.i and GRind.i for the 
-   factor wise generalized resolutions (also in Groemping and Xu 2013), \cr
+   factor wise generalized resolutions (also in Groemping and Xu 2014), \cr
    and optionally \cr
    the ARFT (Groemping 2013), \cr
    the SCFT (Groemping 2013), \cr
@@ -357,16 +372,12 @@ tupleSel(design, type="complete", selprop=0.25, ...)
       \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
       Department II, Beuth University of Applied Sciences, Berlin.
       
-   Groemping, U. and Xu, H. (2013). Generalized resolution for orthogonal arrays. 
-      Report 1/2013, \emph{Reports in Mathematics, Physics and Chemistry} 
-      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
-      Department II, Beuth University of Applied Sciences, Berlin.
-      Revised version (
-      \url{http://www.e-publications.org/ims/submission/AOS/user/submissionFile/16494?confirm=1bc4f751}) 
-      accepted for \emph{Annals of Statistics})
+   Groemping, U. and Xu, H. (2014). Generalized resolution for orthogonal arrays. 
+      \emph{The Annals of Statistics} \bold{42}, 918--939. 
+      \url{http://prof.beuth-hochschule.de/fileadmin/user/groemping/downloads/AOS1205.pdf}
 
    Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
-      fractional factorial designs. \emph{Annals of Statistics} \bold{29}, 1066--1077.
+      fractional factorial designs. \emph{The Annals of Statistics} \bold{29}, 1066--1077.
       
    Xu, H., Cheng, S., and Wu, C.F.J. (2004). Optimal projective three-level
       designs for factor screening and interaction detection. \emph{Technometrics} \bold{46}, 
@@ -376,7 +387,8 @@ tupleSel(design, type="complete", selprop=0.25, ...)
 \note{Function \code{nchoosek} has been taken from \pkg{Bioconductor} package \pkg{vsn}.\cr
 Function \code{GWLP} is much faster (but also more inaccurate) than function \code{lengths} 
 and may be a better choice for designs with many factors.}
-\seealso{ See Also \code{\link{GWLP}} }
+\seealso{ See also \code{\link{GWLP}} for a version of lengths that is much 
+    faster for designs with not so many runs.}
 
 \section{Warning }{The functions have been checked on the types of designs for which 
    they are intended (especially orthogonal arrays produced with oa.design) and 

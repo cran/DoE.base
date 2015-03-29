@@ -16,7 +16,7 @@ oa.design(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         else NULL, 
         columns="order", 
         replications=1, repeat.only=FALSE,
-        randomize=TRUE, seed=NULL, min.residual.df=0)
+        randomize=TRUE, seed=NULL, min.residual.df=0, levordold = FALSE)
 origin(ID)
 oa
 }
@@ -90,6 +90,12 @@ oa
   \item{min.residual.df}{ minimum number of residual degrees of freedom;\cr
         Note: function \code{oa.design} does not count replications specified with option 
        \code{replications} in determining residual degrees of freedom for \code{min.resid.df}. }
+  \item{levordold}{ logical indicating whether or not old (=pre version 0.27) 
+        level ordering should be used;\cr
+        defaults to \code{FALSE}, which implies that levels are ordered as indicated 
+        in \code{factor.names};\cr in the old ordering, levels were automatically reordered 
+        by the \code{as.factor} function, which is usually undesirable, but may be desired 
+        for reproducing designs created with earlier versions }
 }
 \details{
    Function \code{oa.design} assigns factors to the columns of orthogonal arrays that are 

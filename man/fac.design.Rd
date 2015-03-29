@@ -10,7 +10,7 @@
 fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL, 
         replications=1, repeat.only = FALSE, randomize=TRUE, seed=NULL, 
         blocks=1, block.gen=NULL, block.name="Blocks", bbreps=replications, 
-        wbreps=1)
+        wbreps=1, block.old.behavior=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -55,11 +55,12 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
        If the experiment is randomized, randomization happens within blocks. \cr
        } 
   \item{block.gen}{ provides block generating information.\cr
+       Only specify \code{block.gen}, if \code{blocks}>1. \cr
        If \code{blocks} is a prime or a power of 2 (up to 2^8) or 3 (up to 3^5) 
        or a product of powers of 2, 3, and an individual other prime, 
        \code{block.gen} is not needed (but can be optionally specified).\cr
        If given, \code{block.gen} can be \cr
-       a numeric vector of integer numbers \cr
+       a numeric vector of integer numbers that will be treated as a one-row matrix \cr
        OR a numeric matrix with integer elements.
        
        There must be a row for each prime number into which \code{blocks} factorizes, 
@@ -77,6 +78,10 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
        because the program code uses it instead of \code{replications} in some places }
   \item{wbreps}{ within block replications; whether or not these are taken as genuine replications 
        depends on the setting of \code{repeat.only}}
+  \item{block.old.behavior}{logical that can be used to activate the old (prior 
+       to version 0.27) behavior of 
+       blocking full factorial designs; the new behavior is the default, as it 
+       often creates designs with less severe confounding }
   }
 \details{
    \code{fac.design} creates full factorial designs, i.e. the number of runs is the 
@@ -216,12 +221,14 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
   G <- rbind(CD=c(0,0,1,1,0,0),CE2=c(0,0,1,0,0,1))
   plan.9blocks <- fac.design(nlevels=c(2,2,3,3,6), blocks=9, block.gen=G, seed=12345)
 
-  ## further automatic designs 
+  ## further automatic designs, not run for shortening run time 
+  \dontrun{
   fac.design(nlevels=c(2,2,3,3,6), blocks=4, seed=12345)
   fac.design(nlevels=c(2,2,3,3,6), blocks=9, seed=12345)
   fac.design(nlevels=c(2,2,3,3,6), blocks=36, seed=12345)
   fac.design(nlevels=c(3,5,6,10), blocks=15, seed=12345)
-  
+  }
+   
   ## independently check aliasing
   ## model with block main effects and all two-factor interactions
   ## 6 factors: not aliased

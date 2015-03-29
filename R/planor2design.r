@@ -3,6 +3,7 @@ planor2design <- function(x, ...){
       aus <- x@design
       fn <- x@factors
       nruns <- x@nunits
+      dk <- x@designkey
       if (!nruns==nrow(aus)) stop("this planordesign object cannot be forced to class design")
       attr(aus, "desnum") <- model.matrix(~.,aus)[,-1]
       ro <- 1:nruns
@@ -15,6 +16,7 @@ planor2design <- function(x, ...){
         randomize = FALSE,
         seed = NULL,
         response.names = NULL,
+        generators = dk,
         creator = "planor")
       class(aus) <- c("design", class(aus))
       aus

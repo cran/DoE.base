@@ -115,20 +115,22 @@ dualDistmix<-function(Bprime, nmax=5)
 }
 
 GWLP <- function(design, ...) UseMethod("GWLP")
-GWLP.design <- function(design, kmax=design.info(design)$nfactors, attrib.out=FALSE, with.blocks = FALSE, ...){
+GWLP.design <- function(design, kmax=design.info(design)$nfactors, attrib.out=FALSE, with.blocks = FALSE, digits=NULL, ...){
     if (!"design" %in% class(design)) stop("GWLP.design is for class design objects only")
     if (with.blocks)
-    GWLP.default(design[,c(design.info(design)$block.name,names(factor.names(design)))], kmax=kmax, attrib.out=attrib.out, ...)
+    GWLP.default(design[,c(design.info(design)$block.name,names(factor.names(design)))], kmax=kmax, attrib.out=attrib.out, digits=digits, ...)
     else
-    GWLP.default(design[,names(factor.names(design))], kmax=kmax, attrib.out=attrib.out, ...)
+    GWLP.default(design[,names(factor.names(design))], kmax=kmax, attrib.out=attrib.out, digits=digits, ...)
 }
-GWLP.default <- function(design, kmax=ncol(design), attrib.out=FALSE, ...){
+GWLP.default <- function(design, kmax=ncol(design), attrib.out=FALSE, digits=NULL, ...){
+  if (!is.null(digits)) if (!digits %% 1 ==0) stop("digits must be integer")
   levmix <- levelmix(design)
   if (max(levmix$ss) > 15) warning("at least one factor has more than 15 levels\nSomething wrong?")
   hilf <- distDistmix(design, levmix)
   Bd <- Bprime(hilf$BSep, nmax=kmax)
   A <- dualDistmix(Bd, nmax=kmax)
   names(A) <- 0:kmax
+  if (!is.null(digits)) A <- round(A, digits)
   if (attrib.out){
      level.info <- rbind(nlevels=levmix$ss, nfactors=levmix$ns)
      colnames(level.info) <- rep("",ncol(level.info))

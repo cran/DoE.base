@@ -19,8 +19,8 @@
 \usage{
 GWLP(design, ...)
 \method{GWLP}{design}(design, kmax=design.info(design)$nfactors, 
-     attrib.out=FALSE, with.blocks = FALSE, ...)
-\method{GWLP}{default}(design, kmax=ncol(design), attrib.out=FALSE, ...)
+     attrib.out=FALSE, with.blocks = FALSE, digits = NULL, ...)
+\method{GWLP}{default}(design, kmax=ncol(design), attrib.out=FALSE, digits = NULL, ...)
 Choose(n, k)
 Kraw(k,x,n,q)
 ham(c1, c2)
@@ -39,6 +39,7 @@ dualDistmix(Bprime, nmax=5)
   \item{attrib.out}{ the detail added to the output (see Value section)}
   \item{with.blocks}{ if \code{TRUE}, the block column contributes to 
        the GWLP, otherwise it does not }
+  \item{digits}{ the number of decimals to round to; \code{NULL} prevents rounding }
   \item{n}{an integer number}
   \item{k}{an integer number}
   \item{x}{an integer number}
@@ -58,7 +59,8 @@ dualDistmix(Bprime, nmax=5)
    Function \code{GWLP} is intended for direct use, the others are not. \cr
    Function \code{GWLP} is much faster but also more inaccurate than the 
    function \code{\link{lengths}}, which calculates numbers of words 
-   for lengths 2 to 5 only. 
+   for lengths 2 to 5 only. Note, however, that function \code{\link{lengths}} 
+   can be faster for designs with very many rows. 
    
    Function \code{ham} calculates the Hamming distance, function \code{Kraw} 
    the Krawtchouk polynomials, function \code{Choose} differs from the base 

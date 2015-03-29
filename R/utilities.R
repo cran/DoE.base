@@ -28,7 +28,62 @@ ord <- function(matrix, decreasing=FALSE){
 }
 
 
+## new function des.recode
 des.recode <- function (var, recodes, as.factor.result, char) 
+{
+## fix level order, changed with version 0.27 
+## also simplified the way the function operates
+## recodes is a long string with assignments separated by ;  
+## intention: leave level orders unchanged for factors var
+##            choose level orders according to recodes order for non-factor var
+##            whenever all levels are given in recodes
+##            otherwise have as.factor determine the level order (like so far)
+## I got rid of the rev, but don't know what the rev was for so far!
+##   
+    is.fac <- is.factor(var)
+    if (missing(as.factor.result)) 
+        as.factor.result <- is.fac
+    if (missing(char)) char <- FALSE
+
+    recode.list <- strsplit(recodes, ";")[[1]]
+    recode.list <- strsplit(recode.list, "=")
+    oldcodes <- sapply(recode.list, function(obj) obj[1])
+    if (char)
+    newcodes <- sapply(recode.list, function(obj) obj[2])
+    else newcodes <- sapply(recode.list, function(obj) eval(parse(text=obj[2]), 
+                      envir = parent.frame(), enclos = sys.frame(0)))
+
+    result <- var
+    if (is.fac) 
+        result <- as.character(result)
+        
+    for (i in 1:length(oldcodes)){
+            if (is.na(oldcodes[i])) 
+                result[is.na(var)] <- newcodes[i]
+            else result[var == oldcodes[i]] <- newcodes[i]
+        }
+    
+## fix level order, changed with version 0.27 
+    if (as.factor.result) {
+        if (is.fac){ 
+           levnew <- levels(var)
+           for (i in 1:length(oldcodes)){
+               if (is.na(oldcodes[i])) 
+                  levnew[is.na(levnew)] <- newcodes[i]
+               else levnew[levnew == oldcodes[i]] <- newcodes[i]
+               }
+           result <- factor(result, levels=levnew)
+        }
+        else{ 
+        if (length(newcodes)==length(unique(result)) & length(setdiff(newcodes, result))==0)    
+           result <- factor(result, levels=newcodes)
+        else result <- as.factor(result)
+        }
+        }   
+    result
+}
+### needed for old level order in oa.design
+des.recode.old <- function (var, recodes, as.factor.result, char) 
 {
     recode.list <- rev(strsplit(recodes, ";")[[1]])
     is.fac <- is.factor(var)
@@ -71,6 +126,9 @@ generators.design <- function(design, ...){
     ## and also estimable
     aus <- NULL
     di <- design.info(design)
+    
+    if (di$type=="planor") aus <- list(generators=di$generator)
+    else{
     
     ### make sure that all functions use the correct catlg (from catlg.name entry)
     catlg.name <- di$catlg.name
@@ -210,6 +268,7 @@ generators.design <- function(design, ...){
               }
         }  
     }
+    } ## end FrF2
     aus
 }
 

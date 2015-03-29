@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2014-02-18 r65029) -- "Unsuffered Consequences"
-Copyright (C) 2014 The R Foundation for Statistical Computing
-Platform: i386-w64-mingw32/i386 (32-bit)
+R version 3.2.0 alpha (2015-03-27 r68108)
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -31,9 +31,14 @@ The following object is masked from 'package:graphics':
 
     plot.design
 
+The following object is masked from 'package:base':
+
+    lengths
+
 > 
 > a <- fac.design(nlevels=c(2,4,3),repl=2,repeat.only=TRUE,randomize=FALSE)
-creating full factorial with  24  runs ...
+creating full factorial with 24 runs ...
+
 > b <- oa.design(nlevels=c(2,6,2),repl=3,repeat.only=TRUE,randomize=FALSE)
 > c <- a
 > response.names(c) <- c("Y1", "Y2")
@@ -226,4 +231,4 @@ NOTE: columns run.no and run.no.std.rp are annotation, not part of the data fram
 > 
 > proc.time()
    user  system elapsed 
-   0.24    0.06    0.31 
+   0.54    0.06    0.60 

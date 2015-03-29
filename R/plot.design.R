@@ -1,5 +1,6 @@
 plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
       xnam <- deparse(substitute(x))
+      if (!is.null(y)) ynam <- deparse(substitute(y))  ## for on the fly responses
       if (!"design" %in% class(x)){
          class(x) <- c("design", class(x)) 
          graphics::plot.design(x, y, ...)
@@ -99,7 +100,7 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
                 askold <- devAskNewPage()
                 if (is.null(ask)) ask <- dev.interactive(orNone=TRUE)
                 devAskNewPage(ask=ask)
-                response.names(x) <- NULL
+                suppressMessages(response.names(x) <- NULL)
                 for (i in 1:ncol(tuples)) plot(x, select=select[tuples[,i]], ...)
                 devAskNewPage(ask=askold)
                 }
@@ -124,8 +125,24 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
                       }
                   if (is.data.frame(y)) y <- as.matrix(y)
                   if (!is.numeric(y)) stop("columns in y must be numeric")
-                  
-                   graphics::plot.design(x[,c(select)], y, ...)
+                  ## as graphics::plot.design does not handle a matrix well
+                  ## choose complicated way of handling responses 
+                  if (!is.matrix(y)) {
+                     y <- matrix(y, ncol=1)
+                     if (!is.null(di$response.names)) 
+                         colnames(y) <- di$response.names
+                     else colnames(y) <- ynam
+                   }
+                   askold <- devAskNewPage()
+                   if (is.null(ask) & ncol(y)>1) ask <- dev.interactive(orNone=TRUE)
+                   devAskNewPage(ask=ask)
+                   for (i in 1:ncol(y)){
+                   cn <- colnames(y)
+                   assign(cn[i], y[,i])
+                   eval(parse(text=paste("graphics::plot.design(x[,c(select)],", 
+                          cn[i], ", ask=ask, ...)")))
+                   }
+                   devAskNewPage(ask=askold)
                    }
              if (table){
                   ## process metric requests with special character strings 

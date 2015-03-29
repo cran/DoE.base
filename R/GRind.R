@@ -1,4 +1,4 @@
-GRind <- function(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE){
+GRind <- function(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE, with.blocks=FALSE){
         ## returns list of four or five 
         ## with first element GRs a vector of GR and GRind, 
         ## second element GR.i a matrix 2 x nfac elements
@@ -10,13 +10,24 @@ GRind <- function(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE){
             ## returned only if cancors is set to TRUE
             ## the canonical correlations are supplemented with 0es, 
             ## if there are fewer than the respective dfi
+        ## version 0.27: make sure only factors are included in calculations
+        ## with.blocks only used for class design
+        if ("design" %in% class(design)) {
+            fn <- names(factor.names(design))
+            if (with.blocks) fn <- c(fn, design.info(design)$block.name)
+            design <- design[,fn]
+            nfac <- length(fn)
+            }
+        else{
+            nfac <- ncol(design)
+            fn <- 1:nfac
+        }
+        
         nlev <- levels.no(design)
         dfs <- nlev-1
-        nfac <- ncol(design)
-        fn <- 1:nfac
-        if ("design" %in% class(design)) fn <- names(factor.names(design))
         k <- min(which(round(GWLP(design)[-(c(1,2))],8)>0)) + 1
         if (k==Inf) return(list(GRtot=Inf, GRind=Inf, GRind.i=rep(Inf,nfac), cancor1=0))
+        if (k<3) stop("resolution of design must be at least 3")
         else{
         if (!"design" %in% class(design)){
            ## make sure these are factors

@@ -1,4 +1,6 @@
-show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", show = 10, parents.only = FALSE){
+show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
+     regular = "all", GRgt3 = c("all", "tot", "ind"), 
+     show = 10, parents.only = FALSE, showmetrics = FALSE , digits=3 ){
     ## preparation: check nlevels and factors and unite into one single case
     if (!(identical(nlevels,"all") | identical(factors,"all")) )
         stop("nlevels and factors must not be specified simultaneously")
@@ -44,20 +46,36 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
         for (i in 1:length(stufen))
            zeige <- zeige[zeige[,paste("n",stufen[i],sep="")]>=anzahl[i],]
     }
+    if (!identical(regular,"all") ){
+           if (identical(regular, "strict")) zeige[zeige$regular.strict,]
+           else{ 
+             if (!is.logical(regular)) stop("regular must be a logical or 'all' or 'strict'")
+             if (regular) zeige <- zeige[zeige$regular,]
+             else zeige <- zeige[!zeige$regular,]
+           }
+        }
+    if (!identical(GRgt3[1],"all") ){
+           if (!(GRgt3[1] %in% c("tot","ind"))) stop("GRgt3 must be one of 'all', 'tot', or 'ind'")
+           if (GRgt3[1]=="tot") zeige <- zeige[zeige$GR>3,]
+           else zeige <- zeige[zeige$GRind>3,]
+        }
     ## treat the resulting data frame
+    spalten <- c("name","nruns","lineage")
+    if (showmetrics) spalten <- c(spalten, "GR","GRind","regular","SCones", paste("A",3:8,sep=""))
+
     if (nrow(zeige)>0){
         ## make show="all" numeric
         if (show=="all") show <- nrow(zeige)
         ## display information, if not suppressed
         if (show > 0){
             if (show < nrow(zeige))
-            cat(nrow(zeige), " designs found, \nthe first ", show, " are listed\n")
+            cat(nrow(zeige), " arrays found, \nthe first ", show, " are listed\n")
             else
-            cat(nrow(zeige), " designs found\n")
-            print(zeige[1:min(show,nrow(zeige)),,drop=FALSE][c("name","nruns","lineage")], quote=FALSE)
+            cat(nrow(zeige), " arrays found\n")
+            print(zeige[1:min(show,nrow(zeige)),,drop=FALSE][spalten], quote=FALSE, digits=digits)
         }
         ## return information for further use
-        invisible(zeige[c("name","nruns","lineage")])
+        invisible(zeige[spalten])
     }
     else{ 
       cat("no such orthogonal array found\n")

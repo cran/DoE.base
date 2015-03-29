@@ -13,7 +13,7 @@ an experimental design.
 }
 \usage{
 getblock(design, combine=FALSE, ...)
-rerandomize.design(design, seed=NULL, ...)
+rerandomize.design(design, seed=NULL, block=NULL, ...)
 }
 \arguments{
   \item{design}{
@@ -29,6 +29,11 @@ rerandomize.design(design, seed=NULL, ...)
   \item{seed}{
     integer number for initialization of the random number generator 
     (needed for repeatable rerandomization)
+}
+  \item{block}{
+    character string giving the name of a block factor (only for unreplicated 
+    designs that do not have any prior blocking or split plot structure;
+    meant for block randomization of designs created with function \code{oa.design})
 }
   \item{\dots}{
     currently not used
@@ -65,7 +70,11 @@ rerandomize.design(design, seed=NULL, ...)
    position over the whole range of the experiment (or a block, respectively), 
    or if the user wants to also randomize the 
    blocks (rather than randomizing the block units to the experimental blocks 
-   outside of the design).
+   outside of the design), 
+   or if the user wants to do block randomization on a block factor specified with 
+   the \code{block} option  
+   for a design created with function \code{oa.design} or \code{pb} (which do not offer 
+   explicit specification of blocking).
 }
 \value{
    Function \code{getblock} returns \cr
@@ -92,6 +101,9 @@ rerandomize.design(design, seed=NULL, ...)
    getblock(ff)  
    ff <- fac.design(nlevels=c(2,2,2,3,3,3), replications=2, repeat.only=FALSE)
    try(getblock(ff))
+   ## a design created with oa.design
+   small <- oa.design(nlevels=c(2,2,2,2,2,2,2,2,8))
+   rerandomize.design(small, block="J")
 }
 
 \keyword{ array }

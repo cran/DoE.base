@@ -37,7 +37,9 @@ planor2design(x, ...)
 \value{
      an object of class \code{\link{design}} with the \code{type} and 
      \code{creator} element of \code{design.info} given as \code{external} 
-     or \code{planor}
+     or \code{planor}. For designs of type \code{planor}, the \code{generators} 
+     element of the \code{design.info} 
+     attribute contains the \code{designkey} from the original \code{planor} design.
 }
 \author{ Ulrike Groemping }
 \seealso{ See also: \code{\link[planor:planordesign-class]{planordesign}}, 

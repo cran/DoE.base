@@ -23,7 +23,7 @@ halfnormal <- function(x, ...){
     UseMethod("halfnormal")
     }
 
-halfnormal.default <- function(x, labs=names(x), codes=NULL, pch=1, alpha=0.05, 
+halfnormal.default <- function(x, labs=names(x), codes=NULL, pch=1, cex.text=1, alpha=0.05, 
                        xlab="absolute effects", large.omit=0, plot=TRUE, 
                        crit=NULL, ...){
   ## function returns codes of significant effects
@@ -90,14 +90,14 @@ halfnormal.default <- function(x, labs=names(x), codes=NULL, pch=1, alpha=0.05,
   
   if (nlab > 0)
   text(effects[(n - nlab + 1):n], ui[(n - nlab + 1):n], 
-       codes[(n - nlab + 1):n], adj=0, xpd=NA)
+       codes[(n - nlab + 1):n], adj=0, xpd=NA, cex=cex.text)
   }
   if (nlab > 0) aus <- labs[(n - nlab + 1):n] else aus <- character(0)
   invisible(aus)
 }
 
-halfnormal.design <- function(x, labs=NULL, code=FALSE, pch=NULL, 
-            alpha=0.05, xlab="absolute coefficients", 
+halfnormal.design <- function(x, response=NULL, labs=NULL, code=FALSE, pch=NULL, 
+            cex.text=1, alpha=0.05, xlab="absolute coefficients", 
             large.omit = 0, plot=TRUE,
             keep.colons=!code, ME.partial=FALSE, 
             external.pe=NULL, external.center=FALSE, 
@@ -108,7 +108,7 @@ halfnormal.design <- function(x, labs=NULL, code=FALSE, pch=NULL,
 
  if (!"design" %in% class(x)) stop("x must be of class design")
  
- halfnormal(lm(x, use.center=TRUE), labs=labs,code=code, pch=pch, alpha=alpha, xlab=xlab,
+ halfnormal(lm(x, response=response, use.center=TRUE), labs=labs,code=code, pch=pch, alpha=alpha, xlab=xlab,
     large.omit=large.omit, plot=plot, keep.colons=keep.colons, ME.partial=ME.partial,
     external.pe=external.pe, external.center=external.center,
     contr.center=contr.center, pch.set=pch.set, scl=scl, method=method, 
@@ -117,7 +117,7 @@ halfnormal.design <- function(x, labs=NULL, code=FALSE, pch=NULL,
 }
 
 
-halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL, 
+halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL, cex.text=1, 
             alpha=0.05, xlab="absolute coefficients", 
             large.omit = 0, plot=TRUE,
             keep.colons=!code, ME.partial=FALSE, 
@@ -452,10 +452,8 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
           warning("no pure error degrees of freedom, method choice was invalid, changed to Lenth")
           method <- "Lenth"
         }
-        if (err.line){
-          warning("no pure error degrees of freedom, null line not drawn")
           err.line <- FALSE
-        }
+          ## removed warning, as err.line=TRUE is the default
         }
      else{
 	        if (!adderr == sum(errpos)) {
@@ -487,45 +485,58 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL,
   }  
 
   plot.fun.errpt <- function(...) halfnormal(coeff, labs=labs, codes=labs, 
-       pch=pch, alpha=alpha, xlab=xlab, large.omit=large.omit, plot=plot, crit=crit, 
+       pch=pch, cex.text=cex.text, alpha=alpha, xlab=xlab, large.omit=large.omit, plot=plot, crit=crit, 
        ...)
   plot.fun.noerrpt <- function(...) halfnormal(coeff[otherpos], labs=labs[otherpos], 
-       codes=labs, pch=pch[otherpos], alpha=alpha, 
+       codes=labs, pch=pch[otherpos], cex.text=cex.text, alpha=alpha, 
        xlab=xlab, large.omit=large.omit, plot=plot, crit=crit, 
        ...)
   if (err.points) signif <- do.call("plot.fun.errpt", dots)
   else signif <- do.call("plot.fun.noerrpt", dots) 
   
   ## add legend
-  if (code && legend) mtext(side = 1, line = par("mar")[1]-1, texto, cex = 1)
+  if (code && legend) mtext(side = 1, line = par("mar")[1]-1, texto, cex = cex.text*par("cex"))
   if (err.line) abline(a=0, b=1/sterr, col=linecol, lwd=linelwd)
 
   projected <- sapply(projectout, function(obj) length(obj)>0)
   projected <- names(projected)[projected]
   ali.complete <- sapply(segnew, function(obj) length(obj)==0)
   
+  ordernote <- FALSE
+   
   if (!all(nulls <- sapply(projectout[!ali.complete], function(obj) length(obj)==0))) 
+    if (plot) mtext(side=3, line=0, "Note: Some coefficients are order dependent.", 
+         cex=cex.text*par("cex"))
+    ordernote <- TRUE
     for (i in which(!nulls)){
       hilf <- paste(strsplit(mod.effs[i],":",fixed=TRUE)[[1]],collapse="")
-      cat(paste("Creation of", hilf,"\n"))
-      cat(paste("Projected out:", 
-          paste(sapply(sapply(names(projectout[[i]]),strsplit,":",fixed=TRUE),paste,collapse=""),collapse=","),"\n"))
+      message(paste("\nCreation of", hilf))
+      message(paste("Projected out:", 
+          paste(sapply(sapply(names(projectout[[i]]),strsplit,":",fixed=TRUE),paste,collapse=""),collapse=",")))
       if (!is.null(prcnew[[i]])){
         if (nrow(prcnew[[i]])>1){
-        cat("Effects columns are the following linear combinations of residuals:\n")
-        colnames(prcnew[[i]]) <- paste(hilf, 1:ncol(prcnew[[i]]), sep="")
-        print(round(prcnew[[i]],4))
+        message(paste(capture.output(
+           {cat("Effects columns are the following linear combinations of residuals:\n")
+                  colnames(prcnew[[i]]) <- paste(hilf, 1:ncol(prcnew[[i]]), 
+                    sep = "")
+                  print(round(prcnew[[i]], 4))}), collapse="\n"))
         }
       }
     }
   if (sum(ali.complete) > 0) {
-    cat("\nThe following effects are completely aliased:\n")
-    print(names(ali.complete[ali.complete]), quote=FALSE)
+    if (!ordernote) 
+    if (plot) mtext(side=3, line=0, "Note: Some coefficients are order dependent.", 
+       cex=cex.text*par("cex"))
+    if (ordernote) message("\nThe following effects are completely aliased:\n")
+    else message("The following effects are completely aliased:\n")
+    ordernote <- TRUE
+    message(paste(capture.output(print(names(ali.complete[ali.complete]), quote=FALSE)), collapse="\n"))
   }
-  if (length(signif)==0) cat("no significant effects\n")
+  if (length(signif)==0) message("no significant effects")
   else {
-    cat("significant effects:\n")
-    print(signif)
+    if (ordernote) message("\nSignificant effects", " (alpha=", alpha, ", ", method, " method):")
+    else message("Significant effects", " (alpha=", alpha, "):")
+    message(paste(capture.output(print(rev(signif), quote=FALSE)),"\n", collapse="\n"))
     }
   invisible(list(coef=coeff, mm=mm, mod.effs=mod.effs, res=projectout[projected], 
   LCs=prcnew[projected], alpha=alpha, method=method, signif=signif, pchs=pch))

@@ -25,8 +25,9 @@ oacat
    in data frame \code{oacat}. Most of the listed arrays have been taken 
    from Kuhfeld 2009. Exceptions: The three arrays \code{L128.2.15.8.1}, 
    \code{L256.2.19} and \code{L2048.2.63}) have been taken from Mee 2009; these 
-   are irregular resolution V arrays for which all main effects and 2fis can be 
-   orthogonally estimated.
+   are irregular resolution IV or V arrays for which all main effects can be 
+   orthogonally estimated even in the presence of interactions, or even all 2fis 
+   can be orthogonally estimated, provided there are no higher order effects.
    
    Note that most of the arrays, per default, are guaranteed to orthogonally estimate 
    all main effects, \bold{provided all higher order effects are negligible} 
@@ -40,10 +41,25 @@ oacat
 }
 \value{
    The data frame contains the columns \code{name}, \code{nruns}, \code{lineage} 
-   and further columns \code{n2} to \code{n72}. \code{name} holds the name of the 
+   and further columns \code{n2} to \code{n72}; furthermore, some columns with 
+   calculated metrics are included. \code{name} holds the name of the 
    array, \code{nruns} its number of runs, and \code{lineage} the way the array can 
    be constructed from other arrays, if applicable. The columns \code{n2} to \code{n72} 
    each contain the number of factors with the respective number of levels.
+   The logical columns \code{ff}, \code{regular} and \code{regular.strict} indicate a  
+   full factorial and a regular design in the weak or strict sense (weak: all 
+   SCFT entries are 0 or 1; strict: all ARFT entries are 0 or 1), respectively.
+   Column \code{SCones} contains the number of worst case (=1)
+   squared canonical correlations; if this number is 0, the design can be considered 
+   to have partial confounding only throughout the entire design. 
+   \code{GR}, \code{GRind}, \code{maxAR}
+   and \code{maxSC} contain the generalized resolution in two versions, 
+   the maximum average R^2 and the maximum squared canonical correlation.
+   \code{dfe} contains the error degrees of freedom of a main effects model, 
+   if all columns of the array are populated; if this is 0, the design is saturated. 
+   \code{A3} to \code{A8} contain the numbers of words of lengths 3 to 8. 
+   More information on these metrics can be found in 
+   \code{\link{generalized.word.length}} and the literature therein. 
    
    The design names also indicate the number of runs and the numbers of factors: 
    The first portion of each array name (starting with L) indicates the number of runs, 

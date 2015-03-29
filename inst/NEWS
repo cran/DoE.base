@@ -3,11 +3,70 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+29/03/2015, Version 0.27 
+- modified the blocking facility for full factorial designs to 
+  yield better designs in case there are factors with 2^a or 3^b levels
+- extended error messages to more accurately reflect the limitations of 
+  automated blocking for function fac.design
+- added labeling to the block.gen component of the design.info object 
+  of blocked full factorials (does not overwrite existing names of custom 
+  block.gen matrix)
+- added pseudo factor numbers of levels to the design.info object
+  of blocked full factorials
+- added generator information to design.info also for planor designs
+  (unmodified designkey attribute stored in element generators)
+- added columns to the oacat data frame for supporting more informed choice 
+  of starting designs for column selection 
+- modified function show.oas 
+  - to allow selection based on the new columns regular, regular.strict, and GR    criteria, 
+  - to display quality metrics on request 
+    by new option showmetrics
+  - to consequently use the word "array" instead of "design" in function output    and documentation
+- made it the default behavior of factor.names to add factor levels 
+  in the order of the factor.names element of design.info 
+  (added option to switch to old behavior, where needed)
+- made it the default behavior of oa.design to assign factor levels 
+  in the order specified in factor.names (fac.design always did)
+  (added option to switch to old behavior, where needed)
+- made function lengths generic with methods for classes design and matrix, 
+  and a default method that is the new base function lengths for R versions from 3.2;
+  note that this change is defensive, i.e. considers not breaking user expectations 
+  regarding the behavior of base functions a high priority: 
+  using the package function lengths on a data frame without class design 
+  now requires explicit use of DoE.base:::lengths.design; 
+  this choice has been made, given that application of lengths to such data frames 
+  is expected to be rare and function GWLP can do a similar job for most purposes
+- modified function rerandomize.design to allow randomization w.r.t. a block 
+  factor after design creation with function oa.design or pb
+- adapted test outputs to new masking message from new base function lengths
+- modified function GRind to ignore non-factor columns in class design objects,
+  to gain an optio with.blocks (default FALSE), 
+  and to throw an error for designs of resolution less than 3
+- added the data frame VSGFS as an example for use of an optimized 
+  orthogonal array
+- improvements to plot.design:
+  - removed redundant warning when temporarily removing responses
+  - improved y axis labeling in case plot.design from package graphics is called
+- improvements to halfnormal:
+  - changed printed output from cat/print to message, 
+  - reversed print order for significant effects to show strongest first, 
+  - improved visual structuring of printed output
+  - added option cex.text for sizing the point labels and further 
+    plot annotations 
+    text 
+  - added a response argument to the design method  
+  - added a note to the plot in case the coefficients depend on 
+    effect ordering because of (partial) aliasing
+- changed package title to title case
+- changed start of description in order to avoid warning
+- bugfix to oacat documentation (L128.2.15.8.1 is resolution IV, not V)
+- bugfix to factor.names: correctly leave factor levels unchanged for 
+  R factors  whose levels are not in the order of the factor.names 
+  element of design.info
 
 29/09/2014, Version 0.26-3
 - added functions planor2design and data2design for converting 
   a planordesign, data.frame or matrix object to a class design object
-
 
 16/08/2014, Version 0.26-2
 - bugfix: the xlab option did not work for lm or design objects 
@@ -52,7 +111,6 @@ Suggestions and bug reports are very welcome.
   according to Grömping and Xu 2013 and Grömping (2013) in functions 
   P3.3, P4.4 and GRind
 - updated test for column order to also test other P3.3 selections and GRind
-
 
 11/12/2013, Version 0.25-3
 - bugfix: function plot.design from package graphics was not called as intended from 
