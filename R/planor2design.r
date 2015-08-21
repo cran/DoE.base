@@ -33,7 +33,7 @@ data2design <- function(x, quantitative=rep(FALSE, ncol(x)), ...){
       nc <- ncol(x)
       nr <- nrow(x)
       fnam <- colnames(x)
-      fn <- sapply(fnam, function(obj) sort(unique(x[[obj]])))
+      fn <- lapply(fnam, function(obj) sort(unique(x[[obj]])))      ## bug fix 10/08/15
       names(fn) <- fnam
       nlevels <- sapply(fn, length)
       if (!nc == length(quantitative)) stop("quantitative has wrong length")

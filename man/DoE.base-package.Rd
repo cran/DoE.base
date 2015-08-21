@@ -12,7 +12,7 @@ DoE.wrapper and RcmdrPlugin.DoE, and some diagnostics for general orthogonal arr
 (generalized word length calculations). 
 }
 \details{
-The package is still in an early development phase and not fully mature. 
+The package is still in under development phase. 
 Details about combining designs are particularly likely to be changed in the future 
 (\code{param.design}, \code{cross.design}). Please contact me, if you have suggestions.
 
@@ -25,8 +25,7 @@ with attributes). However, S compatibility has not been considered in
 devising this package.
 
 The orthogonal arrays underlying function \code{\link{oa.design}} are mainly taken from 
-Kuhfeld (2009); so far, only the parent arrays have been implemented, but many more 
-arrays will follow soon. While the 
+Kuhfeld (2009). While the 
 arrays generally guarantee estimability of main effects in case there are no 
 (or negligible) active interactions, some of them can also be used for 
 designs for which some interactions are to be estimated, if only few of the design 
@@ -41,7 +40,8 @@ experimental designs.
 Package \pkg{FrF2} relies on function \code{\link{fac.design}} 
 for full factorials in 2-level factors. 
 }
-\section{Acknowledgments}{Thanks are due to Peter Theodor Wilrich for various useful suggestions!
+\section{Acknowledgments}{Thanks are due to Peter Theodor Wilrich for 
+various useful suggestions in the early phase of this project!
 }
 \author{
 Ulrike Groemping

@@ -3,6 +3,15 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+21/08/2015, Version 0.27-1
+- improved documentation for function GRind
+- added class GRind to the GRind output
+- added a print method for class GRind
+- lowered required resolution for GRind to 2
+- added a function SCFTs for more detailed analysis of squared canonical correlations
+  and average R^2 frequencies, and for regularity checking
+- bug fix for data2design: sapply -> lapply for making it work properly for symmetric designs
+
 29/03/2015, Version 0.27 
 - modified the blocking facility for full factorial designs to 
   yield better designs in case there are factors with 2^a or 3^b levels

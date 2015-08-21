@@ -25,10 +25,13 @@ GRind <- function(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE, with.bl
         
         nlev <- levels.no(design)
         dfs <- nlev-1
-        k <- min(which(round(GWLP(design)[-(c(1,2))],8)>0)) + 1
-        if (k==Inf) return(list(GRtot=Inf, GRind=Inf, GRind.i=rep(Inf,nfac), cancor1=0))
-        if (k<3) stop("resolution of design must be at least 3")
-        else{
+        ks <- which(round(GWLP(design)[-1],8)>0)
+        if (length(ks)==0) return(list(GRtot=Inf, GRind=Inf, GRind.i=rep(Inf,nfac), cancor1=0))
+        k <- min(ks) 
+        ## 10/08/15: resolution requirement lowered to 2, avoided warning in case of Inf
+        if (k<2) stop("resolution of design must be at least 2")
+        
+        ## now there is a finite resolution of at least 2   
         if (!"design" %in% class(design)){
            ## make sure these are factors
            if (!is.data.frame(design)) design <- as.data.frame(design)
@@ -53,8 +56,11 @@ GRind <- function(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE, with.bl
             spalten <- c(i,seli[,obj])
             hilf2 <- design[,spalten]
             mmX <- model.matrix(~., data=hilf2[,1,drop=FALSE])[,-1]  ## first factor
+            if (k>2)
             mmOther <- model.matrix(formula(substitute(~.^km1, list(km1 = k-1))),
                      data=hilf2[,-1,drop=FALSE])[,-1]
+            else
+            mmOther <- model.matrix(~., data=hilf2[,-1,drop=FALSE])[,-1]
             hilfc <- cancor(mmOther, mmX)$cor
             if (length(hilfc)<dfs[i]) 
                hilfc <- c(hilfc, rep(0,dfs[i]-length(hilfc)))
@@ -83,7 +89,7 @@ GRind <- function(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE, with.bl
         if (arft) aus <- c(aus, list(ARFT=ARFT))
         if (scft) aus <- c(aus, list(SCFT=SCFT))
         if (cancors) aus <- c(aus, list(cancors=round(erg3^2, digits)))
+        class(aus) <- c("GRind", class(aus))
         aus
-        }
         }
 

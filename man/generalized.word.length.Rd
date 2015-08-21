@@ -12,8 +12,6 @@
 \alias{contr.XuWuPoly}
 \alias{P3.3}
 \alias{P4.4}
-\alias{GR}
-\alias{GRind}
 \alias{oa.min3}
 \alias{oa.min34}
 \alias{oa.max3}
@@ -26,12 +24,12 @@
 \alias{tupleSel.default}
 \title{
 Functions for calculating the generalized word length pattern,
-projection frequencies or optimizing column selection within an array
+projection frequency tables or optimizing column selection within an array
 }
 \description{
 Functions length2, length3, length4 and length5 calculate the numbers of generalized words 
 of lengths 2, 3, 4, and 5 respectively, lengths calculates them all. Functions P3.3 and P4.4 
-calculate projection frequencies, functions oa.min3, oa.min34, oa.maxGR, oa.minRelProjAberr, 
+calculate projection frequency tables, functions oa.min3, oa.min34, oa.maxGR, oa.minRelProjAberr, 
 oa.max3 and oa.max4 determine column allocations with minimum or maximum aliasing. 
 Function nchoosek is an auxiliary function 
 for calculating all subsets without replacement.
@@ -55,8 +53,6 @@ oa.maxGR(ID, nlevels, variants = NULL)
 oa.minRelProjAberr(ID, nlevels, maxGR = NULL)
 P3.3(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
 P4.4(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
-GR(ID, digits=2)
-GRind(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE, with.blocks=FALSE)
 nchoosek(n, k)
 tupleSel(design, type="complete", selprop=0.25, ...)
 \method{tupleSel}{design}(design, type="complete", selprop=0.25, ...)
@@ -149,16 +145,6 @@ tupleSel(design, type="complete", selprop=0.25, ...)
        is to become an attribute of the output object (attribute \code{detail}); \cr
        intended for supporting other functions (can be a very long vector!)
        }
-  \item{arft}{logical indicating whether or not the average $R^2$ frequency table 
-       (ARFT, see Grömping 2013) is to be returned
-       }
-  \item{scft}{logical indicating whether the squared canonical correlation frequency 
-       table (SCFT, see Grömping 2013) is to be returned
-       }
-  \item{cancors}{logical indicating whether individual canonical correlations 
-       are to be returned (see Groemping 2013). These will not be needed 
-       for normal use of the package. 
-       }
   \item{k}{number of elements to be chosen, integer from 0 to n}
   \item{type}{character string with type of worst case to consider;\cr 
        \code{"complete"}, \code{"worst"} and \code{"worst.rel"} are available.\cr
@@ -232,7 +218,7 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    Functions \code{P3.3} and \code{P4.4} 
    calculate the pattern of generalized words of length 3 for all three-factor 
    projections of an array and of generalized words of length 3 or 4 for all four-factor 
-   projections of an array. Calculation of such projection frequencies has been proposed 
+   projections of an array. Calculation of such projection frequency tables has been proposed 
    by Xu, Cheng and Wu (2004). The relative version for \code{P3.3} and \code{P4.4} has been 
    introduced by Groemping (2011) for better assessment of the projective properties of a design. 
    It divides each absolute number of words by the maximum possible number in case one 
@@ -246,13 +232,6 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    for \code{length3} (particularly 0), with as small a result for \code{length4} as possible. This 
    corresponds to (a step towards) generalized minimum aberration. It can also be useful 
    to consider the patterns, particularly \code{P3.3}.
-   
-   Function \code{GR} calculates the generalized resolution according to Deng and Tang (1999) 
-   for 2-level designs or a generalization thereof according to Groemping (2011) for general 
-   orthogonal arrays. It returns a value between 3 and 5, where the numeric value 5 stands for 
-   \dQuote{at least 5}. Roughly, generalized resolution measures the closeness of a design 
-   to the next higher resolution (worst-case based, e.g. one completely aliased triple of 
-   factors implies resolution 3).
    
    Functions \code{oa.min3}, \code{oa.min34} 
    optimize column allocation for a given array 
@@ -294,7 +273,7 @@ tupleSel(design, type="complete", selprop=0.25, ...)
 }
 \value{
    The functions \code{length3} and \code{length4} (currently) per default 
-   return the number of words. \cr
+   return the number of generalized words. \cr
    If option \code{J=TRUE} is set, their value 
    is a named vector of normalized absolute J-characteristics (cf. Ai and Zhang 2004) 
    for the respective length, based on normalized Helmert contrasts, 
@@ -326,29 +305,6 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    and \code{complete}, the function \code{oa.minRelProjAberr} returns a list with elements 
    \code{GR}, \code{GWP}, \code{column.variants} and \code{complete}.
    
-   Function \code{GR} returns a list with elements \code{GR} (the generalized resolution of the array, a not necessarily integer 
-   number between 3 and 5) and \code{RPFT} (the relative projection frequency table). 
-   \code{GR} values smaller than 5 are exact, while the number five 
-   stands for \dQuote{at least 5}. The resolution itself is the integer portion of \code{GR}.
-   The \code{RPFT} element is the relative projection frequency table for 4-factor projections 
-   for \code{GR=5}. For unconfounded three- and four-column designs, \code{GR} takes the 
-   value \code{Inf} (used to be 5 for package versions up to 0.23-4).
-
-   Function \code{GRind} works on designs with resolution at least 3 and 
-   returns a list with elements \cr
-   \code{GRs} (the two versions of 
-   generalized resolution described in Groemping and Xu 2014), \cr
-   the matrix \code{GR.i} with rows GRtot.i and GRind.i for the 
-   factor wise generalized resolutions (also in Groemping and Xu 2014), \cr
-   and optionally \cr
-   the ARFT (Groemping 2013), \cr
-   the SCFT (Groemping 2013), \cr
-   and/or the canonical correlations.\cr 
-   The latter are held in an \cr
-   nfac x choose(nfac-1, R-1) x max(nlev)-1 array \cr
-   and are supplemented with 0es, 
-   if there are fewer of them than the respective dfi.
-
    The function \code{nchoosek} returns a matrix with k rows and \code{choose(n, k)} columns, 
    each of which contains a different subset of k elements.
    
@@ -372,10 +328,6 @@ tupleSel(design, type="complete", selprop=0.25, ...)
       \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
       Department II, Beuth University of Applied Sciences, Berlin.
       
-   Groemping, U. and Xu, H. (2014). Generalized resolution for orthogonal arrays. 
-      \emph{The Annals of Statistics} \bold{42}, 918--939. 
-      \url{http://prof.beuth-hochschule.de/fileadmin/user/groemping/downloads/AOS1205.pdf}
-
    Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
       fractional factorial designs. \emph{The Annals of Statistics} \bold{29}, 1066--1077.
       
@@ -388,7 +340,8 @@ tupleSel(design, type="complete", selprop=0.25, ...)
 Function \code{GWLP} is much faster (but also more inaccurate) than function \code{lengths} 
 and may be a better choice for designs with many factors.}
 \seealso{ See also \code{\link{GWLP}} for a version of lengths that is much 
-    faster for designs with not so many runs.}
+    faster for designs with not so many runs, and \code{\link{GRind}} 
+    for another set of quality criteria for orthogonal arrays.}
 
 \section{Warning }{The functions have been checked on the types of designs for which 
    they are intended (especially orthogonal arrays produced with oa.design) and 

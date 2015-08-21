@@ -2,6 +2,7 @@
      importFrom(vcd, mosaic)
      importFrom(MASS, ginv)
      importFrom(combinat, xsimplex)
+     importFrom(grDevices, dev.interactive, devAskNewPage)
      export("oa.design", "fac.design", "desnum", "run.order", "design.info", 
             "origin","factor.names","getblock","rerandomize.design",
             "response.names","col.remove",
@@ -16,7 +17,7 @@
             "block.catlg3","VSGFS",
             "des.recode","contr.FrF2",
             "lengths","length2","length3","length4","length5","contr.XuWu","contr.XuWuPoly",
-            "P3.3","P4.4","GR","GRind","oa.min3","oa.min34","oa.max3","oa.max4","oa.maxGR",
+            "P3.3","P4.4","GR","GRind","SCFTs","oa.min3","oa.min34","oa.max3","oa.max4","oa.maxGR",
             "oa.minRelProjAberr","iscube","isstar","pickcube",
             "GWLP","tupleSel","show.oas","generators","halfnormal",
             "ME.Lenth","CME.LW98","CME.EM08","planor2design","data2design",

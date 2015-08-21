@@ -37,9 +37,9 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
   \item{regular}{
     either unrestricted (the default \dQuote{all}), a logical which requests 
     (\code{TRUE}) or rejects (\code{FALSE}) regular arrays, or the character string 
-    \dQuote{strict} to request strictly regular arrays, for which all factors 
-    are completely confounded with a 2-factor interaction of two other factors (the 
-    latter are fixed level arrays) 
+    \dQuote{strict} to request strictly regular arrays, for which all confounded factors 
+    are \emph{completely} confounded with a 2-factor interaction of two other factors (the 
+    latter are fixed level arrays or crossed arrays) 
 }
   \item{GRgt3}{
     either unrestricted (the default \dQuote{all}), or a character string which requests 
