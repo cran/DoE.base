@@ -10,7 +10,7 @@ specifying optionally specifying selection criteria.
 }
 \usage{
 show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all", 
-    regular = "all", GRgt3 = c("all", "tot", "ind"), 
+    regular = "all", GRgt3 = c("all", "tot", "ind"), Rgt3 = FALSE,
     show = 10, parents.only = FALSE, showmetrics = FALSE, digits = 3)
 }
 \arguments{
@@ -45,6 +45,11 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
     either unrestricted (the default \dQuote{all}), or a character string which requests 
     \code{GR} (\code{"tot"}) or \code{GRind} (\code{"ind"}) to be larger than 3\cr 
 }
+  \item{Rgt3}{
+    logical requesting standard resolution 3 arrays as listed in \code{\link{oacat}} 
+    per default, and larger than 3 resolution as listed in \code{\link{oacat3}}, 
+    if changed to \code{TRUE}\cr 
+}
   \item{show}{
     an integer number specifying how many arrays are to be listed (upper bound), 
     or the character string \code{"all"} for showing all arrays, no matter how many. 
@@ -66,7 +71,8 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
   }
 }
 \details{
-   The function shows the arrays that are listed in the data frame \code{\link{oacat}}. 
+   The function shows the arrays that are listed in the data frames \code{\link{oacat}}
+   or \code{\link{oacat3}}. 
 
    For child arrays that have to be generated with a lineage rule 
    (can be automatically done with function \code{\link{oa.design}}), the lineage is displayed 

@@ -16,16 +16,28 @@ SCFTs <- function(design, digits=3, all=TRUE, resk.only=TRUE, kmin=NULL, kmax=nc
         nlev <- levels.no(design)
         dfs <- nlev-1
         ks <- which(round(GWLP(design, kmax=kmax)[-1],8)>0) 
-        if (length(ks)==0) {hilf <- list(list(SCFT=cbind(SC=0, frequency=sum(nlev) - kmax), 
-                        ARFT=cbind(aveR2=0, frequency=kmax), cancor1=0))
+        if (length(ks)==0) {
+                     hilf <- list(list(SCFT=cbind(SC=0, frequency=sum(nlev) - kmax), 
+                                       ARFT=cbind(aveR2=0, frequency=kmax), cancor1=0))
                      names(hilf) <- kmax
                      return(hilf)   
                      }
-        k <- min(ks)
-        if (k<2) stop("resolution of design must be at least 2")
+        k <- min(ks)   ## here, k is resolution
+        if (k < 2) stop("resolution of design must be at least 2")
+        kminset <- FALSE   ## kminset TRUE: user has chosen kmin 
         if (is.null(kmin)) kmin <- k
-        if (k>=kmin)
+        else {
+            kminset <- TRUE
+            redu <- ks[ks >= kmin]   ## reduced set of levels
+		message(paste("Check sets of sizes ", paste(redu, collapse=",")))
+            if (length(redu)==0) return()
+            kmin <- min(redu) 
+            k <- kmin
+            ks <- redu   ## added March 2016, after commenting out the interim 0 calculations
+            }
+        if (k >= kmin)
         {
+        ## should always be reached
         if (!"design" %in% class(design)){
            ## make sure these are factors
            if (!is.data.frame(design)) design <- as.data.frame(design)
@@ -41,10 +53,24 @@ SCFTs <- function(design, digits=3, all=TRUE, resk.only=TRUE, kmin=NULL, kmax=nc
         auswahl <- 1:nGRindi
         erg3 <- array(NA, c(nfac, nGRindi, max(nlev)-1))
         selproj <- nchoosek(nfac,k)
+          ## added March 2016
+          ## determine resolution k projections
+          GWLPs <- round(apply(selproj, 2, function(obj) GWLP(design[,obj])[-1]),4) 
+              ## column for each projection
         selproj <- apply(selproj, 2, function(obj) paste(obj, collapse=":"))
         ergproj <- rep(NA, length(selproj)) 
         dimnames(erg3) <- list(factor=fn, others=apply(sel, 2, function(obj) paste(obj, collapse=":")), 1:(max(nlev)-1))
         for (i in 1:nfac){
+          ## added March 2016
+          ## determine resolution k projections
+          if (resk.only){
+          reskproj <- apply(GWLPs, 2, function(obj) all(obj[-k]==0))
+          if (all(!reskproj)){ 
+                message("no projections with resolution ", k, " or higher")
+                return()
+             }
+          }
+
           seli <- sel
           seli[seli>=i] <- seli[seli>=i]+1
           proji <- apply(seli, 2, function(obj) paste(sort(c(i,obj)),collapse=":")) 
@@ -96,8 +122,13 @@ SCFTs <- function(design, digits=3, all=TRUE, resk.only=TRUE, kmin=NULL, kmax=nc
         if (all){
         aus <- list(aus)
         names(aus) <- k
-        ks <- kmin:kmax  ### entered in order to also obtain SCFTs for 
-                         ### numbers of factors with GWLP 0
+        ## March 2016: added condition
+        ## is this really needed, even for not only resk.only ?
+        ## it will provide interim 0 tables, which are unnecessary
+        ## given one knows the GWLP
+        ## therefore, commented out entirely
+        ## if (!resk.only) ks <- kmin:kmax  ### entered in order to also obtain SCFTs for 
+                                         ### numbers of factors with GWLP 0
         for (k in ks[ks>kmin & ks<=kmax]){
           nGRindi <- choose(nfac-1,k-1)  ## number of subsets excluding LHS
           sel <- nchoosek(nfac-1,k-1)    ## subsets excluding LHS

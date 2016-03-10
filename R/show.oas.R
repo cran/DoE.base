@@ -1,5 +1,5 @@
 show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
-     regular = "all", GRgt3 = c("all", "tot", "ind"), 
+     regular = "all", GRgt3 = c("all", "tot", "ind"), Rgt3 = FALSE, 
      show = 10, parents.only = FALSE, showmetrics = FALSE , digits=3 ){
     ## preparation: check nlevels and factors and unite into one single case
     if (!(identical(nlevels,"all") | identical(factors,"all")) )
@@ -12,6 +12,10 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all",
         factors  <- list(nlevels=as.numeric(names(hilf)), number=hilf)
         nlevels <- "all"
         }
+    ## March 2016
+    ## try resolution larger than 3 arrays first
+    if (!is.logical(Rgt3)) stop("Rgt3 must be logical")
+    if (Rgt3) oacat <- oacat3   ## within this function only!!!
     ## exclude or include child arrays 
     if (parents.only) zeige <- oacat[oacat$lineage=="",] 
         else zeige <- oacat

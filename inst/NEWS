@@ -3,6 +3,27 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+March 2016, Version 0.28
+- added a function expansive.replace for combining two arrays by 
+  expansive replacement
+- modified the column "regular" for oacat to reflect non-regularity 
+  that occurs in full resolution sets of more than the overall resolution 
+  columns (see Grömping and Bailey 2016)
+- added 31 strength 3 and stronger OAs, 
+  and collected info on them in an additional data frame oacat3 
+  (where the three already present stronger arrays are also listed)
+- added an option to function show.oas for requesting a resolution larger than 3
+- Bug fixes:
+  - for function SCFTs: 
+    combination of kmin and regcheck did not work as intended
+  - for function cross.design: removed a superfluous and wrong 
+    (but inconsequential) rownames argument to an as.data.frame call 
+    (thanks to Bill Dunlap for spotting this)
+  - for function paramtowide: corrected a column name specification 
+    in a reshape call on the rn order data frame ro 
+    (luckily inconsequential for the correctness of the reshaped order;
+    again, thanks to Bill Dunlap for spotting this)
+
 21/08/2015, Version 0.27-1
 - improved documentation for function GRind
 - added class GRind to the GRind output

@@ -119,7 +119,9 @@ cross.design <- function (design1, design2, ..., randomize=TRUE, seed=NULL)
     rownames(Dn) <- rownames(D)
     desnum(D) <- Dn
     touter <- function(obj1,obj2,FUN,...) t(outer(obj1,obj2,FUN=FUN,...))
-    ro <- as.data.frame(mapply("touter",ro1, ro2, "paste", sep="_"),"t")
+    ## March 7 2016: removed superfluous "t" in the line below 
+    ## (thanks to Bill Dunlap for spotting this bug)
+    ro <- as.data.frame(mapply("touter",ro1, ro2, "paste", sep="_"))
     run.order(D) <- ro
     
     ## create reasonable content for design.info

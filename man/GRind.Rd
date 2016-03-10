@@ -86,14 +86,16 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
 
    Function \code{SCFTs} does more extensive SCFT and ARFT calculations than function \code{GRind}: 
    in particular, the function allows to do such calculations for more projection sizes, 
-   either restricting attention to full resolution projections or going for ALL projections.
+   either restricting attention to full resolution projections or going for ALL projections 
+   with non-zero word lengths.
    These capabilities have been introduced in relation to regularity checking based on SCFTs 
-   (a paper on this topic is under preparation): 
+   (see Groemping and Bailey 2016): 
    Defining a factorial design as regular if all main effects are orthogonal in some sense 
    to effects including other factors of any order, it is conjectured that a regularity check on full resolution 
    projections only will suffice for identifying non-regularity (work in progress). 
    However, this is a conjecture only; as long as it is not proven, a definite check for this type of regularity requires checking ALL projections, 
-   i.e. setting \code{resk.only} to \code{FALSE}. With this setting, the function may run for a very long time!
+   i.e. setting \code{resk.only} to \code{FALSE}. With this setting, the function may run for a very long time 
+   (depends in particular on the number of factors)!
    
 }
 \value{
@@ -143,6 +145,10 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
       \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
       Department II, Beuth University of Applied Sciences, Berlin.
 
+   Groemping, U. and Bailey, R.A. (2016). Regular fractions of factorial arrays. In: 
+     \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}. 
+      New York: Springer.
+
    Groemping, U. and Xu, H. (2014). Generalized resolution for orthogonal arrays.
       \emph{The Annals of Statistics} \bold{42}, 918--939.
       \url{http://prof.beuth-hochschule.de/fileadmin/user/groemping/downloads/AOS1205.pdf}
@@ -168,11 +174,11 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
    GRind(oa24.good)
 
    ## SCFTs
-   plan <- L24.2.12.12.1[,c(1:5,13)]
+   \dontrun{plan <- L24.2.12.12.1[,c(1:5,13)]
    GRind(plan)  ## looks regular (0/1 SCFT only)
    SCFTs(plan)
    SCFTs(plan, resk.only=FALSE)
-
+   }
 }
 \keyword{ design }
 \keyword{ array }

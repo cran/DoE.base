@@ -29,6 +29,8 @@ paramtowide <- function(design, constant=NULL, ...){
     hilf <- hilf[,setdiff(colnames(hilf),fnouter)]
     aus <- reshape(hilf, v.names=c(setdiff(colnames(hilf), c("run.no.outer","run.no",fn,constant))), 
            idvar=c("run.no",fninner),timevar="run.no.outer", direction="wide")
+    ### March 7 2016: corrected wrong "run.no.in.standard.order" to 
+    ###     "run.no.in.std.order" (thanks to Bill Dunlap for spotting this)
     ro <- reshape(ro, v.names=c("run.no.in.standard.order"), 
              idvar="run.no",timevar="run.no.outer",direction="wide")
     ## bring back into class design 

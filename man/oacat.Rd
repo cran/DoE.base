@@ -1,21 +1,24 @@
 \name{oacat}
 \alias{oacat}
+\alias{oacat3}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-data frame that lists available orthogonal arrays, 
-mostly from the Kuhfeld collection
+Data Frames That List Available Orthogonal Arrays
 }
 \description{
-This data frame holds the list of available orthogonal arrays, 
+These data frames hold the lists of available orthogonal arrays, 
 except for a few structurally equivalent additional arrays known 
-as Taguchi arrays (L18, L36, L54).
+as Taguchi arrays (L18, L36, L54). Arrays in  
+in oacat are mostly from the Kuhfeld collection, 
+those in oacat3 from some other sources.
 }
 \usage{
 oacat
+oacat3
 }
 
 \details{
-   The data frame holds a list of orthogonal arrays, as described in Section \dQuote{value}. 
+   The data frames hold a list of orthogonal arrays, as described in Section \dQuote{value}. 
    Inspection of these arrays can be most easily done with function \code{\link{show.oas}}. 
    Some of the listed arrays are directly accessible through their names (\dQuote{parent} arrays, 
    also listed under \code{\link{arrays}}) or 
@@ -29,7 +32,8 @@ oacat
    orthogonally estimated even in the presence of interactions, or even all 2fis 
    can be orthogonally estimated, provided there are no higher order effects.
    
-   Note that most of the arrays, per default, are guaranteed to orthogonally estimate 
+   Note that most of the arrays in \code{oacat}, per default, are guaranteed to 
+   orthogonally estimate 
    all main effects, \bold{provided all higher order effects are negligible} 
    (again, the Mee arrays are an exception). This can be 
    a very severe limitation, of course, and arbitrary strong biases can distort the 
@@ -38,23 +42,41 @@ oacat
    the quality of an orthogonal array quite closely before deciding to use it 
    for experimentation. Some functions for inspecting arrays are provided in the 
    package (cf. \code{\link{generalized.word.length}}).
+   
+   The data frame \code{oacat3} contains stronger arrays that have at least the main 
+   effects unconfounded with two-factor interactions. These can be requested 
+   in function \code{\link{show.oas}} by option \code{Rgt3=TRUE}. If an appropriate 
+   one has been found, it can be directly requested with the \code{ID} option 
+   in function \code{\link{oa.design}}. It is currently not possible to request 
+   using a strong array without explicitly specifying it.
 }
 \value{
-   The data frame contains the columns \code{name}, \code{nruns}, \code{lineage} 
+   The data frames contain the columns \code{name}, \code{nruns}, \code{lineage} 
    and further columns \code{n2} to \code{n72}; furthermore, some columns with 
    calculated metrics are included. \code{name} holds the name of the 
    array, \code{nruns} its number of runs, and \code{lineage} the way the array can 
    be constructed from other arrays, if applicable. The columns \code{n2} to \code{n72} 
    each contain the number of factors with the respective number of levels.
+   
    The logical columns \code{ff}, \code{regular} and \code{regular.strict} indicate a  
-   full factorial and a regular design in the weak or strict sense (weak: all 
-   SCFT entries are 0 or 1; strict: all ARFT entries are 0 or 1), respectively.
+   full factorial and a regular design in the weak or strict sense, respectively
+   (weak: all 
+   SCFT entries are 0 or 1, defined as dQuote{R^2 regular} in Groemping and Bailey (2016); 
+   strict: all ARFT entries are 0 or 1, defined as dQuote{R^2 regular} in 
+   Groemping and Bailey (2016); both were checked for full resolution sets only, 
+   and not even for all of those in case of large designs;
+   thus, designs denominated as CC regular might prove otherwise if the conjecture 
+   proves wrong that it suffices to check full resolution factor sets, and for larger 
+   designs also for unchecked full resolution factor sets of higher dimensions).
+   
    Column \code{SCones} contains the number of worst case (=1)
-   squared canonical correlations; if this number is 0, the design can be considered 
-   to have partial confounding only throughout the entire design. 
+   squared canonical correlations for the number of R factor subsets, with 
+   R the resolution; if this number is 0, main effects can be considered 
+   to have partial confounding only with any interactions of up to R-1 factors. 
    \code{GR}, \code{GRind}, \code{maxAR}
    and \code{maxSC} contain the generalized resolution in two versions, 
    the maximum average R^2 and the maximum squared canonical correlation.
+   
    \code{dfe} contains the error degrees of freedom of a main effects model, 
    if all columns of the array are populated; if this is 0, the design is saturated. 
    \code{A3} to \code{A8} contain the numbers of words of lengths 3 to 8. 
@@ -67,8 +89,8 @@ oacat
    For example, \code{L18.2.1.3.7} is an 18 run design with one factor with 
    2 levels and seven factors with 3 levels each. 
    
-   The column \code{lineage} deserves particular attention: it is an empty string, 
-   if the design is directly available and can be accessed via its name, or if the design 
+   The column \code{lineage} deserves particular attention for \code{oacat} (always empty for \code{oacat3}): 
+   it is an empty string, if the design is directly available and can be accessed via its name, or if the design 
    is a full factorial (e.g. L6.2.1.3.1). Otherwise, the lineage entry is structured as follows: 
    It starts with the specification of a parent array, given as \code{levels1~no of factors; levels2~no of factors;}. 
    After a colon, there are one or more replacements, each enclosed in brackets; within each pair of brackets, 
@@ -86,7 +108,8 @@ oacat
    use package \pkg{\link[FrF2:FrF2-package]{FrF2}}. Exceptions: The three arrays by 
    Mee (2009; cf. section \dQuote{Details} above) are very useful for 2-level factors. 
    
-   Most of the orthogonal arrays, especially when using all columns for experimentation, 
+   Most of the orthogonal arrays from \code{oacat}, 
+   especially when using all columns for experimentation, 
    are guaranteed to orthogonally estimate all main effects, 
    \bold{provided all higher order effects are negligible}. 
 
@@ -98,11 +121,33 @@ oacat
    Cf. also the instructions in section \dQuote{Details}).
 }
 \references{ 
+  Agrawal, V. and Dey, A. (1983). Orthogonal resolution IV designs for some asymmetrical factorials. 
+  \emph{Technometrics} \bold{25}, 197--199.
+
+  Brouwer, A. Small mixed fractional factorial designs of strength 3. \url{https://www.win.tue.nl/~aeb/codes/oa/3oa.html#toc1} accessed March 1 2016
+  
+  Brouwer, A., Cohen, A.M. and Nguyen, M.V.M. (2006). Orthogonal arrays of strength 3 and small run sizes. \emph{Journal of Statistical Planning and Inference} \bold{136}, 3268--3280.
+
+  Eendebak, P. and Schoen, E. Complete Series of Orthogonal Arrays. \url{http://pietereendebak.nl/oapage/} accessed March 1 2016
+  
+  Groemping, U. and Bailey, R.A. (2016). Regular fractions of factorial arrays. In: 
+  \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}. 
+    New York: Springer.
+
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
   
   Mee, R. (2009). \emph{A Comprehensive Guide to Factorial Two-Level Experimentation}. 
     New York: Springer.
-}
+    
+  Nguyen, M.V.M. (2005). \emph{Journal of Statistical Planning and Inference} \bold{138},
+    220--233.
+
+  Nguyen, M.V.M. (2008). Some new constructions of strength 3 mixed orthogonal arrays. \emph{Journal of Statistical Planning and Inference} \bold{138},
+    220--233.
+
+  Sloane, N. Orthogonal Arrays. \url{http://neilsloane.com/oadir/} accessed March 1 2016
+  
+  }
 \examples{
    head(oacat)
 }
