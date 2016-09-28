@@ -58,16 +58,16 @@ oacat3
    be constructed from other arrays, if applicable. The columns \code{n2} to \code{n72} 
    each contain the number of factors with the respective number of levels.
    
-   The logical columns \code{ff}, \code{regular} and \code{regular.strict} indicate a  
-   full factorial and a regular design in the weak or strict sense, respectively
-   (weak: all 
-   SCFT entries are 0 or 1, defined as dQuote{R^2 regular} in Groemping and Bailey (2016); 
-   strict: all ARFT entries are 0 or 1, defined as dQuote{R^2 regular} in 
-   Groemping and Bailey (2016); both were checked for full resolution sets only, 
-   and not even for all of those in case of large designs;
+   The logical columns \code{ff}, \code{regular.strict} and \code{regular} indicate a  
+   full factorial and a regular design in the strict or weak sense, respectively
+   (strict: all ARFT entries are 0 or 1, defined as \dQuote{R^2 regular} in Groemping and Bailey (2016); 
+   weak: all SCFT entries are 0 or 1, defined as \dQuote{CC regular} in 
+   Groemping and Bailey (2016)). For R^2 regularity, it suffices to check all full resolution factor sets, 
+   i.e., sets of j factors with resolution j; for CC regularity, this is conjectured to be also true.
+   The entries in column \code{regular} are based on that conjecture (and for some larger designs, 
+   even those checks were not completed);
    thus, designs denominated as CC regular might prove otherwise if the conjecture 
-   proves wrong that it suffices to check full resolution factor sets, and for larger 
-   designs also for unchecked full resolution factor sets of higher dimensions).
+   proves wrong, and for larger designs also for unchecked full resolution factor sets of higher dimensions).
    
    Column \code{SCones} contains the number of worst case (=1)
    squared canonical correlations for the number of R factor subsets, with 
@@ -132,7 +132,7 @@ oacat3
   
   Groemping, U. and Bailey, R.A. (2016). Regular fractions of factorial arrays. In: 
   \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}. 
-    New York: Springer.
+    Cham: Springer International Publishing.
 
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
   

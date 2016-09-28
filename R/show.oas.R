@@ -1,6 +1,6 @@
 show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all", 
      regular = "all", GRgt3 = c("all", "tot", "ind"), Rgt3 = FALSE, 
-     show = 10, parents.only = FALSE, showmetrics = FALSE , digits=3 ){
+     show = 10, parents.only = FALSE, showGRs=FALSE, showmetrics = FALSE , digits=3 ){
     ## preparation: check nlevels and factors and unite into one single case
     if (!(identical(nlevels,"all") | identical(factors,"all")) )
         stop("nlevels and factors must not be specified simultaneously")
@@ -66,6 +66,9 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all",
     ## treat the resulting data frame
     spalten <- c("name","nruns","lineage")
     if (showmetrics) spalten <- c(spalten, "GR","GRind","regular","SCones", paste("A",3:8,sep=""))
+    else if (showGRs) {spalten <- c(spalten, "GR","GRind")
+                       if (!GRgt3=="ind") spalten <- c(spalten,"SCones") 
+                       }
 
     if (nrow(zeige)>0){
         ## make show="all" numeric

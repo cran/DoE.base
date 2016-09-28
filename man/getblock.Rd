@@ -74,7 +74,10 @@ rerandomize.design(design, seed=NULL, block=NULL, ...)
    or if the user wants to do block randomization on a block factor specified with 
    the \code{block} option  
    for a design created with function \code{oa.design} or \code{pb} (which do not offer 
-   explicit specification of blocking).
+   explicit specification of blocking).\cr
+   It can also be useful for ensuring a randomization that has little correlation 
+   between run order and model matrix columns; this correlation can e.g. be checked with 
+   the help of function \code{\link{corrPlot}}, using the option \code{run.order=TRUE}.
 }
 \value{
    Function \code{getblock} returns \cr
@@ -85,8 +88,7 @@ rerandomize.design(design, seed=NULL, block=NULL, ...)
    
    Function \code{rerandomize.design} returns a class \code{design} object; 
    note that it will not be possible to add center points after re-randomization, 
-   i.e. if required, center points have to be added before using function 
-   the function.
+   i.e. if required, center points have to be added before using the function.
 }
 \author{
    Ulrike Groemping 

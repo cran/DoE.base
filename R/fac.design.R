@@ -348,7 +348,9 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                     if (nlevels[i]==2) contrasts(design[,i]) <- contr.FrF2(2)
                     else if (quant[i]) contrasts(design[,i]) <- contr.poly(nlevels[i],scores=factor.names[[i]])
                 }
-      
+ 
+ ## design is still unreplicated
+ 
       ## prepend block column, if needed
       if (!identical(blocks, 1)){ 
          design <- cbind(blockcol, design)
@@ -371,6 +373,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
           #### implement randomization and replication for blocks
           ## bbreps=replications, wbreps=1
           ## if ((!repeat.only) & !randomize)
+### ??? hier blocks und replications fixen ???
               nblocks <- blocks
               blocksize <- nrow(design)%/%nblocks
               
@@ -400,6 +403,8 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
                           ((i+1)*blocksize*wbreps)] <- rep(sample((((i%%nblocks)*blocksize)+1):
                                         ((i%%nblocks+1)*blocksize)),each=wbreps)
               aus <- design[rand.ord,]
+              ## block column does not yet have a suffix for replications or repeats
+              ## row names are still messy
       }
       ## extract run number in standard order
       ## remove uniqueness appendix
@@ -413,12 +418,16 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       orig.no.rp <- orig.no
       if (bbreps * wbreps > 1){
            if (bbreps > 1) {
-                ## !repeat.only covers all blocked cases and the repeat.only standard cases
+                ## bbreps > 1 covers all blocked cases and the repeat.only standard cases
                 ## since bbreps stands in for replications
                 if (repeat.only & identical(blocks,1))
                 orig.no.rp <- paste(orig.no.rp, rep(1:bbreps,nruns),sep=".")
-                else
+                else {
                 orig.no.rp <- paste(orig.no.rp, rep(1:bbreps,each=nruns*wbreps),sep=".")
+                ## row added Sep 28 2016
+                aus[[block.name]] <- 
+                   factor(paste(aus[[block.name]],rep(1:bbreps,each=nruns*wbreps),sep="."))    
+                }
            }
            if (wbreps > 1){
                 ## blocked with within block replications

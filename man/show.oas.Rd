@@ -10,8 +10,8 @@ specifying optionally specifying selection criteria.
 }
 \usage{
 show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all", 
-    regular = "all", GRgt3 = c("all", "tot", "ind"), Rgt3 = FALSE,
-    show = 10, parents.only = FALSE, showmetrics = FALSE, digits = 3)
+    regular = "all", GRgt3 = c("all", "tot", "ind"), Rgt3 = FALSE, show = 10, 
+    parents.only = FALSE, showGRs = FALSE, showmetrics = FALSE, digits = 3)
 }
 \arguments{
   \item{name}{
@@ -60,8 +60,13 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
     logical specifying whether to show only parent arrays or child arrays as well; 
     the default is \code{FALSE} for inclusion of child arrays
 }
+  \item{showGRs}{
+    logical specifying whether to show the generalized resolution quality metrics 
+    with the resulting arrays; the default is \code{FALSE}. If set to \code{TRUE}, 
+    three metrics are displayed (see Details section).
+}
   \item{showmetrics}{
-    logical specifying whether to show array quality metrics with the resulting 
+    logical specifying whether to show all array quality metrics with the resulting 
     arrays; the default is \code{FALSE}. If set to \code{TRUE}, several metrics 
     are displayed (see Details section).
 }
@@ -80,10 +85,11 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
    suppresses printing and output of child arrays. The structure of the lineage entry 
    is documented under \code{\link{oacat}}.
    
-   If display of metrics is requested, the printed output shows the metrics
-   GR, GRind, regular (logical, whether regular or not), SCones (number of squared canonical correlations that are 1), 
-   and the numbers of words of lengths 3 to 8 (A3 to A8). More information on 
-   these metrics can be found \code{\link[=generalized.word.length]{here}}
+   If display of metrics is requested with \code{showmetrics=TRUE}, the printed output shows the metrics
+   GR*, GRind*, regular (logical, whether regular or not), SCones* (number of squared canonical correlations that are 1), 
+   and the numbers of words of lengths 3 to 8 (A3 to A8). \code{showGRs=TRUE} 
+   requests the metrics marked with asterisks only (without \code{SCones} in case \code{GRgt3="ind"}). More information on 
+   all these metrics can be found \code{\link[=generalized.word.length]{here}}
 }
 \value{
    A data frame with the three columns \code{name}, \code{nruns} and \code{lineage}, 

@@ -5,7 +5,7 @@
   Expansive replacement for two orthogonal arrays 
 }
 \usage{
-   expansive.replace(array1, array2, fac1)
+   expansive.replace(array1, array2, fac1 = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

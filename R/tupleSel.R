@@ -10,10 +10,10 @@ tupleSel.default <- function(design, type="complete", selprop=0.25, ...){
     ##
     hilf <- round(GWLP(design), 10)
     dim <- min(which(hilf[-1] > 0))
-    if (dim <= 2) stop("the design is not orthogonal, \noption", type, "is not available")
+    if (dim < 2) stop("the design is not balanced, \noption", type, "is not available")
     if (dim > 4) stop("the design has resolution larger than IV, \noption", type, "is not available")
-
-    if (dim==3) fn <- "P3.3" else fn <- "P4.4"
+    fn <- paste("P",dim,".",dim,sep="")   ## "P2.2", "P3.3" or "P4.4"
+    
     rela <- (type %in% c("complete", "worst.rel"))
     parft <- type=="worst.parft"
     parftdf <- type=="worst.parftdf"

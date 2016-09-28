@@ -3,6 +3,31 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+September 2016, Version 0.29
+- added a function corrPlot for overview diagnostic plots of the confounding 
+  structure of (possibly mixed level) fractional factorial designs, 
+  including also the possibility to investigate confounding with run order
+- added a function P2.2 and modified function tupleSel 
+  to work for resolution II designs as well
+- added an option showGRs to function show.oas
+- added two experimental functions ICFTs and ICFT for interaction contributions, 
+  as will be described in a future technical report
+- added hidden auxiliary functions rect_simplex and HouseholderRotToOne for 
+  supporting the ICFT functions
+- Bug fixes: 
+  - rerandomize.design did not always update the run.no column in the run.order 
+    attribute and the row names of the design
+  - the block factor in designs created by fac.design did not have enough 
+    levels in case of between blocks replication
+  - plot.design behaved inappropriately if factor names and factor letters 
+    partly coincided; this has been resolved by always giving precedence 
+    to factor names.
+  - actually did what was claimed for version 0.28:
+    modified the column "regular" for oacat to reflect non-regularity 
+    that occurs in full resolution sets of more than the overall resolution 
+    columns (see Grömping and Bailey 2016), and fixed the documentation 
+    for this aspect
+
 March 2016, Version 0.28
 - added a function expansive.replace for combining two arrays by 
   expansive replacement

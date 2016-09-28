@@ -1,8 +1,9 @@
      import(conf.design, stats, utils, graphics, grid)
+     importFrom(lattice, levelplot, panel.levelplot, panel.abline)
      importFrom(vcd, mosaic)
      importFrom(MASS, ginv)
      importFrom(combinat, xsimplex)
-     importFrom(grDevices, dev.interactive, devAskNewPage)
+     importFrom(grDevices, dev.interactive, devAskNewPage, heat.colors)
      export("oa.design", "fac.design", "desnum", "run.order", "design.info", 
             "origin","factor.names","getblock","rerandomize.design",
             "response.names","col.remove",
@@ -10,15 +11,16 @@
             "factor.names<-","response.names<-","ord", "SN",
             "Letters","make.formulas","make.generators",
             "export.design","add.response", "qua.design", "cross.design",
-            "plot.design","lm","lm.default","lm.design",
+            "plot.design","corrPlot","lm","lm.default","lm.design",
             "aov","aov.default","aov.design",
             "param.design","paramtowide", "undesign", "redesign", "change.contr",
             "reptowide", "reptolong", "L18", "L36", "L54", "oacat","oacat3", "Yates3",
             "block.catlg3","VSGFS","expansive.replace",
-            "des.recode","contr.FrF2",
-            "lengths","length2","length3","length4","length5","contr.XuWu","contr.XuWuPoly",
-            "P3.3","P4.4","GR","GRind","SCFTs","oa.min3","oa.min34","oa.max3","oa.max4","oa.maxGR",
-            "oa.minRelProjAberr","iscube","isstar","pickcube",
+            "des.recode","contr.FrF2","contr.XuWu","contr.XuWuPoly",
+            "lengths","length2","length3","length4","length5",
+            "P2.2", "P3.3","P4.4","GR","GRind","SCFTs","ICFTs","ICFT",
+            "oa.min3","oa.min34","oa.max3","oa.max4","oa.maxGR","oa.minRelProjAberr",
+            "iscube","isstar","pickcube",
             "GWLP","tupleSel","show.oas","generators","halfnormal",
             "ME.Lenth","CME.LW98","CME.EM08","planor2design","data2design",
             "L4.2.3","L8.2.4.4.1","L9.3.4","L12.2.11","L12.2.2.6.1",

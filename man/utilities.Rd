@@ -13,6 +13,8 @@
 \alias{matrix.fromPFTs}
 \alias{rankPFT}
 \alias{bestPFT}
+\alias{rect_simplex}
+\alias{HouseholderRotToOne}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Utility functions for DoE packages, not intended for direct use }
 \description{
@@ -33,6 +35,8 @@ PFTs.from.variants(array, variants, R=3, rela=TRUE)
 matrix.fromPFTs(PFTs)
 rankPFT(pfts)
 bestPFT(pfts)
+rect_simplex(r)
+HouseholderRotToOne(from)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -66,6 +70,8 @@ bestPFT(pfts)
   \item{pfts}{ a matrix the columns of which contain the PFT entries for several designs, 
         with row names indicating the (relative) number of words of a triple/quadruple.\cr
         The matrix could have been obtained from function \code{matrix.fromPFTs}. }
+  \item{r}{integer; dimension of the simplex}
+  \item{from}{numeric vector to be rotated towards (1,0,...,0)}
 }
 \details{
    Most functions are not intended for direct use. 

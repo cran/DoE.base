@@ -10,6 +10,7 @@
 \alias{lengths.matrix}
 \alias{contr.XuWu}
 \alias{contr.XuWuPoly}
+\alias{P2.2}
 \alias{P3.3}
 \alias{P4.4}
 \alias{oa.min3}
@@ -51,6 +52,7 @@ oa.max3(ID, nlevels, rela = FALSE)
 oa.max4(ID, nlevels, rela = FALSE)
 oa.maxGR(ID, nlevels, variants = NULL)
 oa.minRelProjAberr(ID, nlevels, maxGR = NULL)
+P2.2(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
 P3.3(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
 P4.4(ID, digits = 4, rela=FALSE, parft=FALSE, parftdf=FALSE, detailed=FALSE)
 nchoosek(n, k)

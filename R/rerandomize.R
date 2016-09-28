@@ -119,10 +119,12 @@ rerandomize.design <- function(design, seed=NULL, block=NULL, ...){
       hilfrank <- unlist(lapply(1:nr, function(obj) rank(hilf[(obj-1)*bs+(1:bs)])))
       ro[[1]] <- ro[[3]] <- factor(paste(hilf,as.numeric(as.factor(design[[1]])),hilfrank,sep="."))
       desnum <- model.matrix(~., design)
+   }
       ro$run.no <- 1:nrow(ro)
       row.names(design) <- ro$run.no
       row.names(ro) <- ro$run.no
-      }
+   #}  ## moved closing bracket in August 2016, 
+       ## as the run.no column was previously not updated for all designs
    attr(design, "desnum") <- desnum
    attr(design, "run.order") <- ro
    attr(design, "design.info") <- di

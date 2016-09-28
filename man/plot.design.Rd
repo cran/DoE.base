@@ -25,8 +25,9 @@
       \code{select} can be\cr
       a vector of integers with position numbers of experimental factors,\cr
       a character vector of factor letters, \cr
-      or a character vector of factor names for factors to be selected for plotting; \cr
-      The following choicees are of interest for creating mosaic plots of the design 
+      or a character vector of factor names for factors to be selected for plotting; 
+      in case of ambiguity, factor names take precedence over factor letters.\cr
+      The following choices are of interest for creating mosaic plots of the design 
       factors; any response data will be ignored.\cr
       \code{select} can be\cr
       a list of numeric vectors (all of equal length) specifying the tuples to be plotted 

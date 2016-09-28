@@ -12,9 +12,10 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
              ## now designs generated with suite DoE.base etc.
              di <- design.info(x)
              nfac <- di$nfactors
+             fn <- names(di$factor.names)
              ## first process select
              ov <- FALSE ## overview by mosaic plots, ignoring response values
-             if (is.null(select)) select <- names(di$factor.names)
+             if (is.null(select)) select <- fn
              else if (is.list(select)){
                 ov <- TRUE
                 if (length(select)==1){
@@ -46,7 +47,7 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
              else if (is.numeric(select)){ 
                 if (!all(select %in% 1:di$nfactors))
                    stop("If numeric, select must contain integer numbers from 1 to the number of factors")
-                select <- names(di$factor.names)[select]
+                select <- fn[select]
              }
              if (is.character(select)){
                 if (select[1] %in% c("all2","all3","all4","complete","worst","worst.rel","worst.parft","worst.parftdf")){
@@ -79,9 +80,14 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
                   }
                 }
                 else{
-                if (all(select %in% Letters[1:di$nfactors]) & !all(names(di$factor.names) %in% Letters[1:di$nfactors]))
-                    select <- names(di$factor.names)[which(Letters %in% select)]
-                if (!all(select %in% names(di$factor.names)))
+                ### not a key word but a character vector of factor letters or factor names
+                ### change August 2016: fixed logic such that factor names 
+                ###          always take precedence over factor letters
+                ###      and preserved ordering in select
+                if (all(select %in% Letters[1:nfac]) & !all(select %in% fn) )
+                    select <- names(di$factor.names)[sapply(select, function(obj) grep(obj, Letters))]
+                ## now a vector of factor names
+                if (!all(select %in% fn))
                     stop("select is invalid")
                 }
              }
