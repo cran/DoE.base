@@ -71,7 +71,9 @@ getArray <- function (nbRuns, descr)
     tmp <- paste(descr, collapse = ".")
     tmp <- gsub("~", ".", tmp, perl = TRUE)
     DoE.oa.name <- paste(paste("L", nbRuns, sep = ""), tmp, sep = ".")
-    return(get(DoE.oa.name, pos = "package:DoE.base"))
+    ## changed for making importing of DoE.base possible; 
+    ## relies on exporting of arrays by importing packages
+    return(get(DoE.oa.name))
 }
 
 genChild <- function (array.list)

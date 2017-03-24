@@ -82,13 +82,15 @@ ICFT(design, digits = 3, with.blocks = FALSE, conc = TRUE, recode=TRUE)
         these do not depend on the coding underlying the model matrix}   
      \item{v}{(right singular vectors corresponding to the rotated version of ICFT (concentrated or even); 
         these depend on the coding underlying the model matrix}   
+     \item{c.worst}{(\code{v\%*\%c.worst} is the worst case parameter vector for the model matrix \code{mm} 
+        in terms of bias of the average response for estimation of the intercept 
+        caused by the interaction under consideration}   
 }
 \references{
-   A technical report in the series 
-      \emph{Reports in Mathematics, Physics and Chemistry}
-      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
-      Department II, Beuth University of Applied Sciences, Berlin
-   will appear in the near future.
+   Groemping, U. (2017). An Interaction-Based Decomposition of Generalized Word Counts Suited to Assessing 
+       Combinatorial Equivalence of Factorial Designs. \emph{Reports in Mathematics, Physics and Chemistry}, 
+       Report 1/2017. \url{http://www1.beuth-hochschule.de/FB_II/reports/Report-2017-001.pdf},
+      Department II, Beuth University of Applied Sciences, Berlin.
    }
 \author{ Ulrike Groemping }
 \seealso{ See also \code{\link{GWLP}} and \code{\link{generalized.word.length}}}

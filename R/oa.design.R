@@ -116,7 +116,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
                   }
              else {
                  if (cand[1,]$lineage == "") 
-                       ID <- get(as.character(cand[1,1]))
+                       ID <- get(as.character(cand[1, 1])) 
                    else ID <- genChild(parseArrayLine(cand[1,]))
                        generating.oa <- as.character(cand[1,1])
              }

@@ -43,8 +43,8 @@ ICFT <- function (design, digits = 3, with.blocks = FALSE,
                     list(km1 = k))), data = hilf2)
         mm <- mm[,-(1:(ncol(mm) - prod(dfs)))]
         hilfc <- svd(mm)
-
       ## spans of constant sv2s: from to cumcount
+
         sv2s <- hilfc$d^2
         mean.u2s <- colMeans(hilfc$u)^2
         ICs <- sv2s*mean.u2s
@@ -76,8 +76,15 @@ ICFT <- function (design, digits = 3, with.blocks = FALSE,
          hilfc$v[,bereich] <- hilfc$v[,bereich]%*%Q
          }
 
+      ## make colmeans of u non-negative (added March 9 2017)
+      ## for unique vector c
+      cmu <- colMeans(hilfc$u)
+      vorz <- sign(cmu)
+      hilfc$u <- hilfc$u%*%diag(vorz)
+      hilfc$v <- hilfc$v%*%diag(vorz)
+
       ## redo after rotations
-      mean.u2s <- colMeans(hilfc$u)^2
+      mean.u2s <- cmu^2
       ICs <- sv2s*mean.u2s
       }
         
@@ -92,6 +99,8 @@ ICFT <- function (design, digits = 3, with.blocks = FALSE,
                     mean.u2s = mean.u2s, 
                     mm = mm,
                     u = hilfc$u,
-                    v = hilfc$v)
+                    v = hilfc$v,
+                    c.worst = hilfc$d*colMeans(hilfc$u)/sqrt(sum(sv2s*mean.u2s))
+                )
     aus
 }

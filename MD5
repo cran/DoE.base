@@ -1,9 +1,9 @@
-9821426789d1acf802814490a4cca346 *DESCRIPTION
+f6f0057f3f062b1a6ea2e3ae5752711d *DESCRIPTION
 bdfeb0949a6a1c14fd8048f938573947 *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
 e8dd9fdd71a4e514bf1545d4cb85b512 *R/GRind.R
-3b20e8d3bc9498fcc013d11b007c7744 *R/ICFT.R
+55d5920ab4700bba61c9d02c2dd24237 *R/ICFT.R
 c7bb5513c1977fffe882cc70b6038924 *R/ICFTs.R
 39a89d53a39ab4a7982824fccad000ba *R/ME.Lenth.R
 2f9b4a2452b1170800b2a1188779849d *R/P2.2.R
@@ -38,7 +38,7 @@ d58897efbc468834e4bb8abefb8535e5 *R/length3.R
 090cc56e6f99eaff3e1b6fa8482d729b *R/lengths.R
 9723580fb2e1ac48d38aecc188325a9f *R/lm.design.R
 f71fc7e4c8799ed485e20d3b390c4c19 *R/nchoosek.R
-b0d683cd5b1be41bb1fb92ededc6c0b4 *R/oa.design.R
+990cb919bbdcb6cdf0ae32ce8b7dea9c *R/oa.design.R
 8fd350619d08bc374232fcbc056b3893 *R/oa.maxGR.R
 1257f79f7b848b485d4657196fd3e241 *R/oa.min3.R
 93c692b307d376c32b62fb1e04f77114 *R/oa.min34.R
@@ -57,12 +57,12 @@ f70d0f613e32c4407609f53017c42659 *R/rerandomize.R
 e34b14c040af23ffc4f31c01ab0e123b *R/sysdata.rda
 1664ba817e8ecb4b58489b1d5e910741 *R/tupleSel.R
 d89afe0ed1d53842c4dd0e6dcc086626 *R/utilities.R
-1cdb198922beec9b74dbee7ad55e3e92 *R/utilities.for.children.R
-faf0efed24ff8aeec2d5e488b535351f *inst/NEWS
+26fe7967c7e9cf6a567323e806494657 *R/utilities.for.children.R
+fda5f390f1182eb2d5f196710dc5bec9 *inst/NEWS
 cf7da104340bee05e691ada7fa6c2eab *man/DoE.base-package.Rd
 d6e1c1d35dd451ab16f4725221a3cd19 *man/GRind.Rd
 234c3aa87fb096c2c4191e11063aa3c3 *man/GWLP.Rd
-c40f6858257a7999034be662c6bc07dd *man/ICFTs.Rd
+09c736d33b8d2fb53bec520014cdb766 *man/ICFTs.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
 766cdb9961348ab1df27c2e3beb3d7ad *man/VSGFS.Rd
 82aa74686c4e646de00cea3eacc9d8bd *man/add.response.Rd

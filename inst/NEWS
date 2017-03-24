@@ -3,6 +3,18 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+March 2017, Version 0.30
+- modified get() to not request package:DoE.base in function getArray 
+  (file utilities.for.children) in order to make importing DoE.base possible. 
+  Users who want to use function oa.design inside their package without depending 
+  on DoE.base will have to write their namespace file such that it 
+  imports package DoE.base, possibly excepting some non-needed functions,
+  and that it *exports* the arrays (L...) and the function contr.XuWu. 
+  Exporting must happen *after the import*. 
+- modified function ICFT to force all columns of matrix U to non-negative 
+  column means, and add coding invariant coefficient vector c.worst 
+  to output list
+
 September 2016, Version 0.29
 - added a function corrPlot for overview diagnostic plots of the confounding 
   structure of (possibly mixed level) fractional factorial designs, 
