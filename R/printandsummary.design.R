@@ -11,7 +11,8 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
    di <- design.info(x)
    if (std.order) {
         print(cbind(run.order(x)[,c(1,2)],x)[ord(run.order(x)),])
-        cat("NOTE: columns run.no.in.std.order and run.no are annotation, not part of the data frame",fill=TRUE)
+        cat("NOTE: columns run.no.in.std.order and run.no", " are annotation,", 
+                 " not part of the data frame", fill=TRUE)
          if (length(grep("param",di$type))>0 & length(grep("wide",di$type))>0 ){
              cat("Outer array:\n")
              print(di$outer, ...)
@@ -58,7 +59,8 @@ print.design <- function(x,show.order=NULL, group.print=TRUE, std.order=FALSE, .
        }}
    cat("class=design, type=", di$type,"\n") 
    if (show.order) 
-       cat("NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame",fill=TRUE)
+       cat("NOTE: columns run.no and run.no.std.rp", " are annotation,", 
+           " not part of the data frame",fill=TRUE)
    if (length(grep("param",di$type))>0 & length(grep("wide",di$type))>0 ){
        cat("Outer array:\n")
        print(di$outer, ...)
@@ -125,7 +127,7 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
    if (is.null(blocks)) blocks <- 1
        if (blocks > 1){
           if (length(grep("ccd",di$type))>0) 
-               cat("blocked design with ", blocks, " cube blocks and one star block\n")
+               cat("blocked design with ", blocks, " cube blocks", "and one star block\n", fill=TRUE)
           else
               cat("blocked design with ", blocks, " blocks")
           if (!all(di$blocksize==di$blocksize[1])){
@@ -234,11 +236,11 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
 
       ## only the legend entry          
       if (length(di$aliased) == 1)
-         cat("\nno aliasing of main effects or 2fis among experimental factors\n", fill=TRUE)
+         cat("\nno aliasing of main effects or 2fis", " among experimental factors\n", fill=TRUE)
       else{
         ## several entries but no aliasing
         if (all(sapply(di$aliased[-1], "length")==0))
-           cat("\nno aliasing of main effects or 2fis among experimental factors\n", fill=TRUE)
+           cat("\nno aliasing of main effects or 2fis", " among experimental factors\n", fill=TRUE)
            else{
              ## relevant alias entries              
               if (all(sapply(di$aliased, "length") >= 1) && length(di$aliased) > 1){
@@ -274,7 +276,7 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
           cat("Numbers of generalized words of lengths 3 and 4:\n")
           print(c("3"=length3(object),"4"=length4(object)))}
        else if (di$nfactors <= 30)
-          cat("Number of generalized words of length 3: ", length3(object),"\n")
+          cat("Number of generalized words of length 3: ", length3(object),"\n", fill=TRUE)
        }
    ## nothing for pb or full factorials
 
@@ -284,7 +286,7 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
         ### nWPs = numeric(0) for folded designs; why?
    if (nWPs > 1){ 
           cat("\nsplit-plot design: ", nWPs, " whole plots\n")
-          cat("                 : first ", di$nfac.WP, " factors are whole plot factors\n")
+          cat("   first ", di$nfac.WP, " factors are whole plot factors\n")
           }
    if (!brief){ 
       cat("\nThe design itself:\n")

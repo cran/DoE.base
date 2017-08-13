@@ -3,6 +3,7 @@
      importFrom(vcd, mosaic)
      importFrom(MASS, ginv)
      importFrom(combinat, xsimplex)
+     importFrom(numbers, mLCM)
      importFrom(grDevices, dev.interactive, devAskNewPage, heat.colors)
      export("oa.design", "fac.design", "desnum", "run.order", "design.info", 
             "origin","factor.names","getblock","rerandomize.design",
@@ -23,6 +24,7 @@
             "iscube","isstar","pickcube",
             "GWLP","tupleSel","show.oas","generators","halfnormal",
             "ME.Lenth","CME.LW98","CME.EM08","planor2design","data2design",
+            "oa_feasible",
             "L4.2.3","L8.2.4.4.1","L9.3.4","L12.2.11","L12.2.2.6.1",
             "L12.2.4.3.1","L16.2.8.8.1","L16.4.5","L18.3.6.6.1",
             "L20.2.19","L20.2.2.10.1","L20.2.8.5.1","L24.2.11.4.1.6.1",
@@ -103,6 +105,7 @@
             S3method("formula",design)
             S3method("print",design)
             S3method("print",lm.design)
+            S3method("print",oa)
             S3method("coef",lm.design)
             S3method("print",summary.lm.design)
             S3method("print",aov.design)

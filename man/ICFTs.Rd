@@ -91,6 +91,11 @@ ICFT(design, digits = 3, with.blocks = FALSE, conc = TRUE, recode=TRUE)
        Combinatorial Equivalence of Factorial Designs. \emph{Reports in Mathematics, Physics and Chemistry}, 
        Report 1/2017. \url{http://www1.beuth-hochschule.de/FB_II/reports/Report-2017-001.pdf},
       Department II, Beuth University of Applied Sciences, Berlin.
+
+   Groemping, U. (in press). Coding Invariance in Factorial Linear Models and a New Tool for Assessing 
+       Combinatorial Equivalence of Factorial Designs. 
+       \emph{Journal of Statistical Planning and Inference}. 
+       \url{https://doi.org/10.1016/j.jspi.2017.07.004}.
    }
 \author{ Ulrike Groemping }
 \seealso{ See also \code{\link{GWLP}} and \code{\link{generalized.word.length}}}

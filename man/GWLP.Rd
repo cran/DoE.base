@@ -60,7 +60,11 @@ dualDistmix(Bprime, nmax=5)
    Function \code{GWLP} is much faster but also more inaccurate than the 
    function \code{\link{lengths}}, which calculates numbers of words 
    for lengths 2 to 5 only. Note, however, that function \code{\link{lengths}} 
-   can be faster for designs with very many rows. 
+   can be faster for designs with very many rows. \cr
+   If a design factor contains only some of the intended levels, 
+   \code{design} must be a data frame, and the factor must be an R
+   factor with the complete set of levels specified, 
+   in order to make function \code{GWLP} aware of the missing levels.
    
    Function \code{ham} calculates the Hamming distance, function \code{Kraw} 
    the Krawtchouk polynomials, function \code{Choose} differs from the base 

@@ -4,22 +4,22 @@
 \alias{print.GRind}
 \alias{SCFTs}
 \title{
-Functions for calculating generalized resolution, average R-squared values and 
+Functions for calculating generalized resolution, average R-squared values and
 squared canonical correlations, and for checking design regularity
 }
 \description{
 Function GR calculates generalized resolution, function GRind calculates
 more detailed generalized resolution values, squared canonical correlations
 and average R-squared values, the print method for class GRind appropriately prints the
-detailed GRind values. Function SCFTs calculates squared canonical correlations for 
-factorial designs. SCFTs includes more projections than GRind (all full resolution 
-projections or even all projections) and decides on regularity of the design, 
+detailed GRind values. Function SCFTs calculates squared canonical correlations for
+factorial designs. SCFTs includes more projections than GRind (all full resolution
+projections or even all projections) and decides on regularity of the design,
 based on a conjecture.
 }
 \usage{
 GR(ID, digits=2)
 GRind(design, digits=3, arft=TRUE, scft=TRUE, cancors=FALSE, with.blocks=FALSE)
-SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol(design), 
+SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol(design),
    regcheck = FALSE, arft = TRUE, cancors = FALSE, with.blocks = FALSE)
 \method{print}{GRind}(x, quote=FALSE,  ...)
 }
@@ -35,10 +35,10 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
       the functions are not useful for quantitative designs (like e.g. latin hypercube samples).
       }
   \item{arft}{logical indicating whether or not the average $R^2$ frequency table
-       (ARFT, see Grömping 2013) is to be returned
+       (ARFT, see Gr?mping 2013) is to be returned
        }
   \item{scft}{logical indicating whether the squared canonical correlation frequency
-       table (SCFT, see Grömping 2013) is to be returned
+       table (SCFT, see Gr?mping 2013) is to be returned
        }
   \item{cancors}{logical indicating whether individual canonical correlations
        are to be returned (see Groemping 2013). These will not be needed
@@ -52,11 +52,11 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
       If the design is blocked, and \code{with.blocks}
       is \code{TRUE}, the block factor is treated like any other factor in terms of word counting.}
   \item{all}{ logical; decides whether or not to consider projections of more than R~factors, where R denotes the design resolution}
-  \item{resk.only}{logical; if \code{all} is \code{TRUE}, should only full resolution projections be considered? 
+  \item{resk.only}{logical; if \code{all} is \code{TRUE}, should only full resolution projections be considered?
               Choosing \code{FALSE} may cause very long run times.}
   \item{kmin}{integer; purpose is to continue an earlier run with additional larger projections}
   \item{kmax}{integer; limit on projection sizes to consider}
-  \item{regcheck}{logical; is the purpose a regularity check? If \code{TRUE}, the function stops after the first projection size 
+  \item{regcheck}{logical; is the purpose a regularity check? If \code{TRUE}, the function stops after the first projection size
               that included squared canonical correlation different from 0 or 1.}
   \item{x}{a list of class \code{GRind}, as created by function \code{GRind}}
   \item{quote}{a logical indicating whether character values are quoted}
@@ -77,26 +77,27 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
 
    Function \code{GRind} (newer than \code{GR}, and recommended) calculates the generalized
    resolution, together with factor wise generalized resolution values, squared canonical correlations
-   and average R-squared values, as introduced in Groemping and Xu (2014) and detailed in Grömping (2013).
+   and average R-squared values, as mentioned in Groemping and Xu (2014) and further developed in
+   Groemping (2013, 2017).
    The print method for class \code{Grind} objects prints the individual factor components of GRind.i such that they
    do not mislead:
    Because of the shortest word approach for GR, SCFT and ARFT, a GRind.i component
    can be at most one larger than the resolution. For example, if GR is 3.5 so that the
    resolution is 3, the largest possible numeric value of a GRind.i component is 4, but it means ">=4".
 
-   Function \code{SCFTs} does more extensive SCFT and ARFT calculations than function \code{GRind}: 
-   in particular, the function allows to do such calculations for more projection sizes, 
-   either restricting attention to full resolution projections or going for ALL projections 
+   Function \code{SCFTs} does more extensive SCFT and ARFT calculations than function \code{GRind}:
+   in particular, the function allows to do such calculations for more projection sizes,
+   either restricting attention to full resolution projections or going for ALL projections
    with non-zero word lengths.
-   These capabilities have been introduced in relation to regularity checking based on SCFTs 
-   (see Groemping and Bailey 2016): 
-   Defining a factorial design as regular if all main effects are orthogonal in some sense 
-   to effects including other factors of any order, it is conjectured that a regularity check on full resolution 
-   projections only will suffice for identifying non-regularity (work in progress). 
-   However, this is a conjecture only; as long as it is not proven, a definite check for this type of regularity requires checking ALL projections, 
-   i.e. setting \code{resk.only} to \code{FALSE}. With this setting, the function may run for a very long time 
+   These capabilities have been introduced in relation to regularity checking based on SCFTs
+   (see Groemping and Bailey 2016):
+   Defining a factorial design as regular if all main effects are orthogonal in some sense
+   to effects including other factors of any order, it is conjectured that a regularity check on full resolution
+   projections only will suffice for identifying non-regularity (work in progress).
+   However, this is a conjecture only; as long as it is not proven, a definite check for this type of regularity requires checking ALL projections,
+   i.e. setting \code{resk.only} to \code{FALSE}. With this setting, the function may run for a very long time
    (depends in particular on the number of factors)!
-   
+
 }
 \value{
 
@@ -115,8 +116,8 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
    the matrix \code{GR.i} with rows GRtot.i and GRind.i for the
    factor wise generalized resolutions (also in Groemping and Xu 2014), \cr
    and optionally \cr
-   the ARFT (Groemping 2013), \cr
-   the SCFT (Groemping 2013), \cr
+   the ARFT (Groemping 2013, 2017), \cr
+   the SCFT (Groemping 2013, 2017), \cr
    and/or the canonical correlations.\cr
    The latter are held in an \cr
    nfac x choose(nfac-1, R-1) x max(nlev)-1 array \cr
@@ -128,8 +129,8 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
    resolution + 1". (The print method ensures that they are printed accordingly,
    but the list elements themselves are just the numbers.)
 
-   Function \code{SCFTs} returns a list of lists with a component for 
-   each projection size considered. Each such component contains the following entries: 
+   Function \code{SCFTs} returns a list of lists with a component for
+   each projection size considered. Each such component contains the following entries:
      \item{SCFT}{Squared canonical correlation table for the projection size}
      \item{ARFT }{Average R^2 frequency table for the projection size (if requested)}
      \item{cancors }{canonical correlations (if requested)}
@@ -145,13 +146,17 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
       \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
       Department II, Beuth University of Applied Sciences, Berlin.
 
-   Groemping, U. and Bailey, R.A. (2016). Regular fractions of factorial arrays. In: 
-     \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}. 
+    Groemping, U. (2017). Frequency tables for the coding invariant quality assessment
+    of factorial designs. \emph{IISE Transactions} \bold{49}, 505-517.
+    \url{https://doi.org/10.1080/0740817X.2016.1241458}.
+
+    Groemping, U. and Bailey, R.A. (2016). Regular fractions of factorial arrays. In:
+     \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}.
       New York: Springer.
 
    Groemping, U. and Xu, H. (2014). Generalized resolution for orthogonal arrays.
       \emph{The Annals of Statistics} \bold{42}, 918--939.
-      \url{http://prof.beuth-hochschule.de/fileadmin/user/groemping/downloads/AOS1205.pdf}
+      \url{https://prof.beuth-hochschule.de/fileadmin/prof/groemp/downloads/AOS1205.pdf}
    }
 \author{ Ulrike Groemping }
 \seealso{ See also \code{\link{GWLP}} and \code{\link{generalized.word.length}}}

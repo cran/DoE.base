@@ -1,6 +1,6 @@
 
-R version 3.2.0 alpha (2015-03-27 r68108)
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
+Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -620,7 +620,8 @@ The following object is masked from 'package:base':
 575 12_4_11      12_4_3.3     2      5     2 2 2 1 2 1 2
 576 12_4_12      12_4_4.3     2      5     2 2 2 1 2 2 1
 class=design, type= crossed 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 > summary(cross1)
 Multi-step-call:
 $original
@@ -1233,7 +1234,8 @@ Factor settings (scale ends):
 575 12_12_3      12_4.3_3     2      5     2 2 2 1 2 1 2
 576 12_12_4      12_4.3_4     2      5     2 2 2 1 2 2 1
 class=design, type= crossed 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 > summary(cross2)
 Multi-step-call:
 $original
@@ -1416,7 +1418,8 @@ Factor settings (scale ends):
 143 12_4_2        12_4_2     2      5     2 2 2 1     55
 144 12_4_3        12_4_3     2      5     2 2 2 1     80
 class=design, type= crossed 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 > summary(cross3)
 Multi-step-call:
 $original
@@ -1597,7 +1600,8 @@ Factor settings (scale ends):
 143 12_4_2        12_4_3     2      5     2 2 2 1 mittel
 144 12_4_3        12_4_1     2      5     2 2 2 1    alt
 class=design, type= crossed 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 > summary(cross4)
 Multi-step-call:
 $original
@@ -2209,7 +2213,8 @@ Factor settings (scale ends):
 575 12_4_11      12_4_4.2     2      5     2 2 2 1 2 2 1
 576 12_4_12      12_4_4.3     2      5     2 2 2 1 2 2 1
 class=design, type= crossed 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 > summary(cross5)
 Multi-step-call:
 $original
@@ -2393,7 +2398,8 @@ In workhorse(design1, design2, ...) :
 143  12_11       4.3_4.2 2 2 1 2 2 1
 144  12_12       4.3_4.3 2 2 1 2 2 1
 class=design, type= crossed 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 > summary(cross6)
 Multi-step-call:
 $original
@@ -2580,7 +2586,8 @@ In param.design(oa12, oa4, direction = "wide") :
 11     11            11     2      3     2  NA  NA  NA  NA
 12     12            12     2      5     2  NA  NA  NA  NA
 class=design, type= oa.paramwide 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 Outer array:
   D E F
 1 1 1 1
@@ -2644,7 +2651,8 @@ The design itself:
 11     11            11     2      3     2  NA  NA  NA  NA
 12     12            12     2      5     2  NA  NA  NA  NA
 class=design, type= oa.paramwide 
-NOTE: columns run.no and run.no.std.rp are annotation, not part of the data frame
+NOTE: columns run.no and run.no.std.rp  are annotation, 
+ not part of the data frame
 Outer array:
   D E F
 1 1 1 1
@@ -2654,4 +2662,4 @@ Outer array:
 > 
 > proc.time()
    user  system elapsed 
-   0.73    0.14    0.85 
+   0.42    0.15    0.59 

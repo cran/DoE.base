@@ -3,6 +3,18 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+August 2017, Version 0.31
+- added function oa_feasible that tests necessary conditions 
+  for the feasibility of a request for a combination of nruns, 
+  nlevels and strength
+- added an S3 method for class oa for the generic function print
+- added factor level recognition to levels.no
+- modified print methods to be more reactive to line widths
+- updated references in help files to reflect 
+  latest published research results 
+  (help files GRind, ICFTs, oa.design, generalized.word.length, 
+  and DoE.base-package)
+
 March 2017, Version 0.30
 - modified get() to not request package:DoE.base in function getArray 
   (file utilities.for.children) in order to make importing DoE.base possible. 

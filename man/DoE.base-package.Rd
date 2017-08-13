@@ -51,6 +51,12 @@ Maintainer: Ulrike Groemping <groemping@bht-berlin.de>
 \references{
     Chambers, J.M. and Hastie, T.J. (1993). \emph{Statistical Models in S}, 
     Chapman and Hall, London.
+    
+    Groemping, U. (2016).  R Package DoE.base for Factorial Designs. 
+      Report 1/2016, \emph{Reports in Mathematics, Physics and Chemistry} 
+      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
+      Department II, Beuth University of Applied Sciences, Berlin. 
+      (preprint of a paper in the Journal of Statistical Software)
      
     Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) 
     \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 

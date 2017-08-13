@@ -22,7 +22,16 @@ levels.no <- function(xx)
 # return the number of levels for design xx
 # apply(xx, 2, function(v) {length(table(v))} )
 # changed table to unique, much faster UG 10 May 13
-   apply(xx, 2, function(v) {length(unique(v))} )
+# added factor distinction, in order to account for 
+#     imbalance by missing levels (UG 03 April 17)
+     ff <- FALSE
+  if (is.data.frame(xx)){
+    if (any(ff <- sapply(xx, is.factor)))
+       nflevs <- sapply(xx[ff], nlevels)
+  }
+  aus <- apply(xx, 2, function(v) length(unique(v)))
+  if (any(ff)) aus[ff] <- nflevs
+  aus
 }
 
 ## mixed level stuff
