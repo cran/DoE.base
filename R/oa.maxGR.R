@@ -1,5 +1,11 @@
+## contains oa.maxGR (deprecated) and oa.minRelProjAberr
+
 oa.maxGR <- function (ID, nlevels, variants=NULL)
 {
+    ### depracated 
+    ### oa.minRelProjAberr works without this function now
+    ### rewrite new functions from oa.min3, oa.min4, 
+    ### using ARFTs or SCFTs, or even GRind
     tab.needed <- table(nlevels)
     GR <- 3
 
@@ -75,12 +81,14 @@ oa.minRelProjAberr <- function(ID, nlevels, maxGR=NULL){
      if (!is.list(maxGR)) stop("maxGR must be a list")
      if (!all(c("GR","column.variants") %in% names(maxGR)))
          stop("maxGR is not of the appropriate form")
-     ## oa.min3 with crit="worst" not appropriate for resolution IV or higher designs
      GR <- maxGR$GR
-     if (GR==4 & !"RPFTs" %in% names(maxGR)) maxGR <- oa.maxGR(ID, nlevels, variants=maxGR$column.variants)
+     ## oa.min3 not sufficient for resolution IV or higher designs
+     if (GR==4) maxGR <- 
+         oa.min4(ID, nlevels, variants=maxGR$column.variants, rela=TRUE, crit="worst")
      GR <- maxGR$GR
      
      if (GR==5) {
+         ## for GR>=5, exact GR is not determined 
          hilf <- c("3"=0,"4"=0)
          aus <- list(GWP=hilf, column.variants=maxGR$column.variants, complete=TRUE)
      }
@@ -98,29 +106,10 @@ oa.minRelProjAberr <- function(ID, nlevels, maxGR=NULL){
      else{
      ## reduce maxGR to best rA3/rA4 design
      if (reso==3) minrA <- oa.min3(ID, nlevels, variants=maxGR$column.variants, rela=TRUE)
-     else if (reso==4) minrA <- oa.min34(ID, nlevels, variants=maxGR$column.variants, rela=TRUE)
-     
-     if (!"RPFTs" %in% names(maxGR)){
-         maxGR$column.variants <- minrA$column.variants
-         maxGR$RPFTs <- PFTs.from.variants(ID, maxGR$column.variants, R=reso, rela=TRUE)
-         }
-     else{
-       zeile <- 1
-       hilf <- maxGR$column.variants
-       auswahl <- rep(FALSE, nrow(hilf))
-       for (i in 1:nrow(minrA$column.variants)){
-          found <- FALSE
-          while (!found){
-          if (all(minrA$column.variants[i,]==hilf[zeile,])) {
-             auswahl[zeile] <- TRUE
-             zeile <- zeile + 1
-             found <- TRUE
-             }
-          }
-       }
-       maxGR$column.variants <- maxGR$column.variants[auswahl,,drop=FALSE]
-       maxGR$RPFTs <- maxGR$RPFTs[auswahl]
-     }
+     else if (reso==4) minrA <- oa.min4(ID, nlevels, variants=maxGR$column.variants, rela=TRUE)
+
+     maxGR$column.variants <- minrA$column.variants
+     maxGR$RPFTs <- PFTs.from.variants(ID, maxGR$column.variants, R=reso, rela=TRUE)
          
      ## optimizing RPFTs
      RPFTs <- maxGR$RPFTs
@@ -129,7 +118,7 @@ oa.minRelProjAberr <- function(ID, nlevels, maxGR=NULL){
      maxGR$RPFTs <- maxGR$RPFTs[best]
      
      ## resolving final ties with A4
-     if (length(best)>1 & reso==3){ 
+     if (length(best)>1 && reso==3){ 
         maxGR[[1]] <- length3(ID[,maxGR$column.variants[1,]], rela=TRUE)
         names(maxGR)[1] <- "GWP3"; names(maxGR[[1]]) <- "rA3"
         maxGR$complete <- TRUE

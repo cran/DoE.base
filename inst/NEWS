@@ -3,6 +3,29 @@ Changes to package DoE.base
 This package is under development. 
 Suggestions and bug reports are very welcome. 
 
+March 2018, Version 0.32
+- added function lowerbound_AR (based on hidden functions 
+  lowerbounds and lowerbound_chi2) that calculates a best possible A_R
+  for a combination of nruns, nlevels and resolution;
+  the functions were originally in DoE.MIParray only
+- added function oa.min4 that optimizes column allocation 
+  in resolution 4 designs without the need to first go through 
+  all triples as well
+- incorporated best possible A_R ("target") into
+  functions oa.min3 and oa.min4 in order to speed things up
+  when searching for small designs within relatively large designs, 
+  if only a single array is sought and the best possible 
+  array is reached fast
+- replaced function oa.maxGR with 
+  oa.min3 and oa.min4 using rela=TRUE and crit="worst", where possible
+  (much faster)
+- updated a reference
+- modified description
+- added a link to package DoE.MIParray
+- removed link to documentation of planor (as planor was archived)
+Bug fix:
+- removed two useless instances of "break" (functions halfnormal and SCFTs)
+
 August 2017, Version 0.31
 - added function oa_feasible that tests necessary conditions 
   for the feasibility of a request for a combination of nruns, 

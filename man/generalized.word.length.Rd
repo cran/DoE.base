@@ -14,6 +14,7 @@
 \alias{P3.3}
 \alias{P4.4}
 \alias{oa.min3}
+\alias{oa.min4}
 \alias{oa.min34}
 \alias{oa.max3}
 \alias{oa.max4}
@@ -30,7 +31,8 @@ projection frequency tables or optimizing column selection within an array
 \description{
 Functions length2, length3, length4 and length5 calculate the numbers of generalized words
 of lengths 2, 3, 4, and 5 respectively, lengths calculates them all. Functions P3.3 and P4.4
-calculate projection frequency tables, functions oa.min3, oa.min34, oa.maxGR, oa.minRelProjAberr,
+calculate projection frequency tables, functions oa.min3, oa.min4, oa.min34, 
+oa.maxGR (deprecated), oa.minRelProjAberr,
 oa.max3 and oa.max4 determine column allocations with minimum or maximum aliasing.
 Function nchoosek is an auxiliary function
 for calculating all subsets without replacement.
@@ -47,6 +49,7 @@ lengths(design, ...)
 contr.XuWu(n, contrasts=TRUE)
 contr.XuWuPoly(n, contrasts=TRUE)
 oa.min3(ID, nlevels, all, rela = FALSE, variants = NULL, crit = "total")
+oa.min4(ID, nlevels, all, rela = FALSE, variants = NULL, crit = "total")
 oa.min34(ID, nlevels, variants = NULL, min3=NULL, all = FALSE, rela = FALSE)
 oa.max3(ID, nlevels, rela = FALSE)
 oa.max4(ID, nlevels, rela = FALSE)
@@ -245,29 +248,38 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    \code{\link{oacat}} and \code{\link{oacat3}} and can be queried with function \code{\link{show.oas}};
    this helps for selecting a suitable array from which to start optimization efforts (see below).
 
-   Functions \code{oa.min3}, \code{oa.min34}
+   Functions \code{oa.min3}, \code{oa.min4}, \code{oa.min34}
    optimize column allocation for a given array
    for which a certain factor combination must be accomodated: They return designs that allocate
    columns such that the number of generalized words of length 3 is minimized (\code{oa.min3};
    with a choice between minimizing the total number or minimizing the number for the worst-case triple
    of factors), or
    the number of generalized words of length 4 is minimized within all designs for which the number
-   of generalized words of length 3 is minimal (\code{oa.min34}, total number only).
+   of generalized words of length 3 is minimal (\code{oa.min34}, total number only); 
+   \code{oa.min4} does the same as \code{oa.min3}, but for designs of resolution IV, either entirely 
+   (e.g. designs from \code{oacat3}) or through the selection of suitable column variants.
    Option \code{rela} allows to switch
    from the default consideration of absolute numbers of words to relative numbers of words
    according to Groemping (2011). This relative number corresponds to concentrating on the worst-case
    ARFT entry for each set of R factors (R the resolution).
 
    Function \code{oa.maxGR} maximizes generalized resolution
-   according to Deng and Tang (1999) as generalized by Groemping (2011),
-   function \code{oa.minRelProjAberr} conducts minimum relative projection aberration
-   according to Groemping (2011), with the four steps (a) maximize GR, (b) minimize rA3 or
-   rA4 (depending on resolution), (c) optimize RPFT (as obtained by \code{P3.3}
-   or \code{P4.4}) and (d) minimize absolute words of lengths 4 etc. (only carried through
-   to length 4 by the function. Note that function \code{oa.maxGR}
+   according to Deng and Tang (1999) as generalized by Groemping (2011).    
+   **Note that function \code{oa.maxGR}
    can be replaced by the much faster function \code{oa.min3} with options
    \code{crit="worst"} and \code{rela=TRUE}, whenever GR<=4. Only for designs with
-   GR > 4, the extra effort with function \code{oa.maxGR} is useful.
+   GR > 4, the extra effort with function \code{oa.maxGR} is useful.**
+   
+   Function \code{oa.minRelProjAberr} conducts minimum relative projection aberration
+   according to Groemping (2011), with the four steps \cr 
+   (a) maximize GR (using function 
+   \code{oa.min3} with options \code{crit="worst"} and \code{rela=TRUE}), \cr
+   (b) minimize rA3 or
+   rA4 (depending on resolution), \cr
+   (c) optimize RPFT (as obtained by \code{P3.3}
+   or \code{P4.4}) and \cr
+   (d) minimize absolute words of lengths 4 etc. (only carried through
+   to length 4 by the function).
 
    Functions \code{oa.max3} and \code{oa.max4}
    do the opposite: they search for the worst design in terms of the number of
@@ -358,7 +370,11 @@ Function \code{GWLP} is much faster (but also more inaccurate) than function \co
 and may be a better choice for designs with many factors.}
 \seealso{ See also \code{\link{GWLP}} for a version of lengths that is much
     faster for designs with not so many runs, and \code{\link{GRind}}
-    for another set of quality criteria for orthogonal arrays.}
+    for another set of quality criteria for orthogonal arrays.\cr
+    Package \pkg{\link[DoE.MIParray:DoE.MIParray]{DoE.MIParray}} can create 
+    arrays for smallish situations for which the catalogued arrays do not provide 
+    satisfactory results; this package requires at least one of the commercial 
+    softwares Mosek or Gurobi to be installed (both provide free academic licenses).}
 
 \section{Warning }{The functions have been checked on the types of designs for which
    they are intended (especially orthogonal arrays produced with oa.design) and

@@ -92,9 +92,9 @@ ICFT(design, digits = 3, with.blocks = FALSE, conc = TRUE, recode=TRUE)
        Report 1/2017. \url{http://www1.beuth-hochschule.de/FB_II/reports/Report-2017-001.pdf},
       Department II, Beuth University of Applied Sciences, Berlin.
 
-   Groemping, U. (in press). Coding Invariance in Factorial Linear Models and a New Tool for Assessing 
+   Groemping, U. (2018). Coding Invariance in Factorial Linear Models and a New Tool for Assessing 
        Combinatorial Equivalence of Factorial Designs. 
-       \emph{Journal of Statistical Planning and Inference}. 
+       \emph{Journal of Statistical Planning and Inference} \bold{193}, 1-14. 
        \url{https://doi.org/10.1016/j.jspi.2017.07.004}.
    }
 \author{ Ulrike Groemping }

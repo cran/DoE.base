@@ -399,7 +399,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL, cex.text=1,
   if (!is.null(external.pe)){
     if (!is.numeric(external.pe)) {
       warning("external.pe must be numeric, option was ignored")
-      break
+      #break  unnecessary break removed March 1 2018
     }
     else{
       ## adjustments to dflof and dfr are made further down in the code
