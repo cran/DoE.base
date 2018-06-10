@@ -145,7 +145,9 @@ SCFTs <- function(design, digits=3, all=TRUE, resk.only=TRUE, kmin=NULL, kmax=nc
           if (all(!reskproj)){ 
                 message("no projections with resolution ", k, " or higher")
                 ks <- ks[ks<k]
-                #break unnecessary break removed March 1 2018
+                break ## seemingly unnecessary break removed March 1 2018 
+                      ## and reentered as necessary June 2018
+                      ## the break breaks the for loop
              }
           }
           

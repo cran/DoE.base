@@ -1,4 +1,4 @@
-30bf8e0cbf71ac6fca782803da3cdbfb *DESCRIPTION
+7e4076e39c9a71108cf106be42ad2032 *DESCRIPTION
 7aa6f8e08a3f0761d9edd1b0dac5fb7f *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -9,7 +9,7 @@ c7bb5513c1977fffe882cc70b6038924 *R/ICFTs.R
 2f9b4a2452b1170800b2a1188779849d *R/P2.2.R
 02b06017b7eb7d9d4ba4f607cd92137c *R/P3.3.R
 e9a717299f5935ee71b70bacff9bb9c7 *R/P4.4.R
-9f14ae164b027ce443e57c578f712d9e *R/SCFTs.R
+18195bf129049089401236fa8763ca90 *R/SCFTs.R
 6482b2e9c0587f5a850d0acf6358b96c *R/SN.R
 57b2a8dbcd6281aab75cf70ae980d8e0 *R/add.response.R
 90c798bb6aa609a141c96d9459a51089 *R/aggregate.design.R
@@ -61,8 +61,9 @@ e34b14c040af23ffc4f31c01ab0e123b *R/sysdata.rda
 1664ba817e8ecb4b58489b1d5e910741 *R/tupleSel.R
 d89afe0ed1d53842c4dd0e6dcc086626 *R/utilities.R
 26fe7967c7e9cf6a567323e806494657 *R/utilities.for.children.R
-58139df0803372402e817f937134943f *inst/NEWS
-e0e84f7af62f882ff46689c7594ea44e *man/DoE.base-package.Rd
+1329aec55461a92dd81ad0ef30b6125d *inst/CITATION
+3d5e202ebfaae3a52ff33314c674ca64 *inst/NEWS
+ab66732e175d170c7070154588ae53be *man/DoE.base-package.Rd
 f8c8c8efc3fd39516dc0196b787fc832 *man/GRind.Rd
 259c890733c5da0d2ec647372d8c1e32 *man/GWLP.Rd
 d08329269eaca1adfdaa0699ec112d36 *man/ICFTs.Rd
@@ -87,12 +88,12 @@ faa28d6e42e81241c7cda488846a343b *man/getblock.Rd
 34955c0f0604c16b0ebb18335b678ca1 *man/halfnormal.Rd
 6d05a60b88b300df7ff0789be5cb988d *man/iscube.Rd
 75ccd53f9fffe43a392697b59d90fb6b *man/lm.design.Rd
-d2c8864a70d9f389ca0bfabbd8bd97d4 *man/lowerbound_AR.Rd
+0e7711689e2ede803381a0612ec26750 *man/lowerbound_AR.Rd
 9dadba25e8f123755c078c209be6135e *man/oa.design.Rd
 83581a3cf5c14f512d6ad2a64c1cb755 *man/oa_feasible.Rd
 865ede3360c764c8b2b700cb1258fbcf *man/oacat.Rd
 3f15077d8eea3c76a73f2ba1ff8c69fa *man/param.design.Rd
-365f43995c1e69087d0d28146755d2c8 *man/planor2design.Rd
+97b0e04e15ffc4d460dd2d6b8dc0538e *man/planor2design.Rd
 9b5051f83e65a3513591f94787aa9adf *man/plot.design.Rd
 3710bfe5a15468112ae68eb1b51c6d5c *man/print.oa.Rd
 a784d2a7fd3d9e902ce3b43e4a26a4e4 *man/qua.design.Rd

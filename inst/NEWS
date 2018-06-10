@@ -1,7 +1,18 @@
 Changes to package DoE.base
 
-This package is under development. 
+This package is still under development. 
 Suggestions and bug reports are very welcome. 
+
+June 2018, Version 1.0
+- added CITATION of JSS paper
+- reentered link to documentation of planor, 
+  which is on CRAN again
+- added caveat to the documentation of the lower bounds functions 
+  that resolution needs to be ascertained before applying these
+Bug fix:
+- fixed function SCFTs (a necessary instance of break 
+  had been removed with version 0.32, which made 
+  the output of function SCFTs ugly under option all=TRUE)
 
 March 2018, Version 0.32
 - added function lowerbound_AR (based on hidden functions 
