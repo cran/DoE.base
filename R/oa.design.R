@@ -29,10 +29,13 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         ## if more than one of the entries are given:
         ## compatibility checks necessary
       creator <- sys.call()
+      oacat <- rbind(oacat3, oacat)
+      oacat <- oacat[ord(oacat[,2,drop=FALSE]),]
 
       generating.oa <- deparse(substitute(ID))  ## document selected OA; NULL if NULL
       if (generating.oa=="NULL") generating.oa <- NULL
       if ("try-error" %in% class(try(is.null(ID), silent = TRUE))){ 
+          ## array cannot be accessed directly
           if (!generating.oa %in% oacat$name) stop("invalid ID")
           ID <- "NULL"   ## made NULL only after the check for nlevels etc.
           }
@@ -123,7 +126,18 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           }
       }  ## end if (is.null(ID) & is.null(generating.oa)), now both are non-null, if both were NULL
       
-      if (is.null(ID)) ID <- genChild(parseArrayLine(oacat[which(oacat$name==generating.oa),]))
+      if (is.null(ID)) ID <- genChild(parseArrayLine(oacat[which(oacat$name==generating.oa)[1],]))
+
+      oagma <- ""   ## gmarule for the oa
+      if (generating.oa %in% oacat$name){
+          ## retrieve info on gma behavior, if any; August 2018
+          ## [1] is necessary, because selected arrays are in both oacat3 and oacat
+          ##                                      (oacat in this function is the union of these two)
+               pick <- which(oacat$name==generating.oa)[1]
+               oagma <- oacat$gmarule[pick]
+               oasgma <- oacat$sgmarule[pick]
+               oans <- oacat[[paste0("n", oasgma)]][pick]
+          }
 
           des <- ID
           if (!("oa" %in% class(des))) stop("ID does not specify an orthogonal array.")
@@ -268,11 +282,23 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
           origorder <- (1:nfactors)[order(nlevels)]
           factor.names <- factor.names[order(nlevels)]
           nlevels <- nlevels[order(nlevels)]
-          if ((columns=="order" | is.null(columns)) & !nfactors==ncol(ID))
-             message("The columns of the array have been used in order of appearance. \n", 
+          if ((columns=="order" | is.null(columns)) & !nfactors==ncol(ID)){
+             ## incorporate knowledge of gma subsets according to Butler 2005
+             ## applicable for pure level designs only
+             ## oagma contains the gma rule ("", if none applies)
+             showmessage <- TRUE
+             if (length(unique(nlevels))==1 && !oagma==""){
+                if (oagma %in% c("any subset", "any s-level subset")) showmessage <- FALSE
+                if (oagma == "all s-level factors" && length(nlevels)==oans) showmessage <- FALSE
+                if (oagma == "all or subsets of all-1 s-level factors" && length(nlevels)>=oans-1) showmessage <- FALSE
+                if (oagma == "first s^2 - 1, first s^2, or first s^2 with one or more of last s+1" && 
+                   length(nlevels) >= oasgma^2-1) showmessage <- FALSE
+              }
+             if (showmessage) message("The columns of the array have been used in order of appearance. \n", 
              "For designs with relatively few columns, \n", 
              "the properties can sometimes be substantially improved \n", 
              "using option columns with min3 or even min34.\n")
+             }
           nutze <- NULL
           if (columns=="min3") nutze <- try(oa.min3(ID, nlevels)$column.variants[1,], silent=TRUE)
           else if (columns=="min3.rela") nutze <- try(oa.min34(ID, nlevels, rela=TRUE)$column.variants[1,], silent=TRUE)

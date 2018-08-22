@@ -44,11 +44,13 @@ oacat3
    package (cf. \code{\link{generalized.word.length}}).
    
    The data frame \code{oacat3} contains stronger arrays that have at least the main 
-   effects unconfounded with two-factor interactions. These can be requested 
-   in function \code{\link{show.oas}} by option \code{Rgt3=TRUE}. If an appropriate 
-   one has been found, it can be directly requested with the \code{ID} option 
-   in function \code{\link{oa.design}}. It is currently not possible to request 
-   using a strong array without explicitly specifying it.
+   effects unconfounded with two-factor interactions. If only these are of interest, 
+   function \code{\link{show.oas}} can be restricted to strong arrays 
+   by option \code{Rgt3=TRUE}. Function \code{\link{oa.design}} will use a strong 
+   array, if possible. It may also be worthwhile to check whether expansive replacement 
+   of a strong array with a full factorial can yield a suitable strong array 
+   (for an example, see function \code{\link{expansive.replace}}); this is not 
+   automatically checked and can only be done by the user.
 }
 \value{
    The data frames contain the columns \code{name}, \code{nruns}, \code{lineage} 
@@ -89,6 +91,14 @@ oacat3
    For example, \code{L18.2.1.3.7} is an 18 run design with one factor with 
    2 levels and seven factors with 3 levels each. 
    
+   The columns \code{gmarule} and \code{sgmarule} refer to the implementation of 
+   known rules from the literature that certain subsets of array columns have 
+   generalized minimum aberration (Butler 2005); if such a subset is requested, 
+   there is no message of caution even if the array columns are used with 
+   \code{column="order"} instead of optimizing the selection. Currently, 
+   only the rules from Butler (2005) are implemented; hopefully, more rules will be added 
+   in the future.
+   
    The column \code{lineage} deserves particular attention for \code{oacat} (always empty for \code{oacat3}): 
    it is an empty string, if the design is directly available and can be accessed via its name, or if the design 
    is a full factorial (e.g. L6.2.1.3.1). Otherwise, the lineage entry is structured as follows: 
@@ -127,6 +137,8 @@ oacat3
   Brouwer, A. Small mixed fractional factorial designs of strength 3. \url{https://www.win.tue.nl/~aeb/codes/oa/3oa.html#toc1} accessed March 1 2016
   
   Brouwer, A., Cohen, A.M. and Nguyen, M.V.M. (2006). Orthogonal arrays of strength 3 and small run sizes. \emph{Journal of Statistical Planning and Inference} \bold{136}, 3268--3280.
+
+  Butler, N.A. (2005). Generalised minimum aberration construction results for symmetrical orthogonal arrays. \emph{Biometrika} \bold{92}, 485 -- 491.
 
   Eendebak, P. and Schoen, E. Complete Series of Orthogonal Arrays. \url{http://pietereendebak.nl/oapage/} accessed March 1 2016
   

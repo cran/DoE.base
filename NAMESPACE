@@ -2,7 +2,8 @@
      importFrom(lattice, levelplot, panel.levelplot, panel.abline)
      importFrom(vcd, mosaic)
      importFrom(MASS, ginv)
-     importFrom(combinat, xsimplex)
+     importFrom(combinat, xsimplex, permn)
+     importFrom(partitions, setparts)
      importFrom(numbers, mLCM)
      importFrom(grDevices, dev.interactive, devAskNewPage, heat.colors)
      export("oa.design", "fac.design", "desnum", "run.order", "design.info", 

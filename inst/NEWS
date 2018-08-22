@@ -3,6 +3,27 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+August 2018, Version 1.1
+- made show.oas always show strong arrays, if these exist
+- use strong arrays automatically in oa.design, if possible
+  (this changes the design created for some situations, 
+   for which an array ID has not been specified)
+- added an option for creation of all non-isomorphic replacements 
+  to the expansive.replace function (if replacement array 
+  is a small full factorial)
+- added an import from package partitions, in support for previous bullet
+- added three strength 3 arrays from the Aggrawal/Dey 
+  construction method 2 (found fix for wrong formula in their paper)
+- deactivated message on column order optimization for cases for which 
+  the default column order is known from the literature to have GMA
+  (Butler 2005); this involves adding columns gmarule and sgmarule 
+  to oacat
+
+Bug fix:
+- fixed level coding of some arrays listed in oacat3, 
+  which were coded from -(s-1) to (s-1) in steps of 2, rather than from 1 to s
+  (affects all arrays from the Aggrawal/Dey construction)
+
 June 2018, Version 1.0
 - added CITATION of JSS paper
 - reentered link to documentation of planor, 

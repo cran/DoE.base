@@ -130,15 +130,19 @@ oa
    The requirements for these are the same as listed above, with attribute \code{origin}
    being a MUST in this case. (See the last example for how to assign an attribute.)
 
-   Currently, package \pkg{DoE.base} contains the orthogonal arrays from Warren Kuhfelds
-   collection of \dQuote{parent} arrays only, plus very few additional designs,
+   The data frame \code{\link{oacat}} lists the orthogonal arrays from Warren Kuhfelds
+   collection of \dQuote{parent} arrays only, plus a few additional arrays,
    and can automatically create the child arrays from Kuhfelds collection, using
-   the replacement instructions provided in the data frame \code{\link{oacat}}
-   through the variable \code{lineage}. The last example below indicates how
+   the replacement instructions provided in the variable \code{lineage}.    
+   The last example below indicates how
    a child array can be created manually, and compares this to the automatically created array.\cr
    (A lot more than just the child arrays could be obtained from these arrays
    by implementing a functionality similar to the market research macros available in SAS; presumably,
    this topic will not be addressed soon, as it will involve a substantial amount of work.)
+   
+   Furthermore, there are stronger arrays 
+   (at least resolution IV) in the catalogue \code{\link{oacat3}}. Since version 1.1, 
+   function \code{oa.design} uses the stronger arrays, where possible. 
 
    If no specific orthogonal array is specified and function \code{oa.design} does not
    find an orthogonal array that meets the specified requirements,
@@ -169,12 +173,13 @@ oa
 \describe{
    \item{"order"}{the default choice; allocates factors from left to right, which
    is what most software does (but what is not necessarily good, see also the example section)}
-   \item{\code{"min3"}}{aliasing between main effects and 2-factor
+   \item{\code{"min3"}}{\bold{recommended}, if \code{"min34"} is not affordable; 
+   aliasing between main effects and 2-factor
    interactions is kept to a minimal degree,
    minimizing the number of generalized words of length 3 according to Xu and Wu (2001)}
    \item{"min3.rela"}{the same approach is taken, but with
    \emph{relative} number of generalized words according to Groemping (2011)}
-   \item{"min34"}{may be useful, if only very few columns of an array are used;
+   \item{"min34"}{\bold{recommended}, if affordable; 
    beware the time demand; this requests
    that the number of words of generalized length 4 is also minimized.}
    \item{"min34.rela"}{again takes the same approach, but with
@@ -199,13 +204,15 @@ oa
    Mathematical comment on the expansion example:
    There are 720 different ways to expand the unique \code{L18.3.6.6.1}
    into an \code{L18.2.1.3.7}, depending on which row of the replacement design
-   \code{nest.des} is assigned to which level of the 6 level factor.
-   According to Eric Schoen (personal communication), all the resulting children
-   are isomorphic to each other and are also isomorphic to the Taguchi L18.
-   (This statement holds for qualitatitve factors only; there are
-   more different possibilities for arrays for quantitative
-   3 level factors, since arbitrary
+   \code{nest.des} is assigned to which level of the 6 level factor; 
+   for qualitative factors, 
+   60 of these are potentially non-isomorphic (divide 720 by the 2 * 3! ways 
+   of permuting levels within a factor; there are
+   more possibly different arrays for quantitative 3 level factors, since arbitrary
    relabelling of the levels is no longer isomorphic).
+   According to Eric Schoen (personal communication), for this particular case, 
+   all the resulting children
+   are isomorphic to each other and are also isomorphic to the Taguchi L18.
    To see isomorphism of two designs is not easy; in the example, \code{nest.des}
    has been prepared such that it is easy to see isomorphism of the resulting
    child to the Taguchi \code{L18}: \code{L18} is reproduced by
@@ -260,6 +267,17 @@ oa
       fractional factorial designs. \emph{Annals of Statistics} \bold{29}, 1066--1077.
 
 }
+\section{Warning}{
+   With version 1.1 of the package, strength 3 arrays are automatically used, if available. 
+   This changes the behavior of function \code{oa.design} for situations for requests with a 
+   combination of \code{nruns} and \code{nlevels} for which a strength 3 array exists in \code{oacat3}. 
+   If the old behavior is required for reproducing a previously-created array, it is 
+   possible to set \code{oacat3} to \code{NULL} by the command \code{assignInNamespace("oacat3", NULL, pos="package:DoE.base")}; 
+   this temporary replacement of \code{oacat3} with \code{NULL} remains in effect 
+   for the current R session; detaching it (with namespace unloading) and reloading is possible but can also go wrong; 
+   therefore, it is recommended to only use the above technique if you are prepared to restart the 
+   R session before using the original version of \code{oacat3}.
+}
 \note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
 \seealso{ See Also \code{\link[FrF2]{FrF2}}, \code{\link{fac.design}}, \code{\link[FrF2]{pb}} }
 \examples{
@@ -311,26 +329,31 @@ oa
   ## The last example:
   ## generate an orthogonal array equivalent to Taguchi's L18
   ## by combining L18.3.6.6.1 with a full factorial in 2 and 3 levels
+  
   show.oas(nruns=18, parents.only=FALSE)
        ## lineage entry leads the way:
            ## start from L18.3.6.6.1
            ## insert L6.2.1.3.1 for the 6 level factor
   ## prepare the parent
    parent.des <- L18.3.6.6.1
-   colnames(parent.des) <- c(Letters[3:8], "comb")
-       ## column comb will create the first two columns of the target design
-  ## 6-level design can be created by fac.design or expand.grid
+   colnames(parent.des) <- c(Letters[3:9])
+       ## new columns will become A and B
+  ## 6-level design can be created by fac.design or expand.grid or cbind
    nest.des <- as.matrix(expand.grid(1:3,1:2))[c(1:3,5,6,4),c(2,1)]
         ## want first column to change most slowly
         ## want resulting design to be easily transformable into Taguchi L18
         ## see mathematical comments in section Details
    colnames(nest.des) <- c("A","B")
   ## do the expansion (see mathematical comments in section Details)
-  L18.2.1.3.7.manual <- cbind(nest.des[parent.des[,"comb"],], parent.des)[,-9]
+  ## using function expansive.replace
+  L18.2.1.3.7.manual <- expansive.replace(parent.des, nest.des)[,c(7:8,1:6)]
   L18.2.1.3.7.manual <- L18.2.1.3.7.manual[ord(L18.2.1.3.7.manual),]  ## sort array
       rownames(L18.2.1.3.7.manual) <- 1:18
         ## (ordering is not necessary, just **tidy**)
   ## prepare for using it with function oa.design
+        ## note: function expansive.replace creates a matrix of class "oa"
+        ## rearranging the columns removed that class and makes it necessary 
+        ##    to add the class again for using the array in DoE.base 
   attr(L18.2.1.3.7.manual, "origin") <-
       c(show.oas(name="L18.2.1.3.7", parents.only=FALSE,show=0)$lineage,
         "unconventional order")

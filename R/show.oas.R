@@ -15,7 +15,15 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all",
     ## March 2016
     ## try resolution larger than 3 arrays first
     if (!is.logical(Rgt3)) stop("Rgt3 must be logical")
-    if (Rgt3) oacat <- oacat3   ## within this function only!!!
+    ## August 2018: always try strong arrays, not only when requested
+    if (Rgt3) cat <- list(oacat3) else cat <- list(oacat3, oacat)
+
+    zaehl <- 0L
+    aus <- NULL
+    for (oacat in cat){
+    ## the first oacat is strength 3 or better
+    zaehl <- zaehl + 1L
+
     ## exclude or include child arrays 
     if (parents.only) zeige <- oacat[oacat$lineage=="",] 
         else zeige <- oacat
@@ -24,7 +32,8 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all",
         if (!is.character(name)) stop("name must be character")
         if (length(name)==0) stop("At least one name must be given.")
         if (sum(oacat$name %in% name)==0)
-                 stop("none of the requested names found")
+                 warning("none of the requested names found", ifelse(zaehl==1, "\n  with resolution IV or more", 
+                 "\n  with resolution III or less"))
         if (!sum(oacat$name %in% name)==length(name))
                  warning("not all requested names found")
         zeige <- zeige[zeige$name %in% name,]
@@ -76,17 +85,21 @@ show.oas <- function(name="all", nruns = "all", nlevels = "all", factors="all",
         ## display information, if not suppressed
         if (show > 0){
             if (show < nrow(zeige))
-            cat(nrow(zeige), " arrays found, \nthe first ", show, " are listed\n")
+            cat(nrow(zeige), ifelse(zaehl==1, " resolution IV or more", " orthogonal"),
+            " arrays found, \nthe first ", show, " are listed\n")
             else
-            cat(nrow(zeige), " arrays found\n")
+            cat(nrow(zeige), ifelse(zaehl==1, " resolution IV or more", " orthogonal"), 
+            " arrays found\n")
             print(zeige[1:min(show,nrow(zeige)),,drop=FALSE][spalten], quote=FALSE, digits=digits)
         }
-        ## return information for further use
-        invisible(zeige[spalten])
+        ## return information for further use (aus is initialized to NULL)
+        aus <- rbind( aus, zeige[spalten])
     }
     else{ 
-      cat("no such orthogonal array found\n")
-      if (parents.only) cat("choose parent.only=FALSE in order to see which further arrays up to 143 runs can be manually constructed in what way.\n",
+      cat("no suitable", ifelse(zaehl==1, " resolution IV or more", " orthogonal"), " array found\n")
+      if (parents.only && zaehl>1) cat("choose parent.only=FALSE in order to see which further arrays up to 143 runs can be manually constructed in what way.\n",
       "automatic creation of child arrays for increasing the number of available arrays is currently under development\n")
     }
+    }
+    invisible(aus)
 }

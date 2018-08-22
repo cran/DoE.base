@@ -6,7 +6,7 @@ Function to display list of available orthogonal arrays
 }
 \description{
 This function allows to inspect the list of available orthogonal arrays, 
-specifying optionally specifying selection criteria.
+optionally specifying selection criteria
 }
 \usage{
 show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all", 
@@ -46,15 +46,16 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
     \code{GR} (\code{"tot"}) or \code{GRind} (\code{"ind"}) to be larger than 3\cr 
 }
   \item{Rgt3}{
-    logical requesting standard resolution 3 arrays as listed in \code{\link{oacat}} 
-    per default, and larger than 3 resolution as listed in \code{\link{oacat3}}, 
+    logical requesting inclusion of standard resolution 3 arrays as listed in 
+    \code{\link{oacat}} per default, and restricting the output to arrays of 
+    resolution at least IV (as listed in \code{\link{oacat3}}), 
     if changed to \code{TRUE}\cr 
 }
   \item{show}{
     an integer number specifying how many arrays are to be listed (upper bound), 
     or the character string \code{"all"} for showing all arrays, no matter how many. 
     The default is to show 10 arrays. \code{show = 0} switches off the display of the result 
-    and only returns a value.
+    and only returns a value. Since August 2018, the number refers to stronger and weaker arrays, separately.
 }
   \item{parents.only}{
     logical specifying whether to show only parent arrays or child arrays as well; 
@@ -96,7 +97,8 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
    containing the array name, the number of runs and - if applicable - the lineage for generating the array
    from other arrays. The lineage entry is empty for parent arrays that are either directly available 
    in the package and can be accessed by giving their name (e.g. \code{L18.3.6.6.1}) or are full factorials 
-   (e.g. \code{L28.4.1.7.1}). 
+   (e.g. \code{L28.4.1.7.1}). If further information has been requested (e.g. with \code{showmetrics=TRUE}), 
+   the data frame contains additional columns.
    
    If no array has been found, the returned value is \code{NULL}.
 }
@@ -135,7 +137,7 @@ show.oas(name = "all", nruns = "all", nlevels = "all", factors = "all",
 }
 \seealso{
     \code{\link{oa.design}} for using the arrays from \code{\link{oacat}} in design creation\cr
-    \code{\link{oacat}} for the data frame underlying the function\cr
+    \code{\link{oacat}} for the data frames underlying the function\cr
 }
 
 \keyword{ array }

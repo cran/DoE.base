@@ -354,10 +354,13 @@
 \alias{L96.2.20.4.2}
 \alias{L96.2.5.4.2.6.1}
 \alias{L128.2.6.4.2}
+\alias{L128.2.20.4.3}
 \alias{L128.2.28.4.2}
 \alias{L128.2.8.8.2}
+\alias{L192.2.36.4.3}
 \alias{L243.3.20}
 \alias{L256.2.24.8.2}
+\alias{L256.2.52.4.3}
 \alias{L256.4.17}
 \alias{L372.2.40.8.2}
 \alias{L512.2.56.8.2}
@@ -724,10 +727,13 @@ L96.2.7.3.1
 L96.2.20.4.2
 L96.2.5.4.2.6.1
 L128.2.6.4.2
+L128.2.20.4.3
 L128.2.28.4.2
 L128.2.8.8.2
+L192.2.36.4.3
 L243.3.20
 L256.2.24.8.2
+L256.2.52.4.3
 L256.4.17
 L372.2.40.8.2
 L512.2.56.8.2
@@ -786,7 +792,7 @@ L4096.4.12
    reasons still listed in \code{oacat}.
    All stronger parent arrays (strength > 2, resolution > III) are listed in
    \code{oacat3}. The arrays from \code{\link{oacat3}} have been pulled
-   together in several sources,
+   together from several sources,
    as documented in the \code{origin} attribute of the respective array;
    all the sources are listed in the references below.
 
@@ -838,7 +844,7 @@ L4096.4.12
   Sloane, N. Orthogonal Arrays. \url{http://neilsloane.com/oadir/} accessed March 1 2016
 }
 \author{ Ulrike Groemping }
-\note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
+\note{ This package is still under development. Bug reports and feature requests are welcome.}
 \seealso{ See also \code{\link{oacat}}, \code{\link{show.oas}}, \code{\link{generalized.word.length}},
     \code{\link{oa.design}}, \code{\link[FrF2]{FrF2}}, \code{\link[FrF2]{pb}}
     }
