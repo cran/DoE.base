@@ -1,5 +1,5 @@
-27b27a8a4faf412f19628504c38362ea *DESCRIPTION
-edcb2849860493de80f1ac1e43abf85c *NAMESPACE
+962e52c2b666e83a7127d68c2924aced *DESCRIPTION
+77a3a42f3335af155a36205753a35643 *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
 e8dd9fdd71a4e514bf1545d4cb85b512 *R/GRind.R
@@ -62,7 +62,7 @@ e8a94a9f593b97da718b12884c8baccb *R/show.oas.R
 d89afe0ed1d53842c4dd0e6dcc086626 *R/utilities.R
 26fe7967c7e9cf6a567323e806494657 *R/utilities.for.children.R
 1329aec55461a92dd81ad0ef30b6125d *inst/CITATION
-3afb93b34fc07bcea87d61963647586e *inst/NEWS
+95d2486ff9bb20085dcd5f12a3b7555c *inst/NEWS
 ab66732e175d170c7070154588ae53be *man/DoE.base-package.Rd
 f8c8c8efc3fd39516dc0196b787fc832 *man/GRind.Rd
 259c890733c5da0d2ec647372d8c1e32 *man/GWLP.Rd
@@ -91,7 +91,7 @@ faa28d6e42e81241c7cda488846a343b *man/getblock.Rd
 0e7711689e2ede803381a0612ec26750 *man/lowerbound_AR.Rd
 b09dd653ebe06ed1c3bf34c589832c9d *man/oa.design.Rd
 83581a3cf5c14f512d6ad2a64c1cb755 *man/oa_feasible.Rd
-a56e3517f659c33d37c82b2b1de6824d *man/oacat.Rd
+62f2d6115e06f3b095b4a736472f96fc *man/oacat.Rd
 3f15077d8eea3c76a73f2ba1ff8c69fa *man/param.design.Rd
 97b0e04e15ffc4d460dd2d6b8dc0538e *man/planor2design.Rd
 9b5051f83e65a3513591f94787aa9adf *man/plot.design.Rd

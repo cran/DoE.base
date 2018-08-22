@@ -3,6 +3,12 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+August 2018, Version 1.1-1
+- added information example to documentation of oacat3
+
+Bug fix:
+- new arrays exported
+
 August 2018, Version 1.1
 - made show.oas always show strong arrays, if these exist
 - use strong arrays automatically in oa.design, if possible

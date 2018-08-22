@@ -162,6 +162,9 @@ oacat3
   }
 \examples{
    head(oacat)
+   
+   sapply(oacat3$name, function(nn) unlist(attributes(get(nn))[c("origin", "comment")]))
+   
 }
 \seealso{
     \code{\link{oa.design}} for using the designs from \code{oacat} in design creation\cr
