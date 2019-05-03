@@ -1,6 +1,6 @@
 
-R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -19,6 +19,9 @@ Type 'q()' to quit R.
 Loading required package: DoE.base
 Loading required package: grid
 Loading required package: conf.design
+Registered S3 method overwritten by 'DoE.base':
+  method           from       
+  factorize.factor conf.design
 
 Attaching package: 'DoE.base'
 
@@ -1432,7 +1435,7 @@ oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6],
     randomize = FALSE)
 
 $original[[3]]
-[1] "altern"
+[1] altern
 
 
 $modify
@@ -1614,7 +1617,7 @@ oa.design(nlevels = c(2, 2, 2), factor.names = Letters[4:6],
     randomize = FALSE)
 
 $original[[3]]
-[1] "alterc"
+[1] alterc
 
 
 $modify
@@ -2662,4 +2665,4 @@ Outer array:
 > 
 > proc.time()
    user  system elapsed 
-   0.42    0.15    0.59 
+   0.67    0.20    0.93 

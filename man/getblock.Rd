@@ -28,7 +28,16 @@ rerandomize.design(design, seed=NULL, block=NULL, ...)
 }
   \item{seed}{
     integer number for initialization of the random number generator 
-    (needed for repeatable rerandomization)
+    (needed for repeatable rerandomization) \cr
+        In R version 3.6.0 and later, the default behavior of function \code{\link{sample}}
+        has changed. If you work in a new (i.e., >= 3.6.-0) R version and want to reproduce 
+        a rerandomization from an earlier R version (before 3.6.0), 
+        you have to change the RNGkind setting by\cr
+        \code{RNGkind(sample.kind="Rounding")}\cr
+        before running function \code{rerandomize.design}.\cr
+        It is recommended to change the setting back to the new recommended way afterwards:\cr
+        \code{RNGkind(sample.kind="default")}\cr
+        For an example, see the documentation of the example data set \code{\link{VSGFS}}.
 }
   \item{block}{
     character string giving the name of a block factor (only for unreplicated 
@@ -89,6 +98,12 @@ rerandomize.design(design, seed=NULL, block=NULL, ...)
    Function \code{rerandomize.design} returns a class \code{design} object; 
    note that it will not be possible to add center points after re-randomization, 
    i.e. if required, center points have to be added before using the function.
+}
+\section{Warning}{
+   Since R version 3.6.0, the behavior of function \code{\link{sample}} has changed 
+   (correction of a biased previous behavior that should not be relevant for the randomization of designs). 
+   For reproducing a re-randomization that was produced with an earlier R version, 
+   please follow the steps described with the argument \code{seed}.
 }
 \author{
    Ulrike Groemping 

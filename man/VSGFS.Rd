@@ -43,6 +43,14 @@ VSGFS
      Design creation and the experiment itself were conducted at the Fraunhofer 
      IME in Aachen by Nikolay Vasilev and colleagues. More detail on the experiment 
      and the variables can be found in Vasilev et al. (2014).
+     
+     The design was created under an R version before 3.6.0. For reproducing its 
+     creation under R 3.6.0 and later, it is therefore necessary to switch 
+     to the previous version of random number generation 
+     (using the \code{RNGkind} function, see examples section). Note that the 
+     previous discrete random uniform random number generator was not perfectly 
+     uniform, especially for very large samples; for randomizing experiments 
+     of typical sizes (like this one), this problem can be neglected.
     }
 \references{ 
   Vasilev, N., Schmidt, C., Groemping, U., Fischer, R. and Schillberg, S. (2014). 
@@ -59,17 +67,19 @@ VSGFS
 ## changed (improved) with version 0.27 
 ## and the design was originally created with an earlier version
 \dontrun{
+  if (getRversion()>='3.6.0') RNGkind(sample.kind="Rounding")
   VSGFS <- oa.design(ID=L72.2.43.3.8.4.1.6.1, 
    nlevels=c(2,2,2,3,2,3,4), 
    columns=c(4,22,37,46,41,48,52), 
    factor.names=list(Light=c("Lght-","Lght+"),
-		ShakFreq=c("SF-","SF+"),
-		InocSize=c("IS-","IS+"),
-		FilledVol=c("FV-","FV0", "FV+"), 
-		CM=c("CM-","CM+"),
-		Sugar=c("Suc", "Gluc", "Mannit"),
-           CDs=c("CD1","CD2","CD3","CD4")),
+      ShakFreq=c("SF-","SF+"),
+      InocSize=c("IS-","IS+"),
+      FilledVol=c("FV-","FV0", "FV+"), 
+      CM=c("CM-","CM+"),
+      Sugar=c("Suc", "Gluc", "Mannit"),
+      CDs=c("CD1","CD2","CD3","CD4")),
    seed = 9, randomize=TRUE, levordold=TRUE)
+  if (getRversion()>='3.6.0') RNGkind(sample.kind="default")
 
 response <- as.data.frame(scan(what=list(Biomass=0, Content=0, Yield=0), sep=" ")) 
 5.80 24.13 139.98
@@ -154,6 +164,5 @@ VSGFS$FilledVol <- relevel(VSGFS$FilledVol, "FV-")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-% keyword internal is supposed to hide this help file from the index but does not. Why???
 \keyword{ array }
 \keyword{ design }

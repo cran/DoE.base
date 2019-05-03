@@ -80,8 +80,7 @@ ord(matrix, decreasing=FALSE)
     Items of class \code{design} are data frames with attributes. They are generated 
     by various functions that create experimental designs (cf. see also section), and 
     by various utility functions for designs like 
-    the above extractor function for class \code{design} or 
-    \code{\link[RcmdrPlugin.DoE:fix]{fix.design}}.
+    the above extractor function for class \code{design}.
     
     The data frame itself always contains the design in uncoded form. For many 
     design generation functions, these are factors. For designs for quantitative factors 
@@ -111,12 +110,16 @@ ord(matrix, decreasing=FALSE)
     \item{repeat.only}{logical indicating whether replications are only repeat runs but not 
          truly replicated}
     \item{randomize}{logical indicating whether the experiment was randomized} 
-    \item{seed}{the integer seed handed to the function call by the user }
+    \item{seed}{ integer seed for the random number generator \cr
+        note that the randomization behavior has changed with R version 3.6.0;\cr
+        section "Warning" provides information on reproducing randomized designs.}
     \item{response.names}{in the presence of response data only; 
         the character vector identifying response columns in the data frame} 
     \item{creator}{contains the call or 
-    (in the future) the list of menu settings within the currently developed 
-    package \pkg{RcmdrPlugin.DoE} that led to creation of the design.}
+    the list of menu settings within package \pkg{RcmdrPlugin.DoE} 
+    that led to creation of the design.\cr
+        Note that the randomization behavior has changed with R version 3.6.0;\cr
+        section "Warning" provides information on reproducing randomized designs.}
     }
     
     For some design types, notably designs of types starting with \dQuote{FrF2} and 
@@ -200,9 +203,27 @@ ord(matrix, decreasing=FALSE)
     and useful, functions for the class \code{design} documented here incorporate the functions 
     for the S class design (notably function \code{\link{plot.design}}). 
 
-    This package is currently subject to intensive development; most key functionality is now included. 
-    Some changes to input and output structures may still occur.
+    This package is still under development; suggestions and bug reports are welcome.
     }
+\section{Warning}{Function \code{\link{sample}} is used for the randomization 
+    functionality of this package. With R version 3.6.0, the behavior of this 
+    function has changed. Since the R version is not stored with a class \code{design} 
+    object, please check carefully if a design you want to reproduce based on a given 
+    \code{creator} or \code{seed} element of the \code{design.info} attribute 
+    has the expected randomization order. 
+    
+    The randomization order of a design that was created with the default settings 
+    under R version 3.6.0 or newer can only be reproduced with such a new R version. \cr
+    If an R version 3.6.0 or newer is used for reproducing the randomization order 
+    of a randomized design that was created with an R version before 3.6.0, 
+    the \code{RNGkind} setting has to be modified: \cr
+        \code{RNGkind(sample.kind="Rounding")}\cr
+    activates the old behavior,\cr
+        \code{RNGkind(sample.kind="default")}\cr
+    switches back to the recommended new behavior.\cr
+    For an example, see the documentation of the example data set \code{\link{VSGFS}}.
+    }
+
 \seealso{ See also the following functions known to produce objects of class 
     \code{design}: \code{\link[FrF2]{FrF2}}, \code{\link[FrF2]{pb}}, 
     \code{\link{fac.design}}, \code{\link{oa.design}}, 

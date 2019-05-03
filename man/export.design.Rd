@@ -10,7 +10,7 @@
 \usage{
 export.design(design, response.names = NULL, 
        path = ".", filename = NULL, legend = NULL, type = "html", 
-       OutDec = options("OutDec")$OutDec, replace = FALSE, ...)
+       OutDec = options("OutDec")$OutDec, replace = FALSE, version = 2, ...)
 html(object, ...)
 \method{html}{data.frame}(object, file = paste(first.word(deparse(substitute(object))),
     "html", sep = "."), append = FALSE, link = NULL, linkCol = 1, bgs.col = NULL,
@@ -50,6 +50,10 @@ html(object, ...)
         files to be created exists; checking is not case-sensitive in order to protect 
         users on case-insensitive platforms from inadvertent replacing of files (i.e. 
         you cannot have TEST.html and test.html, even if it were allowed on your platform) }
+  \item{version}{the save version for the \code{rda} file; starting with R 3.6.0,
+        the default save version is 3; that version cannot be read by R versions 
+        before 3.5.0. Therefore, the default of this package is still 2, but can 
+        be overwritten by users who are certain to use the file only on new R versions.} 
   \item{object}{ object to be exported to html }
   \item{file}{ file to export the object to }
   \item{append}{ append data frame to existing file ? }

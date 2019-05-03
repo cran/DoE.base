@@ -22,7 +22,7 @@
       if \code{TRUE}, a list of permutations of the replacement array 
       \code{array2} is used for creating all potentially combinatorially 
       different outcomes, instead of a single expansive replacement based on the 
-      order of \code{array2} as stated (see Details section}
+      order of \code{array2} as stated (see Details section)}
 }
 \details{
   This function mainly is meant for combining two orthogonal arrays

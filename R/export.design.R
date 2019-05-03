@@ -1,5 +1,5 @@
 export.design <- function(design, response.names=NULL, path=".", filename=NULL, 
-          legend=NULL, type="html", OutDec=options("OutDec")$OutDec, replace=FALSE, ...){
+          legend=NULL, type="html", OutDec=options("OutDec")$OutDec, replace=FALSE, version=2, ...){
      if (!(is.null(response.names) | is.character(response.names))) 
          stop("response.names must be a character vector of response names or NULL")
      if (!is.logical(replace)) stop("replace must be logical")
@@ -87,5 +87,5 @@ export.design <- function(design, response.names=NULL, path=".", filename=NULL,
          else write.csv(df, file=paste(path,paste(filename,"csv",sep="."),sep="/"), row.names=FALSE)
      }
      ## still export design as an image rda under the same name
-     save(list=desname, file=paste(path,paste(filename,"rda",sep="."),sep="/") )
+     save(list=desname, file=paste(path,paste(filename,"rda",sep="."),sep="/"), version = version)
 }

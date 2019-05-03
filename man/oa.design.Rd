@@ -24,11 +24,10 @@ oa
 \arguments{
   \item{ID}{ orthogonal array to be used; must be given as the name without quotes
         (e.g. \code{L12.2.2.6.1});
-        available names can be looked at using function \code{\link{show.oas}}
-        with option \code{parents.only = TRUE} (later it will also be possible
-        to directly access child designs); furthermore, \code{L18}, \code{L36}
-        and \code{L54} for the respective Taguchi arrays can be used.
-        Users can also specify names of their own designs here (cf. details).
+        available names can be looked at using function \code{\link{show.oas}}; 
+        furthermore, \code{L18}, \code{L36}
+        and \code{L54} for the respective Taguchi arrays can be used.\cr
+        Users can also specify names of their own designs here (cf. details).\cr
         \code{ID} must be of class \code{oa}.
         If omitted, \code{ID} is automatically determined based on \code{nlevels}
         or \code{factor.names}. }
@@ -86,7 +85,17 @@ oa
   \item{repeat.only}{ default \code{FALSE} implies real replications,
         \code{TRUE} implies repeated measurements only }
   \item{randomize}{ logical indicating whether the run order is to be randomized ? }
-  \item{seed}{ integer seed for the random number generator }
+  \item{seed}{ integer seed for the random number generator \cr
+        In R version 3.6.0 and later, the default behavior of function \code{\link{sample}}
+        has changed. If you work in a new (i.e., >= 3.6.-0) R version and want to reproduce 
+        a randomized design from an earlier R version (before 3.6.0), 
+        you have to change the RNGkind setting by\cr
+        \code{RNGkind(sample.kind="Rounding")}\cr
+        before running function \code{oa.design}.\cr
+        It is recommended to change the setting back to the new recommended way afterwards:\cr
+        \code{RNGkind(sample.kind="default")}\cr
+        For an example, see the documentation of the example data set \code{\link{VSGFS}}.
+        }
   \item{min.residual.df}{ minimum number of residual degrees of freedom;\cr
         Note: function \code{oa.design} does not count replications specified with option
        \code{replications} in determining residual degrees of freedom for \code{min.resid.df}. }
@@ -112,7 +121,7 @@ oa
    \code{oa} is the S3 class used for orthogonal arrays. Objects of class \code{oa} should at least have
    the attribute \code{origin}, an attribute \code{comment} should be used for additional information.
 
-   Users can define their own orthogonal arrays and hand them to \code{oa.design} with parameter \code{ID}.
+   Users can define their own orthogonal arrays and hand them to \code{oa.design} with parameter \code{ID}.\cr
    Requirements for the arrays: \cr
    \itemize{
        \item Factor levels must be coded as numbers from 1 to number of levels.
@@ -128,12 +137,16 @@ oa
 
    Users are encouraged to send additional arrays to the package maintainer.
    The requirements for these are the same as listed above, with attribute \code{origin}
-   being a MUST in this case. (See the last example for how to assign an attribute.)
-
+   being a MUST in this case. (See the last example for how to assign an attribute.)\cr
+   For relatively small important applications, creation of a tailor-made array of class \code{oa} can 
+   be attempted with package \pkg{DoE.MIParray}, which uses mixed integer optimization for creating 
+   a design from scratch (see Grömping and Fontana 2019 for the algorithm behind that approach).\cr 
+   
    The data frame \code{\link{oacat}} lists the orthogonal arrays from Warren Kuhfelds
-   collection of \dQuote{parent} arrays only, plus a few additional arrays,
-   and can automatically create the child arrays from Kuhfelds collection, using
-   the replacement instructions provided in the variable \code{lineage}.    
+   collection of \dQuote{parent} and \dQuote{child} arrays. The parent arrays, 
+   plus a few additional arrays, are directly exported from the package namespace. 
+   The child arrays from Kuhfelds collection can be constructed from these, using
+   the replacement instructions provided in the variable \code{lineage} of \code{oacat}.    
    The last example below indicates how
    a child array can be created manually, and compares this to the automatically created array.\cr
    (A lot more than just the child arrays could be obtained from these arrays
@@ -268,7 +281,7 @@ oa
 
 }
 \section{Warning}{
-   With version 1.1 of the package, strength 3 arrays are automatically used, if available. 
+   Since version 1.1 of the package, strength 3 arrays are automatically used, if available. 
    This changes the behavior of function \code{oa.design} for situations for requests with a 
    combination of \code{nruns} and \code{nlevels} for which a strength 3 array exists in \code{oacat3}. 
    If the old behavior is required for reproducing a previously-created array, it is 
@@ -277,8 +290,13 @@ oa
    for the current R session; detaching it (with namespace unloading) and reloading is possible but can also go wrong; 
    therefore, it is recommended to only use the above technique if you are prepared to restart the 
    R session before using the original version of \code{oacat3}.
+   
+   Since R version 3.6.0, the behavior of function \code{\link{sample}} has changed 
+   (correction of a biased previous behavior that should not be relevant for the randomization of designs). 
+   For reproducing a randomized design that was produced with an earlier R version, 
+   please follow the steps described with the argument \code{seed}.
 }
-\note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
+\note{ This package is still under development. Suggestions and bug reports are welcome.}
 \seealso{ See Also \code{\link[FrF2]{FrF2}}, \code{\link{fac.design}}, \code{\link[FrF2]{pb}} }
 \examples{
   ## smallest available array for 6 factors with 3 levels each

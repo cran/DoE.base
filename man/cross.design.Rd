@@ -25,7 +25,17 @@ cross.design(design1, design2, ..., randomize = TRUE, seed=NULL)
        the last element can also be a vector}
   \item{randomize}{ logical indicating whether randomization should take place 
       after crossing the designs }
-  \item{seed}{ seed for random number generation }
+  \item{seed}{ integer seed for the random number generator \cr
+        In R version 3.6.0 and later, the default behavior of function \code{\link{sample}}
+        has changed. If you work in a new (i.e., >= 3.6.-0) R version and want to reproduce 
+        a randomized design from an earlier R version (before 3.6.0), 
+        you have to change the RNGkind setting by\cr
+        \code{RNGkind(sample.kind="Rounding")}\cr
+        before running function \code{cross.design}.\cr
+        It is recommended to change the setting back to the new recommended way afterwards:\cr
+        \code{RNGkind(sample.kind="default")}\cr
+        For an example, see the documentation of the example data set \code{\link{VSGFS}}.
+        }
 }
 \details{
   Crossing is carried out recursively, following the \code{direct.sum} approach 
@@ -80,6 +90,12 @@ cross.design(design1, design2, ..., randomize = TRUE, seed=NULL)
   If present, the \code{aliased} and \code{catlg.entry} elements of \code{design.info} are lists of lists. 
   
     }
+\section{Warning}{
+   Since R version 3.6.0, the behavior of function \code{\link{sample}} has changed 
+   (correction of a biased previous behavior that should not be relevant for the randomization of designs). 
+   For reproducing a randomized design that was produced with an earlier R version, 
+   please follow the steps described with the argument \code{seed}.
+}
 \author{ Ulrike Groemping }
 \note{ This function is still experimental.}
 \seealso{ See Also \code{\link{param.design}} }

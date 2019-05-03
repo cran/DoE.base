@@ -47,7 +47,17 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
   \item{randomize}{ logical. If \code{TRUE}, the design is randomized. This is the default. 
        In case of replications, the nature of randomization depends on the setting of 
        option \code{repeat.only}.}
-  \item{seed}{ optional seed for the randomization process (integer number)}
+  \item{seed}{ integer seed for the random number generator \cr
+        In R version 3.6.0 and later, the default behavior of function \code{\link{sample}}
+        has changed. If you work in a new (i.e., >= 3.6.-0) R version and want to reproduce 
+        a randomized design from an earlier R version (before 3.6.0), 
+        you have to change the RNGkind setting by\cr
+        \code{RNGkind(sample.kind="Rounding")}\cr
+        before running function \code{fac.design}.\cr
+        It is recommended to change the setting back to the new recommended way afterwards:\cr
+        \code{RNGkind(sample.kind="default")}\cr
+        For an example, see the documentation of the example data set \code{\link{VSGFS}}.
+        }
   \item{blocks}{ is the number of blocks into which the experiment is to be subdivided; \cr
        it must be a prime or a product of prime numbers which occur as common divisors 
        of the numbers of levels of several factors (cf. Details section).\cr
@@ -171,6 +181,12 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
          \pkg{RcmdrPlugin.DoE}) }
          }
 }
+\section{Warning}{
+   Since R version 3.6.0, the behavior of function \code{\link{sample}} has changed 
+   (correction of a biased previous behavior that should not be relevant for the randomization of designs). 
+   For reproducing a randomized design that was produced with an earlier R version, 
+   please follow the steps described with the argument \code{seed}.
+}
 
 \references{ 
   Collings, B.J. (1984). Generating the intrablock and interblock subgroups for 
@@ -181,7 +197,7 @@ fac.design(nlevels=NULL, nfactors=NULL, factor.names = NULL,
      107--110.
   }
 \author{ Ulrike Groemping }
-\note{ This package is currently under intensive development. Substantial changes are to be expected in the near future.}
+\note{ This package is still under development. Suggestions and bug reports are welcome.}
 \seealso{ See also \code{\link[FrF2]{FrF2}}, \code{\link{oa.design}}, \code{\link[FrF2]{pb}}, \code{\link[conf.design]{conf.set}}, 
     \code{\link{block.catlg}}} 
 \examples{

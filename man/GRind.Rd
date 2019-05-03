@@ -156,7 +156,7 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
 
    Groemping, U. and Xu, H. (2014). Generalized resolution for orthogonal arrays.
       \emph{The Annals of Statistics} \bold{42}, 918--939.
-      \url{https://prof.beuth-hochschule.de/fileadmin/prof/groemp/downloads/AOS1205.pdf}
+      \url{https://projecteuclid.org/euclid.aos/1400592647}
    }
 \author{ Ulrike Groemping }
 \seealso{ See also \code{\link{GWLP}} and \code{\link{generalized.word.length}}}
