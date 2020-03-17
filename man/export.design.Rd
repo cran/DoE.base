@@ -98,7 +98,9 @@ html(object, ...)
   ## export an html file with legend and two responses
   ## files test.rda and test.html will be written to the current working directory, 
   ##     if they do not exist yet
+  \dontrun{
   export.design(test, response.names=c("pressure", "temperature"))
+  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

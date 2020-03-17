@@ -318,7 +318,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
      ### changed cat to message with version 0.27
       message("creating full factorial with ", nruns, " runs ...\n")
 
-      design <- try(expand.grid(factor.names))
+      design <- try(expand.grid(factor.names, stringsAsFactors=TRUE))
       if ("try-error" %in% class(design)) 
           stop("design with ", nruns, " runs could not be generated")
       row.names(design) <- 1:nruns 
@@ -353,7 +353,7 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
  
       ## prepend block column, if needed
       if (!identical(blocks, 1)){ 
-         design <- cbind(blockcol, design)
+         design <- cbind(blockcol, design, stringsAsFactors=TRUE)
          colnames(design) <- c(block.name, names(factor.names))
          design <- design[ord(data.frame(blockcol)),]
          }
@@ -459,7 +459,8 @@ fac.design <- function(nlevels=NULL, nfactors=NULL, factor.names = NULL,
       attr(aus,"desnum") <- desnum
       ## change 27 Jan 2011: leave orig.no as a factor, but with better-ordered levels
       orig.no <- factor(orig.no, levels=unique(orig.no[orig.no.levord]))
-      attr(aus,"run.order") <- data.frame("run.no.in.std.order"=orig.no,"run.no"=1:nrow(aus),"run.no.std.rp"=orig.no.rp)
+      attr(aus,"run.order") <- data.frame("run.no.in.std.order"=orig.no,"run.no"=1:nrow(aus),
+                      "run.no.std.rp"=orig.no.rp, stringsAsFactors=TRUE)
       attr(aus,"design.info") <- di
       class(aus) <- c("design", "data.frame")
       aus

@@ -141,8 +141,10 @@ generators.design <- function(design, ...){
     else catlg <- get(catlg.name)   ## within this function, default catlg to the current catalogue
     if (!"catlg" %in% class(catlg)) stop("alias information can not be provided, \nbecause ", catlg.name, " is not a valid design catalogue")
     
-    if (length(grep("FrF2", di$type)) == 0) 
+    if (length(grep("FrF2", di$type)) == 0) {
+          if (length(grep("full factorial", di$type)) > 0) return(list(generators="none"))
           stop("generators are only determined for regular fractional factorial 2-level designs.")
+          }
     else{
         k <- round(log2(di$nruns))
         ## prevent execution of function for blocked or splitplot designs generated 

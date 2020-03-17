@@ -22,7 +22,6 @@
   design; methods for the class are described in a separate help topic
 }
 \usage{
-design
 undesign(design)
 redesign(design, undesigned)
 desnum(design)

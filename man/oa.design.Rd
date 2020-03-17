@@ -18,7 +18,6 @@ oa.design(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         replications=1, repeat.only=FALSE,
         randomize=TRUE, seed=NULL, min.residual.df=0, levordold = FALSE)
 origin(ID)
-oa
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

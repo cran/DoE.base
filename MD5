@@ -1,4 +1,4 @@
-c979e4f139540be5ff8096afb2ed8e8e *DESCRIPTION
+3fbe1956acb06b59a14df80dec0378cc *DESCRIPTION
 77a3a42f3335af155a36205753a35643 *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -22,7 +22,7 @@ ee9c02014b34a6c2b5e3101e260901cd *R/contr.XuWu.R
 a57d297605075177ae21b7fc1b63b6d1 *R/digitsBase.r
 495f74a0a5dc0173073d5046f9e2a829 *R/expansive.replace.R
 c5bc061dd8dbe9a1c38e2f0c765be3ca *R/export.design.R
-0bcefd58f74a9fbb6707ad6ad99d2371 *R/fac.design.R
+56c9ecf48e2a30536b4fdc773c2e2a99 *R/fac.design.R
 282580ca023be804ed448c82c63404f3 *R/factorize.R
 d5ac378deeb49d548ebcabb5138bc6be *R/fastlengths.R
 08f03ea81109d9ee13ae7ea9184329c8 *R/formula.design.R
@@ -59,10 +59,10 @@ f70d0f613e32c4407609f53017c42659 *R/rerandomize.R
 e8a94a9f593b97da718b12884c8baccb *R/show.oas.R
 9547339a2398300efff77a2fbcacbe33 *R/sysdata.rda
 1664ba817e8ecb4b58489b1d5e910741 *R/tupleSel.R
-d89afe0ed1d53842c4dd0e6dcc086626 *R/utilities.R
+94d25613b48a07510f532e6d117f6fbd *R/utilities.R
 26fe7967c7e9cf6a567323e806494657 *R/utilities.for.children.R
 1329aec55461a92dd81ad0ef30b6125d *inst/CITATION
-40392c45a6882fb2e7c3d33692718a5c *inst/NEWS
+2ec6c8513539fae48f3e567dbc6125d7 *inst/NEWS
 ab66732e175d170c7070154588ae53be *man/DoE.base-package.Rd
 06fab58ef36fc4eac82a42c8a72eab10 *man/GRind.Rd
 259c890733c5da0d2ec647372d8c1e32 *man/GWLP.Rd
@@ -73,12 +73,12 @@ d218af89330df4cc48fcbb8884b98d8d *man/VSGFS.Rd
 7ecb7bf9eb469fb457eb9f2e1ffa9c51 *man/arrays.Rd
 2e947a10df096589403e000fb9307d94 *man/block.catlg.Rd
 243ecca16dff7b9fa9e3e6511025564a *man/class-design-methods.Rd
-3a5c89d2a3fc7a3979412eca9528d7dd *man/class-design.Rd
+4f38e2514fea84dd3430cceb997ad0b8 *man/class-design.Rd
 056e96998280c7f52553831b3dd38341 *man/contr.FrF2.Rd
 0a8c16260c0e90ab64170ffc9e1de015 *man/corrPlot.Rd
 8dcc90c803c6fb72d24d10c2e8021e74 *man/cross.design.Rd
 5396c7e833bb3d2dd10bcdc585e057bb *man/expansive.replace.Rd
-05815745a91d1541934102232c4fb8ea *man/export.design.Rd
+02e22cd554b7c1a0841c7c76f7bc460b *man/export.design.Rd
 2cbeae7736e9bf0c5abca40caf0732ee *man/fac.design.Rd
 d538629dd8b2d24c65a6219e8b4da0fa *man/factorize.Rd
 27f589756aa662d940251e8a5b446992 *man/formula.design.Rd
@@ -89,7 +89,7 @@ bad9242200eecf00f6d815550ffec169 *man/generalized.word.length.Rd
 6d05a60b88b300df7ff0789be5cb988d *man/iscube.Rd
 75ccd53f9fffe43a392697b59d90fb6b *man/lm.design.Rd
 0e7711689e2ede803381a0612ec26750 *man/lowerbound_AR.Rd
-ddd50b9d1d76e3193b0a06dc16ecb10f *man/oa.design.Rd
+1e265e4559f3b6d206cf10d3677b952e *man/oa.design.Rd
 83581a3cf5c14f512d6ad2a64c1cb755 *man/oa_feasible.Rd
 62f2d6115e06f3b095b4a736472f96fc *man/oacat.Rd
 3f15077d8eea3c76a73f2ba1ff8c69fa *man/param.design.Rd

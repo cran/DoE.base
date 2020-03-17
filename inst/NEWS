@@ -3,6 +3,18 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+March 2020, Version 1.1-4
+- modified generators.design to also give valid
+  information for regular fractional factorial designs 
+  that are based on full factorials
+- added stringsAsFactors=TRUE to expand.grid, data.frame and cbind
+  in function fac.design
+- removed oa and design from usage sections 
+  of respective Rd files, for avoiding warnings
+  in R-devel
+- set example for export.design to \dontrun
+  in order to avoid a note about non-standard files
+
 May 2019, Version 1.1-3
 - modified function print.oa in order to suppress 
   all non-standard attributes per default
