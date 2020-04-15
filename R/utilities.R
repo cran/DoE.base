@@ -129,6 +129,7 @@ generators.design <- function(design, ...){
     
     if (di$type=="planor") aus <- list(generators=di$generator)
     else{
+    blocked <- length(grep("blocked", di$type, fixed=TRUE)) > 0
     
     ### make sure that all functions use the correct catlg (from catlg.name entry)
     catlg.name <- di$catlg.name
@@ -152,22 +153,30 @@ generators.design <- function(design, ...){
         neuver <- FALSE
         if (!is.null(di$FrF2.version))
             if (compareVersion(di$FrF2.version, "1.1") >= 0) neuver <- TRUE
-        if ((length(grep("splitplot",di$type)) > 0 | length(grep("blocked",di$type))>0) & !neuver) 
+        block.old <- di$block.old
+        if (blocked && is.null(block.old)) {
+        if (compareVersion(di$FrF2.version, "2.0") < 0  && blocked) block.old <- TRUE else{
+            warning("It is not known which blocking approach was used, ", 
+                    "the default new approach was assumed for creating generator information.")
+            block.old <- FALSE
+            }
+            }
+        if ((length(grep("splitplot",di$type)) > 0 || blocked) & !neuver) 
               stop("generators cannot be extracted from blocked or splitplot designs created with FrF2 versions before 1.1.")
-  #      if (length(grep("blocked",di$type))>0 & nfac.catlg(get(di$catlg)[di$base.design]) > di$nfactors) 
-  #            stop("generators cannot be extracted from blocked designs created with blockpick.big or with user-specified individual blocking factors")
+#        if (length(grep("blocked",di$type))>0 && di$base.design %in% names(get(di$catlg)))
+#            if (nfac(get(di$catlg)[di$base.design]) > di$nfactors) 
+#              stop("generators cannot be extracted from blocked designs created with ", 
+#                   "blockpick.big or with user-specified individual blocking factors")
         if (length(grep("param",di$type)) > 0 | length(grep("folded",di$type)) > 0)
               stop("generators cannot be calculated for folded or parameter designs.")
         if (!is.null(di$catlg.entry)){
              ## catalogue entries for block or split-plot designs are in base.design
              gen <- di$catlg.entry[[1]]$gen
-             if(di$nfactors <= 50)
-             aus <- list("generators"=paste(Letters[(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
-                      di$catlg.entry[[1]]$nfac], 
-                       unlist(names(Yates)[gen]),sep="="))
-             else aus <- list("generators"=paste(paste("F",(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
-                      di$catlg.entry[[1]]$nfac,sep=""), unlist(names(Yates)[gen]),
-                      sep="="))
+             if(di$nfactors <= 50) fn <- Letters[(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
+                      di$catlg.entry[[1]]$nfac] else
+                      fn <- paste("F",(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
+                      di$catlg.entry[[1]]$nfac,sep="")
+             aus <- list("generators"=paste(fn, unlist(names(Yates)[gen]), sep="="))
              #else aus <- paste(paste("F",(round(log2(di$catlg.entry[[1]]$nruns),0)+1) : 
              #         di$catlg.entry[[1]]$nfac,sep=""), sapply(Yates[gen], function(obj2) paste(paste("F", obj2, sep=""),collapse=":")),
              #         sep="=")
@@ -177,10 +186,12 @@ generators.design <- function(design, ...){
         else{## estimable has map only, named by name of the base design
              ## must be treated separately, because map can refer to all factors
              ##      not only base factors
-            if (is.null(di$base.design) & !is.null(di$map)){ 
-                 ## determine unmapped generators
+            if (is.null(di$base.design) && !is.null(di$map) && !(blocked && !block.old)){ 
+                 ## determine unmapped generators;
+                 ## for new blocking approach, mapping was already treated by permuting factor names
                  hilf <- generators(names(di$map), select.catlg=catlg)[[1]]
-                 aus <- list("generators"=sort(chartr(paste(Letters[di$map[[1]]],collapse=""),paste(Letters[1:di$nfactors],collapse=""),hilf)))
+                 aus <- list("generators"=sort(chartr(paste(Letters[di$map[[1]]],collapse=""),
+                                               paste(Letters[1:di$nfactors],collapse=""),hilf)))
                  }
             }
         if (!is.null(di$base.design)){ 
@@ -194,14 +205,24 @@ generators.design <- function(design, ...){
                ### (depending on resolution of whole plot portion of the design)
                hilf.name <- character(0)
                if (length(grep("generator columns:", di$base.design))>0){
+                    ## not a design name but generator columns in base.design
+                    hilf.name <- di$base.design
                     di$base.design <- as.numeric(unlist(strsplit(unlist(strsplit(di$base.design,c(" "))),","))[-c(1,2)])
-                    if (length(di$base.design)==0) return(list(generators="full factorial"))
+                    if (length(di$base.design)==0) {
+                         if (is.null(di$block.gen))
+                         return(list(generators="full factorial"))
+                         else
+                         return(list('generators for design itself'="full factorial",
+                                     'block generators'=di$block.gen))   ## FF_from_X
+                         }
+                       base.gen <- di$base.design ## for call to gen.fun2
                     }
                else {
-                  if (exists("catlg")){
+                  if (exists(catlg.name)){
                     if (di$base.design %in% names(catlg)){
                        hilf.name <- di$base.design
                        di$base.design <- catlg[[di$base.design]]$gen
+                       base.gen <- di$base.design ## for call to gen.fun2
                     }
                     else stop("For generator information, you need to load the catalogue ", catlg.name, ".")
                   }
@@ -210,15 +231,39 @@ generators.design <- function(design, ...){
                if (is.null(di$map)) di$map <- 1:k
                if (is.null(di$orig.fac.order)) di$orig.fac.order <- 1:di$nfactors
                mLetters <- Letters[invperm(di$orig.fac.order)]  
+               mFnames <- paste0("F", invperm(di$orig.fac.order))  ## for >50 factors
                   ## letters that only refer to experimental factors
                   ## appropriately re-arranged for split-plot designs
-                   di$base.design <- Yates[di$base.design]
-                   di$base.design <- lapply(di$base.design, function(obj) sort(invperm(di$map)[obj]))
-               if (!length(di$base.design) + k > di$nfactors){
-                   ## no extra block factors apart from experimental factors
-                   di$base.design <- paste(mLetters[(k+1):(di$nfactors)],
-                                              sapply(di$base.design, function(obj) paste(sort(mLetters[obj]),collapse="")),sep="=")
-               }
+                  if (blocked && !block.old){
+                      di$base.design <- names(Yates)[di$base.design]  ## this is a vector of character generators
+                      if (!length(di$base.design) + k > di$nfactors){
+                           ## no extra block factors apart from experimental factors
+                           if (di$nfactors<=50) 
+                           di$base.design <- paste(Letters[(k+1):(di$nfactors)], di$base.design, sep="=")
+                           else
+                           di$base.design <- paste(paste0("F",(k+1):(di$nfactors)), di$base.design, sep="=")
+                     }
+                     }
+                   else{
+                       ### April 2020
+                       ### estimable or old block strategy with map
+                       ###    i.e. not treating map with new block strategy, because it is 
+                       ###    already covered by permuting factor names
+                       di$base.design <- Yates[di$base.design]
+                       di$base.design <- lapply(di$base.design, function(obj) sort(invperm(di$map)[obj]))
+                       
+                       if (!length(di$base.design) + k > di$nfactors){
+                           ## no extra block factors apart from experimental factors
+                           if (di$nfactors<=50) 
+                           di$base.design <- paste(mLetters[(k+1):(di$nfactors)],
+                                                      sapply(di$base.design, function(obj) 
+                                                      paste(sort(mLetters[obj]),collapse="")),sep="=")
+                           else
+                           di$base.design <- paste(mFnames[(k+1):(di$nfactors)],
+                                                      sapply(di$base.design, function(obj) 
+                                                      paste(sort(mFnames[obj]),collapse="")),sep="=")
+                       }
+                   }   
                k.block.add <- 0
               if (length(di$base.design) + k > di$nfactors){
                #    di$base.design <- paste(Letters[(k+1):(di$nfactors)],
@@ -240,24 +285,43 @@ generators.design <- function(design, ...){
                     hilf <- di$block.gen
                     if (k.block.add > 0) {
                         ## special treatment of blocked full factorials
-                        if (k == di$nfactors) return(list("generators for design itself"=di$base.design, "block generators"=names(Yates[hilf])))
+                        if (k == di$nfactors) return(list("generators for design itself"=di$base.design, 
+                                                          "block generators"=names(Yates[hilf])))
                         ## other blocked designs
-                         hilf <- paste("block generators", paste(paste("b",1:k.block.add,sep=""), collapse=" ")) 
-                         if (k.block > k.block.add) hilf <- paste(hilf, names(Yates)[di$block.gen[-(1:k.block.add)]])
-                         hilf <- rbind(hilf, 
-                                       paste("from Yates matrix columns", paste(di$block.gen, collapse=" ")), 
-                                       paste("of base design", hilf.name, "in catalogue", di$catlg))
-                         rownames(hilf) <- rep("",3)
-                         colnames(hilf) <- ""
-                         if (!is.null(di$map)){
-                             if (!identical(di$map, 1:k)){
-                             hilf <- rbind(hilf, paste("base factors remapped as", paste(di$map, collapse=" ")))
-                             rownames(hilf) <- rep("", 4) }
-                             }
+                        if (is.null(di$block.old)) di$block.old <- TRUE 
+                             ## neglecting intermediate versions, for which the info was wrongly presented
+                             ## in case block.old=FALSE
+                        if (di$block.old){
+                             hilf <- paste("block generators", paste(paste("b",1:k.block.add,sep=""), collapse=" ")) 
+                             if (k.block > k.block.add) hilf <- paste(hilf, names(Yates)[di$block.gen[-(1:k.block.add)]])
+                             hilf <- rbind(hilf, 
+                                           paste("from Yates matrix columns", paste(di$block.gen, collapse=" ")), 
+                                           paste("of base design", hilf.name, "in catalogue", di$catlg))
+                             rownames(hilf) <- rep("",3)
+                             colnames(hilf) <- ""
+                             if (!is.null(di$map)){
+                                 if (!identical(di$map, 1:k)){
+                                 hilf <- rbind(hilf, paste("base factors remapped as", paste(di$map, collapse=" ")))
+                                 rownames(hilf) <- rep("", 4) }
+                                 }
+                         }
+                         else{
+                            ### block.gen contains the block generators
+                           ### these are also in base design
+                          hilf <- paste(paste("b",1:k.block.add,sep=""), 
+                                            names(Yates)[di$block.gen], sep="=")
+                                                     ## block generators
+                          hilf2 <- gen.fun2(setdiff(base.gen, di$blockgen), k, di$nfactors)
+                          return(list("generators for design itself"=hilf2,
+                                      "block generators"=hilf)) 
+                         }
                          }
                      else{
-                      if (is.list(hilf)) 
-                       hilf <- names(Yates)[sapply(hilf, function(obj) which(names(Yates)==paste(Letters[sort(obj)],collapse="")))]
+                      if (is.list(hilf)) {
+                       ## list of generators with several base column numbers in each list element
+                       hilf <- names(Yates)[sapply(hilf, function(obj) 
+                           which(names(Yates)==paste(Letters[sort(obj)],collapse="")))]
+                           }
                        else hilf <- names(Yates)[hilf]
                       }
                        aus <- c(list(di$base.design), list(hilf))
@@ -277,17 +341,24 @@ generators.design <- function(design, ...){
 gen.fun <- function(obj,num=FALSE){
        ## obj must be a single catlg entry
              gen <- obj$gen
-             if(obj$nfac <= 50)
-             aus <- paste(Letters[(round(log2(obj$nruns),0)+1) : 
-                      obj$nfac], 
-                       unlist(names(Yates)[gen]),sep="=")
+            if (obj$nfac <= 50) fn <- Letters[(round(log2(obj$nruns),0)+1) : obj$nfac] else
+                        fn <- paste("F",(round(log2(obj$nruns),0)+1) : obj$nfac, sep="")
+             aus <- paste(fn, unlist(names(Yates)[gen]),sep="=")
+             names(gen) <- fn
+             if (num) gen else aus
+        }
+
+gen.fun2 <- function(gen, k, nfac, num=FALSE){
+       ## gen must be a vector of Yates matrix column numbers
+        nruns <- 2^k
+        if (nfac <= 50) fn <- Letters[(round(log2(nruns),0)+1) : nfac] else
+                        fn <- paste("F",(round(log2(nruns),0)+1) : nfac, sep="")
+        names(gen) <- fn
+        aus <- paste(fn, unlist(names(Yates)[gen]),sep="=")
            #  else aus <- paste(paste("F",(round(log2(obj$nruns),0)+1) : 
            #           obj$nfac,sep=""), sapply(Yates[gen], function(obj2) paste(paste("F", obj2, sep=""),collapse=":")),
            #           sep="=")
-             else aus <- paste(paste("F",(round(log2(obj$nruns),0)+1) : 
-                      obj$nfac,sep=""), unlist(names(Yates)[gen]),
-                      sep="=")
-             if (num) gen else aus
+        if (num) gen else aus
         }
 
 

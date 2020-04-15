@@ -229,8 +229,8 @@ summary.design <- function(object, brief = NULL, quote=FALSE, ...){
       #if (!is.null(di$FrF2.version) & length(di$FrF2.version) > 1)
       #   if (all(sapply(di$FrF2.version, "compareVersion", "1.1") >= 0)) neuver <- TRUE
 
-      if ((neuver | !(length(grep("blocked",di$type)) > 0 | length(grep("splitplot",di$type)) > 0)) & 
-             !(length(grep("param",di$type)) > 0 | length(grep("folded", di$type))>0) )
+      if ((neuver || !(length(grep("blocked",di$type)) > 0 || length(grep("splitplot",di$type)) > 0)) && 
+             !(length(grep("param",di$type)) > 0 || length(grep("folded", di$type))>0) )
           print(generators(object), quote=quote, ...)
           
 

@@ -1,4 +1,4 @@
-3fbe1956acb06b59a14df80dec0378cc *DESCRIPTION
+80a40e9cf5300497438bbddb6b91278d *DESCRIPTION
 77a3a42f3335af155a36205753a35643 *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -50,7 +50,7 @@ c7fe536d86e8bca297be09cacc7dec7c *R/planor2design.r
 1c1370c5109877e3a465fd0a0f5258b7 *R/plot.design.R
 42052c9530a81fc098b3c1624bccfe01 *R/print.GRind.R
 cf79ba1feb3bc581707a9c1b39127179 *R/print.oa.R
-1edd615bef78ec1995d1402cfc1eaa89 *R/printandsummary.design.R
+2f823e3509854acb32b59203e6bf1ac8 *R/printandsummary.design.R
 fe8993ea865eff68a444ada5e0158e67 *R/qua.design.R
 da5428355c791a7d118deb5c0e93de3a *R/reptolong.R
 a9d50e4d5f4f1ecce113ad469a68268c *R/reptowide.R
@@ -59,10 +59,10 @@ f70d0f613e32c4407609f53017c42659 *R/rerandomize.R
 e8a94a9f593b97da718b12884c8baccb *R/show.oas.R
 9547339a2398300efff77a2fbcacbe33 *R/sysdata.rda
 1664ba817e8ecb4b58489b1d5e910741 *R/tupleSel.R
-94d25613b48a07510f532e6d117f6fbd *R/utilities.R
+13c0a966831ec092e4dbaf9c148ad88f *R/utilities.R
 26fe7967c7e9cf6a567323e806494657 *R/utilities.for.children.R
 1329aec55461a92dd81ad0ef30b6125d *inst/CITATION
-2ec6c8513539fae48f3e567dbc6125d7 *inst/NEWS
+98cbf93d26a4b02a587e98602827e742 *inst/NEWS
 ab66732e175d170c7070154588ae53be *man/DoE.base-package.Rd
 06fab58ef36fc4eac82a42c8a72eab10 *man/GRind.Rd
 259c890733c5da0d2ec647372d8c1e32 *man/GWLP.Rd
