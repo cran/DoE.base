@@ -52,8 +52,9 @@ There may be conflicts with functions from packages \pkg{conf.design} or \pkg{sf
 }
 
 \seealso{
-The function from package \pkg{conf.design}: \code{\link[conf.design]{factorize}}\cr
-The function from package \pkg{sfsmisc}: \code{\link[sfsmisc]{factorize}}
+The function \code{\link[conf.design]{factorize}} from package \pkg{conf.design}, \cr
+the function \code{factorize} from package \pkg{sfsmisc} (no link provided, 
+in order to avoid having to include \pkg{sfsmisc} in Suggests).
 }
 \examples{
 factorize(12)

@@ -95,7 +95,7 @@ ICFT(design, digits = 3, with.blocks = FALSE, conc = TRUE, recode=TRUE)
    Groemping, U. (2018). Coding Invariance in Factorial Linear Models and a New Tool for Assessing 
        Combinatorial Equivalence of Factorial Designs. 
        \emph{Journal of Statistical Planning and Inference} \bold{193}, 1-14. 
-       \url{https://doi.org/10.1016/j.jspi.2017.07.004}.
+       \doi{10.1016/j.jspi.2017.07.004}.
    }
 \author{ Ulrike Groemping }
 \seealso{ See also \code{\link{GWLP}} and \code{\link{generalized.word.length}}}

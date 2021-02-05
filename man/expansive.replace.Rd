@@ -50,7 +50,8 @@ arrays by the user. The properties of the resulting array(s) can e.g. be inspect
 \note{ This package is still under development. Bug reports and feature requests are welcome.}
 \seealso{ See Also \code{\link{oacat}}, \code{\link{oacat3}} }
 \references{
-  Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
+  Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute 
+  \url{https://support.sas.com/techsup/technote/ts723b.pdf} and references therein.
 }
 \examples{
 myL24.2.14.6.1 <- expansive.replace(L24.2.12.12.1, L12.2.2.6.1)

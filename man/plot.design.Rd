@@ -124,7 +124,7 @@ Some changes to input and output structures may still occur.}
 \references{
 Groemping, U (2014) Mosaic plots are useful for visualizing low order projections 
     of factorial designs. To appear in \emph{The American Statistician}
-    \url{http://www.tandfonline.com/action/showAxaArticles?journalCode=utas20}.
+    \url{https://www.tandfonline.com/action/showAxaArticles?journalCode=utas20}.
 }
 
 \author{ Ulrike Groemping }

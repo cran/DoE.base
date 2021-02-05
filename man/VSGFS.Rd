@@ -56,7 +56,7 @@ VSGFS
   Vasilev, N., Schmidt, C., Groemping, U., Fischer, R. and Schillberg, S. (2014). 
   Assessment of Cultivation Factors that Affect Biomass and Geraniol Production 
   in Transgenic Tobacco Cell Suspension Cultures. \emph{PLoS ONE} \bold{9}(8): 
-  e104620. \url{http://www.plosone.org/article/info:doi/10.1371/journal.pone.0104620}. 
+  e104620. \url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0104620}. 
 }
 \author{ Ulrike Groemping }
 \seealso{ See also \code{\link{oacat}}, \code{\link{show.oas}}, \code{\link{oa.min34}}, 

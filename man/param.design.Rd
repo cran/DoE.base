@@ -85,7 +85,7 @@ paramtowide(design, constant=NULL, ...)
 }
 \references{
 NIST/SEMATECH e-Handbook of Statistical Methods, Section 5.5.6 (What are Taguchi Designs?), 
-accessed August 11, 2009. \url{http://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm}
+accessed August 11, 2009. \url{https://www.itl.nist.gov/div898/handbook/pri/section5/pri56.htm}
 }
 \author{ Ulrike Groemping }
 \note{ This function is still experimental.

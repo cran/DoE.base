@@ -24,7 +24,10 @@ The implemented bounds have been verified against selected scenarii from Tables 
 A logical; if FALSE, an OA is infeasible; if TRUE, an OA \emph{might} be feasible.
 }
 \references{
-Bierbrauer, J., Gopalakrishnan, K. and Stinson, D.R. (1999). Orthogonal Arrays, Resilient Functions, Error Correcting Codes and Linear Programming Bounds. Working paper (expanded and revised version of a published extended abstract of the same authors). \url{http://www.math.mtu.edu/~jbierbra/}.
+Bierbrauer, J., Gopalakrishnan, K. and Stinson, D.R. (1999). 
+   Orthogonal Arrays, Resilient Functions, Error Correcting Codes and Linear Programming Bounds. 
+   Working paper (expanded and revised version of a published extended abstract of the same authors). 
+   \url{https://pages.mtu.edu/~jbierbra/}.
 
 Diestelkamp, W. (2004). Parameter inequalities for orthogonal arrays with mixed levels.
    \emph{Designs, Codes and Cryptography} \bold{33}, 187-197.

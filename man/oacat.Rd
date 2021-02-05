@@ -146,7 +146,8 @@ oacat3
   \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}. 
     Cham: Springer International Publishing.
 
-  Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
+  Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute 
+  \url{https://support.sas.com/techsup/technote/ts723b.pdf} and references therein.
   
   Mee, R. (2009). \emph{A Comprehensive Guide to Factorial Two-Level Experimentation}. 
     New York: Springer.

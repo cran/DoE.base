@@ -148,7 +148,7 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
 
     Groemping, U. (2017). Frequency tables for the coding invariant quality assessment
     of factorial designs. \emph{IISE Transactions} \bold{49}, 505-517.
-    \url{https://doi.org/10.1080/0740817X.2016.1241458}.
+    \doi{10.1080/0740817X.2016.1241458}.
 
     Groemping, U. and Bailey, R.A. (2016). Regular fractions of factorial arrays. In:
      \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}.

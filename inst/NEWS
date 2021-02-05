@@ -3,6 +3,17 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+February 2021, version 1.1-6
+- handled cross references in Rd files to avoid notes in 
+  R CMD check: 
+  - replaced cross references to sfsmisc and planor documentation 
+    by code for calling help from within R (in order to avoid mentioning
+    those packages in the Description file)
+  - removed cross reference to package DoE.MIParray for the same reason
+  - added packages FrF2, DoE.wrapper to the Suggests field, 
+    because of many cross references to their documentations
+  - updated URLs to https, and updated to doi markup 
+
 April 2020, Version 1.1-5
 - modified generators.design to also properly cover 
   blocked designs created by function FF_from_X

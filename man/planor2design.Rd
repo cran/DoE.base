@@ -42,7 +42,7 @@ planor2design(x, ...)
      attribute contains the \code{designkey} from the original \code{planor} design.
 }
 \author{ Ulrike Groemping }
-\seealso{ See also: \code{\link[planor:planordesign-class]{planordesign}}, 
+\seealso{ See also: the \code{planordesign} class of package \pkg{planor} (if that package is available), 
     \code{\link{design}}, \code{\link{plot.design}}
     }
 

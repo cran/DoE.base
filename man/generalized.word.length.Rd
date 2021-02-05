@@ -355,7 +355,7 @@ tupleSel(design, type="complete", selprop=0.25, ...)
 
    Groemping, U. (2017). Frequency tables for the coding invariant quality assessment
      of factorial designs. \emph{IISE Transactions} \bold{49}, 505-517.
-     \url{https://doi.org/10.1080/0740817X.2016.1241458}.
+     \doi{10.1080/0740817X.2016.1241458}.
 
    Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
       fractional factorial designs. \emph{The Annals of Statistics} \bold{29}, 1066--1077.
@@ -371,7 +371,7 @@ and may be a better choice for designs with many factors.}
 \seealso{ See also \code{\link{GWLP}} for a version of lengths that is much
     faster for designs with not so many runs, and \code{\link{GRind}}
     for another set of quality criteria for orthogonal arrays.\cr
-    Package \pkg{\link[DoE.MIParray:DoE.MIParray]{DoE.MIParray}} can create 
+    Package \pkg{DoE.MIParray} can create 
     arrays for smallish situations for which the catalogued arrays do not provide 
     satisfactory results; this package requires at least one of the commercial 
     softwares Mosek or Gurobi to be installed (both provide free academic licenses).}

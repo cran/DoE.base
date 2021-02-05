@@ -59,7 +59,8 @@ Maintainer: Ulrike Groemping <groemping@bht-berlin.de>
     Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) 
     \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
     
-    Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{http://support.sas.com/techsup/technote/ts723.html}.
+    Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute 
+    \url{https://support.sas.com/techsup/technote/ts723b.pdf} and references therein.
 }
 \keyword{ array }
 \keyword{ design }
