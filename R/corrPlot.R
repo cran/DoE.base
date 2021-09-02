@@ -10,6 +10,10 @@ corrPlot <- function(design, scale="corr", recode=TRUE, cor.out=TRUE, mm.out=FAL
 if (!"design" %in% class(design)) design <- data2design(design)
 if (!scale %in% c("corr", "R2", "corr.est")) stop("invalic choice for scale")
 hilf <- GWLP(design, k=5)
+if (length(hilf) < 6){
+  hilf <- c(hilf, rep(0, 6-length(hilf)))
+  names(hilf) <- 0:5
+  }
 if (!round(hilf[2],5)==0) stop("corrPlot is applicable for balanced designs only")
 if (!round(hilf[3],5)==0) res=2
 else {

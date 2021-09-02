@@ -6,22 +6,25 @@
 The function checks necessary conditions for the existence of an array of specified strength
 }
 \usage{
-oa_feasible(nruns, nlevels, strength = 2, verbose=TRUE)
+oa_feasible(nruns, nlevels, strength = 2, verbose=TRUE, returnbound=FALSE)
 }
 \arguments{
   \item{nruns}{positive integer, number of rows}
   \item{nlevels}{vector of positive integers: its length determines the number of columns, the elements determine the numbers of levels for each column}
   \item{strength}{positive integer (default 2), not larger than the length of \code{nlevels} requested strength of array; 1+strength is the resolution}
   \item{verbose}{logical; if TRUE, reason for outcome is printed}
+  \item{returnbound}{logical; if TRUE, the function returns a lower bound for the number of runs needed instead of a logical}
 }
 \details{
 The function uses several known bounds and necessary divisibility requirements on \code{nruns} for checking \emph{potential} feasibility of an array of the requested strength. It is checked that \code{nruns} is a multiple of the LCM of the run sizes of unreplicated full factorials of all sets of \code{strength} factors and that Rao's bound is fulfilled (the simplest one for strength 2 arrays being that \code{nruns} is larger than the sum of the main effect degrees of freedom; formulae available in Hedayat et al. 1999 Theorem 2.1 for pure levels and Diestelkamp 2004 Theorem 3.1 for mixed levels). For pure level designs, the Bush bounds and Bose/Bush bounds are implemented (Hedayat et al., Theorems 2.8, 2.11 and 2.19).
 Furthermore, Bierbrauer's bound (Diestelkamp 2004 Theorems 2.1 and 2.2) is implemented for pure and mixed level designs; note that the mixed level formula has been applied for large \code{strength} values only, because the proof of Diestelkamp is valid only for these (contrary to what is claimed in the paper). For pure 2-level-designs, the bound from Bierbrauer et al. (1999) is also implemented. All these are necessary but not a sufficient conditions for the existence of an orthogonal array of the requested strength.
 
-The implemented bounds have been verified against selected scenarii from Tables 12.1 to 12.3 of Hedayat, Sloane and Stufken 1999. These tables detect further infeasibilities, since they incorporate detailed research results for specific scenarii, contrary to this function which only checks straightforward explicit bounds.
+The implemented bounds have been verified against selected scenarii from Tables 12.1 to 12.3 of Hedayat, Sloane and Stufken 1999. These tables detect further infeasibilities, since they incorporate detailed research results for specific scenarii, contrary to this function which only checks straightforward explicit bounds. Another resource for checking feasibility of symmetric OAs (i.e. OAs with the same number of levels for all factors) is the website \url{http://mint.sbg.ac.at/}.
 }
 \value{
-A logical; if FALSE, an OA is infeasible; if TRUE, an OA \emph{might} be feasible.
+A logical or an integer number.\cr 
+For \code{returnbound=FALSE} (default), a logical is returned: if FALSE, an OA is infeasible; if TRUE, an OA \emph{might} be feasible.\cr
+For \code{returnbound=TRUE}, an integer is returned: a \emph{lower bound} for the number of runs needed for an OA with the requested strength.
 }
 \references{
 Bierbrauer, J., Gopalakrishnan, K. and Stinson, D.R. (1999). 

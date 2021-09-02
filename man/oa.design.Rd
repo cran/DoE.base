@@ -36,12 +36,13 @@ origin(ID)
   \item{nfactors}{ number of factors;
         only needed if \code{nlevels} is a single number and
         \code{factor.names} is omitted;
-        can otherwise determined from length of \code{factor.names},
+        can otherwise be determined from length of \code{factor.names},
         \code{nlevels} or \code{column} }
   \item{nlevels}{ number(s) of levels, vector with \code{nfactors} entries or single number;
-        can be omitted, if obvious from \code{factor.names} or if \code{ID}
-        and \code{columns} are given or if all columns of \code{ID} are to be used
-        with default factor names and levels;
+        can be omitted, if obvious from \code{factor.names} or from \code{ID},\cr
+        or if \code{ID} and \code{columns} are given \cr
+        or if all columns of \code{ID} are to be used 
+        with default factor names and levels;\cr
         can be a single number if \code{nfactors} is known directly or as length of
         \code{factor.names} }
   \item{factor.names}{ a character vector of \code{nfactors} factor names

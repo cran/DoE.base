@@ -81,10 +81,19 @@ genChild <- function (array.list)
   ## array.list is an output from parseArrayLine
   
   hilffun <- function(name) matrix(as.numeric(unlist(strsplit(name,".",fixed=TRUE))[-1]),byrow=2,ncol=2)
+  ## creates table from name
+  ## first col: nlevels
+  ## second col: number of occurrences in target
   
   targetname <- symb2oa(array.list$descr[1],array.list$descr[2])
   targetmat <- hilffun(targetname)
+
   oacatrow <- which(oacat$name==targetname)
+  if (length(oacatrow)==0) {
+             oacat3row <- which(oacat3$name==targetname)
+             from <- "oacat3"
+  }
+  else from <- "oacat"
 
     ## getting and describing parent array
     parent.array <- getArray(array.list$lineage$parent[1],
@@ -92,6 +101,43 @@ genChild <- function (array.list)
     curarray <- parent.array
     curname <- symb2oa(array.list$lineage$parent[1],array.list$lineage$parent[2])
     curmat <- hilffun(curname)
+    ## July 2021: enable **two** different expansions of same number of levels 
+    ##            (needed for 8-level)
+    tab <- table(sapply(array.list$lineage$repl.rules, function(obj) obj["nbRuns"]))
+    dupls <- any(tab>1) 
+    if (dupls) {
+       duplevels <- as.numeric(names(tab)[which(tab>1)])
+       ## only the duplicated replacement
+       ## implemented for a single duplicate only
+       if (length(tab)==1){
+          ## currently no other cases occur
+          replevmat1 <- hilffun(symb2oa(duplevels, array.list$lineage$repl.rules[[1]][3])) 
+          replevmat2 <- hilffun(symb2oa(duplevels, array.list$lineage$repl.rules[[2]][3])) 
+          # curmat holds same thing for the parent
+         ## equation for obtaining the frequency needed for each rule
+         nam2ohne1 <- setdiff(replevmat2[,1], replevmat1[,1])[1] ## first unique
+         mat <- rbind(c(1,1),  ## for b1=total number of duplevels that are expanded
+                      c(0,replevmat2[which(replevmat2[,1]==nam2ohne1),2]))  
+                           ## for b2=no of nam2ohne1 in target minus parent
+         bvec <- c( ifelse(any(targetmat[,1] == duplevels), 
+                           curmat[which(curmat[,1]==duplevels),2] -
+                              targetmat[which(targetmat[,1]==duplevels),2],
+                           curmat[which(curmat[,1]==duplevels),2]),
+                    ifelse(any(curmat[,1] == nam2ohne1), 
+                           targetmat[which(targetmat[,1]==nam2ohne1),2] -
+                              curmat[which(curmat[,1]==nam2ohne1),2],
+                           targetmat[which(targetmat[,1]==nam2ohne1),2])
+                    )
+         repfreq <- solve(mat, bvec)
+         array.list$lineage$repl.rules[[1]] <- 
+              c(array.list$lineage$repl.rules[[1]], repfreq= as.character(repfreq[1]))
+         array.list$lineage$repl.rules[[2]] <- 
+              c(array.list$lineage$repl.rules[[2]], as.character(repfreq[2]))
+         rm(repfreq)
+       }
+       }
+       ## end of July 2021 preprocessing change
+
     ### looping through replacement rules
     for (i in 1:length(array.list$lineage$repl.rules)){
       replacement <- getArray(array.list$lineage$repl.rules[[i]][2],
@@ -101,10 +147,12 @@ genChild <- function (array.list)
                     array.list$lineage$repl.rules[[i]][3])
       repmat <- hilffun(repname)
       ### how often is this replacement needed ?
+      if (dupls) repfreq <- array.list$lineage$repl.rules[[i]][4] else{
       if (any(targetmat[,1] == nbLevels.target))
          repfreq <- curmat[which(curmat[,1] == nbLevels.target), 2] -
                  targetmat[which(targetmat[,1] == nbLevels.target), 2]
       else repfreq <- curmat[which(curmat[,1] == nbLevels.target), 2]
+      }
       for (j in repfreq:1){
           ## do the replacements as many times as needed
           fct.levels.parent <- apply(curarray, 2, function(x) length(unique(x)))
@@ -134,6 +182,7 @@ genChild <- function (array.list)
       else colnames(curarray) <- paste("F",1:ncol(curarray), sep=".")
     curarray <- curarray[ord(curarray),]
     class(curarray) <- c("oa","matrix")
-    attr(curarray, "origin") <- c("Kuhfeld collection", oacat[oacatrow,]$lineage)
+    attr(curarray, "origin") <- c(ifelse(from=="oacat", "Kuhfeld collection",
+                                         "oacat3"), get(from)[ifelse(from=="oacat",oacatrow,oacat3row),]$lineage)
     return(curarray)
 }

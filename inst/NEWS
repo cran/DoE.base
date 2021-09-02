@@ -3,6 +3,32 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+September 2021, version 1.2
+- GWLP treated kmax as a dogma even for designs with fewer factors;
+  replaced kmax with number of factors in GWLP in order to fix the bug in 
+  corrPlot (see below) - 
+  this impacts code that relies on length kmax + 1 for the output from GWLP 
+  and is applied to designs with fewer factors (that code would have thrown an 
+  error otherwise, and will need post processing of the result now)
+- made it unnecessary to specify nlevels in addition to nfactors in oa.design, 
+  if a symmetric OA is explicitly requested with the ID= argument, 
+  or if all columns of a specified OA (ID=) are used 
+- oa_feasible now optionally returns the number of runs required for an oa 
+- function plot.design now plots the first four factors only, if called 
+  without any specification of "select" on a larger design
+- moved the VFGFS data set to the data folder in order to make it 
+  more visible as a data set that accompanies the package
+- enhanced documentation of arrays to separately identify different strengths
+- extended oacat3 by additional arrays of at least resolution IV
+- made sure that all arrays have rownames from 1 to nrow (prevents a warning 
+  for the stronger arrays from the Agrawal Dey constructions that had non-unique
+  rownames before)
+- bug fix: L372.2.40.8.2 is in fact L384.2.40.8.2
+- bug fix: corrPlot worked for designs with at least five factors only. 
+  Properly handled the case of fewer factors by adjusting function GWLP
+  to reduce a too large value of kmax and post-treating a too short 
+  GWLP result in corrPlot
+
 February 2021, version 1.1-6
 - handled cross references in Rd files to avoid notes in 
   R CMD check: 

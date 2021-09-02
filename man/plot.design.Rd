@@ -83,10 +83,10 @@
     an adequate choice for designs without responses or designs with experimental factors
     that are not R-factors. \cr
     For designs with all factors being R-factors and no response defined (e.g. a freshly-created
-    design from function \code{link{oa.design}}), function \code{plot.design} creates a mosaic plot of
+    design from function \code{\link{oa.design}}), function \code{plot.design} creates a mosaic plot of
     the frequency table of the design, which may be quite useful to understand the structure
     for designs with relatively few factors (cf. example below; function \code{plot.design} calls
-    function \code{\link[vcd]{mosaic}} for this purpose).\cr
+    function \code{\link[vcd]{mosaic}} for this purpose). It will generally be necessary to specify the \code{select} argument, if the design is not very small. If \code{select} is not specified although there are more than four factors, \code{select=1:4} is chosen as the default.\cr
     For designs with at least one experimental factor that is not an R-factor, function
     \code{plot.design} calls function \code{\link[graphics:plot.dataframe]{plot.data.frame}} in order
     to create a scatter plot matrix.\cr

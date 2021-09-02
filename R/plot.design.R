@@ -15,7 +15,12 @@ plot.design <- function(x, y=NULL, select=NULL, selprop=0.25, ask=NULL, ...){
              fn <- names(di$factor.names)
              ## first process select
              ov <- FALSE ## overview by mosaic plots, ignoring response values
-             if (is.null(select)) select <- fn
+             if (is.null(select)) {
+                select <- fn
+                if (length(select)>4) select=fn[1:4]
+                message("The first four factors were selected.",
+                        " Use argument select for choosing what is plotted.")
+             }
              else if (is.list(select)){
                 ov <- TRUE
                 if (length(select)==1){

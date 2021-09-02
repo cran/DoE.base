@@ -128,11 +128,18 @@ GWLP.design <- function(design, kmax=design.info(design)$nfactors, attrib.out=FA
     if (!"design" %in% class(design)) stop("GWLP.design is for class design objects only")
     if (with.blocks)
     GWLP.default(design[,c(design.info(design)$block.name,names(factor.names(design)))], kmax=kmax, attrib.out=attrib.out, digits=digits, ...)
-    else
+    else{
+    if (kmax > design.info(design)$nfactors){ 
+       kmax <- design.info(design)$nfactors
+       message("kmax was reduced to number of factors")
+       }
     GWLP.default(design[,names(factor.names(design))], kmax=kmax, attrib.out=attrib.out, digits=digits, ...)
+    }
 }
 GWLP.default <- function(design, kmax=ncol(design), attrib.out=FALSE, digits=NULL, ...){
   if (!is.null(digits)) if (!digits %% 1 ==0) stop("digits must be integer")
+  if (kmax > ncol(design)) {kmax <- ncol(design)
+                            message("kmax was reduced to number of columns")}
   levmix <- levelmix(design)
   if (max(levmix$ss) > 15) warning("at least one factor has more than 15 levels\nSomething wrong?")
   hilf <- distDistmix(design, levmix)

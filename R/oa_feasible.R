@@ -1,4 +1,4 @@
-oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
+oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE, returnbound=FALSE){
     aus <- TRUE
     nlev <- nlevels
     if (!all(is.numeric(c(nruns,nlev, strength)))) stop("nruns, nlev and strength must be numeric")
@@ -18,26 +18,27 @@ oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
     nlevelmix <- length(s)          ## their number
     u <- strength%/%2               ## for calculation of Rao bound
 
+    retbound <- sum(nlevels) - length(nlevels) + 1   ## df bound
     ## handle simpler pure level situation first
     if (nlevelmix == 1){
       ## pure level designs
       if (!nruns%% s^strength==0) {
         if (verbose) cat("nruns is not divisible by", s^strength, fill=TRUE)
-        return(FALSE)
+        if (!returnbound) return(FALSE) else retbound <- max(retbound, s^strength)
       }
       ## Bierbrauer et al.s bound for 2-level (Thms 7.1 and 7.3 with Cor 7.4 (and abstract))
       if (s==2){
         bound <- round(s^nfac - min(nfac*2^(nfac-1)/(strength+1), (nfac+1)*2^(nfac-2)/(u+1)), 2)
         if (nruns < bound){
           if (verbose) cat("nruns is smaller than Bierbrauer et al.s bound ", bound, " for 2-level designs", fill=TRUE)
-          return(FALSE)
-        }
+          if (!returnbound) return(FALSE) else retbound <- max(retbound, bound)
+          }
       }
       ## Bierbrauer's bound
       bound <- round(s^nfac*(1-(s-1)*nfac/(s*(strength+1))), 2)
       if (nruns < bound) {
         if (verbose) cat("nruns is smaller than Bierbrauer's bound", bound, " for pure level designs", fill=TRUE)
-        return(FALSE)
+        if (!returnbound) return(FALSE) else retbound <- max(retbound, bound)
       }
       ## Rao's bound
       ii <- 0:(strength%/%2)
@@ -46,7 +47,7 @@ oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
       if (strength %% 2 == 1) bound <- bound + choose(nfac-1,u)*(s-1)^(u + 1)
       if (nruns < bound){
         if (verbose) cat("nruns is smaller than Rao's bound", bound, "for pure level designs", fill=TRUE)
-        return(FALSE)
+        if (!returnbound) return(FALSE) else retbound <- max(retbound, bound)
       }
       ## Bush bound
       if (nruns==s^strength){
@@ -79,6 +80,7 @@ oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
           }
         }
       }
+    if (returnbound) return(retbound)
     }
     else{
       ## mixed level designs
@@ -95,7 +97,7 @@ oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
       if (nruns < bound){
         if (verbose) cat("nruns is smaller than Diestelkamp's mixed level version", 
                          " of Bierbrauer's bound", bound, fill=TRUE)
-        return(FALSE)
+        if (!returnbound) return(FALSE) else retbound <- max(retbound, bound)
       }
       }
 
@@ -103,14 +105,14 @@ oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
     bound <- sum(nlev - 1) + 1   ## df for up to main effects
     if (strength >= 2 && nruns < bound){
       if (verbose) cat("nruns is smaller than the ", bound, " df needed for main effects", fill=TRUE)
-      return(FALSE)
+        if (!returnbound) return(FALSE) else retbound <- max(retbound, bound)
       }
     if (strength == 3){
       ## add worst-case df for 2fi
       bound <- bound + max(sapply(1:nfac, function(obj) (nlev[obj] - 1)*sum(nlev[-obj] - 1)))
       if (nruns < bound){
         if (verbose) cat("nruns is smaller than Rao's bound", bound, "for strength 3", fill=TRUE)
-        return(FALSE)
+        if (!returnbound) return(FALSE) else retbound <- max(retbound, bound)
       }
     }
     if (strength>=4){
@@ -137,7 +139,7 @@ oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
       }
       if (nruns < bound){
         if (verbose) cat("nruns is smaller than Rao's bound ", bound, " for strength ", strength, fill=TRUE)
-        return(FALSE)
+          if (!returnbound) return(FALSE) else retbound <- max(retbound, bound)
       }
     }
     ## end of Rao's mixed level bound
@@ -147,8 +149,13 @@ oa_feasible <- function(nruns, nlevels, strength=2, verbose=TRUE){
                        2, prod))
         if (!nruns %% clcm == 0){
           if (verbose) cat("nruns is not divisible by ", clcm, fill=TRUE)
-          return(FALSE)
+          if (!returnbound) return(FALSE) else retbound <- max(retbound, (retbound%/%clcm + 1)*clcm)
         }
+    if (returnbound) {
+    if (verbose) cat("need at least ", retbound, " runs for strength ", strength, ", ", 
+                     "full factorial would need ", prod(nlev), " runs", fill=TRUE)
+    return(retbound)
+    }
  }
  ## no violation of criteria for oa with required strength was found
  if (verbose) cat("no violation of necessary criteria", " for strength ", strength, " was found", fill=TRUE)

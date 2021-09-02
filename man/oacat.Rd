@@ -47,8 +47,12 @@ oacat3
    effects unconfounded with two-factor interactions. If only these are of interest, 
    function \code{\link{show.oas}} can be restricted to strong arrays 
    by option \code{Rgt3=TRUE}. Function \code{\link{oa.design}} will use a strong 
-   array, if possible. It may also be worthwhile to check whether expansive replacement 
-   of a strong array with a full factorial can yield a suitable strong array 
+   array, if possible. Since package version 1.2, \code{oacat3} contains arrays 
+   that were obtained via expansive replacement (indicated in the \code{lineage} 
+   column). It is important to note that this automatic replacement is not optimized 
+   in any way; in some cases it may be worthwhile to check whether a better array
+   can be produced with different level choices or by expanding not the first but 
+   a different column of the parent array 
    (for an example, see function \code{\link{expansive.replace}}); this is not 
    automatically checked and can only be done by the user.
 }
@@ -99,7 +103,7 @@ oacat3
    only the rules from Butler (2005) are implemented; hopefully, more rules will be added 
    in the future.
    
-   The column \code{lineage} deserves particular attention for \code{oacat} (always empty for \code{oacat3}): 
+   The column \code{lineage} deserves particular attention: 
    it is an empty string, if the design is directly available and can be accessed via its name, or if the design 
    is a full factorial (e.g. L6.2.1.3.1). Otherwise, the lineage entry is structured as follows: 
    It starts with the specification of a parent array, given as \code{levels1~no of factors; levels2~no of factors;}. 
@@ -118,7 +122,7 @@ oacat3
    use package \pkg{\link[FrF2:FrF2-package]{FrF2}}. Exceptions: The three arrays by 
    Mee (2009; cf. section \dQuote{Details} above) are very useful for 2-level factors. 
    
-   Most of the orthogonal arrays from \code{oacat}, 
+   Many of the orthogonal arrays from \code{oacat}, 
    especially when using all columns for experimentation, 
    are guaranteed to orthogonally estimate all main effects, 
    \bold{provided all higher order effects are negligible}. 
@@ -146,6 +150,9 @@ oacat3
   \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}. 
     Cham: Springer International Publishing.
 
+  Groemping, U. and Fontana, R. (2019). An Algorithm for Generating Good Mixed 
+  Level Factorial Designs. \emph{Computational Statistics and Data Analysis} \bold{137}, 101--114.
+  
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute 
   \url{https://support.sas.com/techsup/technote/ts723b.pdf} and references therein.
   
@@ -164,7 +171,8 @@ oacat3
 \examples{
    head(oacat)
    
-   sapply(oacat3$name, function(nn) unlist(attributes(get(nn))[c("origin", "comment")]))
+   sapply(oacat3$name[which(oacat3$lineage=="")], 
+        function(nn) unlist(attributes(get(nn))[c("origin", "comment")]))
    
 }
 \seealso{

@@ -7,11 +7,8 @@
 ### accomodate oa.design within the wrapper package
 
 oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL, 
-      factor.names = if (!is.null(nfactors)) {
-        if (nfactors <= 50) Letters[1:nfactors]
-           else paste("F", 1:nfactors, sep = "")} 
-        else NULL, columns="order",  
-        replications=1, repeat.only=FALSE,
+                      factor.names = if (!is.null(nfactors)){if (nfactors <= 50) Letters[1:nfactors] else paste("F", 1:nfactors, sep = "")} else NULL, 
+        columns="order", replications=1, repeat.only=FALSE,
         randomize=TRUE, seed=NULL, min.residual.df=0, levordold=FALSE){
         ## ID identifies the design
         ## nruns, nfactors, factor.names self-explanatory
@@ -29,6 +26,7 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
         ## if more than one of the entries are given:
         ## compatibility checks necessary
       creator <- sys.call()
+
       oacat <- rbind(oacat3, oacat)
       oacat <- oacat[ord(oacat[,2,drop=FALSE]),]
 
@@ -103,8 +101,8 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
               stop("Currently, DoE.base does not contain an orthogonal array that can cover your request.")
           else {
              for (i in 1:length(hilf))
-                cand <- eval(parse(text=paste("cand[cand$",names(hilf)[i],">=",hilf[i],",]",sep="")))
-## bug fix: cand <=ffnrun was stupid, because it returns a worse oa in case a full factorial is possible
+                cand <- cand[which(cand[[names(hilf)[i]]] >= hilf[i]),]
+             ## bug fix: cand <=ffnrun was stupid, because it returns a worse oa in case a full factorial is possible
              cand <- cand[cand$nruns<ffnrun,]
              if (nrow(cand)==0){ 
                   if ((replications > 1 & repeat.only)){
@@ -220,9 +218,16 @@ oa.design <- function(ID=NULL, nruns=NULL, nfactors=NULL, nlevels=NULL,
              else factor.names <- paste("F", 1:nfactors, sep = "")
          ## factor.names is now also non-null
 
-        if (!is.null(ID)) if (nfactors > ncol(des)) 
+        if (!is.null(ID)){ 
+      ### added code 30 August / 1 Sep 2021
+           if (nfactors > ncol(des)) 
               stop("The design ", ID, " accomodates at most ", ncol(des), 
                     " factors, mismatch to specified nfactors!")
+           if (is.null(nlevels) && is.character(factor.names)){
+               if (nfactors==ncol(ID)) nlevels <- levels.no(ID)
+               if (length(unique(levels.no(ID)))==1) nlevels <- rep(levels.no(ID)[1], nfactors)
+           }
+        }
         if (!is.null(nlevels)) 
               if (!length(nlevels)==nfactors) 
                  stop("nlevels must have exactly one entry for each factor")

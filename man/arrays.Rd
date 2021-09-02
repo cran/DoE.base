@@ -331,6 +331,11 @@
 \alias{L144.3.48.48.1}
 \alias{L144.4.11.12.2}
 \alias{L144.4.36.36.1}
+\alias{L144.2.1.3.2.4.2}
+\alias{L144.2.2.3.2.4.2}
+\alias{L216.2.1.3.2.4.1.6.1}
+\alias{L288.3.2.4.2.6.1}
+\alias{L432.2.1.3.3.4.2}
 \alias{L256.2.19}
 \alias{L2048.2.63}
 \alias{L32.2.9}
@@ -361,18 +366,134 @@
 \alias{L243.3.20}
 \alias{L256.2.24.8.2}
 \alias{L256.2.52.4.3}
+\alias{L256.4.5}
 \alias{L256.4.17}
-\alias{L372.2.40.8.2}
+\alias{L384.2.40.8.2}
 \alias{L512.2.56.8.2}
 \alias{L729.3.12}
 \alias{L729.3.14}
 \alias{L4096.4.12}
+\alias{L243.3.121}
+\alias{L256.4.85}
+\alias{L27.3.4} 
+\alias{L48.2.3.3.1.4.1} 
+\alias{L81.3.5} 
+\alias{L81.3.8} 
+\alias{L81.3.10} 
+\alias{L125.5.6} 
+\alias{L192.2.3.3.1.4.2} 
+\alias{L192.2.2.4.2.6.1} 
+\alias{L192.2.1.3.1.4.3} 
+\alias{L243.3.6} 
+\alias{L243.3.11} 
+\alias{L243.3.121} 
+\alias{L343.7.8} 
+\alias{L384.2.4.3.1.4.2} 
+\alias{L512.8.9} 
+\alias{L576.2.2.3.1.4.2.6.1} 
+\alias{L576.3.1.4.3.6.1}
+\alias{L625.5.6} 
+\alias{L729.3.56} 
+\alias{L729.9.10} 
+\alias{L1024.4.6} 
+\alias{L1024.4.11} 
+\alias{L1024.4.41} 
+\alias{L2187.3.112}
+\alias{L2187.3.27}
+\alias{L2187.3.14}
+\alias{L2401.7.8} 
+\alias{L4096.4.126} 
+\alias{L4096.4.21} 
+\alias{L4096.8.9} 
+\alias{L6561.3.248} 
+\alias{L6561.3.41} 
+\alias{L6561.3.28} 
+\alias{L6561.9.10} 
 
 \title{ Orthogonal arrays in the package }
 \description{
   Orthogonal arrays in the package
 }
 \usage{
+## strength 5 / resolution VI
+L243.3.6
+L384.2.4.3.1.4.2
+L729.3.12
+L1024.4.6
+L2187.3.14
+L4096.4.12
+L6561.3.28 
+
+## strength 4 / resolution V
+L81.3.5
+L96.2.7.3.1
+L128.2.6.4.2
+L192.2.3.3.1.4.2
+L192.2.2.4.2.6.1 
+L243.3.11
+L256.2.19
+L256.4.5
+L576.2.2.3.1.4.2.6.1
+L625.5.6 
+L729.3.14
+L1024.4.11
+L2048.2.63
+L2187.3.27
+L2401.7.8
+L4096.4.21
+L4096.8.9
+L6561.3.41 
+L6561.9.10 
+
+## strength 3 / resolution IV
+L27.3.4
+L32.2.9
+L32.2.16
+L32.2.4.4.2
+L40.2.6.5.1
+L48.2.9.3.1
+L48.2.7.6.1
+L48.2.3.3.1.4.1
+L48.2.4.3.1.4.1
+L54.2.1.3.5
+L64.2.12.4.2
+L64.2.8.4.3
+L64.2.7.8.1
+L64.2.6.4.4
+L64.4.6
+L72.2.12.3.2
+L72.2.4.3.1.6.1
+L80.2.12.5.1
+L80.2.6.4.1.5.1
+L81.3.8
+L81.3.10
+L96.2.20.4.2
+L96.2.5.4.2.6.1
+L125.5.6
+L128.2.20.4.3
+L128.2.28.4.2
+L128.2.15.8.1
+L128.2.8.8.2
+L192.2.1.3.1.4.3 
+L192.2.36.4.3
+L243.3.20
+L256.2.24.8.2
+L256.2.52.4.3
+L256.4.17
+L256.4.85
+L343.7.8 
+L384.2.40.8.2
+L512.2.56.8.2
+L512.8.9
+L576.3.1.4.3.6.1
+L729.3.56
+L729.9.10
+L1024.4.41
+L2187.3.112
+L4096.4.126
+L6561.3.248
+
+## strength 2 / resolution III
 L18
 L36
 L54
@@ -688,7 +809,8 @@ L140.2.27.5.1.7.1
 L140.2.34.14.1
 L140.2.36.10.1
 L140.2.38.7.1
-L144.12.7
+L144.2.1.3.2.4.2
+L144.2.2.3.2.4.2
 L144.2.103.8.1.18.1
 L144.2.111.6.1.24.1
 L144.2.113.3.1.24.1
@@ -704,67 +826,17 @@ L144.2.76.3.7.4.1.6.5.12.1
 L144.3.48.48.1
 L144.4.11.12.2
 L144.4.36.36.1
-L256.2.19
-L2048.2.63
-L32.2.9
-L32.2.16
-L32.2.4.4.2
-L40.2.6.5.1
-L48.2.9.3.1
-L48.2.7.6.1
-L48.2.4.3.1.4.1
-L54.2.1.3.5
-L64.2.12.4.2
-L64.2.8.4.3
-L64.2.7.8.1
-L64.2.6.4.4
-L64.4.6
-L72.2.12.3.2
-L72.2.4.3.1.6.1
-L80.2.12.5.1
-L80.2.6.4.1.5.1
-L96.2.7.3.1
-L96.2.20.4.2
-L96.2.5.4.2.6.1
-L128.2.6.4.2
-L128.2.20.4.3
-L128.2.28.4.2
-L128.2.8.8.2
-L192.2.36.4.3
-L243.3.20
-L256.2.24.8.2
-L256.2.52.4.3
-L256.4.17
-L372.2.40.8.2
-L512.2.56.8.2
-L729.3.12
-L729.3.14
-L4096.4.12
+L144.12.7
+L216.2.1.3.2.4.1.6.1
+L243.3.121
+L288.3.2.4.2.6.1
+L432.2.1.3.3.4.2
+
 }
 %- maybe also 'usage' for other objects documented here.
 
 \details{
-   All arrays are guaranteed to have orthogonal main effects.
-
-   When being fully populated
-   with experimental factors, most of the arrays are guaranteed to work well only
-   under the ASSUMPTION that there are NO INTERACTIONS; for arrays documented
-   in \code{oacat}, known exceptions are noted
-   in the \code{comment} attribute of the array. Exceptions are, for example, arrays
-   \code{L128.2.15.8.1}, \code{L256.2.19} and \code{L2048.2.63},
-   which have been taken from Mee (2009, chapter 8) and are resolution V in the
-   2-level factors (but are not regular arrays, there is partial aliasing between
-   higher order effects). Further stronger arrays have been added since version
-   0.28 of the package, and are documented in \code{oacat3}.
-
-   Populating a main effects array with fewer than the maximum number of factors can
-   result in a reasonable design even in the presence of interactions. The degree
-   of confounding can be checked using various functions based on \code{\link{generalized.word.length}},
-   and some optimization of column allocation is possible
-   with the \code{column} option of function \code{\link{oa.design}}.
-   Such investigations of a designs properties
-   work well for smaller designs but may be resource-wise prohibitive for larger
-   designs / numbers of factors.
+   All arrays are guaranteed to have orthogonal main effects. The package holds arrays of resolution III (strength 2), tabulated in the catalogue \code{oacat}, and stronger arrays that are tabulated in the catalogue \code{oacat3}. Inspection of all arrays is possible via function \code{\link{show.oas}}.
 
    The array names indicate the number of runs and the numbers of factors:
    The first portion of each array name (starting with L) indicates number of runs,
@@ -780,7 +852,7 @@ L4096.4.12
    \code{L18}, \code{L36} and \code{L54} are Taguchi arrays explicitly given,
    which are listed in \code{\link{oacat}} in an isomorphic but not identical
    form ). Data frame \code{oacat} additionally holds entries
-   for further attrays that can be constructed from the above-listed
+   for further arrays that can be constructed from the above-listed
    explicitly available arrays
    as \dQuote{child arrays}, following so-called \dQuote{lineage} recipes.
 
@@ -796,10 +868,25 @@ L4096.4.12
    as documented in the \code{origin} attribute of the respective array;
    all the sources are listed in the references below.
 
+   When being fully populated
+   with experimental factors, many of the strength 2 = resolution III arrays are guaranteed to work well only
+   under the ASSUMPTION that there are NO INTERACTIONS. Exceptions are, for example, arrays
+   \code{L128.2.15.8.1} (the 2-level factors have resolution V / strength 4, as noted in the array's comment attribute) or \code{L144.2.1.3.2.4.2} (the strength is almost 3, as can be seen from its GR value). 
+   
+   Populating a main effects array with fewer than the maximum number of factors can
+   result in a reasonable design even in the presence of interactions. The degree
+   of confounding can be checked using various functions based on \code{\link{generalized.word.length}},
+   and some optimization of column allocation is possible
+   with the \code{column} argument of function \code{\link{oa.design}}.
+   Such investigations of a designs properties
+   work well for smaller designs but may be resource-wise prohibitive for larger
+   designs / numbers of factors.
+
+   \code{oacat3} was added with version 0.28 of the package, and version 1.2 substantially extended that collection. Contrary to the resolution III arrays, there are no automatically created children for the stronger arrays. 
    It is also possible to combine arrays with each other by so-called
    expansive replacement (\code{\link{expansive.replace}}), using the
    nesting process described by
-   Warren Kuhfeld.
+   Warren Kuhfeld. The \dQuote{Examples} section shows how users can create custom expansions.
 
 }
 \value{
@@ -809,10 +896,10 @@ L4096.4.12
 }
 \section{Warning}{
    For designs with only 2-level factors, it is usually more wise to
-   use package \pkg{\link[FrF2:FrF2-package]{FrF2}}. Exceptions: The three arrays by
-   Mee (2009; cf. section \dQuote{Details} above) are very useful for 2-level factors.
+   use package \pkg{\link[FrF2:FrF2-package]{FrF2}}. Exceptions: Three arrays by
+   Mee (2009), namely \code{L128.2.15.8.1}, \code{L256.19}, \code{2048.2.63}, are very useful for 2-level factors.
 
-   Make sure you understand the implications of using an orthogonal main effects
+   When using a strength 2 array with only few error degrees of freedom (\code{dfe} in \code{oacat}), make sure you understand the implications of using an orthogonal main effects
    array for experimentation. In particular, for some arrays there is a very severe
    risk of obtaining biased main effect estimates, if there are some interactions between
    experimental factors. The documentations for \code{\link{generalized.word.length}} and
@@ -828,6 +915,8 @@ L4096.4.12
 
   Eendebak, P. and Schoen, E. Complete Series of Orthogonal Arrays. \url{http://pietereendebak.nl/oapage/} accessed March 1 2016
 
+  Groemping, U. and Fontana, R. (2019). An Algorithm for Generating Good Mixed Level Factorial Designs. \emph{Computational Statistics and Data Analysis} \bold{137}, 101--114.
+
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York.
 
   Kuhfeld, W. (2009). Orthogonal arrays. Website courtesy of SAS Institute \url{https://support.sas.com/techsup/technote/ts723b.pdf} and references therein.
@@ -835,11 +924,17 @@ L4096.4.12
   Mee, R. (2009). \emph{A Comprehensive Guide to Factorial Two-Level Experimentation}.
     New York: Springer.
 
+  MinT, the online database for optimal parameters of (t,m,s)-nets, (t,s)-sequences, orthogonal arrays, linear codes, and OOAs. Accessed August 2021. http://mint.sbg.ac.at/index.php.
+    
   Nguyen, M.V.M. (2005). \emph{Journal of Statistical Planning and Inference} \bold{138},
     220--233.
 
   Nguyen, M.V.M. (2008). Some new constructions of strength 3 mixed orthogonal arrays. \emph{Journal of Statistical Planning and Inference} \bold{138},
     220--233.
+    
+  Pirsic, I. (2021). Personal communication regarding various specific generators from MinT.
+  
+  Schuerer, R. and Schmid, W.Ch. (2010). MinT-Architecture and applications of the (t, m, s)-net and OOA database. \emph{Mathematics and Computers in Simulation} \bold{80}(6), 1124-1132. https://doi.org/10.1016/j.matcom.2007.09.010.
 
   Sloane, N. Orthogonal Arrays. \url{http://neilsloane.com/oadir/} accessed March 1 2016
 }
@@ -848,6 +943,27 @@ L4096.4.12
 \seealso{ See also \code{\link{oacat}}, \code{\link{show.oas}}, \code{\link{generalized.word.length}},
     \code{\link{oa.design}}, \code{\link[FrF2]{FrF2}}, \code{\link[FrF2]{pb}}
     }
+\examples{
+    ## we want 729 runs with six 3-level factors and one 9-level factor
+    ## with resolution higher than 3
+    show.oas(nruns=729, nlevels=c(3,3,3,3,3,3,9), Rgt3=TRUE)
+    ## it can also be found if there is an OA with at least four 9-level factors
+    show.oas(nruns=729, nlevels=c(9,9,9,9), Rgt3=TRUE)
+    ## create full factorial replacement matrix
+    threetimesthree <- as.matrix(expand.grid(1:3,1:3))
+    dim(threetimesthree)
+    ## extract four nine-level columns, 
+    ## and expand the first three
+    L729.3.6.9.1 <- 
+    expansive.replace(
+    expansive.replace(
+      expansive.replace(L729.9.10[,1:4],
+          threetimesthree),
+          threetimesthree),
+          threetimesthree)
+   class(L729.3.6.9.1) <- c("oa", "matrix")
+   oa.design(L729.3.6.9.1)
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 % keyword internal is supposed to hide this help file from the index but does not. Why???
