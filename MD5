@@ -1,4 +1,4 @@
-4ebbc3ca93023492a52107d348e7b97e *DESCRIPTION
+b947f849288abed39ad6206194011271 *DESCRIPTION
 72dde3fbaf2c71339642ced1b1a6b821 *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -61,17 +61,17 @@ e8a94a9f593b97da718b12884c8baccb *R/show.oas.R
 1664ba817e8ecb4b58489b1d5e910741 *R/tupleSel.R
 13c0a966831ec092e4dbaf9c148ad88f *R/utilities.R
 ec7caa3b24a11035513e48f36e3f8e22 *R/utilities.for.children.R
-d397e3ce5c9f14fd3b91af50c935d875 *build/partial.rdb
+9d8a7ef5acdabf579ef7c21bd368c63c *build/partial.rdb
 f8e67b0c5264a1c69e38367311b7b461 *data/VSGFS.rda
 1329aec55461a92dd81ad0ef30b6125d *inst/CITATION
-465d3e7f17b5d71130e406533e6c9098 *inst/NEWS
+8934f8769a3f19d620ea804cd31d49fd *inst/NEWS
 6d45d284d4921ebabba1a1469df37b6c *man/DoE.base-package.Rd
 28a3460c243b315dc1794f9ec5298c81 *man/GRind.Rd
 259c890733c5da0d2ec647372d8c1e32 *man/GWLP.Rd
 f75ad66272511fa01a8f00d6e8b43725 *man/ICFTs.Rd
 2a38c7e1ec88953ccf0b33906488d819 *man/SN.Rd
 6b18ab2e3fefb44ae696cbe55c5f6757 *man/VSGFS.Rd
-82aa74686c4e646de00cea3eacc9d8bd *man/add.response.Rd
+13f5ad7e3c294f6c09e93155f2f33ff5 *man/add.response.Rd
 6d35452a1a6055bd50a975c40710b880 *man/arrays.Rd
 2e947a10df096589403e000fb9307d94 *man/block.catlg.Rd
 243ecca16dff7b9fa9e3e6511025564a *man/class-design-methods.Rd

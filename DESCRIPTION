@@ -1,25 +1,25 @@
 Package: DoE.base
 Title: Full Factorials, Orthogonal Arrays and Base Utilities for DoE
         Packages
-Version: 1.2
+Version: 1.2-1
 Depends: R (>= 2.10), grid, conf.design
 Imports: stats, utils, graphics, grDevices, vcd, combinat, MASS,
         lattice, numbers, partitions
 Suggests: FrF2, DoE.wrapper, RColorBrewer
-Date: 2021-09-01
-Authors@R: c(person("Ulrike", "Groemping", role = c("aut", "cre"), email = "groemping@beuth-hochschule.de"), person("Boyko", "Amarov", role = "ctb"), person("Hongquan", "Xu", role = "ctb"))
+Date: 2022-05-06
+Authors@R: c(person("Ulrike", "Groemping", role = c("aut", "cre"), email = "ulrike.groemping@bht-berlin.de"), person("Boyko", "Amarov", role = "ctb"), person("Hongquan", "Xu", role = "ctb"))
 Description: Creates full factorial experimental designs and designs based on orthogonal arrays for (industrial) experiments. Provides diverse quality criteria. Provides utility functions for the class design, which is also used by other packages for designed experiments.
 License: GPL (>= 2)
 LazyLoad: yes
 LazyData: yes
 Encoding: latin1
-URL: https://prof.beuth-hochschule.de/groemping/DoE/,
-        https://prof.beuth-hochschule.de/groemping/
+URL: https://prof.bht-berlin.de/groemping/DoE/,
+        https://prof.bht-berlin.de/groemping/
 NeedsCompilation: no
-Maintainer: Ulrike Groemping <groemping@beuth-hochschule.de>
-Packaged: 2021-09-01 19:17:34 UTC; groemping
+Maintainer: Ulrike Groemping <ulrike.groemping@bht-berlin.de>
+Packaged: 2022-05-06 21:12:19 UTC; groemping
 Author: Ulrike Groemping [aut, cre],
   Boyko Amarov [ctb],
   Hongquan Xu [ctb]
 Repository: CRAN
-Date/Publication: 2021-09-02 15:50:05 UTC
+Date/Publication: 2022-05-09 07:40:05 UTC

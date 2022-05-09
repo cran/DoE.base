@@ -69,10 +69,11 @@ add.response(design, response, rdapath=NULL, replace = FALSE,
 \value{
 The value is a modified version of the argument object \code{design}, 
 which remains an object of class \code{\link{design}} with the following modifications: 
-\item{}{Response columns are added to the data frame}
-\item{}{the same response columns are added to the desnum attribute}
-\item{}{the \code{response.names} element of the \code{design.info} attribute 
-     is added or modified}
+\itemize{
+\item Response columns are added to the data frame
+\item the same response columns are added to the desnum attribute
+\item the \code{response.names} element of the \code{design.info} attribute is added or modified
+     }
 }
 
 \author{ Ulrike Groemping }
