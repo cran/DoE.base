@@ -74,7 +74,7 @@ ICFT(design, digits = 3, with.blocks = FALSE, conc = TRUE, recode=TRUE)
      
    Function \code{ICFT} returns a list with the following components: 
      \item{ICFT}{interaction contribution frequency table for the projection size}
-     \item{ICs }{Average R^2 frequency table for the projection size}
+     \item{ICs }{Average \eqn{R^2} frequency table for the projection size}
      \item{sv2s }{squared singular values of the model matrix}
      \item{mean.u2s }{squared column means of left-singular vectors in the rotated version (concentrated or even)}
      \item{mm}{model matrix of the interaction}
@@ -89,8 +89,8 @@ ICFT(design, digits = 3, with.blocks = FALSE, conc = TRUE, recode=TRUE)
 \references{
    Groemping, U. (2017). An Interaction-Based Decomposition of Generalized Word Counts Suited to Assessing 
        Combinatorial Equivalence of Factorial Designs. \emph{Reports in Mathematics, Physics and Chemistry}, 
-       Report 1/2017. \url{http://www1.beuth-hochschule.de/FB_II/reports/Report-2017-001.pdf},
-      Department II, Beuth University of Applied Sciences, Berlin.
+       Report 1/2017. \url{http://www1.bht-berlin.de/FB_II/reports/Report-2017-001.pdf},
+      Department II, Berliner Hochschule fuer Technik (formerly Beuth University of Applied Sciences), Berlin.
 
    Groemping, U. (2018). Coding Invariance in Factorial Linear Models and a New Tool for Assessing 
        Combinatorial Equivalence of Factorial Designs. 
@@ -101,7 +101,7 @@ ICFT(design, digits = 3, with.blocks = FALSE, conc = TRUE, recode=TRUE)
 \seealso{ See also \code{\link{GWLP}} and \code{\link{generalized.word.length}}}
 
 \section{Warning }{The functions have been checked on the types of designs for which
-   they are intended (especially orthogonal arrays produced with oa.design).
+   they are intended (especially orthogonal arrays produced with \code{\link{oa.design}}).
    They may produce meaningless results for some other types of designs.
    }
 

@@ -913,7 +913,7 @@ L432.2.1.3.3.4.2
 
   Brouwer, A., Cohen, A.M. and Nguyen, M.V.M. (2006). Orthogonal arrays of strength 3 and small run sizes. \emph{Journal of Statistical Planning and Inference} \bold{136}, 3268--3280.
 
-  Eendebak, P. and Schoen, E. Complete Series of Orthogonal Arrays. \url{http://pietereendebak.nl/oapage/} accessed March 1 2016
+  Eendebak, P. and Schoen, E. Complete Series of Orthogonal Arrays. \url{http://www.pietereendebak.nl/oapackage/series.html} accessed March 1 2016
 
   Groemping, U. and Fontana, R. (2019). An Algorithm for Generating Good Mixed Level Factorial Designs. \emph{Computational Statistics and Data Analysis} \bold{137}, 101--114.
 

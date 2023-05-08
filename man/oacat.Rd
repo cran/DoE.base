@@ -66,9 +66,9 @@ oacat3
    
    The logical columns \code{ff}, \code{regular.strict} and \code{regular} indicate a  
    full factorial and a regular design in the strict or weak sense, respectively
-   (strict: all ARFT entries are 0 or 1, defined as \dQuote{R^2 regular} in Groemping and Bailey (2016); 
+   (strict: all ARFT entries are 0 or 1, defined as \dQuote{\eqn{R^2} regular} in Groemping and Bailey (2016); 
    weak: all SCFT entries are 0 or 1, defined as \dQuote{CC regular} in 
-   Groemping and Bailey (2016)). For R^2 regularity, it suffices to check all full resolution factor sets, 
+   Groemping and Bailey (2016)). For \eqn{R^2} regularity, it suffices to check all full resolution factor sets, 
    i.e., sets of j factors with resolution j; for CC regularity, this is conjectured to be also true.
    The entries in column \code{regular} are based on that conjecture (and for some larger designs, 
    even those checks were not completed);
@@ -81,7 +81,7 @@ oacat3
    to have partial confounding only with any interactions of up to R-1 factors. 
    \code{GR}, \code{GRind}, \code{maxAR}
    and \code{maxSC} contain the generalized resolution in two versions, 
-   the maximum average R^2 and the maximum squared canonical correlation.
+   the maximum average \eqn{R^2} and the maximum squared canonical correlation.
    
    \code{dfe} contains the error degrees of freedom of a main effects model, 
    if all columns of the array are populated; if this is 0, the design is saturated. 
@@ -144,7 +144,7 @@ oacat3
 
   Butler, N.A. (2005). Generalised minimum aberration construction results for symmetrical orthogonal arrays. \emph{Biometrika} \bold{92}, 485 -- 491.
 
-  Eendebak, P. and Schoen, E. Complete Series of Orthogonal Arrays. \url{http://pietereendebak.nl/oapage/} accessed March 1 2016
+  Eendebak, P. and Schoen, E. Complete Series of Orthogonal Arrays. \url{http://www.pietereendebak.nl/oapackage/series.html} accessed March 1 2016
   
   Groemping, U. and Bailey, R.A. (2016). Regular fractions of factorial arrays. In: 
   \emph{mODa 11 -- Advances in Model-Oriented Design and Analysis}. 

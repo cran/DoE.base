@@ -17,8 +17,11 @@ Kraw<-function(k,x,n,q)
 # ham: return Hamming distance of two codes
 ham<-function(c1, c2)  sum(c1 != c2)
 
-levels.no <- function(xx)
+levels.no <- function(x)
 {
+if ("no" %in% class(x)) 
+   stop("DoE.base:::levels.no is not a method for the generic base::levels")
+   xx <- x
 # return the number of levels for design xx
 # apply(xx, 2, function(v) {length(table(v))} )
 # changed table to unique, much faster UG 10 May 13

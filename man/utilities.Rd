@@ -120,8 +120,8 @@ with entry \code{TRUE} for all best designs (identical best (R)PFTs).
 }
 \references{ 
    Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays. 
-      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm}, 
-      Department II, Beuth University of Applied Sciences, Berlin.
+      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.bht-berlin.de/FB_II/reports/welcome.htm}, 
+      Department II, Berliner Hochschule fuer Technik (formerly Beuth University of Applied Sciences), Berlin.
       
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York. 
 }

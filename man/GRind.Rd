@@ -34,11 +34,11 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
       In any case, the design should be a factorial design;
       the functions are not useful for quantitative designs (like e.g. latin hypercube samples).
       }
-  \item{arft}{logical indicating whether or not the average $R^2$ frequency table
-       (ARFT, see Gr?mping 2013) is to be returned
+  \item{arft}{logical indicating whether or not the average \eqn{R^2} frequency table
+       (ARFT, see Groemping 2013) is to be returned
        }
   \item{scft}{logical indicating whether the squared canonical correlation frequency
-       table (SCFT, see Gr?mping 2013) is to be returned
+       table (SCFT, see Groemping 2013) is to be returned
        }
   \item{cancors}{logical indicating whether individual canonical correlations
        are to be returned (see Groemping 2013). These will not be needed
@@ -132,19 +132,19 @@ SCFTs(design, digits = 3, all = TRUE, resk.only = TRUE, kmin = NULL, kmax = ncol
    Function \code{SCFTs} returns a list of lists with a component for
    each projection size considered. Each such component contains the following entries:
      \item{SCFT}{Squared canonical correlation table for the projection size}
-     \item{ARFT }{Average R^2 frequency table for the projection size (if requested)}
+     \item{ARFT }{Average \eqn{R^2} frequency table for the projection size (if requested)}
      \item{cancors }{canonical correlations (if requested)}
 }
 \references{
    Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays.
       Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry}
-      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
-      Department II, Beuth University of Applied Sciences, Berlin.
+      \url{http://www1.bht-berlin.de/FB_II/reports/welcome.htm},
+      Department II, Berliner Hochschule fuer Technik (formerly Beuth University of Applied Sciences), Berlin.
 
    Groemping, U. (2013). Frequency tables for the coding invariant ranking of
       orthogonal arrays. Report 2/2013, \emph{Reports in Mathematics, Physics and Chemistry}
-      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
-      Department II, Beuth University of Applied Sciences, Berlin.
+      \url{http://www1.bht-berlin.de/FB_II/reports/welcome.htm},
+      Department II, Berliner Hochschule fuer Technik (formerly Beuth University of Applied Sciences), Berlin.
 
     Groemping, U. (2017). Frequency tables for the coding invariant quality assessment
     of factorial designs. \emph{IISE Transactions} \bold{49}, 505-517.

@@ -3,6 +3,18 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+Version 1.2-2, May 2023
+- Changes prompted by CRAN requests or check notes:
+  - changed encoding to UTF-8
+  - removed escaping from two instances of ^ in block.catlg.Rd
+  - shortened lines in lowerbound_AR.Rd
+  - separated GWLP.Rd into the exported and internal part
+  - solved issue arising from levels.no being seen as a method for base::levels:
+    - commented out the usage line for levels.no
+    - added a check for class "no" that leads to an error message
+    - registered levels.no as an S3 method, because otherwise I get an error
+  - updated URLs
+
 Version 1.2-1, May 2022
 - updated web address and mail address
 - fixed add.response Rd file regarding empty item entries

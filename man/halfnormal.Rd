@@ -224,14 +224,14 @@ the length of alpha (default: 25 critical values for alphas from 0.25 to 0.01).
     Use of replication in almost unreplicated factorials. 
     Manuscript of a presentation given at the 42nd ASQ Fall Technical 
     conference in Corning, New York. 
-    Downloaded 4/26/2013 at \url{http://www.statease.com/pubs/use-of-rep.pdf}.
+    Downloaded 4/26/2013 at \url{https://cdnm.statease.com/pubs/use-of-rep.pdf}.
 
     Lenth, R.V. (1989) Quick and easy analysis of unreplicated factorials.
     \emph{Technometrics} \bold{31}, 469--473.
     
 }
 \author{
-Ulrike Groemping, Beuth University of Applied Sciences, Berlin}
+Ulrike Groemping, Berliner Hochschule fuer Technik}
 
 \note{If someone worked out how to modify symbol colors (option \code{col})
       and/or sizes (option \code{cex}) for a version before 0.26-2, 

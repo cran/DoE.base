@@ -145,16 +145,15 @@ With \code{scale="R2"}, and using normalized orthogonal coding, some sums of mat
 coincide with contributions to generalized word counts (resolution II: main effects with main effects; 
 resolution III: main effects with two-factor interactions; 
 resolution IV: main effects with three-factor interactions; see Groemping and Xu (2014) for the background of this result 
-and Groemping (2013).
+and Groemping (2017).
 }
 \value{
 The entire matrix of absolute correlations is output invisibly.
 }
 \references{
 
-Groemping, U. (2013). Frequency Tables for the coding invariant ranking of orthogonal
-arrays. \emph{Reports in Mathematics, Physics and Chemistry} 2/2013, Beuth University of Applied
-Sciences Berlin, Germany.
+Groemping, U. (2017). Frequency Tables for the coding invariant quality assessment of factorial
+designs. \emph{IISE Transactions} \bold{49}(5), 505--517.
 
 Groemping, U. and Xu, H. (2014). Generalized resolution for orthogonal arrays. \emph{The Annals of Statistics} \bold{42}, 918--939.
 
@@ -163,7 +162,7 @@ The function works similarly  to \code{colormap} in package \pkg{daewr} (but off
 Lawson, J. (2013). Design and Analysis of Experiments with R. CRC, Boca Raton.
 }
 \author{
-Ulrike Groemping, Beuth University of Applied Sciences, Berlin
+Ulrike Groemping, Berliner Hochschule fuer Technik
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

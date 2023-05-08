@@ -107,8 +107,8 @@ origin(ID)
         for reproducing designs created with earlier versions }
 }
 \details{
-   Package \pkg{DoE.base} is described in Groemping (2016), which is a preprint of a paper in the
-   Journal of Statistical Software. This paper also has detailed material on function \code{oa.design}.
+   Package \pkg{DoE.base} is described in Groemping (2018). 
+   The paper also has detailed material on function \code{oa.design}.
 
    Function \code{oa.design} assigns factors to the columns of orthogonal arrays that are
    available within package \pkg{DoE.base} or are provided by the user.
@@ -140,7 +140,7 @@ origin(ID)
    being a MUST in this case. (See the last example for how to assign an attribute.)\cr
    For relatively small important applications, creation of a tailor-made array of class \code{oa} can 
    be attempted with package \pkg{DoE.MIParray}, which uses mixed integer optimization for creating 
-   a design from scratch (see Grömping and Fontana 2019 for the algorithm behind that approach).\cr 
+   a design from scratch (see Groemping and Fontana 2019 for the algorithm behind that approach).\cr 
    
    The data frame \code{\link{oacat}} lists the orthogonal arrays from Warren Kuhfelds
    collection of \dQuote{parent} and \dQuote{child} arrays. The parent arrays, 
@@ -263,12 +263,10 @@ origin(ID)
 \author{ Ulrike Groemping }
 \references{
    Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays.
-      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
-      Department II, Beuth University of Applied Sciences, Berlin.
+      Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.bht-berlin.de/FB_II/reports/welcome.htm},
+      Department II, Berliner Hochschule fuer Technik (formerly Beuth University of Applied Sciences), Berlin.
 
-   Groemping, U. (2016).  R Package DoE.base for Factorial Designs.
-      Report 1/2016, \emph{Reports in Mathematics, Physics and Chemistry} \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
-      Department II, Beuth University of Applied Sciences, Berlin. (preprint of a paper in the Journal of Statistical Software)
+   Groemping, U. (2018). R Package DoE.base for Factorial Designs. \emph{Journal of Statistical Software} \bold{85}(5), 1--41.
 
   Hedayat, A.S., Sloane, N.J.A. and Stufken, J. (1999) \emph{Orthogonal Arrays: Theory and Applications}, Springer, New York.
 

@@ -58,7 +58,7 @@ Two-Level and Three-Level Designs. \emph{Technometrics} \bold{44}, 269-277.
 Hinkelmann, K. and Kempthorne, O. (2005). \emph{Design and analysis of experiments, Vol.2}. Wiley, New York.
 
 Sun, D.X., Wu, C.F.J. and Chen, Y.Y. (1997). 
-Optimal blocking schemes for 2\^p and 2\^(n-p) designs. \emph{Technometrics} \bold{39}, 
+Optimal blocking schemes for \eqn{2^n} and \eqn{2^{n-p}}{(n-p)} designs. \emph{Technometrics} \bold{39}, 
 298-307. 
 
 }

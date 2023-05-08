@@ -143,3 +143,4 @@
             S3method("halfnormal",lm)
             S3method("tupleSel",default)
             S3method("tupleSel",design)
+            S3method("levels",no)

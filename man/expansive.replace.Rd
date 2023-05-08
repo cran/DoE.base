@@ -30,9 +30,9 @@
   
   If \code{array2} is a full factorial in two factors, argument \code{all = TRUE} 
   creates a list of expanded arrays obtained by permuting the second array in all ways 
-  that may lead to combinatorially different end results. With s1 and s2 the numbers 
+  that may lead to combinatorially different end results. With \eqn{s_1}{s1} and \eqn{s_2}{s2} the numbers 
   of levels of the factors in \code{array2}, this is the number of partitions of the 
-  runs of \code{array2} into s1 equally-sized groups, multiplied with s2!^(s1-1) for 
+  runs of \code{array2} into \eqn{s_1}{s1} equally-sized groups, multiplied with \eqn{s_2!^{s_1-1}}{s2!^(s1-1)} for 
   the possibilities of permuting the levels of the second factor within all but the first 
   level of the first factor. This functionality is primarily meant for the creation of 
   strength 3 arrays in combination with arrays listed in the catalogue \code{\link{oacat3}} 

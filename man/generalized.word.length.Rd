@@ -127,16 +127,16 @@ tupleSel(design, type="complete", selprop=0.25, ...)
   \item{maxGR}{the outcome of a call to \code{oa.min3} with \code{crit="worst"} and \code{rela=TRUE}
        (or the outcome of a call to \code{oa.maxGR}), which is to be used for a call to \code{oa.minRelProjAberr}}
   \item{digits}{number of decimal points to which to round the result}
-  \item{parft}{logical indicating whether to tabulate projection averaged $R^2$
+  \item{parft}{logical indicating whether to tabulate projection averaged \eqn{R^2}
        values (see Groemping 2013) instead of word lengths;
-       if \code{TRUE}, the table shows projection averaged $R^2$ values as
+       if \code{TRUE}, the table shows projection averaged \eqn{R^2} values as
        detailed in Groemping (2013, 2017).\cr
        \code{parft=TRUE} is only permitted for the shortest possible word length,
        i.e. \code{length3} or \code{P3.3} for resolution III designs,
        \code{length4} or \code{P4.4} for resolution IV designs.\cr
        \code{parft} cannot be \code{TRUE} simultaneously with \code{rela} or \code{parftdf}.
        }
-  \item{parftdf}{logical indicating whether to tabulate averaged $R^2$
+  \item{parftdf}{logical indicating whether to tabulate averaged \eqn{R^2}
        values, where averaging is over individual degrees of freedom; this variant
        is not explicitly described in Groemping (2013, 2017) and usually yields very similar
        results as \code{parft}, except for some situations where there are factors
@@ -159,7 +159,7 @@ tupleSel(design, type="complete", selprop=0.25, ...)
        quantile of the word length distribution of R-tuples, \code{"worst.rel"} does the same
        with relative words (i.e. increases the weight for tuples whose minimum number of levels
        is small), \code{"worst.parft"} and \code{"worst.parftdf"} do the same with the
-       different versions of projection average $R^2$ values.}
+       different versions of projection average \eqn{R^2} values.}
   \item{selprop}{(approximate) proportion of worst case tuples to be selected (see \code{type})}
   \item{\dots}{further arguments; for the \code{design} method of function \code{lengths},
         the defaults \code{with.blocks = FALSE, J = FALSE} can be changed here;
@@ -192,7 +192,7 @@ tupleSel(design, type="complete", selprop=0.25, ...)
    more well-known word length pattern for regular fractional factorial 2-level designs,
    implying that they are exactly zero for resolution IV or resolution V fractional
    factorial 2-level designs, respectively. Furthermore, Groemping and Xu (2014) provided
-   an interpretation in terms of R^2-values from linear models for the number of
+   an interpretation in terms of \eqn{R^2}-values from linear models for the number of
    shortest words.
 
    Function \code{lengths} calculates the generalized word length
@@ -345,16 +345,16 @@ tupleSel(design, type="complete", selprop=0.25, ...)
 
    Groemping, U. (2011). Relative projection frequency tables for orthogonal arrays.
       Report 1/2011, \emph{Reports in Mathematics, Physics and Chemistry}
-      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
-      Department II, Beuth University of Applied Sciences, Berlin.
+      \url{http://www1.bht-berlin.de/FB_II/reports/welcome.htm},
+      Department II, Berliner Hochschule fuer Technik (formerly Beuth University of Applied Sciences), Berlin.
 
    Groemping, U. (2013). Frequency tables for the coding invariant ranking of
       orthogonal arrays. Report 2/2013, \emph{Reports in Mathematics, Physics and Chemistry}
-      \url{http://www1.beuth-hochschule.de/FB_II/reports/welcome.htm},
-      Department II, Beuth University of Applied Sciences, Berlin.
+      \url{http://www1.bht-berlin.de/FB_II/reports/welcome.htm},
+      Department II, Berliner Hochschule fuer Technik (formerly Beuth University of Applied Sciences), Berlin.
 
    Groemping, U. (2017). Frequency tables for the coding invariant quality assessment
-     of factorial designs. \emph{IISE Transactions} \bold{49}, 505-517.
+     of factorial designs. \emph{IISE Transactions} \bold{49}(5), 505-517.
      \doi{10.1080/0740817X.2016.1241458}.
 
    Xu, H.-Q. and Wu, C.F.J. (2001). Generalized minimum aberration for asymmetrical
