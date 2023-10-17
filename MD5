@@ -1,4 +1,4 @@
-12566eecf081dcf6169926356ab4e7cf *DESCRIPTION
+c621b9df9476171b6fa7054b17e448c3 *DESCRIPTION
 3063f94e77f1c9c3b5802f8c3fe32122 *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -27,7 +27,7 @@ c5bc061dd8dbe9a1c38e2f0c765be3ca *R/export.design.R
 dcc460fdbe60d188c0d0eb3c5db1508b *R/fastlengths.R
 08f03ea81109d9ee13ae7ea9184329c8 *R/formula.design.R
 8fa2a1ee9e50db90091eb479f8ba162f *R/getblock.r
-8c26feefa723dd14139e89fe5d14d344 *R/halfnormal.R
+f97f567662ba0eb923a6710acdf36067 *R/halfnormal.R
 a7f4b45f5c779f77949d960f984feaf4 *R/html.data.frame.R
 4aa6b02ecc1c9f6198a5e8f2c585367e *R/interleave.R
 a0e72a34fe76c42f5591bf297ccb8eec *R/iscube.R
@@ -61,10 +61,10 @@ e8a94a9f593b97da718b12884c8baccb *R/show.oas.R
 1664ba817e8ecb4b58489b1d5e910741 *R/tupleSel.R
 13c0a966831ec092e4dbaf9c148ad88f *R/utilities.R
 ec7caa3b24a11035513e48f36e3f8e22 *R/utilities.for.children.R
-39ac9096a1b18cb8dcc36f77cc491f36 *build/partial.rdb
+18643ccbdbc320d30dcdc62f7a3eb1ae *build/partial.rdb
 f8e67b0c5264a1c69e38367311b7b461 *data/VSGFS.rda
 1329aec55461a92dd81ad0ef30b6125d *inst/CITATION
-2dea5a0ae0a531f354555a84ba50164b *inst/NEWS
+c05fb8dd03680a492fe5c2a04717d34d *inst/NEWS
 6d45d284d4921ebabba1a1469df37b6c *man/DoE.base-package.Rd
 b14fe7a4047a2c103932a45b9e1023bf *man/GRind.Rd
 3848928710b84a51050c2625061b0254 *man/GWLP.Rd
@@ -84,7 +84,7 @@ b93b29a37461f76a82dedb370a790c5d *man/arrays.Rd
 02e22cd554b7c1a0841c7c76f7bc460b *man/export.design.Rd
 2cbeae7736e9bf0c5abca40caf0732ee *man/fac.design.Rd
 e3f79995348d746d2dc09a04b6fcecbc *man/factorize.Rd
-27f589756aa662d940251e8a5b446992 *man/formula.design.Rd
+c083c95fb0ba3ba9bc7b8547e8b63952 *man/formula.design.Rd
 c0aff77344b3426f5c61a021a1ff9731 *man/genChild.Rd
 a258e758616e2b101e69965a358b540e *man/generalized.word.length.Rd
 0191036ac44a07017f827b8504d55ae2 *man/getblock.Rd
@@ -102,7 +102,7 @@ a258e758616e2b101e69965a358b540e *man/generalized.word.length.Rd
 a784d2a7fd3d9e902ce3b43e4a26a4e4 *man/qua.design.Rd
 8d29d4e8f484a73e0006f82e238b4742 *man/represhape.Rd
 57bd8dbb2399f625e578032b4c0c701f *man/show.oas.Rd
-b148e527579e703be2edf0dab97ab459 *man/utilities.Rd
+0e59af604a3d8dd809ef2c395ff4de94 *man/utilities.Rd
 94601454ff2c37198fee57282b627110 *tests/test_aggregate.R
 a0e35b5e3170af3f5757511d58a9a040 *tests/test_aggregate.Rout.save
 4196373c281db78d7797e8b9f12b9a0a *tests/test_colorder.R

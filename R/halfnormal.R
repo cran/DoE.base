@@ -68,9 +68,9 @@ halfnormal.default <- function(x, labs=names(x), codes=NULL, pch=1, cex.text=1, 
     cexs <- cexs[labord]
     dots$cex <- cexs
   }
-  ## added August 1 5 2014
+  ## added August 1 5 2014, modified Oct 17 2023
   if (is.null(titel)){
-     titel <- bquote(paste("Plot for ", paste(xnam), ", \U03B1 = ", .(alpha), sep=""))
+     titel <- as.expression(bquote("Plot for "*.(xnam)*", "*alpha == .(alpha)))
      dots$main <- titel
   }  
 

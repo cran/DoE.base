@@ -3,6 +3,12 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+Version 1.2-3, October 2023
+- Changes prompted by CRAN requests or check notes:
+  - modified default title in halfnormal to use plotmath instead 
+    of unicode alpha character
+  - added alias for generators.character
+
 Version 1.2-2, May 2023
 - Changes prompted by CRAN requests or check notes:
   - changed encoding to UTF-8

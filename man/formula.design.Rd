@@ -58,8 +58,9 @@ Without the additional arguments, the function creates the formula with the firs
 response from the \code{response.names} element of the \code{design.info} attribute. 
 The default degree depends on the type of design: it is 
 \itemize{
-\item{}{1 for \code{oa} and \code{pb}}
-\item{}{2 for all other design types}}
+\item{1 for \code{oa} and \code{pb}}
+\item{2 for all other design types}
+}
 
 \code{degree} does not have an effect for response surface designs 
   (types \code{bbd}, \code{bbd.blocked} and \code{ccd}) and latin hypercube designs (type \code{lhs}), 

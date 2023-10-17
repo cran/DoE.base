@@ -9,6 +9,7 @@
 \alias{generators.default}
 \alias{generators.design}
 \alias{generators.catlg}
+\alias{generators.character}
 \alias{PFTs.from.variants}
 \alias{matrix.fromPFTs}
 \alias{rankPFT}
