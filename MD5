@@ -1,4 +1,4 @@
-c621b9df9476171b6fa7054b17e448c3 *DESCRIPTION
+2cc91204c1c1a00a3b4105b1ee1d9911 *DESCRIPTION
 3063f94e77f1c9c3b5802f8c3fe32122 *NAMESPACE
 94e7ac4803583a629a736afeafd09a33 *R/DesignAccessors.r
 b2ecee3e2da7c2b5d38d808f09156d36 *R/GR.R
@@ -27,7 +27,7 @@ c5bc061dd8dbe9a1c38e2f0c765be3ca *R/export.design.R
 dcc460fdbe60d188c0d0eb3c5db1508b *R/fastlengths.R
 08f03ea81109d9ee13ae7ea9184329c8 *R/formula.design.R
 8fa2a1ee9e50db90091eb479f8ba162f *R/getblock.r
-f97f567662ba0eb923a6710acdf36067 *R/halfnormal.R
+a1c64c3d5bee2221000e9eddbd5ff0f4 *R/halfnormal.R
 a7f4b45f5c779f77949d960f984feaf4 *R/html.data.frame.R
 4aa6b02ecc1c9f6198a5e8f2c585367e *R/interleave.R
 a0e72a34fe76c42f5591bf297ccb8eec *R/iscube.R
@@ -61,10 +61,10 @@ e8a94a9f593b97da718b12884c8baccb *R/show.oas.R
 1664ba817e8ecb4b58489b1d5e910741 *R/tupleSel.R
 13c0a966831ec092e4dbaf9c148ad88f *R/utilities.R
 ec7caa3b24a11035513e48f36e3f8e22 *R/utilities.for.children.R
-18643ccbdbc320d30dcdc62f7a3eb1ae *build/partial.rdb
+e5e59845409731f2a1296605cfd00f8f *build/partial.rdb
 f8e67b0c5264a1c69e38367311b7b461 *data/VSGFS.rda
 1329aec55461a92dd81ad0ef30b6125d *inst/CITATION
-c05fb8dd03680a492fe5c2a04717d34d *inst/NEWS
+134d984136f91eae5179e8749f49050a *inst/NEWS
 6d45d284d4921ebabba1a1469df37b6c *man/DoE.base-package.Rd
 b14fe7a4047a2c103932a45b9e1023bf *man/GRind.Rd
 3848928710b84a51050c2625061b0254 *man/GWLP.Rd

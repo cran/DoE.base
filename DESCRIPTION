@@ -1,7 +1,7 @@
 Package: DoE.base
 Title: Full Factorials, Orthogonal Arrays and Base Utilities for DoE
         Packages
-Version: 1.2-3
+Version: 1.2-4
 Depends: R (>= 2.10), grid, conf.design
 Imports: stats, utils, graphics, grDevices, vcd, combinat, MASS,
         lattice, numbers, partitions
@@ -20,6 +20,6 @@ Maintainer: Ulrike Groemping <ulrike.groemping@bht-berlin.de>
 Author: Ulrike Groemping [aut, cre],
   Boyko Amarov [ctb],
   Hongquan Xu [ctb]
-Packaged: 2023-10-17 21:40:56 UTC; Grömping
+Packaged: 2023-11-14 16:23:55 UTC; Grömping
 Repository: CRAN
-Date/Publication: 2023-10-17 22:20:14 UTC
+Date/Publication: 2023-11-14 19:40:02 UTC

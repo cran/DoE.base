@@ -479,8 +479,7 @@ halfnormal.lm <- function(x, labs=NULL, code=FALSE, pch=NULL, cex.text=1,
   dots <- list(...)
   titel <- dots$main
   if (is.null(titel)){
-     titel <- bquote(paste("Plot for ", paste(xnam), ", method = ", .(method), 
-     ", \U03B1 = ", .(alpha), sep=""))
+     titel <- as.expression(bquote("Plot for "*.(xnam)*", "*alpha == .(alpha)))
      dots$main <- titel
   }  
 

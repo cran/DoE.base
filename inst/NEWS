@@ -3,6 +3,10 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+Version 1.2-4, November 2023
+- Changes prompted by CRAN requests or check notes:
+  - fixed the remaining title in halfnormal to use plotmath
+
 Version 1.2-3, October 2023
 - Changes prompted by CRAN requests or check notes:
   - modified default title in halfnormal to use plotmath instead 
