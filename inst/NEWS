@@ -3,6 +3,11 @@ Changes to package DoE.base
 This package is still under development. 
 Suggestions and bug reports are very welcome. 
 
+Version 1.2-5, April 2025
+- fixed cran note regarding missing anchors for links
+- updated a URL and a reference, added a reference 
+  for halfnormal plot methods
+
 Version 1.2-4, November 2023
 - Changes prompted by CRAN requests or check notes:
   - fixed the remaining title in halfnormal to use plotmath

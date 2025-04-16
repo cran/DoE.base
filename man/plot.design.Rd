@@ -25,46 +25,46 @@
       \code{select} can be\cr
       a vector of integers with position numbers of experimental factors,\cr
       a character vector of factor letters, \cr
-      or a character vector of factor names for factors to be selected for plotting; 
+      or a character vector of factor names for factors to be selected for plotting;
       in case of ambiguity, factor names take precedence over factor letters.\cr
-      The following choices are of interest for creating mosaic plots of the design 
+      The following choices are of interest for creating mosaic plots of the design
       factors; any response data will be ignored.\cr
       \code{select} can be\cr
-      a list of numeric vectors (all of equal length) specifying the tuples to be plotted 
-      (a length one list (insted of the numeric vector itself) allows to plot 
-      the design table as a mosaic plot instead of showing a main effects 
+      a list of numeric vectors (all of equal length) specifying the tuples to be plotted
+      (a length one list (insted of the numeric vector itself) allows to plot
+      the design table as a mosaic plot instead of showing a main effects
       plot, if the design has responses)\cr
       one of the special character strings \code{"all2"}, \code{"all3"} or \code{"all4"}
-      for obtaining mosaic plots of all pairs, triples or quadruples of (a selection of) factors 
+      for obtaining mosaic plots of all pairs, triples or quadruples of (a selection of) factors
       (see Details section), \cr
       a list with a numeric vector with position numbers of experimental factors as the first
-      and one of the above special character strings as the second element for requesting all 
+      and one of the above special character strings as the second element for requesting all
       tuples of a subset of the factors,\cr
-      or a list with a single factor position number as the first and one of the above special 
-      character strings as the second element for requesting all tuples that include 
+      or a list with a single factor position number as the first and one of the above special
+      character strings as the second element for requesting all tuples that include
       the specified single factor,\cr
-      or any of the character strings \code{"complete"}, \code{"worst"}, \code{"worst.rel"}, 
-      \code{"worst.parft"} or \code{"worst.parftdf"}  
-      for automatic selection of the projections with the worst confounding to be plotted 
+      or any of the character strings \code{"complete"}, \code{"worst"}, \code{"worst.rel"},
+      \code{"worst.parft"} or \code{"worst.parftdf"}
+      for automatic selection of the projections with the worst confounding to be plotted
       (see Details section)
       }
-  \item{selprop}{ a number between 0 and 1 indicating which proportion of 
-      worst cases to plot in case \code{select=worst} or \code{select=worst.rel} 
-      is to be plotted (see Details section). The default is useful for small 
+  \item{selprop}{ a number between 0 and 1 indicating which proportion of
+      worst cases to plot in case \code{select=worst} or \code{select=worst.rel}
+      is to be plotted (see Details section). The default is useful for small
       designs only. For large designs, reduce this number !
-      }  
+      }
   \item{ask}{ a logical; \cr
-      default behavior if \code{ask=NULL}: 
-      \code{ask} is set to \code{TRUE} if multiple plots are requested and 
-      the current graphics device is interactive 
-      (or none is open but be the next to be opened device is interactive) and 
+      default behavior if \code{ask=NULL}:
+      \code{ask} is set to \code{TRUE} if multiple plots are requested and
+      the current graphics device is interactive
+      (or none is open but be the next to be opened device is interactive) and
       \code{FALSE} otherwise}
   \item{\dots}{ further arguments to functions \code{\link{plot}},
       \code{\link[vcd]{mosaic}}, or the function \code{\link[graphics]{plot.design}} from package graphics;\cr
-      For experts, option \code{sub} with the special settings \code{"GR"}, \code{"A"},\code{"rA"}, 
-      \code{"sumPARFT"} or \code{"sumPARFTdf"} 
-      can be used to create sub titles that display the generalized resolution, 
-      absolute or relative word lengths (see \code{\link{generalized.word.length}}). 
+      For experts, option \code{sub} with the special settings \code{"GR"}, \code{"A"},\code{"rA"},
+      \code{"sumPARFT"} or \code{"sumPARFTdf"}
+      can be used to create sub titles that display the generalized resolution,
+      absolute or relative word lengths (see \code{\link{generalized.word.length}}).
       All other specifications for \code{sub} should work as expected.}
   }
 \details{
@@ -94,26 +94,26 @@
     and quantitative factors.
 
     If option \code{select} is set to \code{"all2"}, \code{"all3"} or \code{"all4"},
-    or a list with a numeric vector as its first element and one of these as the second element, 
+    or a list with a numeric vector as its first element and one of these as the second element,
     or with \code{select} as any of \code{"complete"}, \code{"worst"}, \code{"worst.rel"},
     \code{"worst.parft"} or \code{"worst.parftdf"},
-    response variables are ignored, and mosaic plots are created.\cr 
+    response variables are ignored, and mosaic plots are created.\cr
     These requests usually ask for several plots; note that the plots are
     created one after the other; with an interactive graphics device, the default is that they overwrite each other
     after a user confirmation for the next plot, which allows users to visually inspect them one at a time;
-    under Windows, the plotting series can be aborted using the \code{Esc}-key. 
-    With non-interactive graphics devices, 
+    under Windows, the plotting series can be aborted using the \code{Esc}-key.
+    With non-interactive graphics devices,
     the default is \code{ask=FALSE} (e.g. for storing all the plots
     in a multi-page file, see examples).
-    
+
     If option \code{select} is any of \code{"all2"}, \code{"all3"} or \code{"all4"},
     mosaic plots of all pairs, triples or quadruples of factors are created as specified. \cr
     Note that \code{"all2"}
     is interesting for non-orthogonal designs only, e.g. ones created by function \code{Dopt.design}.\cr
-    
+
     If option \code{select} is set to \code{"complete"}, \code{"worst"} \code{"worst.rel"},
     \code{"worst.parft"} or \code{"worst.parftdf"},
-    the worst case tuples to be displayed are selected by function \code{\link{tupleSel}}.    
+    the worst case tuples to be displayed are selected by function \code{\link{tupleSel}}.
 }
 \value{
     The \code{plot} method is called for its side effects and returns \code{NULL}.
@@ -122,9 +122,9 @@
 Some changes to input and output structures may still occur.}
 
 \references{
-Groemping, U (2014) Mosaic plots are useful for visualizing low order projections 
-    of factorial designs. To appear in \emph{The American Statistician}
-    \url{https://www.tandfonline.com/action/showAxaArticles?journalCode=utas20}.
+Groemping, U (2014) Mosaic plots are useful for visualizing low order projections
+    of factorial designs. \emph{The American Statistician} \bold{68}, 108-116.
+    \url{https://prof.bht-berlin.de/fileadmin/prof/groemp/downloads/TAS_Mosaic_AcceptedAuthorVersion.pdf}.
 }
 
 \author{ Ulrike Groemping }

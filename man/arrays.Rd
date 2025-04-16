@@ -375,40 +375,40 @@
 \alias{L4096.4.12}
 \alias{L243.3.121}
 \alias{L256.4.85}
-\alias{L27.3.4} 
-\alias{L48.2.3.3.1.4.1} 
-\alias{L81.3.5} 
-\alias{L81.3.8} 
-\alias{L81.3.10} 
-\alias{L125.5.6} 
-\alias{L192.2.3.3.1.4.2} 
-\alias{L192.2.2.4.2.6.1} 
-\alias{L192.2.1.3.1.4.3} 
-\alias{L243.3.6} 
-\alias{L243.3.11} 
-\alias{L243.3.121} 
-\alias{L343.7.8} 
-\alias{L384.2.4.3.1.4.2} 
-\alias{L512.8.9} 
-\alias{L576.2.2.3.1.4.2.6.1} 
+\alias{L27.3.4}
+\alias{L48.2.3.3.1.4.1}
+\alias{L81.3.5}
+\alias{L81.3.8}
+\alias{L81.3.10}
+\alias{L125.5.6}
+\alias{L192.2.3.3.1.4.2}
+\alias{L192.2.2.4.2.6.1}
+\alias{L192.2.1.3.1.4.3}
+\alias{L243.3.6}
+\alias{L243.3.11}
+\alias{L243.3.121}
+\alias{L343.7.8}
+\alias{L384.2.4.3.1.4.2}
+\alias{L512.8.9}
+\alias{L576.2.2.3.1.4.2.6.1}
 \alias{L576.3.1.4.3.6.1}
-\alias{L625.5.6} 
-\alias{L729.3.56} 
-\alias{L729.9.10} 
-\alias{L1024.4.6} 
-\alias{L1024.4.11} 
-\alias{L1024.4.41} 
+\alias{L625.5.6}
+\alias{L729.3.56}
+\alias{L729.9.10}
+\alias{L1024.4.6}
+\alias{L1024.4.11}
+\alias{L1024.4.41}
 \alias{L2187.3.112}
 \alias{L2187.3.27}
 \alias{L2187.3.14}
-\alias{L2401.7.8} 
-\alias{L4096.4.126} 
-\alias{L4096.4.21} 
-\alias{L4096.8.9} 
-\alias{L6561.3.248} 
-\alias{L6561.3.41} 
-\alias{L6561.3.28} 
-\alias{L6561.9.10} 
+\alias{L2401.7.8}
+\alias{L4096.4.126}
+\alias{L4096.4.21}
+\alias{L4096.8.9}
+\alias{L6561.3.248}
+\alias{L6561.3.41}
+\alias{L6561.3.28}
+\alias{L6561.9.10}
 
 \title{ Orthogonal arrays in the package }
 \description{
@@ -422,19 +422,19 @@ L729.3.12
 L1024.4.6
 L2187.3.14
 L4096.4.12
-L6561.3.28 
+L6561.3.28
 
 ## strength 4 / resolution V
 L81.3.5
 L96.2.7.3.1
 L128.2.6.4.2
 L192.2.3.3.1.4.2
-L192.2.2.4.2.6.1 
+L192.2.2.4.2.6.1
 L243.3.11
 L256.2.19
 L256.4.5
 L576.2.2.3.1.4.2.6.1
-L625.5.6 
+L625.5.6
 L729.3.14
 L1024.4.11
 L2048.2.63
@@ -442,8 +442,8 @@ L2187.3.27
 L2401.7.8
 L4096.4.21
 L4096.8.9
-L6561.3.41 
-L6561.9.10 
+L6561.3.41
+L6561.9.10
 
 ## strength 3 / resolution IV
 L27.3.4
@@ -474,14 +474,14 @@ L128.2.20.4.3
 L128.2.28.4.2
 L128.2.15.8.1
 L128.2.8.8.2
-L192.2.1.3.1.4.3 
+L192.2.1.3.1.4.3
 L192.2.36.4.3
 L243.3.20
 L256.2.24.8.2
 L256.2.52.4.3
 L256.4.17
 L256.4.85
-L343.7.8 
+L343.7.8
 L384.2.40.8.2
 L512.2.56.8.2
 L512.8.9
@@ -871,8 +871,8 @@ L432.2.1.3.3.4.2
    When being fully populated
    with experimental factors, many of the strength 2 = resolution III arrays are guaranteed to work well only
    under the ASSUMPTION that there are NO INTERACTIONS. Exceptions are, for example, arrays
-   \code{L128.2.15.8.1} (the 2-level factors have resolution V / strength 4, as noted in the array's comment attribute) or \code{L144.2.1.3.2.4.2} (the strength is almost 3, as can be seen from its GR value). 
-   
+   \code{L128.2.15.8.1} (the 2-level factors have resolution V / strength 4, as noted in the array's comment attribute) or \code{L144.2.1.3.2.4.2} (the strength is almost 3, as can be seen from its GR value).
+
    Populating a main effects array with fewer than the maximum number of factors can
    result in a reasonable design even in the presence of interactions. The degree
    of confounding can be checked using various functions based on \code{\link{generalized.word.length}},
@@ -882,7 +882,7 @@ L432.2.1.3.3.4.2
    work well for smaller designs but may be resource-wise prohibitive for larger
    designs / numbers of factors.
 
-   \code{oacat3} was added with version 0.28 of the package, and version 1.2 substantially extended that collection. Contrary to the resolution III arrays, there are no automatically created children for the stronger arrays. 
+   \code{oacat3} was added with version 0.28 of the package, and version 1.2 substantially extended that collection. Contrary to the resolution III arrays, there are no automatically created children for the stronger arrays.
    It is also possible to combine arrays with each other by so-called
    expansive replacement (\code{\link{expansive.replace}}), using the
    nesting process described by
@@ -909,7 +909,7 @@ L432.2.1.3.3.4.2
   Agrawal, V. and Dey, A. (1983). Orthogonal resolution IV designs for some asymmetrical factorials.
   \emph{Technometrics} \bold{25}, 197--199.
 
-  Brouwer, A. Small mixed fractional factorial designs of strength 3. \url{https://www.win.tue.nl/~aeb/codes/oa/3oa.html#toc1} accessed March 1 2016
+  Brouwer, A. Small mixed fractional factorial designs of strength 3. \url{https://aeb.win.tue.nl/codes/oa/3oa.html#toc1} accessed March 1 2016
 
   Brouwer, A., Cohen, A.M. and Nguyen, M.V.M. (2006). Orthogonal arrays of strength 3 and small run sizes. \emph{Journal of Statistical Planning and Inference} \bold{136}, 3268--3280.
 
@@ -925,15 +925,15 @@ L432.2.1.3.3.4.2
     New York: Springer.
 
   MinT, the online database for optimal parameters of (t,m,s)-nets, (t,s)-sequences, orthogonal arrays, linear codes, and OOAs. Accessed August 2021. http://mint.sbg.ac.at/index.php.
-    
+
   Nguyen, M.V.M. (2005). \emph{Journal of Statistical Planning and Inference} \bold{138},
     220--233.
 
   Nguyen, M.V.M. (2008). Some new constructions of strength 3 mixed orthogonal arrays. \emph{Journal of Statistical Planning and Inference} \bold{138},
     220--233.
-    
+
   Pirsic, I. (2021). Personal communication regarding various specific generators from MinT.
-  
+
   Schuerer, R. and Schmid, W.Ch. (2010). MinT-Architecture and applications of the (t, m, s)-net and OOA database. \emph{Mathematics and Computers in Simulation} \bold{80}(6), 1124-1132. https://doi.org/10.1016/j.matcom.2007.09.010.
 
   Sloane, N. Orthogonal Arrays. \url{http://neilsloane.com/oadir/} accessed March 1 2016
@@ -952,9 +952,9 @@ L432.2.1.3.3.4.2
     ## create full factorial replacement matrix
     threetimesthree <- as.matrix(expand.grid(1:3,1:3))
     dim(threetimesthree)
-    ## extract four nine-level columns, 
+    ## extract four nine-level columns,
     ## and expand the first three
-    L729.3.6.9.1 <- 
+    L729.3.6.9.1 <-
     expansive.replace(
     expansive.replace(
       expansive.replace(L729.9.10[,1:4],
